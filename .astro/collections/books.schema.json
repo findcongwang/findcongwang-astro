@@ -4,12 +4,6 @@
     "books": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
-        },
         "pubDate": {
           "anyOf": [
             {
@@ -26,7 +20,13 @@
             }
           ]
         },
+        "title": {
+          "type": "string"
+        },
         "description": {
+          "type": "string"
+        },
+        "live": {
           "type": "string"
         },
         "image": {
@@ -45,26 +45,16 @@
           ],
           "additionalProperties": false
         },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "rating": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 5
-        },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "title",
-        "author",
         "pubDate",
-        "description"
+        "title",
+        "description",
+        "live",
+        "image"
       ],
       "additionalProperties": false
     }

@@ -181,6 +181,16 @@ declare module 'astro:content' {
   rendered?: RenderedContent;
   filePath?: string;
 }>;
+"books": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "books";
+  data: InferEntrySchema<"books">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
 "courses": Record<string, {
   id: string;
   render(): Render[".md"];
@@ -198,6 +208,16 @@ declare module 'astro:content' {
   body: string;
   collection: "customers";
   data: InferEntrySchema<"customers">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"domains": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "domains";
+  data: InferEntrySchema<"domains">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -231,6 +251,16 @@ declare module 'astro:content' {
   rendered?: RenderedContent;
   filePath?: string;
 }>;
+"lexicon": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "lexicon";
+  data: InferEntrySchema<"lexicon">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
 "posts": Record<string, {
   id: string;
   render(): Render[".md"];
@@ -243,11 +273,9 @@ declare module 'astro:content' {
 }>;
 "projects": Record<string, {
   id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
+  body?: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">;
+  data: any;
   rendered?: RenderedContent;
   filePath?: string;
 }>;

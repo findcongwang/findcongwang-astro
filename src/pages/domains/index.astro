@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import WorksEntries from "@/components/works/WorksEntries.astro";
+import { getCollection } from "astro:content";
+const allDomains = await getCollection("domains");
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
+      <Text tag="h1" variant="textBase" class="text-primary"> Domains </Text>
+
+      <Text
+        tag="p"
+        variant="textBase"
+        class="font-serif text-primary/60 text-balance"
+      >
+        From component systems to full-scale UI builds, I've spent the past
+        decade bridging design and development. These domains highlight how I
+        approach interfaces with both visual clarity and engineering precision.
+      </Text>
+
+      <div
+        class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
+      >
+        {allDomains.map((post) => <WorksEntries post={post} basePath="/domains/" />)}
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>
+

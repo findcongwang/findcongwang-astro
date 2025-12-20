@@ -4,9 +4,6 @@
     "lexicon": {
       "type": "object",
       "properties": {
-        "term": {
-          "type": "string"
-        },
         "pubDate": {
           "anyOf": [
             {
@@ -23,35 +20,41 @@
             }
           ]
         },
-        "definition": {
+        "title": {
           "type": "string"
         },
-        "etymology": {
+        "description": {
           "type": "string"
         },
-        "relatedTerms": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "usage": {
+        "live": {
           "type": "string"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "alt"
+          ],
+          "additionalProperties": false
         },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "term",
         "pubDate",
-        "definition"
+        "title",
+        "description",
+        "live",
+        "image"
       ],
       "additionalProperties": false
     }

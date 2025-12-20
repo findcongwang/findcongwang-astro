@@ -3,8 +3,9 @@
 import { Image } from "astro:assets";
 import Text from "@/components/fundations/elements/Text.astro";
 
+const basePath = Astro.props.basePath || "/projects/";
 const { url, title, description, image } = {
-  url: "/projects/" + Astro.props.post.slug,
+  url: basePath + Astro.props.post.slug,
   title: Astro.props.post.data.title,
   description: Astro.props.post.data.description,
   image: Astro.props.post.data.image.url,

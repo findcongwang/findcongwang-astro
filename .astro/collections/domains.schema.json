@@ -4,12 +4,6 @@
     "domains": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
         "pubDate": {
           "anyOf": [
             {
@@ -26,8 +20,14 @@
             }
           ]
         },
-        "order": {
-          "type": "number"
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "live": {
+          "type": "string"
         },
         "image": {
           "type": "object",
@@ -45,26 +45,16 @@
           ],
           "additionalProperties": false
         },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "relatedDomains": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
+        "pubDate",
         "title",
         "description",
-        "pubDate"
+        "live",
+        "image"
       ],
       "additionalProperties": false
     }

@@ -22,7 +22,35 @@ const customers = defineCollection({
     }),
 });
 
-const projects = defineCollection({
+const books = defineCollection({
+  schema: ({ image }) =>
+    z.object({
+      pubDate: z.date(),
+      title: z.string(),
+      description: z.string(),
+      live: z.string(),
+      image: z.object({
+        url: image(),
+        alt: z.string(),
+      }),
+    }),
+});
+
+const domains = defineCollection({
+  schema: ({ image }) =>
+    z.object({
+      pubDate: z.date(),
+      title: z.string(),
+      description: z.string(),
+      live: z.string(),
+      image: z.object({
+        url: image(),
+        alt: z.string(),
+      }),
+    }),
+});
+
+const lexicon = defineCollection({
   schema: ({ image }) =>
     z.object({
       pubDate: z.date(),
@@ -135,7 +163,9 @@ export const collections = {
   courses: courses,
   lessons: lessons,
   teachers: teachers,
-  projects: projects,
+  books: books,
+  domains: domains,
+  lexicon: lexicon,
   customers: customers,
   infopages: infopages,
   posts: postsCollection,
