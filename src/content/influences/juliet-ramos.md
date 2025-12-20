@@ -8,7 +8,7 @@ bio: |
 
   Through content strategy, design reviews, and ethical frameworks, Juliet helps guide the platform’s mission to create not just better websites—but a better web.
 image:
-  url: "/src/images/team/5.jpeg"
+  url: "/src/images/influences/5.jpeg"
   alt: "Juliet Ramos"
 socials:
   twitter: "#_"

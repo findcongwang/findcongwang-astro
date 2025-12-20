@@ -201,6 +201,16 @@ declare module 'astro:content' {
   rendered?: RenderedContent;
   filePath?: string;
 }>;
+"influences": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "influences";
+  data: InferEntrySchema<"influences">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
 "infopages": Record<string, {
   id: string;
   render(): Render[".md"];
@@ -248,16 +258,6 @@ declare module 'astro:content' {
   body: string;
   collection: "teachers";
   data: InferEntrySchema<"teachers">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"team": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "team";
-  data: InferEntrySchema<"team">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;

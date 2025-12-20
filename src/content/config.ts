@@ -17,7 +17,7 @@ const customers = defineCollection({
       location: z.string().optional(),
       occupation: z.string().optional(),
       course: z.string(),
-      quote: z.string(),
+      quote: z.string().optional(),
       testimonial: z.string(),
     }),
 });
@@ -36,12 +36,13 @@ const projects = defineCollection({
     }),
 });
 
-const team = defineCollection({
+const influences = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
       role: z.string().optional(),
       bio: z.string().optional(),
+      quote: z.string().optional(),
       image: z.object({
         url: image(),
         alt: z.string(),
@@ -130,7 +131,7 @@ const teachers = defineCollection({
     }),
 });
 export const collections = {
-  team: team,
+  influences: influences,
   courses: courses,
   lessons: lessons,
   teachers: teachers,

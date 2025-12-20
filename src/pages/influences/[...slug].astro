@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import TeamLayout from "@/layouts/TeamLayout.astro";
+import InfluencesLayout from "@/layouts/InfluencesLayout.astro";
 export async function getStaticPaths() {
-  const team = await getCollection("team");
-  const paths = team.map((page) => {
+  const influences = await getCollection("influences");
+  const paths = influences.map((page) => {
     return {
       params: { slug: page.slug },
       props: { page },
@@ -15,6 +15,6 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 const { Content } = await page.render();
 ---
-<TeamLayout frontmatter={page.data}>
+<InfluencesLayout frontmatter={page.data}>
   <Content />
-</TeamLayout>
+</InfluencesLayout>

@@ -11,10 +11,10 @@ import BlogEntry from "@/components/blog/BlogEntry.astro";
 import { getCollection } from "astro:content";
 // Content
 const allPosts = await getCollection("posts");
-// Get the team slug from the URL
-const teamSlug = Astro.url.pathname.split("/").filter(Boolean).pop();
-// Filter posts by this team (based on slug)
-const relatedPosts = allPosts.filter((post) => post.data.team === teamSlug);
+// Get the influence slug from the URL
+const influenceSlug = Astro.url.pathname.split("/").filter(Boolean).pop();
+// Filter posts by this influence (based on slug)
+const relatedPosts = allPosts.filter((post) => post.data.team === influenceSlug);
 const { frontmatter } = Astro.props;
 ---
 
@@ -95,7 +95,7 @@ const { frontmatter } = Astro.props;
         <Wrapper variant="standard" class="py-12">
           <Text tag="h2" variant="textBase" class="text-primary ">
             More posts from{" "}
-            <span class="capitalize">{teamSlug.replace(/-/g, " ")}</span>
+            <span class="capitalize">{influenceSlug.replace(/-/g, " ")}</span>
           </Text>
 
           <div class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10">

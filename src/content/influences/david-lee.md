@@ -8,10 +8,12 @@ bio: |
 
   When he's not breaking down JavaScript islands or optimizing build times, he’s helping learners turn their side projects into serious skills. His work has influenced developers and educators alike across the modern web ecosystem.
 image:
-  url: "/src/images/team/1.jpeg"
+  url: "/src/images/influences/1.jpeg"
   alt: "David Lee headshot"
 socials:
   twitter: "#_"
   website: "#_"
   linkedin: "#_"
+quote:
+  A test of influences having quotes.
 ---

@@ -4,10 +4,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 // Components
-import TeamEntry from "@/components/team/TeamEntry.astro";
+import InfluencesEntry from "@/components/influences/InfluencesEntry.astro";
 // Content
 import { getCollection } from "astro:content";
-const allAuthors = await getCollection("team");
+const allAuthors = await getCollection("influences");
 ---
 
 <BaseLayout>
@@ -21,7 +21,7 @@ const allAuthors = await getCollection("team");
         variant="textBase"
         class="font-serif text-primary/60 text-balance mt-2"
       >
-        Designers, developers, and builders — this is the team that makes the
+        Designers, developers, and builders — these are the influences that make the
         pixels click.
       </Text>
       <div
@@ -34,7 +34,7 @@ const allAuthors = await getCollection("team");
               const nameB = b.data.name.toLowerCase();
               return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
             })
-            .map((post) => <TeamEntry post={post} />)
+            .map((post) => <InfluencesEntry post={post} />)
         }
       </div>
     </Wrapper>

@@ -8,7 +8,7 @@ bio: |
 
   She’s passionate about helping people discover the joy of building fast, accessible websites—and she’s always just a message away if you need help or encouragement.
 image:
-  url: "/src/images/team/3.jpeg"
+  url: "/src/images/influences/3.jpeg"
   alt: "Emma Carter"
 socials:
   twitter: "#_"

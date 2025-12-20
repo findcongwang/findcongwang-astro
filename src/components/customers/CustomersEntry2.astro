@@ -4,12 +4,20 @@ import { Image } from "astro:assets";
 // Fundations
 import Text from "@/components/fundations/elements/Text.astro";
 // Content
+// Handle both customers (has avatar) and influences (has image)
+const isCustomer = "avatar" in Astro.props.post.data;
 const { url, avatar, name, quote, occupation } = {
-  url: "/customers/" + Astro.props.post.slug,
-  avatar: Astro.props.post.data.avatar.url,
+  url: isCustomer
+    ? "/customers/" + Astro.props.post.slug
+    : "/influences/" + Astro.props.post.slug,
+  avatar: isCustomer
+    ? Astro.props.post.data.avatar.url
+    : Astro.props.post.data.image.url,
   name: Astro.props.post.data.name,
   quote: Astro.props.post.data.quote,
-  occupation: Astro.props.post.data.occupation,
+  occupation: isCustomer
+    ? Astro.props.post.data.occupation
+    : Astro.props.post.data.role || "",
 };
 ---
 

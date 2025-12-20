@@ -8,7 +8,7 @@ bio: |
 
   Whether he’s refining lesson scripts or offering feedback in the community, Isaac is committed to helping students build fast, thoughtful, and user-first experiences with Astro.
 image:
-  url: "/src/images/team/2.jpeg"
+  url: "/src/images/influences/2.jpeg"
   alt: "Isaac Turner"
 socials:
   twitter: "#_"

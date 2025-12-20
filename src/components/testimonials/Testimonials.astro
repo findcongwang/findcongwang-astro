@@ -11,6 +11,13 @@ import CustomersEntry2 from "@/components/customers/CustomersEntry2.astro";
 // Content
 import { getCollection } from "astro:content";
 const allCustomers = await getCollection("customers");
+const allInfluences = await getCollection("influences");
+
+// Combine and filter: only include items with a quote property
+const allTestimonials = [
+  ...allCustomers.filter((item) => item.data.quote),
+  ...allInfluences.filter((item) => item.data.quote),
+];
 ---
 
 <section>
@@ -35,7 +42,7 @@ const allCustomers = await getCollection("customers");
     >
       <!-- Keen Slider -->
       <div id="keen-slider" class="relative z-0 keen-slider w-max">
-        {allCustomers.map((post) => <CustomersEntry2 post={post} />)}
+        {allTestimonials.map((post) => <CustomersEntry2 post={post} />)}
       </div>
     </div>
     <div class="flex mt-2 gap-2 justify-end">
