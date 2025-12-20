@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import LessonLayout from "@/layouts/LessonLayout.astro";
+
+export async function getStaticPaths() {
+  const lessons = await getCollection("lessons");
+
+  return lessons.map((lesson) => {
+    const [courseSlug, lessonSlug] = lesson.slug.split("/");
+    return {
+      params: {
+        course: courseSlug,
+        lesson: lessonSlug,
+      },
+      props: {
+        courseSlug,
+        lessonSlug: lesson.slug,
+      },
+    };
+  });
+}
+
+
+const { courseSlug, lessonSlug } = Astro.props;
+
+const courses = await getCollection("courses");
+const lessons = await getCollection("lessons");
+
+const course = courses.find((c) => c.slug === courseSlug);
+const lesson = lessons.find((l) => l.slug === lessonSlug);
+
+if (!course || !lesson) {
+  throw new Error("Course or lesson not found");
+}
+
+const { Content } = await lesson.render();
+---
+<LessonLayout course={course} lesson={lesson}>
+  <Content />
+</LessonLayout>

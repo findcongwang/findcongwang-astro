@@ -1,0 +1,40 @@
+{
+  "$ref": "#/definitions/lessons",
+  "definitions": {
+    "lessons": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "videoUrl": {
+          "type": "string"
+        },
+        "course": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "isLocked": {
+          "type": "boolean"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "duration",
+        "videoUrl",
+        "course",
+        "section"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
