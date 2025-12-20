@@ -10,14 +10,6 @@ import Learn from "@/components/landing/Learn.astro";
 import Who from "@/components/landing/Who.astro";
 import Expectations from "@/components/landing/Expectations.astro";
 import Testimonials from "@/components/testimonials/Testimonials.astro";
-// Components
-import CourseEntry from "@/components/courses/CourseEntry.astro";
-// Content
-import { getCollection } from "astro:content";
-const allLessons = await getCollection("lessons");
-const allCourses = (await getCollection("courses")).sort(
-  (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
-);
 ---
 
 <BaseLayout>
@@ -38,17 +30,6 @@ const allCourses = (await getCollection("courses")).sort(
         New lessons and UI patterns released regularly. Stay sharp, stay current
         — and keep building with confidence.
       </Text>
-      <a href="/courses" class="text-xs text-primary hover:text-primary/60">
-        Get pro access</a
-      >
-      <div
-        class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10"
-      >
-        {
-          allCourses.map((course) => (
-            <CourseEntry post={course} lessons={allLessons} />
-          ))
-        }
       </div>
     </Wrapper>
   </section>

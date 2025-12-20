@@ -1,7 +1,7 @@
 declare module 'astro:content' {
 	interface Render {
 		'.mdx': Promise<{
-			Content: import('astro').MarkdownInstance<{}>['Content'];
+			Content: import('astro').MDXContent;
 			headings: import('astro').MarkdownHeading[];
 			remarkPluginFrontmatter: Record<string, any>;
 			components: import('astro').MDXInstance<{}>['components'];
@@ -173,7 +173,15 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"courses": Record<string, {
+		"archived": Record<string, {
+  id: string;
+  body?: string;
+  collection: "archived";
+  data: any;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"courses": Record<string, {
   id: string;
   render(): Render[".md"];
   slug: string;

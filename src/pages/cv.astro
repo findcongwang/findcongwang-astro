@@ -1,0 +1,36 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
+      <Text tag="h1" variant="textBase" class="text-primary">
+        Curriculum Vitae
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="mt-2 font-serif text-primary/60 text-balance"
+      >
+        Full curriculum vitae of Francis Wang.
+      </Text>
+      
+      <div
+        class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10"
+      >
+        <Text
+          tag="p"
+          variant="textSM"
+          class="mt-4 font-serif text-primary/60"
+        >
+          CV content will be added here. You can add your CV content in markdown format or as HTML.
+        </Text>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>
+

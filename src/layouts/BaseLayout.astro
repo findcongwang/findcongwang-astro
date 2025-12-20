@@ -6,7 +6,6 @@ import BaseHead from "@/components/fundations/head/BaseHead.astro";
 import Footer from "@/components/global/Footer.astro";
 import Navigation from "@/components/global/Navigation.astro";
 // Components
-import CoursesSearch from "@/components/courses/CoursesSearch.astro";
 // Hides nav and footer on selected screens by passing
 // the hideNav and hideFooter props
 // <BaseLayout hideNav={true} hideFooter={true}>
@@ -23,7 +22,6 @@ import ToggleScript from "@/components/fundations/scripts/ToggleScript.astro";
   </head>
   <body class="relative flex flex-col bg-secondary min-h-svh">
     {!hideNav && <Navigation />}
-    <div class="fixed z-50 bottom-5 right-5"><CoursesSearch /></div>
     <main class="grow">
       <slot />
     </main>
