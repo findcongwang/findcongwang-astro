@@ -6,6 +6,9 @@ import BaseLayout from "./BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 const { frontmatter } = Astro.props;
+const pubDate = new Date(frontmatter.pubDate);
+const isFuture = pubDate > new Date();
+const showWebsite = frontmatter.live && frontmatter.live !== "#";
 ---
 
 <BaseLayout>
@@ -34,32 +37,34 @@ const { frontmatter } = Astro.props;
         </div>
       </div>
       <div class="mt-8 space-y-1">
+        {showWebsite && (
+          <div class="flex items-baseline lg:justify-between">
+            <Text
+              tag="p"
+              variant="textSM"
+              class="font-medium capitalize text-primary text-balance group-hover:text-white"
+            >
+              Website
+            </Text>
+            <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
+            ></span>
+            <a
+              href={frontmatter.live}
+              title={frontmatter.title}
+              aria-label={frontmatter.title}
+              class="flex items-center text-xs text-primary hover:text-primary/60 gap-2 mt-2"
+            >
+              Visit
+            </a>
+          </div>
+        )}
         <div class="flex items-baseline lg:justify-between">
           <Text
             tag="p"
             variant="textSM"
             class="font-medium capitalize text-primary text-balance group-hover:text-white"
           >
-            Website
-          </Text>
-          <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
-          ></span>
-          <a
-            href={frontmatter.live}
-            title={frontmatter.title}
-            aria-label={frontmatter.title}
-            class="flex items-center text-xs text-primary hover:text-primary/60 gap-2 mt-2"
-          >
-            Visit
-          </a>
-        </div>
-        <div class="flex items-baseline lg:justify-between">
-          <Text
-            tag="p"
-            variant="textSM"
-            class="font-medium capitalize text-primary text-balance group-hover:text-white"
-          >
-            Published
+            {isFuture ? "Upcoming" : "Published"}
           </Text>
           <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
           ></span>
@@ -68,9 +73,9 @@ const { frontmatter } = Astro.props;
             variant="textXS"
             class="flex items-baseline text-primary/60 lg:justify-between"
           >
-            <time datetime={frontmatter.pubDate.toString().slice(0, 10)}
-              >{frontmatter.pubDate.toString().slice(4, 15)}</time
-            >
+            <time datetime={pubDate.toISOString().slice(0, 10)}>
+              {isFuture ? pubDate.getFullYear().toString() : pubDate.toString().slice(4, 15)}
+            </time>
           </Text>
         </div>
       </div>
