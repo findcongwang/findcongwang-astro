@@ -19,6 +19,7 @@ const customers = defineCollection({
       course: z.string(),
       quote: z.string().optional(),
       testimonial: z.string(),
+      tags: z.array(z.string()).optional(),
     }),
 });
 

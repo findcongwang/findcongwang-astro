@@ -11,7 +11,7 @@
   /* Styles background */
   --color-secondary: oklch(1 0 0);
   /* For accents */
-  --color-accent: oklch(81.34% 0.218 130.43);
+  --color-accent: oklch(32.09% 0.131 27.20);
 }
 [data-theme="dark"] {
   /* Styles text */
@@ -19,7 +19,7 @@
   /* Styles background */
   --color-secondary: oklch(0.1684 0 0);
   /* For accents */
-  --color-accent: oklch(89.32% 0.198 127.48);
+  --color-accent: oklch(66.09% 0.195 37.35);
 }
 :root {
   /* Shiki code styles */

@@ -1,124 +1,449 @@
 ---
 // Assets
 import { Image } from "astro:assets";
-import Designer from "/src/images/assets/designer.jpeg";
+import Author from "/src/images/assets/francis_squared.jpg";
 // Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Content
+import { getCollection } from "astro:content";
 
 const bioParagraphs = [
-  "Hi, I’m Vanta Smith — a developer who designs, or maybe a designer who codes. Over the past 10 years, I’ve worked on everything from early-stage startups to large-scale design systems.",
-  "This course is the one I wish existed when I started blending code with design. It’s practical, opinionated, and focused on real UI problems: spacing, typography, layout, responsiveness, accessibility, and polish.",
-  "Whether you’re a dev who wants to level up your design eye, or a designer learning to ship real components — this course is for you.",
+  "Francis Wang is a multipreneur with over a decade of experience leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.",
+  "Francis creates and coaches sustainable impact ventures in domains such as sustainability, education, and health. Leveraging his diverse background and expertise in strategic foresight by cross-pollinating ideas from fields like futures studies, AI, design thinking, sustainability, and entrepreneurship to foster innovative solutions for greater societal resilience."
 ];
 
 const motivation = [
-  "Most design courses ignore the realities of development. Most coding tutorials skip design entirely.",
-  "This course lives in the middle — where UI actually gets built. I created this to help you become the kind of builder that teams love: thoughtful, fast, and detail-oriented.",
+  "The industrial revolution was humanity's withdrawal from the Earth's trust fund — a finite reserve built over eons. This investment gave us unprecedented power and understanding, but it left us with a debt that must now be repaid.",
+  "To be born in this era is to inherit both humanity's greatest knowledge and its greatest debt. It is our responsibility to use what we've learned to restore balance, for the cost of inaction is ruin.",
+  "- Francis Wang, \"Why Work in Sustainability\""
 ];
 
-const timeline = [
+const currentResearch = [
+  "Francis is actively redefining the architecture of innovation through his doctoral research:",
+  "University of Calgary (DDes): Reseaching and developing a framework to create globally interconnected, self-reinforcing innovation ecosystems that accurately values long-term benefits to actualize greater societal resilience.",
+  "Golden Gate University (DBA [GenAI]): Researching human-AI collaboration. His work addresses the ethical leadership challenge of the AI age, i,e., preserving \"Digital Sovereignty\" and human agency in a post-agentic world. This work champions GGU's values of social responsibility by creating tools for that serve the long-term public good.",
+];
+
+// Education data structure
+const degrees = [
   {
-    year: "2013",
-    event: "Started as a graphic designer freelancing for local brands.",
+    title: "DDes Candidate - Sustainable Innovation",
+    organization: "University of Calgary",
+    date: "2024 - (2027)",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [
+      "Reseaching and developing a framework to create globally interconnected, self-reinforcing innovation ecosystems that accurately values long-term benefits to actualize greater societal resilience."
+    ],
+  },  
+  {
+    title: "DBA Candidate - Emerging Technologies, GenAI",
+    organization: "Golden Gate University",
+    date: "2023 - (2026)",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [
+      "Reseaching and developing a framework for Human-AI collaboration in the Post-Agentic future of work."
+    ],
+  },  
+  // {
+  //   title: "Master of Science in Software Engineering (MSSE)",
+  //   organization: "Quantic School of Business and Technology",
+  //   date: "2025-2026",
+  //   type: "Business, Technology, Entrepreneurship",
+  //   notes: [],
+  // },
+  {
+    title: "Executive MBA",
+    organization: "Quantic School of Business and Technology",
+    date: "2022 - 2023",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [
+      "Capstone Finalist, Ecotourism business model that combines multiple holistic wellness amenities with an emphasis on sustainability."
+    ],
   },
   {
-    year: "2016",
-    event:
-      "Transitioned to front-end development and joined a startup as the first designer-developer hybrid.",
-  },
-  {
-    year: "2019",
-    event:
-      "Led design system work at a SaaS company scaling to millions of users.",
-  },
-  {
-    year: "2022",
-    event:
-      "Began mentoring devs and designers on how to build accessible, production-ready UI.",
-  },
-  {
-    year: "2025",
-    event:
-      "Launched this course to share everything I’ve learned — from pixels to code.",
+    title: "Bachelor of Computer Science, Honours",
+    organization: "University of Waterloo",
+    date: "2010 - 2015",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [
+      "Minors in Entrepreneurship, Psychology, Applied Math, and Physics"
+    ],
   },
 ];
-const awards = [
-  {
-    year: "2021",
-    title: "CSS Design Award – Best UI",
-    description:
-      "Recognized for crafting an intuitive and scalable design system used by over 1M users.",
+
+const certificates = [
+  { 
+    title: "Biodiversity Finance",
+    organization: "United Nations Development Programme (UNDP)",
+    date: "Nov 2025",
+    type: "Sustainable Development",
+    notes: [],
   },
   {
-    year: "2022",
-    title: "Smashing Magazine Contributor",
-    description:
-      "Published a widely shared article on bridging design and development workflows.",
+    title: "Experiential Futures",
+    organization: "Institute for the Future",
+    date: "Jul 2025",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
   },
   {
-    year: "2023",
-    title: "Figma Config Speaker",
-    description:
-      "Presented a talk on component-driven design for developer-minded designers.",
+    title: "AI-Powered Instructional Design",
+    organization: "LearnWorlds",
+    date: "Dec 2024",
+    type: "Learning Science",
+    notes: [],
   },
   {
-    year: "2023",
-    title: "Awwwards – Honorable Mention",
-    description:
-      "Awarded for a personal portfolio showcasing innovative UI with high performance and accessibility.",
+    title: "Landscape Design for Climate Resilience",
+    organization: "Toronto Metropolitan University",
+    date: "2023 - 2024",
+    type: "Sustainable Development",
+    notes: [],
   },
+  {
+    title: "Advanced Permaculture Design (Climate Resilience)",
+    organization: "Oregon State University / Permaculture Institute of North America",
+    date: "2024",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Plant-Based Nutrition Certificate",
+    organization: "T. Colin Campbell Center of Nutrition Studies",
+    date: "2023",
+    type: "Health, Fitness, and Longevity Studies",
+    notes: [],
+  },
+  {
+    title: "Certified Wim Hof Method Instructor (Level 1)",
+    organization: "Wim Hof Method Academy",
+    date: "2023",
+    type: "Health, Fitness, and Longevity Studies",
+    notes: [],
+  },
+  {
+    title: "Designing Products of the Future",
+    organization: "Futurity Studio",
+    date: "2023",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Permaculture Design Certification",
+    organization: "Oregon State University / Permaculture Institute of North America",
+    date: "2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Mobility and Flexibility Training Curriculum Design",
+    organization: "Matthew Smith",
+    date: "2023",
+    type: "Health, Fitness, and Longevity Studies",
+    notes: [],
+  },
+  {
+    title: "Sustainable Cities and Communities",
+    organization: "Lund University",
+    date: "2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Sustainable Development Specialization",
+    organization: "Erasmus University Rotterdam",
+    date: "2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Decentralized Finance (DeFi) Specialization",
+    organization: "Duke University",
+    date: "2023",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Sustainable Cities Specialization",
+    organization: "The Johns Hopkins University",
+    date: "2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Sustainable and Inclusive Landscapes Certification",
+    organization: "Wageningen University of Research",
+    date: "2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Microgreens Farming Certification",
+    organization: "Freedom Farmers",
+    date: "2022 - 2023",
+    type: "Sustainable Development",
+    notes: [],
+  },
+  {
+    title: "Futures Thinking Specialization",
+    organization: "Institute for the Future",
+    date: "2022 - 2023",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Life Coach and CBT Practitioner Diploma",
+    organization: "Achology, Academy of Modern Applied Psychology",
+    date: "2022 - 2023",
+    type: "Health, Fitness, and Longevity Studies",
+    notes: [],
+  },
+  {
+    title: "Data Engineering Nanodegree",
+    organization: "Udacity",
+    date: "2021",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "AI for Trading Nanodegree",
+    organization: "Udacity",
+    date: "2021",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Capital Markets & Securities Analyst (CMSA)",
+    organization: "Corporate Finance Institute",
+    date: "2021",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Managing Innovation and Design Thinking Specialization",
+    organization: "HEC Paris",
+    date: "2019",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+  {
+    title: "Certified Scrum Product Owner (CSPO)",
+    organization: "Scrum Alliance",
+    date: "2017",
+    type: "Business, Technology, Entrepreneurship",
+    notes: [],
+  },
+];
+
+// Experience data structure
+const experience = [
+  {
+    title: "Senior Design Engineer",
+    organization: "Tech Startup Inc.",
+    date: "2020-2025",
+    type: "Full-time",
+    notes: [
+      "Led design system development for products serving 1M+ users",
+      "Mentored team of 5 designers and developers",
+      "Established accessibility standards and best practices",
+    ],
+  },
+];
+
+// Publications and Patents (APA style citations with hyperlinks)
+const publications = [
+  {
+    citation: "Smith, V. (2024). Design systems for the modern web: A practical guide. Journal of Web Engineering, 12(3), 145-162.",
+    url: "https://example.com/publication1",
+  },
+];
+
+// Grants and Awards
+const grantsAndAwards = [
   {
     year: "2024",
-    title: "Google Developer Expert Nominee – Web Technologies",
-    description:
-      "Nominated for contributions to the front-end ecosystem and educational content in design engineering.",
-  },
-  {
-    year: "2024",
-    title: "GitHub Star Program Recognition",
-    description:
-      "Highlighted for maintaining open-source UI libraries focused on design system scalability.",
-  },
-  {
-    year: "2025",
     title: "Netlify Jamstack Innovation Award",
-    description:
-      "Recognized for pushing the boundaries of performance-first design on the modern web.",
+    description: "Recognized for pushing the boundaries of performance-first design on the modern web.",
   },
 ];
-const socialLinks = [
-  {
-    label: "X",
-    url: "#_",
-    username: "@mike_andreuzza",
-  },
-  {
-    label: "GitHub",
-    url: "#_",
-    username: "michael-andreuzza",
-  },
-  {
-    label: "LinkedIn",
-    url: "#_",
-    username: "Michael Andreuzza",
-  },
-  {
-    label: "Personal Website",
-    url: "https://michaelandreuzza.com",
-    username: "michaelandreuzza.com",
-  },
+
+// Membership and Communities
+const memberships = [
+  "Conrad Entrepreneur Alumni Group",
+  "Freedom Farmers Alumni Community",
+  "Permaculture Design Alumni Group",
+  "Wild Abundance Homesteading School",
+
 ];
+
+// Get students from customers collection
+const allCustomers = await getCollection("customers");
+const students = allCustomers.filter(
+  (customer) => customer.data.tags && customer.data.tags.includes("student")
+);
+
+// Hardcoded University of Waterloo students
+const waterlooStudents = [
+  "Enterprise Co-op Program – 15 students (2023-2024)",
+  "Venture Creation Program – 8 students (2024-2025)",
+];
+
+// Color mapping for education types
+const typeColors: Record<string, string> = {
+  "Business, Technology, Entrepreneurship": "#660005",
+  "Sustainable Development": "#104747",
+  "Learning Science": "#005883",
+  "Health, Fitness, and Longevity Studies": "#F15A29",
+};
 ---
 
 <BaseLayout>
+  <style>    
+    @media print {
+      /* Hide navigation and footer when printing */
+      :global(#nav-wrapper),
+      :global(nav),
+      :global(footer),
+      .no-print {
+        display: none !important;
+      }
+      
+      /* Remove fixed positioning that causes overlap */
+      :global(body) {
+        padding-top: 0 !important;
+      }
+      
+      /* Ensure main content starts at top */
+      :global(main) {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      /* Page breaks for sections when printing */
+      section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Set print margins */
+      @page {
+        margin: 1.5cm;
+      }
+      
+      /* Ensure sections don't break awkwardly */
+      ul, ol {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      li {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Remove top padding from first section in print */
+      section:first-child :global(.pt-12),
+      section:first-child :global(.lg\\:pt-24) {
+        padding-top: 0 !important;
+      }
+      
+      /* Fix table layout for print - force 4 column grid */
+      ul li[class*="grid"] {
+        display: grid !important;
+        grid-template-columns: 1fr 3fr !important;
+        align-items: start !important;
+        gap: 0.5rem !important;
+      }
+      
+      /* Ensure date column stays in place */
+      ul li[class*="grid"] > :first-child {
+        grid-column: 1 !important;
+        min-width: 0 !important;
+      }
+      
+      /* Ensure content column spans correctly */
+      ul li[class*="grid"] > [class*="col-span"] {
+        grid-column: 2 !important;
+        min-width: 0 !important;
+      }
+      
+      /* Prevent titles from breaking unnecessarily */
+      ul li[class*="grid"] [class*="font-medium"] {
+        word-break: keep-all;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+      
+      /* Keep date and content aligned */
+      ul li[class*="grid"] {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Ensure colors print correctly */
+      [style*="color:"] {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+      }
+      
+      /* Keep section headings with their content */
+      h2, h3 {
+        page-break-after: avoid;
+        break-after: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Keep heading with at least 2-3 lines of following content */
+      h2 + *,
+      h3 + * {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+      
+      /* Ensure subsection headings stay with their lists */
+      h3 + ul,
+      h3 + div {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+      
+      /* Keep divs containing headings with their following content */
+      div > h3 {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+      
+      /* Keep the div containing h3 and its following ul together */
+      div:has(> h3) {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Alternative: target divs that contain h3 followed by ul */
+      div > h3 ~ ul {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+      
+      /* Keep subsection divs together (h3 + ul) */
+      div > h3,
+      div > h3 + ul {
+        orphans: 3;
+        widows: 3;
+      }
+    }
+  </style>
+  
   <section>
-    <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
+    <Wrapper variant="standard" class="pt-12 pb-6 lg:pt-24">
       <header class="flex items-center gap-4">
         <Image
-          src={Designer}
-          alt="Portrait of Vanta Smith, course instructor"
+          src={Author}
+          alt="Portrait of Francis Wang"
           width={1200}
           height={1200}
           class="object-cover rounded-full size-12"
@@ -129,7 +454,7 @@ const socialLinks = [
           variant="textBase"
           class="font-medium text-primary"
         >
-          Meet your instructor
+          Francis Wang's Curriculum Vitae
         </Text>
       </header>
       <article class="flex flex-col mt-4 gap-4">
@@ -149,14 +474,42 @@ const socialLinks = [
   </section>
 
   <section>
-    <Wrapper variant="standard" class="py-12">
+    <Wrapper variant="standard" class="py-6">
+      <Text
+        id="research-heading"
+        tag="h2"
+        variant="textBase"
+        class="font-medium text-primary"
+      >
+        Current Research and Service
+      </Text>
+      <article
+        class="flex flex-col pt-2 mt-2 border-t border-dotted gap-4 border-primary/10"
+      >
+        {
+          currentResearch.map((item) => (
+            <Text
+              tag="p"
+              variant="textBase"
+              class="font-serif text-primary/60 text-balance"
+            >
+              {item}
+            </Text>
+          ))
+        }
+      </article>
+    </Wrapper>
+  </section>
+
+  <section>
+    <Wrapper variant="standard" class="py-6">
       <Text
         id="motivation-heading"
         tag="h2"
         variant="textBase"
         class="font-medium text-primary"
       >
-        Why I built this
+        Why Work in Sustainability?
       </Text>
       <article
         class="flex flex-col pt-2 mt-2 border-t border-dotted gap-4 border-primary/10"
@@ -176,31 +529,199 @@ const socialLinks = [
     </Wrapper>
   </section>
 
+  <!-- Education Section -->
   <section>
-    <Wrapper variant="standard" class="py-12">
+    <Wrapper variant="standard" class="py-6">
       <Text
-        id="timeline-heading"
+        id="education-heading"
         tag="h2"
         variant="textBase"
         class="font-medium text-primary"
       >
-        From graphic design to design systems
+        Education
       </Text>
-      <ul
-        class="flex flex-col mt-2 border-t border-dotted divide-y divide-primary/10 border-primary/10"
+      <div class="flex flex-wrap items-center gap-4 my-4 text-xs">
+        <span class="flex items-center gap-1">
+          <span
+            class="inline-block w-3 h-3 rounded-full border border-primary/30"
+            style="background-color: #660005"
+          ></span>
+          Business, Technology, Entrepreneurship
+        </span>
+        <span class="flex items-center gap-1">
+          <span
+            class="inline-block w-3 h-3 rounded-full border border-primary/30"
+            style="background-color: #104747"
+          ></span>
+          Sustainable Development
+        </span>
+        <span class="flex items-center gap-1">
+          <span
+            class="inline-block w-3 h-3 rounded-full border border-primary/30"
+            style="background-color: #F15A29"
+          ></span>
+          Health, Fitness, and Longevity Studies
+        </span>
+        <span class="flex items-center gap-1">
+          <span
+            class="inline-block w-3 h-3 rounded-full border border-primary/30"
+            style="background-color: #005883"
+          ></span>
+          Learning Science
+        </span>
+      </div>
+      <div class="pt-2 mt-2 border-t border-dotted border-primary/10 space-y-8">
+        <!-- Degrees Subsection -->
+        <div>
+          <ul class="divide-y divide-primary/10">
+            {
+              degrees.map((item) => (
+                <li class="py-2 grid grid-cols-1 gap-1 md:grid-cols-4">
+                  <Text tag="h4" variant="textSM" class="text-primary">
+                    {item.date}
+                  </Text>
+                  <div class="md:col-span-3">
+                    <Text 
+                      tag="p" 
+                      variant="textSM" 
+                      class="font-medium mb-1"
+                      style={`color: ${typeColors[item.type] || "#000"}`}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                      {item.organization}
+                    </Text>
+                    {item.notes && item.notes.length > 0 && (
+                      <div class="mt-2 space-y-1">
+                        {item.notes.map((note) => (
+                          <Text tag="p" variant="textXS" class="font-serif text-primary/60">
+                            {note}
+                          </Text>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Diplomas and Certificates Subsection -->
+        <div>
+          <Text
+            id="diplomas-certificates-heading"
+            tag="h3"
+            variant="textSM"
+            class="font-medium text-primary mb-2"
+          >
+            Diplomas and Certificates
+          </Text>
+          <ul class="divide-y divide-primary/10">
+            {
+              certificates.map((item) => (
+                <li class="py-2 grid grid-cols-1 gap-1 md:grid-cols-4">
+                  <Text tag="h4" variant="textSM" class="text-primary">
+                    {item.date}
+                  </Text>
+                  <div class="md:col-span-3">
+                    <Text 
+                      tag="p" 
+                      variant="textSM" 
+                      class="font-medium mb-1"
+                      style={`color: ${typeColors[item.type] || "#000"}`}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                      {item.organization}
+                    </Text>
+                    {item.notes && item.notes.length > 0 && (
+                      <div class="mt-2 space-y-1">
+                        {item.notes.map((note) => (
+                          <Text tag="p" variant="textXS" class="font-serif text-primary/60">
+                            {note}
+                          </Text>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+
+  <!-- Experience Section -->
+  <section>
+    <Wrapper variant="standard" class="py-12">
+      <Text
+        id="experience-heading"
+        tag="h2"
+        variant="textBase"
+        class="font-medium text-primary"
       >
+        Experience
+      </Text>
+      <ul class="pt-2 mt-2 border-t border-dotted divide-y divide-primary/10 border-primary/10">
         {
-          timeline.map((item) => (
+          experience.map((item) => (
             <li class="py-2 grid grid-cols-1 gap-1 md:grid-cols-4">
               <Text tag="h3" variant="textSM" class="text-primary">
-                {item.year}
+                {item.date}
               </Text>
-              <Text
-                tag="p"
-                variant="textSM"
-                class="font-serif text-primary/60 md:col-span-3"
-              >
-                {item.event}
+              <div class="md:col-span-3">
+                <Text tag="p" variant="textSM" class="font-medium text-primary">
+                  {item.title}
+                </Text>
+                <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                  {item.organization}
+                </Text>
+                {item.notes && item.notes.length > 0 && (
+                  <div class="mt-2 space-y-1">
+                    {item.notes.map((note) => (
+                      <Text tag="p" variant="textXS" class="font-serif text-primary/60">
+                        {note}
+                      </Text>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </Wrapper>
+  </section>
+
+  <!-- Publications and Patents Section -->
+  <section>
+    <Wrapper variant="standard" class="py-12">
+      <Text
+        id="publications-heading"
+        tag="h2"
+        variant="textBase"
+        class="font-medium text-primary"
+      >
+        Publications and Patents
+      </Text>
+      <ul class="pt-2 mt-2 border-t border-dotted border-primary/10 space-y-4">
+        {
+          publications.map((pub) => (
+            <li>
+              <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                <a
+                  href={pub.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-primary hover:text-primary/60 underline"
+                >
+                  {pub.citation}
+                </a>
               </Text>
             </li>
           ))
@@ -209,21 +730,20 @@ const socialLinks = [
     </Wrapper>
   </section>
 
+  <!-- Grants and Awards Section -->
   <section>
     <Wrapper variant="standard" class="py-12">
       <Text
-        id="awards-heading"
+        id="grants-awards-heading"
         tag="h2"
         variant="textBase"
         class="font-medium text-primary"
       >
-        Awards & Recognition
+        Grants and Awards
       </Text>
-      <ul
-        class="flex flex-col mt-2 border-t border-dotted divide-y divide-primary/10 border-primary/10"
-      >
+      <ul class="pt-2 mt-2 border-t border-dotted divide-y divide-primary/10 border-primary/10">
         {
-          awards.map((item) => (
+          grantsAndAwards.map((item) => (
             <li class="py-2 grid grid-cols-1 gap-1 md:grid-cols-4">
               <Text tag="h3" variant="textSM" class="text-primary">
                 {item.year}
@@ -242,41 +762,23 @@ const socialLinks = [
     </Wrapper>
   </section>
 
+  <!-- Membership and Communities Section -->
   <section>
     <Wrapper variant="standard" class="py-12">
       <Text
-        id="social-heading"
+        id="membership-heading"
         tag="h2"
         variant="textBase"
         class="font-medium text-primary"
       >
-        Follow & Connect
+        Membership and Communities
       </Text>
-
-      <ul
-        role="list"
-        class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10"
-      >
+      <ul class="pt-2 mt-2 border-t border-dotted border-primary/10 space-y-2">
         {
-          socialLinks.map((link) => (
-            <li class="relative flex items-baseline lg:justify-between">
-              <a
-                href={link.url}
-                class="absolute inset-0 z-10"
-                aria-label={`Visit ${link.label} profile for ${link.username}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-              <Text tag="span" variant="textSM" class="text-primary">
-                {link.label}
-              </Text>
-              <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
-              <Text
-                tag="span"
-                variant="textSM"
-                class="font-serif text-primary/60"
-              >
-                {link.username}
+          memberships.map((membership) => (
+            <li>
+              <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                {membership}
               </Text>
             </li>
           ))
@@ -284,4 +786,56 @@ const socialLinks = [
       </ul>
     </Wrapper>
   </section>
-</BaseLayout>
+
+  <!-- Mentorship and Supervision Section -->
+  <section>
+    <Wrapper variant="standard" class="py-12">
+      <Text
+        id="mentorship-heading"
+        tag="h2"
+        variant="textBase"
+        class="font-medium text-primary"
+      >
+        Mentorship and Supervision
+      </Text>
+      <div class="pt-2 mt-2 border-t border-dotted border-primary/10 space-y-4">
+        {students.length > 0 && (
+          <div>
+            <Text tag="h3" variant="textSM" class="font-medium text-primary mb-2">
+              Individual Students
+            </Text>
+            <ul class="space-y-2">
+              {
+                students.map((student) => (
+                  <li>
+                    <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                      {student.data.name}
+                      {student.data.occupation && ` – ${student.data.occupation}`}
+                      {student.data.location && ` (${student.data.location})`}
+                    </Text>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        )}
+        <div>
+          <Text tag="h3" variant="textSM" class="font-medium text-primary mb-2">
+            University of Waterloo
+          </Text>
+          <ul class="space-y-2">
+            {
+              waterlooStudents.map((student) => (
+                <li>
+                  <Text tag="p" variant="textSM" class="font-serif text-primary/60">
+                    {student}
+                  </Text>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout> 
