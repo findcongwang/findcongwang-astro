@@ -1,20 +1,21 @@
 ---
+// Content
+import { getCollection } from "astro:content";
 // Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 // Components
+// @ts-ignore - TypeScript cache issue, file exists and alias is configured
 import CourseEntry from "@/components/courses/CourseEntry.astro";
-// Content
-import { getCollection } from "astro:content";
 export async function getStaticPaths() {
   const allCourses = await getCollection("courses");
   const uniqueTags = [
-    ...new Set(allCourses.map((post) => post.data.tags).flat()),
+    ...new Set(allCourses.flatMap((post) => post.data.tags || [])),
   ];
   return uniqueTags.map((tag) => {
     const filteredCourses = allCourses.filter((post) =>
-      post.data.tags.includes(tag)
+      post.data.tags?.includes(tag)
     );
     return {
       params: { tag },
@@ -27,7 +28,7 @@ const { courses } = Astro.props;
 // Fetch data
 const allLessons = await getCollection("lessons");
 const allCourses = (await getCollection("courses")).sort(
-  (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );
 const tags = [
   ...new Set(allCourses.flatMap((course) => course.data.tags || [])),

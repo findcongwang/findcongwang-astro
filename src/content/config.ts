@@ -139,31 +139,10 @@ const lessons = defineCollection({
     isLocked: z.boolean().optional(),
   }),
 });
-const teachers = defineCollection({
-  schema: ({ image }) =>
-    z.object({
-      name: z.string(),
-      role: z.string(),
-      org: z.string().optional(),
-      bio: z.string(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
-      socials: z
-        .object({
-          twitter: z.string().optional(),
-          linkedin: z.string().optional(),
-          website: z.string().optional(),
-        })
-        .optional(),
-    }),
-});
 export const collections = {
   influences: influences,
   courses: courses,
   lessons: lessons,
-  teachers: teachers,
   books: books,
   domains: domains,
   lexicon: lexicon,

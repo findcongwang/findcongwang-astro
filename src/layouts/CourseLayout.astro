@@ -15,7 +15,15 @@ import ChevronLeft from "@/components/fundations/icons/ChevronLeft.astro";
 // Content
 import { getEntry, getCollection } from "astro:content";
 const { frontmatter } = Astro.props;
-const teacher = await getEntry("teachers", frontmatter.teacher);
+let teacher = null;
+if (frontmatter.teacher) {
+  try {
+    teacher = await getEntry("teachers", frontmatter.teacher);
+  } catch (e) {
+    // Teacher entry doesn't exist, which is fine for personal website
+    teacher = null;
+  }
+}
 const allCourses = await getCollection("courses");
 const relatedCourses = allCourses.filter(
   (c) =>
@@ -128,7 +136,7 @@ const sidebarSections = frontmatter.sections.map((section) => ({
             ></span>
 
             <span class="font-serif font-medium">
-              {teacher.data.name}
+              {teacher?.data?.name || "Francis Wang"}
             </span>
           </Text>
         </div>
