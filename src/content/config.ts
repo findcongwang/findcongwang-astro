@@ -10,7 +10,7 @@ const baseContentSchema = ({ image }: { image: any }) =>
       url: image(),
       alt: z.string(),
     }),
-    link: z.string().optional(), // Renamed from "live" to "link"
+    link: z.string().optional(),
     domains: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
   });
