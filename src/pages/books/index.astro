@@ -6,6 +6,24 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import WorksEntries from "@/components/works/WorksEntries.astro";
 import { getCollection } from "astro:content";
 const allBooks = await getCollection("books");
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const publishedBooks = allBooks
+  .filter((book) => {
+    const pubDate = new Date(book.data.pubDate);
+    pubDate.setHours(0, 0, 0, 0);
+    return pubDate < today;
+  })
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const upcomingBooks = allBooks
+  .filter((book) => {
+    const pubDate = new Date(book.data.pubDate);
+    pubDate.setHours(0, 0, 0, 0);
+    return pubDate >= today;
+  })
+  .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime());
 ---
 
 <BaseLayout>
@@ -21,11 +39,26 @@ const allBooks = await getCollection("books");
         My upcoming titles and reviews.
       </Text>
 
-      <div
-        class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
-      >
-        {allBooks.map((post) => <WorksEntries post={post} basePath="/books/" />)}
-      </div>
+      {publishedBooks.length > 0 && (
+        <div
+          class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
+        >
+          {publishedBooks.map((post) => <WorksEntries post={post} basePath="/books/" />)}
+        </div>
+      )}
+
+      {upcomingBooks.length > 0 && (
+        <div class="mt-12">
+          <Text tag="h2" variant="textBase" class="text-primary mb-4">
+            Upcoming Books
+          </Text>
+          <div
+            class="border-t border-dotted border-primary/10 pt-2 flex flex-col gap-4"
+          >
+            {upcomingBooks.map((post) => <WorksEntries post={post} basePath="/books/" showPubDate={true} />)}
+          </div>
+        </div>
+      )}
     </Wrapper>
   </section>
 </BaseLayout>

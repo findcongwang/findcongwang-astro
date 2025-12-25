@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import Text from "@/components/fundations/elements/Text.astro";
 
 const basePath = Astro.props.basePath || "/projects/";
+const showPubDate = Astro.props.showPubDate;
 const { url, title, description, image } = {
   url: basePath + Astro.props.post.slug,
   title: Astro.props.post.data.title,
@@ -28,7 +29,7 @@ const { url, title, description, image } = {
 
   <div>
     <Text tag="h3" variant="textSM" class="text-primary">
-      {title}
+      {title} {showPubDate && <span class="ml-2 text-primary/50">({new Date(Astro.props.post.data.pubDate).getFullYear()})</span>}
     </Text>
     <Text
       tag="p"

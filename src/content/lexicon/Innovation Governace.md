@@ -1,6 +1,6 @@
 ---
 pubDate: 2026-06-13
-title: Portfolio Equity and Shared Stewardship Model
+title: Innovation as Governace
 description: Page under construction.
 live: "#"
 image:
