@@ -10,6 +10,7 @@ const baseContentSchema = ({ image }: { image: any }) =>
       url: image(),
       alt: z.string(),
     }),
+    link: z.string().optional(), // Renamed from "live" to "link"
     domains: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
   });
@@ -40,47 +41,47 @@ const customers = defineCollection({
 
 // Books with aligned frontmatter
 const books = defineCollection({
-  schema: ({ image }) =>
-    baseContentSchema({ image }).extend({
-      live: z.string().optional(),
-    }),
+  schema: ({ image }) => baseContentSchema({ image }),
 });
 
 // Domains with parent domains support for hierarchy
 const domains = defineCollection({
   schema: ({ image }) =>
     baseContentSchema({ image }).extend({
-      live: z.string().optional(),
       parentDomains: z.array(z.string()).optional(), // Array of parent domain slugs
     }),
 });
 
 // Lexicon with aligned frontmatter
 const lexicon = defineCollection({
-  schema: ({ image }) =>
-    baseContentSchema({ image }).extend({
-      live: z.string().optional(),
-    }),
+  schema: ({ image }) => baseContentSchema({ image }),
 });
 
 // Influences with aligned frontmatter (name instead of title)
 const influences = defineCollection({
+  type: "content",
   schema: ({ image }) =>
-    baseContentSchema({ image })
-      .omit({ title: true })
-      .extend({
-        name: z.string(), // Influences use 'name' instead of 'title'
-        bio: z.string().optional(),
-        quote: z.string().optional(),
-        socials: z
-          .object({
-            twitter: z.string().optional(),
-            website: z.string().optional(),
-            linkedin: z.string().optional(),
-            email: z.string().optional(),
-          })
-          .optional(),
+    z.object({
+      pubDate: z.date(),
+      name: z.string(), // Influences use 'name' instead of 'title'
+      description: z.string(),
+      image: z.object({
+        url: image(),
+        alt: z.string(),
       }),
+      link: z.string().optional(),
+      domains: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional(),
+      reflections: z.array(z.string()).optional(), // Renamed from "quote" to "reflections" (list)
+      socials: z
+        .object({
+          twitter: z.string().optional(),
+          website: z.string().optional(),
+          linkedin: z.string().optional(),
+          email: z.string().optional(),
+        })
+        .optional(),
+    }),
 });
 
 // Posts (blog) with aligned frontmatter

@@ -42,6 +42,9 @@
           ],
           "additionalProperties": false
         },
+        "link": {
+          "type": "string"
+        },
         "domains": {
           "type": "array",
           "items": {

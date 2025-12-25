@@ -11,7 +11,7 @@ import { getDomainLineages } from "@/utils/domains";
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate);
 const isFuture = pubDate > new Date();
-const showWebsite = frontmatter.live && frontmatter.live !== "#";
+const showWebsite = frontmatter.link && frontmatter.link !== "#";
 
 const allDomains = await getCollection("domains");
 const domainLineages = frontmatter.domains
@@ -57,7 +57,7 @@ const domainLineages = frontmatter.domains
           <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
           ></span>
           <a
-            href={frontmatter.live}
+            href={frontmatter.link}
             title={frontmatter.title}
             aria-label={frontmatter.title}
             class="flex items-center text-xs text-primary hover:text-primary/60 gap-2 mt-2"

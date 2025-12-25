@@ -13,10 +13,10 @@ import { getCollection } from "astro:content";
 const allCustomers = await getCollection("customers");
 const allInfluences = await getCollection("influences");
 
-// Combine and filter: only include items with a quote property
+// Combine and filter: only include items with a quote/reflections property
 const allTestimonials = [
   ...allCustomers.filter((item) => item.data.quote),
-  ...allInfluences.filter((item) => item.data.quote),
+  ...allInfluences.filter((item) => item.data.reflections && item.data.reflections.length > 0),
 ];
 ---
 
