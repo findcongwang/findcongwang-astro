@@ -11,14 +11,23 @@ import ShareButtons from "@/components/fundations/elements/ShareButtons.astro";
 import BlogEntry from "@/components/blog/BlogEntry.astro";
 // Content
 const { frontmatter } = Astro.props;
-import { getEntry } from "astro:content";
-const influence = await getEntry("influences", frontmatter.team);
-// Get all posts and filter by tag
 import { getCollection } from "astro:content";
+import { getDomainLineages } from "@/utils/domains";
+
 const allPosts = await getCollection("posts");
-const relatedPosts = allPosts.filter((post) =>
-  post.data.tags.some((tag) => frontmatter.tags.includes(tag))
+const allDomains = await getCollection("domains");
+
+// Get related posts by tags
+const relatedPosts = allPosts.filter(
+  (post) =>
+    post.slug !== Astro.url.pathname.split("/").filter(Boolean).pop() &&
+    post.data.tags?.some((tag) => frontmatter.tags?.includes(tag))
 );
+
+// Get domain lineages
+const domainLineages = frontmatter.domains
+  ? await getDomainLineages(frontmatter.domains, allDomains)
+  : [];
 ---
 
 <BaseLayout>
@@ -58,68 +67,42 @@ const relatedPosts = allPosts.filter((post) =>
         </div>
 
         <div class="lg:sticky lg:top-24">
-          <div>
-            {
-              influence && (
-                <div>
-                  <div>
-                    <a href={`/influences/${influence.slug}`}>
-                      {influence?.data?.image?.url && (
-                        <Image
-                          width={100}
-                          height={100}
-                          src={influence.data.image.url}
-                          alt={influence.data.image.alt}
-                          class="object-cover object-center rounded-full  size-8 shrink-0"
-                        />
-                      )}
-                    </a>
-                    <Text tag="p" variant="textXS" class="mt-2 text-primary/60">
-                      <span>
-                        Written in
-                        <span class="  text-primary/60">
-                          <time
-                            datetime={new Date(
-                              frontmatter.pubDate
-                            ).toISOString()}
-                          >
-                            {new Date(frontmatter.pubDate).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "2-digit",
-                              }
-                            )}
-                          </time>
-                        </span>
-                        by
-                        <a href={`/influences/${influence.slug}`}>
-                          <span class="font-medium text-primary/60 ">
-                            {influence.data.name}
-                          </span>
-                        </a>
-                      </span>
-                      {influence.data.role}
-                      in
-                      {frontmatter.tags.map((tag) => (
-                        <>
-                          <a href={`/blog/tags/${tag}`} class="capitalize ">
-                            {tag}
-                          </a>
-                        </>
-                      ))}
-                    </Text>
-                  </div>
-                </div>
-              )
-            }
-          </div>
+          <div class="space-y-4">
+            <div>
+              <Text tag="p" variant="textXS" class="text-primary/60">
+                <time
+                  datetime={new Date(frontmatter.pubDate).toISOString()}
+                >
+                  {new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit",
+                  })}
+                </time>
+              </Text>
+            </div>
 
-          <div
-            class="relative flex flex-wrap pt-2 mt-2 border-t border-dotted border-primary/10 gap-2"
-          >
-            <ShareButtons description={frontmatter.description} />
+            {frontmatter.tags && frontmatter.tags.length > 0 && (
+              <div>
+                <Text tag="p" variant="textXS" class="text-primary/60">
+                  Tags: {frontmatter.tags.join(", ")}
+                </Text>
+              </div>
+            )}
+
+            {domainLineages.length > 0 && (
+              <div>
+                <Text tag="p" variant="textXS" class="text-primary/60">
+                  Domains: {domainLineages.join(", ")}
+                </Text>
+              </div>
+            )}
+
+            <div
+              class="relative flex flex-wrap pt-2 mt-2 border-t border-dotted border-primary/10 gap-2"
+            >
+              <ShareButtons description={frontmatter.description} />
+            </div>
           </div>
         </div>
       </div>

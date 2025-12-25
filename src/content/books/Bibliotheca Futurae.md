@@ -1,5 +1,5 @@
 ---
-pubDate: 2026-12-01
+pubDate: 2026-07-01
 title: Bibliotheca Futurae
 description: Human-AI Collaboration and Symbiotic Intelligence in the Post-Agentic World
 live: "#"

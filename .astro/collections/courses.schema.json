@@ -4,12 +4,6 @@
     "courses": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
         "pubDate": {
           "anyOf": [
             {
@@ -25,6 +19,40 @@
               "format": "unix-time"
             }
           ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "alt"
+          ],
+          "additionalProperties": false
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "teacher": {
           "type": "string"
@@ -67,28 +95,6 @@
             "additionalProperties": false
           }
         },
-        "image": {
-          "type": "object",
-          "properties": {
-            "url": {
-              "type": "string"
-            },
-            "alt": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "url",
-            "alt"
-          ],
-          "additionalProperties": false
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "isFeatured": {
           "type": "boolean"
         },
@@ -106,15 +112,9 @@
         }
       },
       "required": [
+        "pubDate",
         "title",
         "description",
-        "pubDate",
-        "teacher",
-        "duration",
-        "videoUrl",
-        "price",
-        "skills",
-        "sections",
         "image"
       ],
       "additionalProperties": false

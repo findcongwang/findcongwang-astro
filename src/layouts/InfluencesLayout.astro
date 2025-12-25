@@ -14,7 +14,7 @@ const allPosts = await getCollection("posts");
 // Get the influence slug from the URL
 const influenceSlug = Astro.url.pathname.split("/").filter(Boolean).pop();
 // Filter posts by this influence (based on slug)
-const relatedPosts = allPosts.filter((post) => post.data.team === influenceSlug);
+const relatedPosts = allPosts.filter((post) => post.data.domains?.includes(influenceSlug));
 const { frontmatter } = Astro.props;
 ---
 
@@ -39,7 +39,7 @@ const { frontmatter } = Astro.props;
             variant="textBase"
             class="font-serif text-primary/60 text-balance"
           >
-            {frontmatter.role}
+            {frontmatter.description}
           </Text>
         </div>
       </div>
@@ -56,36 +56,17 @@ const { frontmatter } = Astro.props;
           ))
         }
       </div>
-      <div class="flex items-center gap-4 mt-4">
-        <a
-          href={frontmatter.socials.twitter}
-          class="text-xs text-primary hover:text-primary/60"
-          aria-label="X"
-        >
-          Twitter
-        </a>
-        <a
-          href={frontmatter.socials.linkedin}
-          class="text-xs text-primary hover:text-primary/60"
-          aria-label="LinkedIn"
-        >
-          Linkedin
-        </a>
-        <a
-          href={frontmatter.socials.email}
-          class="text-xs text-primary hover:text-primary/60"
-          aria-label="Email"
-        >
-          Email
-        </a>
-        <a
-          href={frontmatter.socials.website}
-          class="text-xs text-primary hover:text-primary/60"
-          aria-label="Website"
-        >
-          Website
-        </a>
-      </div>
+      {frontmatter.socials?.website && (
+        <div class="flex items-center gap-4 mt-4">
+          <a
+            href={frontmatter.socials.website}
+            class="text-xs text-primary hover:text-primary/60"
+            aria-label="Website"
+          >
+            Website
+          </a>
+        </div>
+      )}
     </Wrapper>
   </section>
 

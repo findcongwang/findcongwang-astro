@@ -5,10 +5,18 @@ import { Image } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { getCollection } from "astro:content";
+import { getDomainLineages } from "@/utils/domains";
+
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate);
 const isFuture = pubDate > new Date();
 const showWebsite = frontmatter.live && frontmatter.live !== "#";
+
+const allDomains = await getCollection("domains");
+const domainLineages = frontmatter.domains
+  ? await getDomainLineages(frontmatter.domains, allDomains)
+  : [];
 ---
 
 <BaseLayout>
@@ -78,6 +86,36 @@ const showWebsite = frontmatter.live && frontmatter.live !== "#";
             </time>
           </Text>
         </div>
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex items-baseline lg:justify-between">
+            <Text
+              tag="p"
+              variant="textSM"
+              class="font-medium capitalize text-primary text-balance"
+            >
+              Tags
+            </Text>
+            <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
+            <Text tag="p" variant="textXS" class="text-primary/60">
+              {frontmatter.tags.join(", ")}
+            </Text>
+          </div>
+        )}
+        {domainLineages.length > 0 && (
+          <div class="flex items-baseline lg:justify-between">
+            <Text
+              tag="p"
+              variant="textSM"
+              class="font-medium capitalize text-primary text-balance"
+            >
+              Domains
+            </Text>
+            <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
+            <Text tag="p" variant="textXS" class="text-primary/60">
+              {domainLineages.join(", ")}
+            </Text>
+          </div>
+        )}
       </div>
 
       <Wrapper variant="prose" class="mt-8">

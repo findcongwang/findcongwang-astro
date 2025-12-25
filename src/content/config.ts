@@ -1,4 +1,19 @@
 import { defineCollection, z } from "astro:content";
+
+// Base schema for common frontmatter fields
+const baseContentSchema = ({ image }: { image: any }) =>
+  z.object({
+    pubDate: z.date(),
+    title: z.string(),
+    description: z.string(),
+    image: z.object({
+      url: image(),
+      alt: z.string(),
+    }),
+    domains: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+  });
+
 const infopages = defineCollection({
   schema: z.object({
     page: z.string(),
@@ -23,105 +38,73 @@ const customers = defineCollection({
     }),
 });
 
+// Books with aligned frontmatter
 const books = defineCollection({
   schema: ({ image }) =>
-    z.object({
-      pubDate: z.date(),
-      title: z.string(),
-      description: z.string(),
-      live: z.string(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
+    baseContentSchema({ image }).extend({
+      live: z.string().optional(),
     }),
 });
 
+// Domains with parent domains support for hierarchy
 const domains = defineCollection({
   schema: ({ image }) =>
-    z.object({
-      pubDate: z.date(),
-      title: z.string(),
-      description: z.string(),
-      live: z.string(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
+    baseContentSchema({ image }).extend({
+      live: z.string().optional(),
+      parentDomains: z.array(z.string()).optional(), // Array of parent domain slugs
     }),
 });
 
+// Lexicon with aligned frontmatter
 const lexicon = defineCollection({
   schema: ({ image }) =>
-    z.object({
-      pubDate: z.date(),
-      title: z.string(),
-      description: z.string(),
-      live: z.string(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
+    baseContentSchema({ image }).extend({
+      live: z.string().optional(),
     }),
 });
 
+// Influences with aligned frontmatter (name instead of title)
 const influences = defineCollection({
   schema: ({ image }) =>
-    z.object({
-      name: z.string(),
-      role: z.string().optional(),
-      bio: z.string().optional(),
-      quote: z.string().optional(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
+    baseContentSchema({ image })
+      .omit({ title: true })
+      .extend({
+        name: z.string(), // Influences use 'name' instead of 'title'
+        bio: z.string().optional(),
+        quote: z.string().optional(),
+        socials: z
+          .object({
+            twitter: z.string().optional(),
+            website: z.string().optional(),
+            linkedin: z.string().optional(),
+            email: z.string().optional(),
+          })
+          .optional(),
       }),
-      socials: z
-        .object({
-          twitter: z.string().optional(),
-          website: z.string().optional(),
-          linkedin: z.string().optional(),
-          email: z.string().optional(),
-        })
-        .optional(),
-    }),
 });
+
+// Posts (blog) with aligned frontmatter
 const postsCollection = defineCollection({
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      pubDate: z.date(),
-      description: z.string(),
-      team: z.string(),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
-      tags: z.array(z.string()),
-    }),
+  schema: ({ image }) => baseContentSchema({ image }),
 });
+
+// Courses with aligned frontmatter + course-specific fields
 const courses = defineCollection({
   schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      pubDate: z.date(),
-      teacher: z.string(),
-      duration: z.string(),
-      videoUrl: z.string(),
-      price: z.number().min(0),
-      skills: z.array(z.string()),
-      sections: z.array(
-        z.object({
-          title: z.string(),
-          lessons: z.array(z.string()),
-        })
-      ),
-      image: z.object({
-        url: image(),
-        alt: z.string(),
-      }),
-      tags: z.array(z.string()).optional(),
+    baseContentSchema({ image }).extend({
+      teacher: z.string().optional(),
+      duration: z.string().optional(),
+      videoUrl: z.string().optional(),
+      price: z.number().min(0).optional(),
+      skills: z.array(z.string()).optional(),
+      sections: z
+        .array(
+          z.object({
+            title: z.string(),
+            lessons: z.array(z.string()),
+          })
+        )
+        .optional(),
       isFeatured: z.boolean().optional(),
       isFree: z.boolean().optional(),
       isNew: z.boolean().optional(),

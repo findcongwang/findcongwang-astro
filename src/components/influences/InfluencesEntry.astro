@@ -3,10 +3,10 @@
 import { Image } from "astro:assets";
 // Fundations
 import Text from "@/components/fundations/elements/Text.astro";
-const { url, name, image, role } = {
+const { url, name, image, description } = {
   url: "/influences/" + Astro.props.post.slug,
   name: Astro.props.post.data.name,
-  role: Astro.props.post.data.role,
+  description: Astro.props.post.data.description,
   image: Astro.props.post.data.image.url,
 };
 ---
@@ -35,7 +35,7 @@ const { url, name, image, role } = {
       variant="textSM"
       class="font-serif text-primary/60 text-balance"
     >
-      {role}
+      {description}
     </Text>
   </div>
 </div>

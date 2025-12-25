@@ -4,9 +4,6 @@
     "posts": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string"
-        },
         "pubDate": {
           "anyOf": [
             {
@@ -23,10 +20,10 @@
             }
           ]
         },
-        "description": {
+        "title": {
           "type": "string"
         },
-        "team": {
+        "description": {
           "type": "string"
         },
         "image": {
@@ -45,6 +42,12 @@
           ],
           "additionalProperties": false
         },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "tags": {
           "type": "array",
           "items": {
@@ -56,12 +59,10 @@
         }
       },
       "required": [
-        "title",
         "pubDate",
+        "title",
         "description",
-        "team",
-        "image",
-        "tags"
+        "image"
       ],
       "additionalProperties": false
     }

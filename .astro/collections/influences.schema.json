@@ -4,16 +4,23 @@
     "influences": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
+        "pubDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
         },
-        "role": {
-          "type": "string"
-        },
-        "bio": {
-          "type": "string"
-        },
-        "quote": {
+        "description": {
           "type": "string"
         },
         "image": {
@@ -31,6 +38,27 @@
             "alt"
           ],
           "additionalProperties": false
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string"
         },
         "socials": {
           "type": "object",
@@ -55,8 +83,10 @@
         }
       },
       "required": [
-        "name",
-        "image"
+        "pubDate",
+        "description",
+        "image",
+        "name"
       ],
       "additionalProperties": false
     }

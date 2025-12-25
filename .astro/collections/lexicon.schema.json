@@ -26,9 +26,6 @@
         "description": {
           "type": "string"
         },
-        "live": {
-          "type": "string"
-        },
         "image": {
           "type": "object",
           "properties": {
@@ -45,6 +42,21 @@
           ],
           "additionalProperties": false
         },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "live": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }
@@ -53,7 +65,6 @@
         "pubDate",
         "title",
         "description",
-        "live",
         "image"
       ],
       "additionalProperties": false

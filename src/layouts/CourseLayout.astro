@@ -4,27 +4,21 @@ import { Image } from "astro:assets";
 // Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
-import Button from "@/components/fundations/elements/Button.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 // Components
+// @ts-ignore - TypeScript language server cache issue
 import CourseEntry from "@/components/courses/CourseEntry.astro";
 // Icons
-import Play from "@/components/fundations/icons/Play.astro";
-import Lock from "@/components/fundations/icons/Lock.astro";
 import ChevronLeft from "@/components/fundations/icons/ChevronLeft.astro";
 // Content
 import { getEntry, getCollection } from "astro:content";
+import { getDomainLineages } from "@/utils/domains";
+
 const { frontmatter } = Astro.props;
 let teacher = null;
-if (frontmatter.teacher) {
-  try {
-    teacher = await getEntry("teachers", frontmatter.teacher);
-  } catch (e) {
-    // Teacher entry doesn't exist, which is fine for personal website
-    teacher = null;
-  }
-}
+
 const allCourses = await getCollection("courses");
+const allDomains = await getCollection("domains");
 const relatedCourses = allCourses.filter(
   (c) =>
     c.slug !== Astro.url.pathname.split("/").filter(Boolean).pop() &&
@@ -35,13 +29,18 @@ const lessonsForThisCourse = allLessons.filter(
   (l) => l.data.course === frontmatter.slug
 );
 // Sidebar structure
-const sidebarSections = frontmatter.sections.map((section) => ({
+const sidebarSections = (frontmatter.sections || []).map((section) => ({
   ...section,
-  lessons: section.lessons.map((slug) => ({
+  lessons: (section.lessons || []).map((slug) => ({
     slug,
     isActive: false, // Optional: logic for active slug if needed
   })),
 }));
+
+// Get domain lineages
+const domainLineages = frontmatter.domains
+  ? await getDomainLineages(frontmatter.domains, allDomains)
+  : [];
 ---
 
 <BaseLayout>
@@ -141,23 +140,43 @@ const sidebarSections = frontmatter.sections.map((section) => ({
           </Text>
         </div>
       </div>
-      <div class="py-4">
-        <Text tag="h2" variant="textSM" class="font-medium text-primary">
-          Skills
-        </Text>
-        <ul
-          role="list"
-          class="mt-2 text-xs grid grid-cols-1 gap-1 text-primary/60"
-        >
-          {
-            frontmatter.skills.map((skill) => (
+      {frontmatter.skills && frontmatter.skills.length > 0 && (
+        <div class="py-4">
+          <Text tag="h2" variant="textSM" class="font-medium text-primary">
+            Skills
+          </Text>
+          <ul
+            role="list"
+            class="mt-2 text-xs grid grid-cols-1 gap-1 text-primary/60"
+          >
+            {frontmatter.skills.map((skill) => (
               <li>
                 <span class="font-medium text-primary/60">{skill}</span>
               </li>
-            ))
-          }
-        </ul>
-      </div>
+            ))}
+          </ul>
+        </div>
+      )}
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <div class="py-4">
+          <Text tag="h2" variant="textSM" class="font-medium text-primary">
+            Tags
+          </Text>
+          <Text tag="p" variant="textXS" class="mt-2 text-primary/60">
+            {frontmatter.tags.join(", ")}
+          </Text>
+        </div>
+      )}
+      {domainLineages.length > 0 && (
+        <div class="py-4">
+          <Text tag="h2" variant="textSM" class="font-medium text-primary">
+            Domains
+          </Text>
+          <Text tag="p" variant="textXS" class="mt-2 text-primary/60">
+            {domainLineages.join(", ")}
+          </Text>
+        </div>
+      )}
 
       <div class="py-4 space-y-2">
         {
