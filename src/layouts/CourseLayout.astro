@@ -111,19 +111,6 @@ const domainLineages = frontmatter.domains
               {frontmatter.duration}
             </span>
           </Text>
-          <Text
-            tag="p"
-            variant="textXS"
-            class="flex items-baseline text-primary/60 lg:justify-between"
-          >
-            Price
-            <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
-            ></span>
-
-            <span class="font-serif font-medium">
-              {frontmatter.isFree ? "Free" : `$${frontmatter.price}`}
-            </span>
-          </Text>
         </div>
       </div>
       {frontmatter.skills && frontmatter.skills.length > 0 && (

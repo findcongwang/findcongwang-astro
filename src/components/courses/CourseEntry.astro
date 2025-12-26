@@ -9,10 +9,9 @@ if (!post) {
 }
 const {
   slug,
-  data: { title, description, isNew, price = 0 },
+  data: { title, description, isNew },
 } = post;
 const courseUrl = `/courses/${slug}`;
-const coursePrice = price === 0 ? "Free" : `$${price}`;
 ---
 
 <article
@@ -25,13 +24,12 @@ const coursePrice = price === 0 ? "Free" : `$${price}`;
     class="absolute inset-0 z-10"></a>
 
   <div>
-    <span class="flex items-center text-xs gap-1 text-primary/60">
-      {isNew && <span>New /</span>}
-      <span>
-        {coursePrice}
+    {isNew && (
+      <span class="flex items-center text-xs gap-1 text-primary/60">
+        New
       </span>
-    </span>
-    <Text tag="h3" variant="textSM" class="mt-2 text-primary">
+    )}
+    <Text tag="h3" variant="textSM" class={isNew ? "mt-2 text-primary" : "text-primary"}>
       {title}
     </Text>
     <Text
