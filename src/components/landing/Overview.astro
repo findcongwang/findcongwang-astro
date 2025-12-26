@@ -5,24 +5,24 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 
 const cards = [
   {
-    title: "Design with a Developer's Mind",
+    title: "Domains",
     subtitle:
-      "Learn layout, spacing, and visual systems that scale — all while thinking in code. No more design handoff confusion.",
+      "Domains are how I organize my thinking, these are atlas-level overviews on my tracked topics.",
   },
   {
-    title: "Build Reusable UI Components",
+    title: "Influences",
     subtitle:
-      "Craft accessible, responsive, and polished components that work across devices and breakpoints with confidence.",
+      "People and resources that influenced my thinking, tagged by domain with my reflections.",
   },
   {
-    title: "From Figma to Frontend",
+    title: "Lexicon",
     subtitle:
-      "Translate design files into production-ready code using consistent tokens, spacing, and typographic rhythm.",
+      "Lexicon is my personal dictionary of key terms, concepts, and distinctions that I use in my work.",
   },
   {
-    title: "Work Like a Design Engineer",
+    title: "Books, Blogs, Courses",
     subtitle:
-      "Bridge the gap between design and development. Build, test, and ship UIs that feel as good as they look.",
+      "Different modes of my intellectual output, organized by domain, short/long-form, interactive/static, etc.",
   },
 ];
 ---
@@ -30,9 +30,15 @@ const cards = [
 <section>
   <Wrapper variant="standard" class="py-12">
     <Text tag="h2" variant="textBase" class="font-medium text-primary">
-      Build interfaces that look great and work flawlessly
+      How to Navigate This Site
     </Text>
-
+    <Text
+      tag="p"
+      variant="textBase"
+      class="font-serif text-primary/60 text-balance"
+    >
+      I try to structurally reflect on my influences to inform my domains of understanding, then write out my perspectives in different modes.
+    </Text>
     <div
       class="pt-2 mt-2 border-t border-dotted grid gap-8 md:grid-cols-2 border-primary/10 text-balance"
     >
@@ -55,3 +61,4 @@ const cards = [
     </div>
   </Wrapper>
 </section>
+

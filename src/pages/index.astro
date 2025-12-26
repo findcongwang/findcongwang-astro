@@ -5,33 +5,21 @@ import Text from "@/components/fundations/elements/Text.astro";
 import Button from "@/components/fundations/elements/Button.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 // Sections
+import Aliases from "@/components/landing/Aliases.astro";
 import Hero from "@/components/landing/Hero.astro";
-import Learn from "@/components/landing/Learn.astro";
+import Overview from "@/components/landing/Overview.astro";
 import Who from "@/components/landing/Who.astro";
 import Expectations from "@/components/landing/Expectations.astro";
+import CognitiveType from "@/components/landing/CognitiveType.astro";
 import Testimonials from "@/components/testimonials/Testimonials.astro";
 ---
 
 <BaseLayout>
+  <Aliases />
   <Hero />
-  <!-- <Learn />
+  <Overview />
   <Who />
-  <Expectations />
-  <section>
-    <Wrapper variant="standard" class="py-12">
-      <Text tag="h2" variant="textBase" class="font-medium text-primary">
-        What will you sharpen next?
-      </Text>
-      <Text
-        tag="p"
-        variant="textBase"
-        class="font-serif text-primary/60 text-balance"
-      >
-        New lessons and UI patterns released regularly. Stay sharp, stay current
-        — and keep building with confidence.
-      </Text>
-      </div>
-    </Wrapper>
-  </section>
-  <Testimonials /> -->
+  <CognitiveType />
+  <!-- <Expectations /> -->
+  <!-- <Testimonials /> -->
 </BaseLayout>
