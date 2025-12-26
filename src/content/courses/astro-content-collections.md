@@ -2,7 +2,6 @@
 title: "Astro Content Collections Masterclass"
 description: "Master Astro's powerful content management system and build scalable, type-safe content-driven websites."
 pubDate: 2025-06-15
-teacher: "lucia-herrera"
 skills:
   [
     "Astro",

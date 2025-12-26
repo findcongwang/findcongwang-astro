@@ -15,7 +15,6 @@ import { getEntry, getCollection } from "astro:content";
 import { getDomainLineages } from "@/utils/domains";
 
 const { frontmatter } = Astro.props;
-let teacher = null;
 
 const allCourses = await getCollection("courses");
 const allDomains = await getCollection("domains");
@@ -123,19 +122,6 @@ const domainLineages = frontmatter.domains
 
             <span class="font-serif font-medium">
               {frontmatter.isFree ? "Free" : `$${frontmatter.price}`}
-            </span>
-          </Text>
-          <Text
-            tag="p"
-            variant="textXS"
-            class="flex items-baseline text-primary/60 lg:justify-between"
-          >
-            Teacher
-            <span class="flex-1 mx-2 border-b border-dotted border-primary/10"
-            ></span>
-
-            <span class="font-serif font-medium">
-              {teacher?.data?.name || "Francis Wang"}
             </span>
           </Text>
         </div>

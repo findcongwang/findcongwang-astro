@@ -8,7 +8,6 @@ import ChevronLeft from "@/components/fundations/icons/ChevronLeft.astro";
 // Content
 import { getEntry } from "astro:content";
 const { course, lesson } = Astro.props;
-let teacher = null;
 // Flatten sections for sidebar
 const sections = (course.data.sections || []).map((section) => ({
   ...section,
@@ -89,19 +88,6 @@ const allLessons = await getCollection("lessons");
                       <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
                       <span class="font-serif font-medium">
                         {lesson.data.duration}
-                      </span>
-                    </Text>
-                  </div>
-                  <div>
-                    <Text
-                      tag="p"
-                      variant="textXS"
-                      class="flex items-baseline text-primary/60 lg:justify-between"
-                    >
-                      Teacher
-                      <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
-                      <span class="font-serif font-medium">
-                        {teacher?.data?.name ? `${teacher.data.name} — ${teacher.data.role}` : "Francis Wang"}
                       </span>
                     </Text>
                   </div>

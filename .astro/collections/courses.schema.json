@@ -57,9 +57,6 @@
             "type": "string"
           }
         },
-        "teacher": {
-          "type": "string"
-        },
         "duration": {
           "type": "string"
         },

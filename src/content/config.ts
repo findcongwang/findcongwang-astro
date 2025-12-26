@@ -93,7 +93,6 @@ const postsCollection = defineCollection({
 const courses = defineCollection({
   schema: ({ image }) =>
     baseContentSchema({ image }).extend({
-      teacher: z.string().optional(),
       duration: z.string().optional(),
       videoUrl: z.string().optional(),
       price: z.number().min(0).optional(),
