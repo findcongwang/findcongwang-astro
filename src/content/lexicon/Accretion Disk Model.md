@@ -4,7 +4,7 @@ title: Accretion Disk Model
 description: Page under construction.
 live: "#"
 image:
-  url: "/src/images/projects/caf.png"
+  url: "/src/images/projects/accdisk.png"
   alt: "Put your alt text."
 ---
 
