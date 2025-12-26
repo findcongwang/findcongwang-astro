@@ -2,9 +2,9 @@
 pubDate: 2026-07-01
 title: Bibliotheca Futurae
 description: Human-AI Collaboration and Symbiotic Intelligence in the Post-Agentic World
-live: "#"
+link: "#"
 image:
-  url: "/src/images/projects/perceptiosphere.png"
+  url: "/src/images/projects/caf.png"
   alt: "Put your alt text."
 ---
 

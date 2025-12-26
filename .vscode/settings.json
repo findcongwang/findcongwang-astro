@@ -1,7 +1,20 @@
 {
   "files.associations": {
-    "*.astro": "astro"
+    "*.astro": "astro",
+    "*.mdx": "mdx",
+    "*.md": "markdown"
   },
-  "astro.typescript.tsdk": "node_modules/typescript/lib"
+  "astro.typescript.tsdk": "node_modules/typescript/lib",
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  }
 }
 
