@@ -3,6 +3,11 @@ pubDate: 2025-12-25
 title: Compelling Question (Foresight)
 description: A strategic tool to fracture conventional thinking and reveal latent opportunities within complex problems.
 live: "#"
+tags:
+  - Strategic Foresight
+  - Design Fiction
+  - Scenario Planning
+  - Innovation
 image:
   url: "/src/images/lexicon/rocketonconcrete.png"
   alt: "Put your alt text."
