@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-pdfs": "node scripts/generate-pdfs.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
@@ -21,5 +22,10 @@
     "astro": "^5.13.7",
     "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^12.0.0",
+    "puppeteer": "^23.0.0"
   }
 }
