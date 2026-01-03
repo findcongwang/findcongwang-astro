@@ -45,6 +45,16 @@
         "link": {
           "type": "string"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "precedent",
+            "concept",
+            "people",
+            "book",
+            "course"
+          ]
+        },
         "domains": {
           "type": "array",
           "items": {

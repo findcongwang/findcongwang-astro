@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { INFLUENCE_TYPES } from "@/utils/influences";
 
 // Base schema for common frontmatter fields
 const baseContentSchema = ({ image }: { image: any }) =>
@@ -73,6 +74,7 @@ const influences = defineCollection({
         alt: z.string(),
       }),
       link: z.string().optional(),
+      type: z.enum(INFLUENCE_TYPES).optional(), // Influence type
       domains: z.array(z.string()).optional(),
       tags: z.array(z.string()).optional(),
       reflections: z.array(z.string()).optional(), // Renamed from "quote" to "reflections" (list)

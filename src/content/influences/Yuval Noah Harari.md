@@ -1,6 +1,7 @@
 ---
 pubDate: 2025-01-01
 name: Yuval Noah Harari
+type: people
 description: Page under construction.
 image:
   url: "/src/images/projects/caf.png"

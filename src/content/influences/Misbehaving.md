@@ -1,6 +1,7 @@
 ---
 pubDate: 2025-01-01
 name: Misbehaving - The Making of Behavioral Economics
+type: book
 description: Page under construction.
 image:
   url: "/src/images/projects/caf.png"

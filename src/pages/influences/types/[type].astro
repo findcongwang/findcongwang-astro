@@ -10,50 +10,70 @@ import { getCollection } from "astro:content";
 // Utils
 import { INFLUENCE_TYPES } from "@/utils/influences";
 
-const allAuthors = (await getCollection("influences")).sort((a, b) => 
+export async function getStaticPaths() {
+  const allInfluences = await getCollection("influences");
+  
+  return INFLUENCE_TYPES.map((type) => {
+    const filteredInfluences = allInfluences.filter((influence) =>
+      influence.data.type === type
+    );
+    return {
+      params: { type },
+      props: { influences: filteredInfluences },
+    };
+  });
+}
+
+const { type } = Astro.params;
+const { influences } = Astro.props;
+
+// Get all influences for type filter display
+const allInfluences = await getCollection("influences");
+const types = ["all", ...INFLUENCE_TYPES];
+
+// Sort filtered influences alphabetically
+const sortedInfluences = influences.sort((a, b) => 
   a.data.name.localeCompare(b.data.name)
 );
 
-const types = ["all", ...INFLUENCE_TYPES];
-
-const completedInfluences = allAuthors.filter(
+const completedInfluences = sortedInfluences.filter(
   (item) => !item.data.description?.toLowerCase().includes("page under construction")
 );
-const underConstructionInfluences = allAuthors.filter(
+const underConstructionInfluences = sortedInfluences.filter(
   (item) => item.data.description?.toLowerCase().includes("page under construction")
 );
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle={type}>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <Text tag="h1" variant="textBase" class="text-primary">
-        Influences and Precedents
-      </Text>
       <Text
-        tag="p"
+        tag="h1"
         variant="textBase"
-        class="font-serif text-primary/60 text-balance mt-2"
+        class="font-medium capitalize text-primary"
       >
-        A list of people, books, patterns, and ideas that have influenced my work and thinking.
+        {type}
       </Text>
 
       <div
         class="relative flex h-full mt-1 overflow-x-scroll gap-2 lg:gap-4 scrollable-content snap-x snap-proximity scrollbar-hide"
       >
         {
-          types.map((type) => (
+          types.map((t) => (
             <a
-              title={type}
-              aria-label={type}
-              href={type === "all" ? "/influences" : `/influences/types/${type}`}
-              class="text-xs capitalize text-primary/60 hover:text-accent "
+              title={t}
+              aria-label={t}
+              href={t === "all" ? "/influences" : `/influences/types/${t}`}
+              class={`text-xs capitalize ${
+                t === type ? "text-accent" : "text-primary/60 hover:text-accent"
+              }`}
             >
-              {type}
+              {t}
             </a>
           ))
         }
       </div>
+      
       {completedInfluences.length > 0 && (
         <div
           class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
@@ -77,3 +97,4 @@ const underConstructionInfluences = allAuthors.filter(
     </Wrapper>
   </section>
 </BaseLayout>
+

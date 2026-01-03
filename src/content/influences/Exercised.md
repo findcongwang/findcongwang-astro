@@ -1,6 +1,7 @@
 ---
 pubDate: 2025-01-01
 name: Exercised - Why Something We Never Evolved to Do Is Healthy and Rewarding
+type: book
 description: Page under construction.
 image:
   url: "/src/images/projects/caf.png"

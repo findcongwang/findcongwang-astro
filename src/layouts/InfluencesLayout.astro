@@ -31,7 +31,7 @@ const { frontmatter } = Astro.props;
         />
         <div>
           <Text tag="h1" variant="textBase" class="text-primary">
-            {frontmatter.name}
+            {frontmatter.name} {frontmatter.type && <span class="ml-2 text-primary/50 capitalize">({frontmatter.type})</span>}
           </Text>
 
           <Text
