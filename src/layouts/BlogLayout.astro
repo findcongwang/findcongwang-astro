@@ -61,9 +61,9 @@ const domainLineages = frontmatter.domains
             src={frontmatter.image.url}
             class="object-cover object-center w-full mt-4 aspect-12/6 lg:col-span-2 rounded-xl"
           />
-          <Wrapper variant="prose" class="mt-4">
+          <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 prose-a:text-black prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full">
             <slot />
-          </Wrapper>
+          </div>
         </div>
 
         <div class="lg:sticky lg:top-24">

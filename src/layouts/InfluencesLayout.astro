@@ -70,6 +70,9 @@ const { frontmatter } = Astro.props;
           </a>
         </div>
       )}
+      <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 prose-a:text-black prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-8 w-full">
+          <slot />
+        </div>
     </Wrapper>
   </section>
 
