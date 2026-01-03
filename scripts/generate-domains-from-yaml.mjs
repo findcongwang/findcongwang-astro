@@ -25,10 +25,20 @@ function idToSlug(id) {
 }
 
 /**
+ * Convert domain name to SEO-friendly filename
+ * Keeps spaces, removes special symbols
+ */
+function nameToFilename(name) {
+  return name
+    .replace(/[^\w\s\-',&]/g, ' ') // Replace special symbols with space
+    .replace(/\s+/g, ' ') // Collapse multiple spaces into one
+    .trim(); // Remove leading/trailing whitespace
+}
+
+/**
  * Generate markdown frontmatter for a domain
  */
 function generateDomainFrontmatter(domain, allDomains) {
-  const slug = idToSlug(domain.id);
   const pubDate = new Date().toISOString().split('T')[0];
   
   const frontmatter = {
@@ -141,8 +151,8 @@ async function main() {
       continue;
     }
     
-    const slug = idToSlug(domain.id);
-    const filename = `${slug}.md`;
+    // Use full name for filename (SEO-friendly)
+    const filename = `${nameToFilename(domain.name)}.md`;
     const filePath = join(domainsDir, filename);
     
     // Check if file already exists
@@ -155,7 +165,7 @@ async function main() {
     }
     
     if (fileExists) {
-      console.log(`  ⊘ Skipped: ${filename} (${domain.name}) - already exists`);
+      console.log(`  ⊘ Skipped: ${filename} - already exists`);
       skippedCount++;
       continue;
     }
@@ -167,7 +177,7 @@ async function main() {
     const markdown = formatFrontmatter(frontmatter) + '\n\n' + content;
     
     await writeFile(filePath, markdown, 'utf-8');
-    console.log(`  ✓ Created: ${filename} (${domain.name})`);
+    console.log(`  ✓ Created: ${filename}`);
     createdCount++;
   }
   

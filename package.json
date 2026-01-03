@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "generate-pdfs": "node scripts/generate-pdfs.mjs",
-    "generate-domains": "node scripts/generate-domains-from-yaml.mjs"
+    "generate-domains": "node scripts/generate-domains-from-yaml.mjs",
+    "rename-domains": "node scripts/rename-domains-to-full-names.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
