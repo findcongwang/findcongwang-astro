@@ -48,7 +48,10 @@ const books = defineCollection({
 const domains = defineCollection({
   schema: ({ image }) =>
     baseContentSchema({ image }).extend({
-      parentDomains: z.array(z.string()).optional(), // Array of parent domain slugs
+      id: z.string(), // Unique identifier (PascalCase)
+      code: z.string().optional(), // 3-5 char uppercase course-style code
+      alias: z.array(z.string()).optional(), // Optional list of alternative names
+      parents: z.array(z.string()).optional(), // Array of parent domain IDs
     }),
 });
 

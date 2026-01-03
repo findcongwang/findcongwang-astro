@@ -5,16 +5,36 @@ import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import WorksEntries from "@/components/works/WorksEntries.astro";
 import { getCollection } from "astro:content";
-const allDomains = (await getCollection("domains")).sort((a, b) => 
-  a.data.title.localeCompare(b.data.title)
-);
+import { getDomainDepth } from "@/utils/domains";
 
-const topLevelDomains = allDomains.filter(
-  (domain) => !domain.data.parentDomains || domain.data.parentDomains.length === 0
-);
-const subdomains = allDomains.filter(
-  (domain) => domain.data.parentDomains && domain.data.parentDomains.length > 0
-);
+const allDomains = await getCollection("domains");
+
+// Calculate depth for each domain and group by depth
+const domainsWithDepth = allDomains.map(domain => ({
+  domain,
+  depth: getDomainDepth(domain.slug, allDomains)
+}));
+
+// Group by depth
+const domainsByDepth: Record<number, typeof allDomains> = {};
+domainsWithDepth.forEach(({ domain, depth }) => {
+  if (!domainsByDepth[depth]) {
+    domainsByDepth[depth] = [];
+  }
+  domainsByDepth[depth].push(domain);
+});
+
+// Sort domains within each depth group alphabetically
+Object.keys(domainsByDepth).forEach(depth => {
+  domainsByDepth[Number(depth)].sort((a, b) => 
+    a.data.title.localeCompare(b.data.title)
+  );
+});
+
+// Get sorted depth levels
+const depthLevels = Object.keys(domainsByDepth)
+  .map(Number)
+  .sort((a, b) => a - b);
 ---
 
 <BaseLayout>
@@ -30,28 +50,28 @@ const subdomains = allDomains.filter(
         Domains are how I organize my thinking, these notes are atlas-level overviews. Sometimes, a topic crosses multiple domains at different levels of abstraction. I do my best to avoid cyclic dependencies.
       </Text>
 
-      {topLevelDomains.length > 0 && (
-        <div class="mt-8">
-          <div
-            class="pt-2 flex flex-col gap-4"
-          >
-            {topLevelDomains.map((post) => <WorksEntries post={post} basePath="/domains/" />)}
+      {depthLevels.map((depth) => {
+        const domainsAtDepth = domainsByDepth[depth];
+        if (!domainsAtDepth || domainsAtDepth.length === 0) return null;
+        
+        return (
+          <div class={depth === 0 ? "mt-8" : "mt-12"}>
+            {depth > 0 && (
+              <Text tag="h2" variant="textBase" class="text-primary mb-4">
+                Level {depth}
+              </Text>
+            )}
+            <div
+              class={depth === 0 
+                ? "pt-2 flex flex-col gap-4"
+                : "border-t border-dotted border-primary/10 pt-2 flex flex-col gap-4"
+              }
+            >
+              {domainsAtDepth.map((post) => <WorksEntries post={post} basePath="/domains/" />)}
+            </div>
           </div>
-        </div>
-      )}
-
-      {subdomains.length > 0 && (
-        <div class="mt-12">
-          <Text tag="h2" variant="textBase" class="text-primary mb-4">
-            Subdomains
-          </Text>
-          <div
-            class="border-t border-dotted border-primary/10 pt-2 flex flex-col gap-4"
-          >
-            {subdomains.map((post) => <WorksEntries post={post} basePath="/domains/" />)}
-          </div>
-        </div>
-      )}
+        );
+      })}
     </Wrapper>
   </section>
 </BaseLayout>

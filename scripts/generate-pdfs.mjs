@@ -8,7 +8,7 @@
 
 import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { join, dirname, basename } from 'path';
+import { join, dirname, basename, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
@@ -27,6 +27,114 @@ marked.setOptions({
   gfm: true,
   breaks: true,
 });
+
+/**
+ * Convert image to base64 data URL
+ */
+async function imageToBase64(imagePath) {
+  try {
+    const imageBuffer = await readFile(imagePath);
+    const ext = imagePath.split('.').pop().toLowerCase();
+    const mimeTypes = {
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml'
+    };
+    const mimeType = mimeTypes[ext] || 'image/png';
+    const base64 = imageBuffer.toString('base64');
+    return `data:${mimeType};base64,${base64}`;
+  } catch (error) {
+    console.error(`  ⚠ Error reading image ${imagePath}: ${error.message}`);
+    return null;
+  }
+}
+
+/**
+ * Process image paths in HTML and convert to base64
+ */
+async function processImages(html, entryPath) {
+  // Match img tags with src attributes
+  const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+  const matches = [...html.matchAll(imgRegex)];
+  
+  for (const match of matches) {
+    const fullMatch = match[0];
+    const srcPath = match[1];
+    
+    // Skip if already a data URL
+    if (srcPath.startsWith('data:')) continue;
+    
+    // Resolve image path
+    let imagePath;
+    if (srcPath.startsWith('/')) {
+      // Absolute path from root
+      imagePath = resolve(rootDir, srcPath.substring(1));
+    } else if (srcPath.startsWith('./') || srcPath.startsWith('../')) {
+      // Relative path
+      imagePath = resolve(dirname(entryPath), srcPath);
+    } else {
+      // Try relative to src/images
+      imagePath = resolve(rootDir, 'src', 'images', srcPath);
+    }
+    
+    // Also try with /src/images prefix removed if path starts with it
+    if (!existsSync(imagePath) && srcPath.includes('/src/images/')) {
+      const cleanPath = srcPath.replace(/^\/src\/images\//, '');
+      imagePath = resolve(rootDir, 'src', 'images', cleanPath);
+    }
+    
+    if (existsSync(imagePath)) {
+      const base64 = await imageToBase64(imagePath);
+      if (base64) {
+        html = html.replace(fullMatch, fullMatch.replace(srcPath, base64));
+      }
+    } else {
+      console.error(`  ⚠ Image not found: ${imagePath} (from ${srcPath})`);
+    }
+  }
+  
+  // Also handle markdown image syntax ![alt](src)
+  const mdImgRegex = /!\[([^\]]*)\]\(([^)]+)\)/gi;
+  const mdMatches = [...html.matchAll(mdImgRegex)];
+  
+  for (const match of mdMatches) {
+    const fullMatch = match[0];
+    const alt = match[1];
+    const srcPath = match[2];
+    
+    // Skip if already a data URL
+    if (srcPath.startsWith('data:')) continue;
+    
+    // Resolve image path
+    let imagePath;
+    if (srcPath.startsWith('/')) {
+      imagePath = resolve(rootDir, srcPath.substring(1));
+    } else if (srcPath.startsWith('./') || srcPath.startsWith('../')) {
+      imagePath = resolve(dirname(entryPath), srcPath);
+    } else {
+      imagePath = resolve(rootDir, 'src', 'images', srcPath);
+    }
+    
+    if (!existsSync(imagePath) && srcPath.includes('/src/images/')) {
+      const cleanPath = srcPath.replace(/^\/src\/images\//, '');
+      imagePath = resolve(rootDir, 'src', 'images', cleanPath);
+    }
+    
+    if (existsSync(imagePath)) {
+      const base64 = await imageToBase64(imagePath);
+      if (base64) {
+        html = html.replace(fullMatch, `<img src="${base64}" alt="${alt}" style="max-width: 100%; height: auto;" />`);
+      }
+    } else {
+      console.error(`  ⚠ Image not found: ${imagePath} (from ${srcPath})`);
+    }
+  }
+  
+  return html;
+}
 
 /**
  * Format entry metadata as HTML
@@ -103,7 +211,8 @@ async function readMarkdownFiles(dir, basePath = '') {
         entries.push({
           slug,
           frontmatter,
-          body
+          body,
+          filePath: fullPath
         });
       } catch (error) {
         console.error(`  ⚠ Error reading ${fullPath}: ${error.message}`);
@@ -143,56 +252,85 @@ async function generateCollectionHTML(collectionName, entries) {
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
+      font-size: 10px;
+      line-height: 1.4;
       max-width: 800px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 10px;
       color: #333;
     }
     h1 {
-      border-bottom: 3px solid #333;
-      padding-bottom: 10px;
-      margin-bottom: 30px;
+      font-size: 16px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
     }
     h2 {
+      font-size: 14px;
       color: #2c3e50;
-      margin-top: 40px;
-      margin-bottom: 15px;
-      border-top: 2px solid #eee;
-      padding-top: 20px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
     }
     h3 {
+      font-size: 12px;
       color: #34495e;
-      margin-top: 25px;
-      margin-bottom: 10px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    h4 {
+      font-size: 11px;
+      margin-top: 15px;
+      margin-bottom: 6px;
+    }
+    p {
+      font-size: 10px;
+      margin-bottom: 8px;
     }
     .entry {
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       page-break-inside: avoid;
     }
     .metadata {
       background: #f8f9fa;
-      padding: 15px;
-      border-radius: 5px;
-      margin-bottom: 20px;
+      padding: 8px;
+      border-radius: 3px;
+      margin-bottom: 12px;
+      font-size: 9px;
+    }
+    .metadata p {
+      margin-bottom: 4px;
     }
     .content {
-      margin-top: 20px;
+      margin-top: 12px;
+      font-size: 10px;
     }
     code {
+      font-size: 9px;
       background: #f4f4f4;
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 1px 4px;
+      border-radius: 2px;
       font-family: 'Courier New', monospace;
     }
     pre {
+      font-size: 9px;
       background: #f4f4f4;
-      padding: 15px;
-      border-radius: 5px;
+      padding: 8px;
+      border-radius: 3px;
       overflow-x: auto;
     }
     ul, ol {
-      margin-left: 20px;
+      margin-left: 15px;
+      font-size: 10px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 8px 0;
     }
     a {
       color: #0066cc;
@@ -229,7 +367,13 @@ async function generateCollectionHTML(collectionName, entries) {
     html += `    <div class="content">\n`;
     
     // Convert markdown body to HTML
-    const bodyHTML = await marked.parse(entry.body);
+    let bodyHTML = await marked.parse(entry.body);
+    
+    // Process images in the content
+    // Use the stored file path or construct it
+    const entryFilePath = entry.filePath || join(contentDir, collectionName, `${entry.slug}.md`);
+    bodyHTML = await processImages(bodyHTML, entryFilePath);
+    
     html += bodyHTML;
     
     html += `    </div>\n`;
@@ -260,10 +404,10 @@ async function generatePDF(html, outputPath) {
       path: outputPath,
       format: 'A4',
       margin: {
-        top: '20mm',
-        right: '15mm',
-        bottom: '20mm',
-        left: '15mm'
+        top: '8mm',
+        right: '8mm',
+        bottom: '8mm',
+        left: '8mm'
       },
       printBackground: true
     });

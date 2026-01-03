@@ -89,11 +89,10 @@
   tags: ["#RegenerativeDesign", "#Regeneration"]
   parents: [SDEV, DFS]
 
-- id: PermacultureHomesteading
+- id: PERM
   name: Permaculture and Homesteading
-  code: PERM
   tags: ["#Permaculture", "#Homesteading"]
-  parents: [SustainableDevelopment]
+  parents: [SDEV]
 
 - id: ARCH
   name: Architecture

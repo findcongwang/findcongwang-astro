@@ -1,22 +1,32 @@
 ---
 import { getCollection } from 'astro:content';
 import ProjectsLayout from '../../layouts/ProjectsLayout.astro';
+import { getDomainAncestryPath } from '@/utils/domains';
+
 export async function getStaticPaths() {
   const domains = await getCollection('domains');
-  const paths = domains.map(page => {
+  const allDomains = await getCollection('domains');
+  
+  const paths = await Promise.all(domains.map(async (page) => {
+    // Calculate ancestry path for this domain
+    const ancestryPath = await getDomainAncestryPath(page.slug, allDomains);
+    
     return {
       params: { slug: page.slug },
-      props: { page },
-
+      props: { 
+        page,
+        ancestryPath
+      },
       trailingSlash: false,
     };
-  });
+  }));
   return paths;
 }
-const { page } = Astro.props;
+
+const { page, ancestryPath } = Astro.props;
 const { Content } = await page.render();
 ---
-<ProjectsLayout frontmatter={page.data}>
+<ProjectsLayout frontmatter={page.data} ancestryPath={ancestryPath}>
   <Content />
 </ProjectsLayout>
 

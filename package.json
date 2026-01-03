@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-pdfs": "node scripts/generate-pdfs.mjs"
+    "generate-pdfs": "node scripts/generate-pdfs.mjs",
+    "generate-domains": "node scripts/generate-domains-from-yaml.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.1",
     "marked": "^12.0.0",
     "puppeteer": "^23.0.0"
   }

@@ -8,7 +8,8 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import { getCollection } from "astro:content";
 import { getDomainLineages } from "@/utils/domains";
 
-const { frontmatter } = Astro.props;
+const { frontmatter, ancestryPath } = Astro.props;
+const hasAncestryPath = ancestryPath && ancestryPath.trim().length > 0;
 const pubDate = new Date(frontmatter.pubDate);
 const isFuture = pubDate > new Date();
 const showWebsite = frontmatter.link && frontmatter.link !== "#";
@@ -32,7 +33,7 @@ const domainLineages = frontmatter.domains
         />
         <div>
           <Text tag="h1" variant="textBase" class="text-primary">
-            {frontmatter.title}
+            {frontmatter.title} {frontmatter.id && <span class="ml-2 text-primary/50">({frontmatter.id})</span>}
           </Text>
 
           <Text
@@ -98,6 +99,21 @@ const domainLineages = frontmatter.domains
             <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
             <Text tag="p" variant="textXS" class="text-primary/60">
               {frontmatter.tags.join(", ")}
+            </Text>
+          </div>
+        )}
+        {hasAncestryPath && (
+          <div class="flex items-baseline lg:justify-between">
+            <Text
+              tag="p"
+              variant="textSM"
+              class="font-medium capitalize text-primary text-balance"
+            >
+              Path
+            </Text>
+            <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
+            <Text tag="p" variant="textXS" class="text-primary/60">
+              {ancestryPath}
             </Text>
           </div>
         )}

@@ -29,7 +29,7 @@ const { url, title, description, image } = {
 
   <div>
     <Text tag="h3" variant="textSM" class="text-primary">
-      {title} {showPubDate && <span class="ml-2 text-primary/50">({new Date(Astro.props.post.data.pubDate).getFullYear()})</span>}
+      {title} {Astro.props.post.data.id && <span class="ml-2 text-primary/50">({Astro.props.post.data.id})</span>} {showPubDate && <span class="ml-2 text-primary/50">({new Date(Astro.props.post.data.pubDate).getFullYear()})</span>}
     </Text>
     <Text
       tag="p"

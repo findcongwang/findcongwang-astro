@@ -57,7 +57,19 @@
             "type": "string"
           }
         },
-        "parentDomains": {
+        "id": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "parents": {
           "type": "array",
           "items": {
             "type": "string"
@@ -71,7 +83,8 @@
         "pubDate",
         "title",
         "description",
-        "image"
+        "image",
+        "id"
       ],
       "additionalProperties": false
     }
