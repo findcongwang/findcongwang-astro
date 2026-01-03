@@ -1,0 +1,291 @@
+# Schema Definition
+# - id: Unique identifier (PascalCase)
+#   name: Display Name
+#   code: 3-5 char uppercase course-style code
+#   alias: [Optional list of alternative names]
+#   tags: [Social media friendly hashtags]
+#   parents: [List of Parent IDs. Root domains have an empty list]
+
+# --- ROOT DOMAINS ---
+- id: BET
+  name: Business, Entrepreneurship, Technology
+  tags: ["#Business", "#Tech", "#Entrepreneurship"]
+  parents: []
+
+- id: SDEV
+  name: Sustainable Development
+  tags: ["#Sustainability", "#SustainableDevelopment", "#Impact"]
+  parents: []
+
+- id: HFL
+  name: Health, Fitness, and Longevity Studies
+  tags: ["#Longevity", "#Health", "#Fitness"]
+  parents: []
+
+- id: LKM
+  name: Learning Science, Knowledge Management
+  tags: ["#Learning", "#KnowledgeManagement", "#Education"]
+  parents: []
+
+- id: DFS
+  name: Design and Futures Studies
+  tags: ["#Design", "#Futures", "#Foresight"]
+  parents: []
+
+# --- LEVEL 1 & 2 DOMAINS ---
+
+- id: BusEcon
+  name: Business and Economics
+  tags: ["#Economics", "#BusinessStrategy"]
+  parents: [BET]
+
+- id: EngTech
+  name: Engineering and Technology
+  tags: ["#Engineering", "#Technology"]
+  parents: [BET]
+
+- id: ET
+  name: Emerging Technologies
+  tags: ["#EmergingTech", "#DeepTech"]
+  parents: [EngTech]
+
+- id: AI
+  name: Artificial Intelligence
+  tags: ["#AI", "#ArtificialIntelligence"]
+  parents: [EngTech]
+
+- id: AGI
+  name: Artificial General Intelligence
+  tags: ["#AGI", "#Superintelligence"]
+  parents: [AI, ET, LKM]
+
+- id: FORE
+  name: Futures Studies and Foresight
+  tags: ["#StrategicForesight", "#FuturesThinking"]
+  parents: [DFS]
+
+- id: ENT
+  name: Innovation and Entrepreneurship
+  tags: ["#Innovation", "#Startup", "#Entrepreneurship"]
+  parents: [BET]
+
+- id: BLKCHN
+  name: Blockchain
+  tags: ["#Blockchain", "#Web3"]
+  parents: [EngTech]
+
+- id: RENW
+  name: Renewable Energy
+  tags: ["#RenewableEnergy", "#CleanTech"]
+  parents: [SDEV]
+
+- id: SDL
+  name: Self-Determined Learning
+  tags: ["#Heutagogy", "#SelfDirectedLearning"]
+  parents: [LKM]
+
+- id: RegDes
+  name: Regenerative Design
+  tags: ["#RegenerativeDesign", "#Regeneration"]
+  parents: [SDEV, DFS]
+
+- id: PermacultureHomesteading
+  name: Permaculture and Homesteading
+  code: PERM
+  tags: ["#Permaculture", "#Homesteading"]
+  parents: [SustainableDevelopment]
+
+- id: ARCH
+  name: Architecture
+  tags: ["#Architecture", "#BuiltEnvironment"]
+  parents: [SDEV]
+
+- id: ENTED
+  name: Entrepreneurial Education
+  tags: ["#EntEd", "#FounderEducation"]
+  parents: [ENT, SDL]
+
+- id: PMKT
+  name: Product and Marketing
+  tags: ["#ProductManagement", "#Marketing"]
+  parents: [BusEcon]
+
+- id: DSTH
+  name: Design Thinking
+  tags: ["#DesignThinking", "#HCD"]
+  parents: [DFS]
+
+- id: FIN
+  name: Finance
+  tags: ["#Finance", "#Investing"]
+  parents: [BusEcon]
+
+- id: DEFI
+  name: Decentralized Finance
+  tags: ["#DeFi", "#Crypto"]
+  parents: [FIN, BLKCHN, ET]
+
+- id: SWE
+  name: Software Engineering
+  tags: ["#SoftwareEngineering", "#Coding"]
+  parents: [EngTech]
+
+- id: AIOps
+  name: AIOps, LLMOps, AgentOps
+  tags: ["#AgentOps", "#LLMOps", "#AIOps"]
+  parents: [SWE]
+
+- id: BioEng
+  name: Bioengineering
+  tags: ["#Bioengineering", "#Biotech"]
+  parents: [EngTech]
+
+- id: GeoEng
+  name: Geoengineering
+  tags: ["#Geoengineering", "#ClimateTech"]
+  parents: [EngTech]
+
+- id: GERO
+  name: Geroscience and Longevity
+  tags: ["#Geroscience", "#LongevityResearch"]
+  parents: [HFL]
+
+- id: NUTR
+  name: Nutrition
+  tags: ["#Nutrition", "#Diet"]
+  parents: [HFL]
+
+- id: MOVE
+  name: Mobility, Flexibility, Stability
+  tags: ["#Mobility", "#FunctionalMovement"]
+  parents: [HFL]
+
+- id: FinTech
+  name: Financial Technology
+  tags: ["#FinTech", "#FinancialInnovation"]
+  parents: [FIN, EngTech]
+
+- id: SAFS
+  name: Sustainable Agriculture and Food Systems
+  tags: ["#FoodSystems", "#FoodSecurity"]
+  parents: [SDEV]
+
+- id: PONICS
+  name: Aeroponics, Aquaponics, Hydroponics
+  tags: ["#Hydroponics", "#VerticalFarming", "#AgTech"]
+  parents: [EngTech, SAFS]
+
+- id: MAS
+  name: Multi-Agent Systems
+  tags: ["#MultiAgentSystems", "#SwarmIntelligence"]
+  parents: [AI, AIOps]
+
+- id: PROMPT
+  name: Prompt Engineering & Context Design
+  tags: ["#PromptEngineering", "#ContextDesign"]
+  parents: [AI, LKM]
+
+- id: RAG
+  name: Retrieval Augmented Generation
+  tags: ["#RAG", "#KnowledgeRetrieval"]
+  parents: [AI, LKM]
+
+- id: AIAgents
+  name: Autonomous Agents
+  tags: ["#AutonomousAgents", "#AIAgents"]
+  parents: [AGI, AIOps]
+
+- id: HCI
+  name: Human-Computer Interaction
+  tags: ["#HCI", "#UX"]
+  parents: [DFS, EngTech]
+
+- id: SPEC
+  name: Speculative Design
+  tags: ["#SpeculativeDesign", "#DesignFiction"]
+  parents: [DSTH, FORE]
+
+- id: VenStudio
+  name: Venture Studio
+  tags: ["#VentureStudio", "#VentureBuilding"]
+  parents: [ENT, PMKT]
+
+- id: CLA
+  name: Causal Layered Analysis
+  tags: ["#CausalLayeredAnalysis", "#SystemsThinking"]
+  parents: [FORE]
+
+- id: SIGSCAN
+  name: Signal Scanning
+  tags: ["#SignalScanning", "#WeakSignals", "#TrendSpotting"]
+  parents: [FORE, LKM]
+
+- id: HORM
+  name: Hormesis & Stress Adaptation
+  tags: ["#Hormesis", "#Biohacking", "#StressAdaptation"]
+  parents: [GERO]
+
+- id: QS
+  name: Biometrics & Quantified Self
+  tags: ["#QuantifiedSelf", "#Biometrics", "#Wearables"]
+  parents: [HFL, EngTech]
+
+- id: METPSY
+  name: Metabolic Psychiatry
+  tags: ["#MetabolicPsychiatry", "#MentalHealth"]
+  parents: [NUTR, HFL]
+
+- id: AGRO
+  name: Agroforestry
+  tags: ["#Agroforestry", "#RegenerativeAg"]
+  parents: [PERM, SAFS]
+
+- id: CircEco
+  name: Circular Economy
+  tags: ["#CircularEconomy", "#ZeroWaste"]
+  parents: [BET, SDEV]
+
+- id: SOIL
+  name: Soil Science
+  tags: ["#SoilScience", "#LivingSoil"]
+  parents: [PERM, BioEng]
+
+- id: NETZERO
+  name: Net Zero / Green Building
+  tags: ["#PassiveHouse", "#NetZero", "#GreenBuilding"]
+  parents: [ARCH, EngTech]
+
+- id: PKM
+  name: Personal Knowledge Management
+  tags: ["#PKM", "#SecondBrain", "#Obsidian"]
+  parents: [LKM, EngTech]
+
+- id: InsDES
+  name: Instructional Design
+  tags: ["#InstructionalDesign", "#LearningDesign"]
+  parents: [LKM, DFS]
+
+- id: COMM
+  name: Communication, Writing, Public Speaking
+  tags: ["#Communication", "#PublicSpeaking", "#Writing", "#ThoughtLeadership"]
+  parents: [LKM, PMKT]
+
+- id: BPSY
+  name: Behavioural Psychology
+  tags: ["#BehavioralPsychology", "#Psychology", "#BehaviorDesign"]
+  parents: [HFL, LKM]
+
+- id: PACE
+  name: Pace Layers Thinking
+  tags: ["#PaceLayers", "#SystemsTheory"]
+  parents: [FORE, DFS]
+
+- id: FORESIGHTTOOLS
+  name: Foresight Tools
+  tags: ["#ForesightTools", "#FuturesMethods"]
+  parents: [FORE]
+
+- id: AGING
+  name: Aging Pathways
+  tags: ["#AgingPathways", "#HallmarksOfAging"]
+  parents: [GERO]
