@@ -19,6 +19,7 @@ const { Content } = await entry.render();
   frontmatter={entry.data}
   collection="posts"
   backHref="/posts"
+  body={entry.body}
 >
   <Content />
 </ContentLayout>

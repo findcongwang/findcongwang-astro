@@ -10,14 +10,35 @@ import {
   type ContentCollectionId,
 } from "@/utils/content";
 
-const { frontmatter, collection, backHref } = Astro.props;
-const title = "title" in frontmatter ? frontmatter.title : "";
-const description = "description" in frontmatter ? frontmatter.description : "";
+interface Props {
+  frontmatter: Record<string, unknown>;
+  collection: ContentCollectionId;
+  backHref?: string;
+  body?: string;
+}
+const { frontmatter, collection, backHref, body } = Astro.props as Props;
+
+const title = "title" in frontmatter ? (frontmatter.title as string) : "";
+const description = "description" in frontmatter ? (frontmatter.description as string) : "";
 const publishDate =
   "publish_date" in frontmatter && frontmatter.publish_date
-    ? new Date(frontmatter.publish_date)
+    ? new Date(frontmatter.publish_date as string | number | Date)
     : null;
-const tags = "tags" in frontmatter ? (frontmatter.tags ?? []) : [];
+const tags = "tags" in frontmatter ? ((frontmatter.tags as string[]) ?? []) : [];
+
+// Naive word count from markdown body for reading time (≈200 wpm)
+const wordCount =
+  typeof body === "string"
+    ? body
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+        .replace(/[#*_~`<>]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean).length
+    : 0;
+const readMinutes = wordCount > 0 ? Math.max(1, Math.round(wordCount / 200)) : 0;
+/** Tag links always go to Browse with that tag filtered */
+const tagBasePath = "/browse";
 
 const contentCollections: ContentCollectionId[] = [
   "posts",
@@ -56,8 +77,8 @@ const related = relatedWithCollection.slice(0, 3);
           Back
         </a>
       )}
-      <div class="mt-12 grid gap-4 lg:gap-8 grid-cols-1 lg:grid-cols-3 lg:items-start">
-        <div class="text-balance lg:col-span-2">
+      <div class="mt-12 flex flex-col gap-4">
+        <div class="text-balance">
           <Text tag="h1" variant="textBase" class="text-primary">
             {title}
           </Text>
@@ -70,36 +91,50 @@ const related = relatedWithCollection.slice(0, 3);
               {description}
             </Text>
           )}
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs text-primary/60 ">
+            {publishDate && (
+              <time datetime={publishDate.toISOString().slice(0, 10)}>
+                {publishDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "2-digit",
+                  timeZone: "UTC",
+                })}
+              </time>
+            )}
+            {readMinutes > 0 && (
+              <>
+                {(publishDate ?? tags.length > 0) && <span aria-hidden="true">·</span>}
+                <span>{readMinutes} min read</span>
+              </>
+            )}
+            {tags.length > 0 && (
+              <>
+                {publishDate && <span aria-hidden="true">·</span>}
+                <span class="flex flex-wrap items-center gap-x-1.5 gap-y-0">
+                  {tags.map((tag) => (
+                    <a
+                      href={`${tagBasePath}?tags=${encodeURIComponent(tag)}`}
+                      class="hover:text-primary underline underline-offset-2"
+                    >
+                      {tag}
+                    </a>
+                  ))}
+                </span>
+              </>
+            )}
+          </div>
+          <div class="border-b border-dotted border-primary/10">
+            <br>
+          </div>
           <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 prose-a:text-black prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full">
             <slot />
           </div>
         </div>
 
-        <div class="lg:sticky lg:top-24">
-          <div class="space-y-4">
-            {publishDate && (
-              <div>
-                <Text tag="p" variant="textXS" class="text-primary/60">
-                  <time datetime={publishDate.toISOString()}>
-                    {publishDate.toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "2-digit",
-                    })}
-                  </time>
-                </Text>
-              </div>
-            )}
-            {tags.length > 0 && (
-              <div>
-                <Text tag="p" variant="textXS" class="text-primary/60">
-                  Tags: {tags.join(", ")}
-                </Text>
-              </div>
-            )}
-            <div class="relative flex flex-wrap pt-2 mt-2 border-t border-dotted border-primary/10 gap-2">
-              <ShareButtons description={description} />
-            </div>
+        <div class="mt-8 pt-6 border-t border-dotted border-primary/10">
+          <div class="relative flex flex-wrap gap-2">
+            <ShareButtons description={description} />
           </div>
         </div>
       </div>

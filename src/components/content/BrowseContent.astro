@@ -1,0 +1,393 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import ContentEntry from "@/components/content/ContentEntry.astro";
+import {
+  entryHref,
+  COLLECTION_LABELS,
+  CONTENT_COLLECTIONS,
+  type ContentCollectionId,
+} from "@/utils/content";
+
+interface IndexEntry {
+  slug: string;
+  collection: ContentCollectionId;
+  title: string;
+  description: string;
+  tags: string[];
+  publishDate: string | null;
+  id?: string;
+}
+
+const { entries, title, description, initialTags = [] } = Astro.props;
+const allTags = [...new Set(entries.flatMap((e) => e.tags))].sort();
+const serialized = JSON.stringify(
+  entries.map((e) => ({
+    slug: e.slug,
+    collection: e.collection,
+    title: e.title,
+    description: e.description,
+    tags: e.tags,
+    publishDate: e.publishDate,
+    id: e.id,
+  }))
+);
+const tagsJson = JSON.stringify(allTags);
+const collectionIdsJson = JSON.stringify(CONTENT_COLLECTIONS);
+const collectionLabelsJson = JSON.stringify(COLLECTION_LABELS);
+const initialTagsJson = JSON.stringify(initialTags);
+---
+
+<div
+  class="browse-content grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,12rem)] gap-8"
+  data-initial-tags={initialTagsJson}
+>
+  <aside class="browse-sidebar order-2 lg:order-2" aria-label="Filter by tags">
+    <Text tag="h2" variant="textSM" class="font-medium text-primary mb-2">
+      Tags
+    </Text>
+    <div
+      id="browse-active-tags"
+      class="flex flex-wrap gap-1.5 mb-3 min-h-[1.5rem]"
+      role="list"
+      aria-label="Active tag filters"
+    >
+      <!-- Pills injected by script -->
+    </div>
+    <div
+      id="browse-tag-list"
+      class="flex flex-col gap-0.5 max-h-[50vh] overflow-y-auto scrollbar-hide"
+      role="list"
+    >
+      {allTags.map((tag) => (
+        <button
+          type="button"
+          class="browse-tag-btn text-left text-xs text-primary/70 hover:text-accent cursor-pointer py-0.5 px-1 -mx-1 rounded truncate"
+          data-tag={tag}
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+  </aside>
+
+  <div class="browse-main order-1 lg:order-1 min-w-0">
+    {title && (
+      <Text tag="h1" variant="textBase" class="text-primary">
+        {title}
+      </Text>
+    )}
+    {description && (
+      <Text
+        tag="p"
+        variant="textBase"
+        class="font-serif text-primary/60 text-balance mt-2"
+      >
+        {description}
+      </Text>
+    )}
+
+    <div class="mt-3 flex flex-wrap items-center gap-3" role="group" aria-label="Include in list">
+      {CONTENT_COLLECTIONS.map((id) => (
+        <label class="inline-flex items-center gap-1.5 text-sm text-primary/80 cursor-pointer">
+          <input
+            type="checkbox"
+            class="browse-collection-checkbox rounded border-primary/30 text-accent focus:ring-accent"
+            data-collection-id={id}
+            checked
+          />
+          <span>{COLLECTION_LABELS[id]}</span>
+        </label>
+      ))}
+    </div>
+
+    <div class="mt-4 relative">
+      <input
+        type="search"
+        id="browse-search"
+        placeholder="Search or add tag filter…"
+        class="w-full rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent"
+        aria-label="Search"
+        aria-autocomplete="list"
+        aria-controls="browse-search-suggestions"
+        aria-expanded="false"
+      />
+      <ul
+        id="browse-search-suggestions"
+        class="absolute top-full left-0 right-0 mt-1 py-1 bg-secondary border border-primary/20 rounded shadow-lg z-10 hidden max-h-60 overflow-y-auto"
+        role="listbox"
+        aria-label="Search and tag suggestions"
+      >
+        <!-- Injected by script -->
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      <select
+        id="browse-sort"
+        class="min-w-[10.5rem] rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+        aria-label="Sort by"
+      >
+        <option value="date-desc">Newest first</option>
+        <option value="date-asc">Oldest first</option>
+        <option value="name">Name / title</option>
+      </select>
+    </div>
+
+    <div
+      id="browse-list"
+      class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10"
+    >
+      {entries.map((e) => (
+        <div
+          class="browse-item"
+          data-slug={e.slug}
+          data-collection={e.collection}
+          data-title={e.title.toLowerCase()}
+          data-description={e.description.toLowerCase()}
+          data-tags={e.tags.join(",")}
+          data-publish-date={e.publishDate ?? ""}
+        >
+          <ContentEntry
+            entry={{
+              slug: e.slug,
+              data: {
+                title: e.title,
+                description: e.description,
+                publish_date: e.publishDate,
+                id: e.id,
+              },
+            }}
+            href={entryHref(e.collection, e.slug)}
+          />
+        </div>
+      ))}
+    </div>
+
+    <p id="browse-no-results" class="hidden mt-4 text-sm text-primary/60">
+      No matching entries.
+    </p>
+  </div>
+</div>
+
+<script define:vars={{ entriesJson: serialized, tagsJson, collectionIdsJson, collectionLabelsJson, initialTagsJson }}>
+  (function () {
+    const list = document.getElementById("browse-list");
+    const noResults = document.getElementById("browse-no-results");
+    const searchInput = document.getElementById("browse-search");
+    const sortSelect = document.getElementById("browse-sort");
+    const suggestionsList = document.getElementById("browse-search-suggestions");
+    const activeTagsContainer = document.getElementById("browse-active-tags");
+    const tagListContainer = document.getElementById("browse-tag-list");
+
+    const entries = JSON.parse(entriesJson);
+    const allTags = JSON.parse(tagsJson);
+    const collectionIds = JSON.parse(collectionIdsJson);
+    // Prefer URL params on load so links like /browse?tags=Strategic+Foresight apply the filter
+    let selectedTags = (() => {
+      const p = new URLSearchParams(window.location.search);
+      const fromUrl = p.getAll("tags").filter(Boolean);
+      return fromUrl.length > 0 ? fromUrl : JSON.parse(initialTagsJson);
+    })();
+
+    function getTitle(entry) {
+      return entry.title || "";
+    }
+    function getPublishTime(entry) {
+      const d = entry.publishDate;
+      return d ? new Date(d).getTime() : 0;
+    }
+
+    function getSelectedCollections() {
+      const checkboxes = document.querySelectorAll(".browse-collection-checkbox:checked");
+      return new Set([...checkboxes].map((cb) => cb.getAttribute("data-collection-id")));
+    }
+
+    function updateUrl() {
+      const params = new URLSearchParams(window.location.search);
+      params.delete("tags");
+      selectedTags.forEach((t) => params.append("tags", t));
+      const qs = params.toString();
+      const url = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+      window.history.replaceState({}, "", url);
+    }
+
+    function renderActivePills() {
+      if (!activeTagsContainer) return;
+      activeTagsContainer.innerHTML = selectedTags
+        .map(
+          (tag) =>
+            `<span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary" role="listitem">
+              ${escapeHtml(tag)}
+              <button type="button" class="browse-remove-tag -mr-0.5 rounded-full p-0.5 hover:bg-primary/20" data-tag="${escapeAttr(tag)}" aria-label="Remove ${escapeAttr(tag)}">×</button>
+            </span>`
+        )
+        .join("");
+      activeTagsContainer.querySelectorAll(".browse-remove-tag").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const t = btn.getAttribute("data-tag");
+          if (t) {
+            selectedTags = selectedTags.filter((x) => x !== t);
+            updateUrl();
+            renderActivePills();
+            apply();
+          }
+        });
+      });
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement("div");
+      div.textContent = s;
+      return div.innerHTML;
+    }
+    function escapeAttr(s) {
+      return escapeHtml(s).replace(/"/g, "&quot;");
+    }
+
+    function showSuggestions(query) {
+      if (!suggestionsList || !searchInput) return;
+      const q = (query || "").toLowerCase().trim();
+      suggestionsList.innerHTML = "";
+      suggestionsList.classList.add("hidden");
+      searchInput.setAttribute("aria-expanded", "false");
+      if (q.length < 1) return;
+
+      const searchItem = document.createElement("li");
+      searchItem.setAttribute("role", "option");
+      searchItem.className = "px-3 py-1.5 text-sm text-primary cursor-pointer hover:bg-primary/10";
+      searchItem.textContent = `search: "${q}"`;
+      searchItem.dataset.action = "search";
+      searchItem.dataset.value = q;
+      searchItem.addEventListener("click", () => {
+        searchInput.value = q;
+        suggestionsList.classList.add("hidden");
+        searchInput.setAttribute("aria-expanded", "false");
+        apply();
+      });
+      suggestionsList.appendChild(searchItem);
+
+      const matchingTags = allTags.filter((tag) => tag.toLowerCase().includes(q));
+      matchingTags.slice(0, 8).forEach((tag) => {
+        const li = document.createElement("li");
+        li.setAttribute("role", "option");
+        li.className = "px-3 py-1.5 text-sm text-primary cursor-pointer hover:bg-primary/10";
+        li.textContent = `tag: "${tag}"`;
+        li.dataset.action = "tag";
+        li.dataset.value = tag;
+        li.addEventListener("click", () => {
+          if (!selectedTags.includes(tag)) {
+            selectedTags = [...selectedTags, tag].sort();
+            updateUrl();
+            renderActivePills();
+          }
+          searchInput.value = "";
+          suggestionsList.classList.add("hidden");
+          searchInput.setAttribute("aria-expanded", "false");
+          apply();
+        });
+        suggestionsList.appendChild(li);
+      });
+
+      if (suggestionsList.children.length > 0) {
+        suggestionsList.classList.remove("hidden");
+        searchInput.setAttribute("aria-expanded", "true");
+      }
+    }
+
+    function apply() {
+      const query = (searchInput?.value ?? "").toLowerCase().trim();
+      const sort = sortSelect?.value ?? "date-desc";
+      const selectedCollections = getSelectedCollections();
+
+      const items = list?.querySelectorAll(".browse-item") ?? [];
+      let visible = 0;
+
+      const sortedEntries = [...entries].sort((a, b) => {
+        if (sort === "name") return getTitle(a).localeCompare(getTitle(b));
+        const ta = getPublishTime(a);
+        const tb = getPublishTime(b);
+        if (sort === "date-asc") return ta - tb;
+        return tb - ta;
+      });
+
+      const orderMap = new Map(
+        sortedEntries.map((e, i) => [`${e.collection}/${e.slug}`, i])
+      );
+
+      [...items].forEach((el) => {
+        const slug = el.getAttribute("data-slug");
+        const collection = el.getAttribute("data-collection");
+        const key = `${collection}/${slug}`;
+        const title = (el.getAttribute("data-title") ?? "").toLowerCase();
+        const description = (el.getAttribute("data-description") ?? "").toLowerCase();
+        const tags = (el.getAttribute("data-tags") ?? "").split(",").filter(Boolean);
+
+        const matchesCollection = selectedCollections.has(collection);
+        const matchesTags =
+          selectedTags.length === 0 ||
+          selectedTags.every((t) => tags.some((tag) => tag.trim().toLowerCase() === t.toLowerCase()));
+        const matchesSearch =
+          !query || title.includes(query) || description.includes(query);
+
+        const show = matchesCollection && matchesTags && matchesSearch;
+        el.classList.toggle("hidden", !show);
+        if (show) visible++;
+      });
+
+      if (sort !== "name") {
+        const container = list;
+        if (container) {
+          const childArray = [...container.querySelectorAll(".browse-item")];
+          childArray.sort((a, b) => {
+            const ka = `${a.getAttribute("data-collection")}/${a.getAttribute("data-slug")}`;
+            const kb = `${b.getAttribute("data-collection")}/${b.getAttribute("data-slug")}`;
+            return (orderMap.get(ka) ?? 0) - (orderMap.get(kb) ?? 0);
+          });
+          childArray.forEach((node) => container.appendChild(node));
+        }
+      }
+
+      if (noResults) noResults.classList.toggle("hidden", visible > 0);
+    }
+
+    searchInput?.addEventListener("input", () => {
+      showSuggestions(searchInput.value);
+      apply();
+    });
+    searchInput?.addEventListener("focus", () => {
+      if (searchInput.value.trim()) showSuggestions(searchInput.value);
+    });
+    searchInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        suggestionsList?.classList.add("hidden");
+        searchInput?.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (suggestionsList && !suggestionsList.contains(e.target) && e.target !== searchInput) {
+        suggestionsList.classList.add("hidden");
+        searchInput?.setAttribute("aria-expanded", "false");
+      }
+    });
+    sortSelect?.addEventListener("change", apply);
+
+    tagListContainer?.querySelectorAll(".browse-tag-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.getAttribute("data-tag");
+        if (tag && !selectedTags.includes(tag)) {
+          selectedTags = [...selectedTags, tag].sort();
+          updateUrl();
+          renderActivePills();
+          apply();
+        }
+      });
+    });
+
+    document.querySelectorAll(".browse-collection-checkbox").forEach((cb) => {
+      cb.addEventListener("change", apply);
+    });
+
+    renderActivePills();
+    apply();
+  })();
+</script>

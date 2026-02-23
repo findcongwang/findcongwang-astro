@@ -20,7 +20,7 @@ const publishDate =
     <span class="text-primary font-medium">
       {title}
       {showPubDate && publishDate && (
-        <span class="ml-2 text-primary/50">({publishDate.getFullYear()})</span>
+        <span class="ml-2 text-primary/50">({publishDate.getUTCFullYear()})</span>
       )}
     </span>
     {description && (

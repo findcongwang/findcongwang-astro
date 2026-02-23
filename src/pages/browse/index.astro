@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import ContentIndex from "@/components/content/ContentIndex.astro";
+import BrowseContent from "@/components/content/BrowseContent.astro";
 import {
   getAllListableEntries,
   unifiedToIndexEntries,
@@ -10,16 +10,17 @@ import {
 
 const unified = await getAllListableEntries();
 const entries = unifiedToIndexEntries(sortByPublishDate(unified));
+const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
 ---
 
 <BaseLayout>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <ContentIndex
+      <BrowseContent
         entries={entries}
         title="Browse"
-        description="Published entries from all collections. Use the checkboxes to include or exclude each collection in the list and search."
-        showCollectionFilters={true}
+        description="Published entries from all collections. Filter by tags (multi-select), search, and sort. Tag links open here with that tag pre-selected."
+        initialTags={initialTags}
       />
     </Wrapper>
   </section>
