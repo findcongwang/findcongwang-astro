@@ -1,20 +1,24 @@
 ---
 import { getCollection } from "astro:content";
-import InfluencesLayout from "@/layouts/InfluencesLayout.astro";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+
 export async function getStaticPaths() {
-  const influences = await getCollection("influences");
-  const paths = influences.map((page) => {
-    return {
-      params: { slug: page.slug },
-      props: { page },
-      trailingSlash: false,
-    };
-  });
-  return paths;
+  const entries = await getCollection("influences");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+    trailingSlash: false,
+  }));
 }
-const { page } = Astro.props;
-const { Content } = await page.render();
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
 ---
-<InfluencesLayout frontmatter={page.data}>
+
+<ContentLayout
+  frontmatter={entry.data}
+  collection="influences"
+  backHref="/influences"
+>
   <Content />
-</InfluencesLayout>
+</ContentLayout>

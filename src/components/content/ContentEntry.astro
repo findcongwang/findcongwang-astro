@@ -1,0 +1,32 @@
+---
+const { entry, href, showPubDate = true } = Astro.props;
+const { slug, data } = entry;
+const title = "title" in data ? data.title : "";
+const description = "description" in data ? data.description : "";
+const publishDate =
+  showPubDate && "publish_date" in data && data.publish_date
+    ? new Date(data.publish_date)
+    : null;
+---
+
+<div class="relative flex flex-col md:flex-row items-start gap-4">
+  <a
+    href={href}
+    aria-label={`View: ${title}`}
+    title={`View: ${title}`}
+    class="absolute inset-0 z-10"
+  />
+  <div>
+    <span class="text-primary font-medium">
+      {title}
+      {showPubDate && publishDate && (
+        <span class="ml-2 text-primary/50">({publishDate.getFullYear()})</span>
+      )}
+    </span>
+    {description && (
+      <p class="mt-1 font-serif text-primary/60 text-balance text-sm">
+        {description}
+      </p>
+    )}
+  </div>
+</div>

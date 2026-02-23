@@ -1,56 +1,22 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-
-import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import WorksEntries from "@/components/works/WorksEntries.astro";
-import { getCollection } from "astro:content";
-const allLexicon = (await getCollection("lexicon")).sort((a, b) => 
-  a.data.title.localeCompare(b.data.title)
-);
+import ContentIndex from "@/components/content/ContentIndex.astro";
+import { getListableEntries, toIndexEntries } from "@/utils/content";
 
-const completedLexicon = allLexicon.filter(
-  (item) => !item.data.description.toLowerCase().includes("page under construction")
-);
-const underConstructionLexicon = allLexicon.filter(
-  (item) => item.data.description.toLowerCase().includes("page under construction")
-);
+const listable = await getListableEntries("lexicon");
+const entries = toIndexEntries("lexicon", listable);
+const sorted = [...entries].sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <BaseLayout>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <Text tag="h1" variant="textBase" class="text-primary"> Lexicon </Text>
-
-      <Text
-        tag="p"
-        variant="textBase"
-        class="font-serif text-primary/60 text-balance"
-      >
-        A set of key terms, concepts, and distinctions that I use to think about the world.
-      </Text>
-
-      {completedLexicon.length > 0 && (
-        <div
-          class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
-        >
-          {completedLexicon.map((post) => <WorksEntries post={post} basePath="/lexicon/" />)}
-        </div>
-      )}
-
-      {underConstructionLexicon.length > 0 && (
-        <div class="mt-12">
-          <Text tag="h2" variant="textBase" class="text-primary mb-4">
-            Pages Under Construction
-          </Text>
-          <div
-            class="border-t border-dotted border-primary/10 pt-2 flex flex-col gap-4"
-          >
-            {underConstructionLexicon.map((post) => <WorksEntries post={post} basePath="/lexicon/" />)}
-          </div>
-        </div>
-      )}
+      <ContentIndex
+        entries={sorted}
+        title="Lexicon"
+        description="A set of key terms, concepts, and distinctions that I use to think about the world."
+      />
     </Wrapper>
   </section>
 </BaseLayout>
-

@@ -1,23 +1,8 @@
 ---
-// Fundations
 import Text from "@/components/fundations/elements/Text.astro";
-import Button from "@/components/fundations/elements/Button.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-// Icons
-import ChevronLeft from "@/components/fundations/icons/ChevronLeft.astro";
-import ChevronRight from "@/components/fundations/icons/ChevronRight.astro";
-// Components
-import CustomersEntry2 from "@/components/customers/CustomersEntry2.astro";
-// Content
-import { getCollection } from "astro:content";
-const allCustomers = await getCollection("customers");
-const allInfluences = await getCollection("influences");
-
-// Combine and filter: only include items with a quote/reflections property
-const allTestimonials = [
-  ...allCustomers.filter((item) => item.data.quote),
-  ...allInfluences.filter((item) => item.data.reflections && item.data.reflections.length > 0),
-];
+// Testimonials from content removed; add back via influence/projects + tag if needed
+const allTestimonials: { data: Record<string, unknown>; slug: string }[] = [];
 ---
 
 <section>
@@ -36,29 +21,10 @@ const allTestimonials = [
         startups.
       </Text>
     </div>
-
-    <div
-      class="w-full pt-2 mt-2 overflow-hidden border-t border-dotted border-primary/10"
-    >
-      <!-- Keen Slider -->
-      <div id="keen-slider" class="relative z-0 keen-slider w-max">
-        {allTestimonials.map((post) => <CustomersEntry2 post={post} />)}
+    {allTestimonials.length > 0 && (
+      <div class="w-full pt-2 mt-2 overflow-hidden border-t border-dotted border-primary/10">
+        <p class="text-sm text-primary/60">Testimonials can be re-added from content collections.</p>
       </div>
-    </div>
-    <div class="flex mt-2 gap-2 justify-end">
-      <button
-        aria-label="Previous slide"
-        id="keen-slider-previous"
-        class="text-xs text-primary hover:text-primary/60 focus:text-primary"
-        >Previous
-      </button>
-      <button
-        aria-label="Next slide"
-        id="keen-slider-next"
-        class="text-xs text-primary hover:text-primary/60 focus:text-primary"
-      >
-        Next
-      </button>
-    </div>
+    )}
   </Wrapper>
 </section>

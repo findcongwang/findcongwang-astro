@@ -1,79 +1,22 @@
 ---
-// Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-// Components
-import InfluencesEntry from "@/components/influences/InfluencesEntry.astro";
-// Content
-import { getCollection } from "astro:content";
-// Utils
-import { INFLUENCE_TYPES } from "@/utils/influences";
+import ContentIndex from "@/components/content/ContentIndex.astro";
+import { getListableEntries, toIndexEntries } from "@/utils/content";
 
-const allAuthors = (await getCollection("influences")).sort((a, b) => 
-  a.data.name.localeCompare(b.data.name)
-);
-
-const types = ["all", ...INFLUENCE_TYPES];
-
-const completedInfluences = allAuthors.filter(
-  (item) => !item.data.description?.toLowerCase().includes("page under construction")
-);
-const underConstructionInfluences = allAuthors.filter(
-  (item) => item.data.description?.toLowerCase().includes("page under construction")
-);
+const listable = await getListableEntries("influences");
+const entries = toIndexEntries("influences", listable);
+const sorted = [...entries].sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <BaseLayout>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <Text tag="h1" variant="textBase" class="text-primary">
-        Influences and Precedents
-      </Text>
-      <Text
-        tag="p"
-        variant="textBase"
-        class="font-serif text-primary/60 text-balance mt-2"
-      >
-        A list of people, books, patterns, and ideas that have influenced my work and thinking.
-      </Text>
-
-      <div
-        class="relative flex h-full mt-1 overflow-x-scroll gap-2 lg:gap-4 scrollable-content snap-x snap-proximity scrollbar-hide"
-      >
-        {
-          types.map((type) => (
-            <a
-              title={type}
-              aria-label={type}
-              href={type === "all" ? "/influences" : `/influences/types/${type}`}
-              class="text-xs capitalize text-primary/60 hover:text-accent "
-            >
-              {type}
-            </a>
-          ))
-        }
-      </div>
-      {completedInfluences.length > 0 && (
-        <div
-          class="border-t border-dotted border-primary/10 pt-2 mt-2 flex flex-col gap-4"
-        >
-          {completedInfluences.map((post) => <InfluencesEntry post={post} />)}
-        </div>
-      )}
-
-      {underConstructionInfluences.length > 0 && (
-        <div class="mt-12">
-          <Text tag="h2" variant="textBase" class="text-primary mb-4">
-            Pages Under Construction
-          </Text>
-          <div
-            class="border-t border-dotted border-primary/10 pt-2 flex flex-col gap-2"
-          >
-            {underConstructionInfluences.map((post) => <InfluencesEntry post={post} />)}
-          </div>
-        </div>
-      )}
+      <ContentIndex
+        entries={sorted}
+        title="Influences and Precedents"
+        description="A list of people, books, patterns, and ideas that have influenced my work and thinking."
+      />
     </Wrapper>
   </section>
 </BaseLayout>

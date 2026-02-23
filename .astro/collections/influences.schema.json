@@ -4,7 +4,45 @@
     "influences": {
       "type": "object",
       "properties": {
-        "pubDate": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "note",
+            "source",
+            "person"
+          ],
+          "default": "note"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "private",
+            "seed",
+            "wip",
+            "ready",
+            "published",
+            "unlisted"
+          ],
+          "default": "wip"
+        },
+        "publish_type": {
+          "type": "string",
+          "enum": [
+            "posts",
+            "domains",
+            "lexicon",
+            "influences",
+            "projects"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "created_date": {
           "anyOf": [
             {
               "type": "string",
@@ -20,86 +58,37 @@
             }
           ]
         },
-        "name": {
+        "publish_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "title": {
           "type": "string"
         },
         "description": {
-          "type": "string"
-        },
-        "image": {
-          "type": "object",
-          "properties": {
-            "url": {
-              "type": "string"
-            },
-            "alt": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "url",
-            "alt"
-          ],
-          "additionalProperties": false
-        },
-        "link": {
-          "type": "string"
-        },
-        "type": {
           "type": "string",
-          "enum": [
-            "precedent",
-            "concept",
-            "people",
-            "book",
-            "course"
-          ]
-        },
-        "domains": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "reflections": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "socials": {
-          "type": "object",
-          "properties": {
-            "twitter": {
-              "type": "string"
-            },
-            "website": {
-              "type": "string"
-            },
-            "linkedin": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
+          "default": ""
         },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "pubDate",
-        "name",
-        "description",
-        "image"
+        "publish_type",
+        "created_date",
+        "title"
       ],
       "additionalProperties": false
     }

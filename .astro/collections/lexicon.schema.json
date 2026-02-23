@@ -4,7 +4,61 @@
     "lexicon": {
       "type": "object",
       "properties": {
-        "pubDate": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "note",
+            "source",
+            "person"
+          ],
+          "default": "note"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "private",
+            "seed",
+            "wip",
+            "ready",
+            "published",
+            "unlisted"
+          ],
+          "default": "wip"
+        },
+        "publish_type": {
+          "type": "string",
+          "enum": [
+            "posts",
+            "domains",
+            "lexicon",
+            "influences",
+            "projects"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "created_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "publish_date": {
           "anyOf": [
             {
               "type": "string",
@@ -24,48 +78,17 @@
           "type": "string"
         },
         "description": {
-          "type": "string"
-        },
-        "image": {
-          "type": "object",
-          "properties": {
-            "url": {
-              "type": "string"
-            },
-            "alt": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "url",
-            "alt"
-          ],
-          "additionalProperties": false
-        },
-        "link": {
-          "type": "string"
-        },
-        "domains": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "type": "string",
+          "default": ""
         },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "pubDate",
-        "title",
-        "description",
-        "image"
+        "publish_type",
+        "created_date",
+        "title"
       ],
       "additionalProperties": false
     }

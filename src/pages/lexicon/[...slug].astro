@@ -1,22 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectsLayout from '../../layouts/ProjectsLayout.astro';
+import { getCollection } from "astro:content";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+
 export async function getStaticPaths() {
-  const lexicon = await getCollection('lexicon');
-  const paths = lexicon.map(page => {
-    return {
-      params: { slug: page.slug },
-      props: { page },
-
-      trailingSlash: false,
-    };
-  });
-  return paths;
+  const entries = await getCollection("lexicon");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+    trailingSlash: false,
+  }));
 }
-const { page } = Astro.props;
-const { Content } = await page.render();
----
-<ProjectsLayout frontmatter={page.data}>
-  <Content />
-</ProjectsLayout>
 
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<ContentLayout
+  frontmatter={entry.data}
+  collection="lexicon"
+  backHref="/lexicon"
+>
+  <Content />
+</ContentLayout>

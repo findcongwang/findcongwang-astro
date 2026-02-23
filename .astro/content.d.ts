@@ -173,45 +173,7 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"archived": Record<string, {
-  id: string;
-  body?: string;
-  collection: "archived";
-  data: any;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"books": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "books";
-  data: InferEntrySchema<"books">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"courses": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "courses";
-  data: InferEntrySchema<"courses">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"customers": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "customers";
-  data: InferEntrySchema<"customers">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"domains": Record<string, {
+		"domains": Record<string, {
   id: string;
   render(): Render[".md"];
   slug: string;
@@ -228,26 +190,6 @@ declare module 'astro:content' {
   body: string;
   collection: "influences";
   data: InferEntrySchema<"influences">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"infopages": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "infopages";
-  data: InferEntrySchema<"infopages">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"lessons": Record<string, {
-  id: string;
-  render(): Render[".md"];
-  slug: string;
-  body: string;
-  collection: "lessons";
-  data: InferEntrySchema<"lessons">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -268,6 +210,16 @@ declare module 'astro:content' {
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"projects": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;

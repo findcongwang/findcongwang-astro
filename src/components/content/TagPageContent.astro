@@ -1,0 +1,40 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import ContentEntry from "@/components/content/ContentEntry.astro";
+import { entryHref, type ContentCollectionId } from "@/utils/content";
+
+interface TagEntry {
+  slug: string;
+  data: Record<string, unknown>;
+  collection: ContentCollectionId;
+}
+
+const { tag, entries, allTags, basePath } = Astro.props;
+---
+
+<Text tag="h1" variant="textBase" class="font-medium capitalize text-primary">
+  {tag}
+</Text>
+<div
+  class="relative flex h-full mt-1 overflow-x-scroll gap-2 lg:gap-4 scrollable-content snap-x snap-proximity scrollbar-hide"
+>
+  {allTags.map((t) => (
+    <a
+      title={t}
+      aria-label={t}
+      href={`${basePath}/tags/${t}`}
+      class="text-xs capitalize text-primary/60 hover:text-accent"
+    >
+      {t}
+    </a>
+  ))}
+</div>
+<div class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10">
+  {entries.map((e: TagEntry) => (
+    <ContentEntry
+      entry={{ slug: e.slug, data: e.data }}
+      href={entryHref(e.collection, e.slug)}
+    />
+  ))}
+</div>

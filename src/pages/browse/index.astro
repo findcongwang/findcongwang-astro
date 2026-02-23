@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import ContentIndex from "@/components/content/ContentIndex.astro";
+import {
+  getAllListableEntries,
+  unifiedToIndexEntries,
+  sortByPublishDate,
+} from "@/utils/content";
+
+const unified = await getAllListableEntries();
+const entries = unifiedToIndexEntries(sortByPublishDate(unified));
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
+      <ContentIndex
+        entries={entries}
+        title="Browse"
+        description="Published entries from all collections. Use the checkboxes to include or exclude each collection in the list and search."
+        showCollectionFilters={true}
+      />
+    </Wrapper>
+  </section>
+</BaseLayout>

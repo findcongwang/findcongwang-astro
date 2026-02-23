@@ -6,8 +6,6 @@ import Author from "/src/images/assets/francis_squared.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-// Content
-import { getCollection } from "astro:content";
 
 const bioParagraphs = [
   "Francis Wang is a multipreneur with over a decade of experience leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.",
@@ -532,11 +530,8 @@ const memberships = [
   "Permaculture Design Alumni Group",
 ];
 
-// Get students from customers collection
-const allCustomers = await getCollection("customers");
-const students = allCustomers.filter(
-  (customer) => customer.data.tags && customer.data.tags.includes("student")
-);
+// Students from content collection (removed; add back via projects or a dedicated collection if needed)
+const students: { data: { name?: string; [k: string]: unknown }; slug: string }[] = [];
 
 // Hardcoded University of Waterloo students
 const waterlooStudents = [

@@ -1,0 +1,44 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import type { TagWithCount } from "@/utils/content";
+
+const { tags, basePath, title = "Tags", description } = Astro.props;
+---
+
+<div class="tags-index">
+  <Text tag="h1" variant="textBase" class="text-primary">
+    {title}
+  </Text>
+  {description && (
+    <Text
+      tag="p"
+      variant="textSM"
+      class="font-serif text-primary/60 text-balance mt-2"
+    >
+      {description}
+    </Text>
+  )}
+  <div class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10">
+    {tags.map(({ tag, count }) => (
+      <div class="relative flex items-baseline lg:justify-between">
+        <a href={`${basePath}/tags/${tag}`} class="absolute inset-0 z-10" />
+        <Text
+          tag="h3"
+          variant="textSM"
+          class="font-medium capitalize text-primary text-balance group-hover:text-white"
+        >
+          {tag}
+        </Text>
+        <span class="flex-1 mx-2 border-b border-dotted border-primary/10" />
+        <Text
+          tag="p"
+          variant="textXS"
+          class="uppercase text-primary/60 group-hover:text-white/80"
+        >
+          {count}
+        </Text>
+      </div>
+    ))}
+  </div>
+</div>

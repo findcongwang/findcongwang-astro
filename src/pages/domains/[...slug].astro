@@ -1,32 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectsLayout from '../../layouts/ProjectsLayout.astro';
-import { getDomainAncestryPath } from '@/utils/domains';
+import { getCollection } from "astro:content";
+import ContentLayout from "@/layouts/ContentLayout.astro";
 
 export async function getStaticPaths() {
-  const domains = await getCollection('domains');
-  const allDomains = await getCollection('domains');
-  
-  const paths = await Promise.all(domains.map(async (page) => {
-    // Calculate ancestry path for this domain
-    const ancestryPath = await getDomainAncestryPath(page.slug, allDomains);
-    
-    return {
-      params: { slug: page.slug },
-      props: { 
-        page,
-        ancestryPath
-      },
-      trailingSlash: false,
-    };
+  const entries = await getCollection("domains");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+    trailingSlash: false,
   }));
-  return paths;
 }
 
-const { page, ancestryPath } = Astro.props;
-const { Content } = await page.render();
+const { entry } = Astro.props;
+const { Content } = await entry.render();
 ---
-<ProjectsLayout frontmatter={page.data} ancestryPath={ancestryPath}>
-  <Content />
-</ProjectsLayout>
 
+<ContentLayout
+  frontmatter={entry.data}
+  collection="domains"
+  backHref="/domains"
+>
+  <Content />
+</ContentLayout>

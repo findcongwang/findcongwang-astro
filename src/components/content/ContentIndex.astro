@@ -1,0 +1,252 @@
+---
+import Text from "@/components/fundations/elements/Text.astro";
+import ContentEntry from "@/components/content/ContentEntry.astro";
+import { entryHref, COLLECTION_LABELS, CONTENT_COLLECTIONS, type ContentCollectionId } from "@/utils/content";
+
+interface IndexEntry {
+  slug: string;
+  collection: ContentCollectionId;
+  title: string;
+  description: string;
+  tags: string[];
+  publishDate: string | null; // ISO string or null
+  id?: string;
+}
+
+const { entries, title, description, showCollectionFilters = false } = Astro.props;
+const allTags = [...new Set(entries.flatMap((e) => e.tags))].sort();
+const serialized = JSON.stringify(
+  entries.map((e) => ({
+    slug: e.slug,
+    collection: e.collection,
+    title: e.title,
+    description: e.description,
+    tags: e.tags,
+    publishDate: e.publishDate,
+    id: e.id,
+  }))
+);
+const tagsJson = JSON.stringify(allTags);
+const collectionIdsJson = JSON.stringify(CONTENT_COLLECTIONS);
+const collectionLabelsJson = JSON.stringify(COLLECTION_LABELS);
+---
+
+<div class="content-index" data-show-collection-filters={showCollectionFilters}>
+  {title && (
+    <Text tag="h1" variant="textBase" class="text-primary">
+      {title}
+    </Text>
+  )}
+  {description && (
+    <Text
+      tag="p"
+      variant="textBase"
+      class="font-serif text-primary/60 text-balance mt-2"
+    >
+      {description}
+    </Text>
+  )}
+
+  {showCollectionFilters && (
+    <div class="mt-3 flex flex-wrap items-center gap-3" role="group" aria-label="Include in list">
+      {CONTENT_COLLECTIONS.map((id) => (
+        <label class="inline-flex items-center gap-1.5 text-sm text-primary/80 cursor-pointer">
+          <input
+            type="checkbox"
+            class="content-collection-checkbox rounded border-primary/30 text-accent focus:ring-accent"
+            data-collection-id={id}
+            checked
+          />
+          <span>{COLLECTION_LABELS[id]}</span>
+        </label>
+      ))}
+    </div>
+  )}
+
+  <div class="mt-4 flex flex-wrap items-center gap-2">
+    <input
+      type="search"
+      id="content-search"
+      placeholder="Search…"
+      class="rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent"
+      aria-label="Search"
+    />
+    <select
+      id="content-sort"
+      class="min-w-[10.5rem] rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+      aria-label="Sort by"
+    >
+      <option value="date-desc">Newest first</option>
+      <option value="date-asc">Oldest first</option>
+      <option value="name">Name / title</option>
+    </select>
+  </div>
+
+  <div
+    class="relative flex h-full mt-2 overflow-x-scroll gap-2 lg:gap-4 scrollable-content snap-x snap-proximity scrollbar-hide"
+    role="tablist"
+    aria-label="Filter by tag"
+  >
+    <button
+      type="button"
+      data-tag=""
+      class="content-tag text-xs capitalize text-primary/60 hover:text-accent border-b-2 border-transparent data-[active]:border-accent data-[active]:text-accent"
+    >
+      All
+    </button>
+    {allTags.map((tag) => (
+      <button
+        type="button"
+        data-tag={tag}
+        class="content-tag text-xs capitalize text-primary/60 hover:text-accent border-b-2 border-transparent data-[active]:border-accent data-[active]:text-accent"
+      >
+        {tag}
+      </button>
+    ))}
+  </div>
+
+  <div
+    id="content-list"
+    class="flex flex-col pt-2 mt-2 border-t border-dotted gap-2 border-primary/10"
+  >
+    {entries.map((e) => (
+      <div
+        class="content-item"
+        data-slug={e.slug}
+        data-collection={e.collection}
+        data-title={e.title.toLowerCase()}
+        data-description={e.description.toLowerCase()}
+        data-tags={e.tags.join(",")}
+        data-publish-date={e.publishDate ?? ""}
+      >
+        <ContentEntry
+          entry={{
+            slug: e.slug,
+            data: {
+              title: e.title,
+              description: e.description,
+              publish_date: e.publishDate,
+              id: e.id,
+            },
+          }}
+          href={entryHref(e.collection, e.slug)}
+        />
+      </div>
+    ))}
+  </div>
+
+  <p id="content-no-results" class="hidden mt-4 text-sm text-primary/60">
+    No matching posts.
+  </p>
+</div>
+
+<script define:vars={{ entriesJson: serialized, tagsJson, collectionIdsJson, collectionLabelsJson }}>
+  (function () {
+    const list = document.getElementById("content-list");
+    const noResults = document.getElementById("content-no-results");
+    const searchInput = document.getElementById("content-search");
+    const sortSelect = document.getElementById("content-sort");
+    const tagButtons = document.querySelectorAll(".content-tag");
+    const contentIndex = document.querySelector(".content-index");
+    const showCollectionFilters = contentIndex?.getAttribute("data-show-collection-filters") === "true";
+
+    const entries = JSON.parse(entriesJson);
+    const collectionIds = showCollectionFilters ? JSON.parse(collectionIdsJson) : [];
+
+    function getTitle(entry) {
+      return entry.title || "";
+    }
+    function getPublishTime(entry) {
+      const d = entry.publishDate;
+      return d ? new Date(d).getTime() : 0;
+    }
+
+    function getSelectedCollections() {
+      if (!showCollectionFilters) return null;
+      const checkboxes = document.querySelectorAll(".content-collection-checkbox:checked");
+      return new Set([...checkboxes].map((cb) => cb.getAttribute("data-collection-id")));
+    }
+
+    function apply() {
+      const query = (searchInput?.value ?? "").toLowerCase().trim();
+      const activeTag =
+        document.querySelector(".content-tag[data-active]")?.getAttribute(
+          "data-tag"
+        ) ?? "";
+      const sort = sortSelect?.value ?? "date-desc";
+      const selectedCollections = getSelectedCollections();
+
+      const items = list?.querySelectorAll(".content-item") ?? [];
+      let visible = 0;
+
+      const sortedEntries = [...entries].sort((a, b) => {
+        if (sort === "name")
+          return getTitle(a).localeCompare(getTitle(b));
+        const ta = getPublishTime(a);
+        const tb = getPublishTime(b);
+        if (sort === "date-asc") return ta - tb;
+        return tb - ta;
+      });
+
+      const orderMap = new Map(
+        sortedEntries.map((e, i) => [`${e.collection}/${e.slug}`, i])
+      );
+
+      [...items].forEach((el) => {
+        const slug = el.getAttribute("data-slug");
+        const collection = el.getAttribute("data-collection");
+        const key = `${collection}/${slug}`;
+        const title = (el.getAttribute("data-title") ?? "").toLowerCase();
+        const description = (el.getAttribute("data-description") ?? "").toLowerCase();
+        const tags = (el.getAttribute("data-tags") ?? "").split(",").filter(Boolean);
+
+        const matchesCollection = selectedCollections === null || selectedCollections.has(collection);
+        const matchesTag =
+          !activeTag || tags.some((t) => t.trim().toLowerCase() === activeTag.toLowerCase());
+        const matchesSearch =
+          !query ||
+          title.includes(query) ||
+          description.includes(query);
+
+        const show = matchesCollection && matchesTag && matchesSearch;
+        el.classList.toggle("hidden", !show);
+        if (show) visible++;
+      });
+
+      if (sort !== "name") {
+        const container = list;
+        if (container) {
+          const childArray = [...container.querySelectorAll(".content-item")];
+          childArray.sort((a, b) => {
+            const ka = `${a.getAttribute("data-collection")}/${a.getAttribute("data-slug")}`;
+            const kb = `${b.getAttribute("data-collection")}/${b.getAttribute("data-slug")}`;
+            return (orderMap.get(ka) ?? 0) - (orderMap.get(kb) ?? 0);
+          });
+          childArray.forEach((node) => container.appendChild(node));
+        }
+      }
+
+      if (noResults) noResults.classList.toggle("hidden", visible > 0);
+    }
+
+    searchInput?.addEventListener("input", apply);
+    searchInput?.addEventListener("change", apply);
+    sortSelect?.addEventListener("change", apply);
+
+    tagButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tagButtons.forEach((b) => b.removeAttribute("data-active"));
+        btn.setAttribute("data-active", "true");
+        apply();
+      });
+    });
+
+    if (showCollectionFilters) {
+      document.querySelectorAll(".content-collection-checkbox").forEach((cb) => {
+        cb.addEventListener("change", apply);
+      });
+    }
+
+    apply();
+  })();
+</script>
