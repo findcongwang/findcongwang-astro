@@ -1,0 +1,41 @@
+---
+/**
+ * Initializes Rough Notation highlight on all [data-rough-highlight] elements.
+ * Use data-rough-highlight="domains" | "influences" | "lexicon" | "posts" | "projects"
+ * for collection-specific vibrant colors (burgundy, orange, turquoise, gray).
+ */
+---
+
+<script>
+  import { annotate } from "rough-notation";
+
+  const HIGHLIGHT_COLORS: Record<string, string> = {
+    domains: "rgba(185, 28, 60, 0.3)",
+    influences: "rgba(234, 140, 52, 0.3)",
+    lexicon: "rgba(20, 184, 166, 0.3)",
+    posts: "rgba(100, 116, 139, 0.3)",
+    projects: "rgba(100, 116, 139, 0.3)",
+  };
+
+  function initHighlights() {
+    document.querySelectorAll("[data-rough-highlight]").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const key = el.getAttribute("data-rough-highlight");
+      const color = (key && HIGHLIGHT_COLORS[key]) || HIGHLIGHT_COLORS.posts;
+      const annotation = annotate(el, {
+        type: "highlight",
+        color,
+        animate: true,
+        animationDuration: 400,
+        padding: 5,
+      });
+      annotation.show();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHighlights);
+  } else {
+    initHighlights();
+  }
+</script>

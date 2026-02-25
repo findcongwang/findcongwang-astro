@@ -6,21 +6,25 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 const cards = [
   {
     title: "Domains",
+    slug: "domains",
     subtitle:
       "Domains are how I organize my thinking, these are atlas-level overview maps on my tracked topics.",
   },
   {
     title: "Influences",
+    slug: "influences",
     subtitle:
       "People and resources that influenced my thinking, tagged by domain with my reflections.",
   },
   {
     title: "Lexicon",
+    slug: "lexicon",
     subtitle:
       "Lexicon is my personal dictionary of key terms, concepts, and distinctions that I use in my work.",
   },
   {
     title: "Blog Posts, Essays, Books, and Projects",
+    slug: "posts",
     subtitle:
       "Different modes of my intellectual output, organized by domain, short/long-form, interactive/static, etc.",
   },
@@ -45,9 +49,11 @@ const cards = [
       {
         cards.map((card) => (
           <div>
-            <Text tag="h3" variant="textSM" class="text-primary">
-              {card.title}
-            </Text>
+            <h3 class="relative inline-block text-sm font-semibold text-primary">
+              <span data-rough-highlight={card.slug}>
+                {card.title}
+              </span>
+            </h3>
             <Text
               tag="p"
               variant="textSM"

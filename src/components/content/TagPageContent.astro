@@ -35,6 +35,7 @@ const { tag, entries, allTags, basePath } = Astro.props;
     <ContentEntry
       entry={{ slug: e.slug, data: e.data }}
       href={entryHref(e.collection, e.slug)}
+      collection={e.collection}
     />
   ))}
 </div>

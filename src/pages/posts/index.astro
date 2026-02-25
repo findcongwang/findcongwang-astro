@@ -2,7 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import ContentIndex from "@/components/content/ContentIndex.astro";
-import Subscribe from "@/components/blog/Subscribe.astro";
 import { getListableEntries, toIndexEntries } from "@/utils/content";
 
 const listable = await getListableEntries("posts");
@@ -24,5 +23,4 @@ const sorted = [...entries].sort((a, b) => {
       />
     </Wrapper>
   </section>
-  <Subscribe />
 </BaseLayout>

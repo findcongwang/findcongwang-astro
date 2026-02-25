@@ -14,6 +14,7 @@ const baseSchema = z.object({
   publish_date: z.coerce.date().optional(),
   title: z.string(),
   description: z.string().default(""),
+  author: z.string().optional().default("Francis Wang"),
 });
 
 // All five collections use the same schema (folder names plural)

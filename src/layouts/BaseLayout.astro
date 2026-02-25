@@ -12,6 +12,7 @@ import Navigation from "@/components/global/Navigation.astro";
 const { hideNav = false, hideFooter = false } = Astro.props;
 // Scripts
 import ToggleScript from "@/components/fundations/scripts/ToggleScript.astro";
+import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotationHighlight.astro";
 ---
 <html
   lang="en"
@@ -26,6 +27,7 @@ import ToggleScript from "@/components/fundations/scripts/ToggleScript.astro";
       <slot />
     </main>
     {!hideFooter && <Footer />}
-      <ToggleScript/>
+      <ToggleScript />
+      <RoughNotationHighlight />
   </body>
 </html>

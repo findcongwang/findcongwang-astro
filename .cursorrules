@@ -1,0 +1,40 @@
+## Cursor Rules for Hybrid Astro-React-D3 Projects
+
+### 1. General Principles
+
+* **Communication:** Use concise, direct language. Avoid flowery prose or abstract metaphors.
+* **Formatting:** No em-dashes in code comments or documentation. Use footnotes for aside content.
+* **Quality:** Prioritize type safety, performance, and static-first architecture.
+
+### 2. Framework & Architecture (Astro)
+
+* **Static First:** Default to `.astro` components. Only use React (`.tsx`) for "islands" requiring heavy interactivity (Aceternity UI, D3).
+* **Partial Hydration:** Use `client:visible` for most interactive components. Use `client:load` only for critical above-the-fold elements.
+* **Content Collections:** Use `src/content/` for all data. Always define a Zod schema in `src/content/config.ts`. Query data in Astro frontmatter and pass it to React components via props.
+* **Routing:** Use file-based routing in `src/pages/`. Use dynamic routes `[slug].astro` for content-driven pages.
+
+### 3. UI & Styling (Aceternity UI + Tailwind)
+
+* **Aceternity Logic:** Since Aceternity Pro is copy-paste, treat components in `@/components/ui` as local source code. Modify them directly rather than wrapping them.
+* **Tailwind Config:** Ensure `tailwind.config.mjs` includes the `flattenColorPalette` utility and custom animation keyframes required by Aceternity effects.
+* **Optimization:** Remove `"use client";` directives from Aceternity components when porting to Astro; interactivity is handled by Astro's `client:*` directives.
+* **Visuals:** Use **Lucide React** for icons and **Framer Motion** for animations.
+
+### 4. Data Visualization (D3.js)
+
+* **Hybrid Approach:** Use React for DOM management (SVG/Div elements) and D3 for the "math" (scales, paths, generators, force simulations).
+* **Implementation:** Always use the `useRef` hook to bind D3 to a DOM element. Perform D3 logic inside `useEffect`.
+* **State Sync:** React manages the data state; D3 reacts to prop changes within `useEffect`.
+* **Performance:** Ensure heavy D3 calculations are memoized or contained within the hydration cycle to prevent blocking the main thread.
+
+### 5. Deployment & Environment (GitHub Pages)
+
+* **Static Build:** Always set `output: 'static'` in `astro.config.mjs`.
+* **Deployment:** Use GitHub Actions for deployment. Ensure the `site` property in the config matches the custom domain.
+* **Assets:** Use `public/` for static assets and the `astro:assets` integration for optimized image processing.
+
+### 6. Coding Standards (TypeScript)
+
+* **Strict Typing:** No `any`. Define interfaces for all component props.
+* **Functional Patterns:** Use functional components and hooks. Avoid classes.
+* **Naming:** `PascalCase` for components, `camelCase` for variables/functions, and `kebab-case` for file names.
