@@ -6,6 +6,10 @@ import Author from "/src/images/assets/francis_squared.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { DOMAIN_COLORS, DOMAIN_NAMES } from "@/constants/domainColors";
+
+/** Alias for DOMAIN_COLORS so all references use the shared constant. */
+const typeColors = DOMAIN_COLORS;
 
 const bioParagraphs = [
   "Francis Wang is a multipreneur with over a decade of experience leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.",
@@ -27,10 +31,10 @@ const currentResearch = [
 // Education data structure
 const degrees = [
   {
-    title: "DDes Candidate - Sustainable Innovation",
+    title: "DDes Candidate - Designing Innovation",
     organization: "University of Calgary",
     date: "2024 - (2027)",
-    type: "Business, Technology, Entrepreneurship",
+    type: "Design and Futures Studies",
     notes: [
       "Reseaching and developing a framework to create globally interconnected, self-reinforcing innovation ecosystems that accurately values long-term benefits to actualize greater societal resilience."
     ],
@@ -47,7 +51,7 @@ const degrees = [
   {
     title: "Master of Science in AI Engineering (MSAIE)",
     organization: "Quantic School of Business and Technology",
-    date: "2025-2026",
+    date: "2025 - (2026)",
     type: "Business, Technology, Entrepreneurship",
     notes: [],
   },
@@ -83,7 +87,7 @@ const certificates = [
     title: "Experiential Futures",
     organization: "Institute for the Future",
     date: "Jul 2025",
-    type: "Business, Technology, Entrepreneurship",
+    type: "Design and Futures Studies",
     notes: [],
   },
   {
@@ -136,7 +140,7 @@ const certificates = [
     title: "Designing Products of the Future",
     organization: "Futurity Studio",
     date: "2023",
-    type: "Business, Technology, Entrepreneurship",
+    type: "Design and Futures Studies",
     notes: [],
   },
   {
@@ -199,7 +203,7 @@ const certificates = [
     title: "Futures Thinking Specialization",
     organization: "Institute for the Future",
     date: "2022 - 2023",
-    type: "Business, Technology, Entrepreneurship",
+    type: "Design and Futures Studies",
     notes: [],
   },
   {
@@ -234,7 +238,7 @@ const certificates = [
     title: "Managing Innovation and Design Thinking Specialization",
     organization: "HEC Paris",
     date: "2019",
-    type: "Business, Technology, Entrepreneurship",
+    type: "Design and Futures Studies",
     notes: [],
   },
   {
@@ -622,13 +626,6 @@ const waterlooStudents = [
   },
 ];
 
-// Color mapping for education types
-const typeColors: Record<string, string> = {
-  "Business, Technology, Entrepreneurship": "#660005",
-  "Sustainable Development": "#104747",
-  "Learning Science": "#005883",
-  "Health, Fitness, and Longevity Studies": "#F15A29",
-};
 ---
 
 <BaseLayout>
@@ -868,34 +865,15 @@ const typeColors: Record<string, string> = {
         Education
       </Text>
       <div class="flex flex-wrap items-center gap-4 my-4 text-xs">
-        <span class="flex items-center gap-1">
-          <span
-            class="inline-block w-3 h-3 rounded-full border border-primary/30"
-            style="background-color: #660005"
-          ></span>
-          Business, Technology, Entrepreneurship
-        </span>
-        <span class="flex items-center gap-1">
-          <span
-            class="inline-block w-3 h-3 rounded-full border border-primary/30"
-            style="background-color: #104747"
-          ></span>
-          Sustainable Development
-        </span>
-        <span class="flex items-center gap-1">
-          <span
-            class="inline-block w-3 h-3 rounded-full border border-primary/30"
-            style="background-color: #F15A29"
-          ></span>
-          Health, Fitness, and Longevity Studies
-        </span>
-        <span class="flex items-center gap-1">
-          <span
-            class="inline-block w-3 h-3 rounded-full border border-primary/30"
-            style="background-color: #005883"
-          ></span>
-          Learning Science
-        </span>
+        {DOMAIN_NAMES.map((name) => (
+          <span class="flex items-center gap-1">
+            <span
+              class="inline-block w-3 h-3 rounded-full border border-primary/30"
+              style={`background-color: ${DOMAIN_COLORS[name]}`}
+            ></span>
+            {name}
+          </span>
+        ))}
       </div>
       <div class="pt-2 mt-2 border-t border-dotted border-primary/10 space-y-8">
         <!-- Degrees Subsection -->
@@ -912,7 +890,7 @@ const typeColors: Record<string, string> = {
                       tag="p" 
                       variant="textSM" 
                       class="font-medium mb-1"
-                      style={`color: ${typeColors[item.type] || "#000"}`}
+                      style={`color: ${DOMAIN_COLORS[item.type] ?? "var(--color-primary)"}`}
                     >
                       {item.title}
                     </Text>
@@ -957,7 +935,7 @@ const typeColors: Record<string, string> = {
                       tag="p" 
                       variant="textSM" 
                       class="font-medium mb-1"
-                      style={`color: ${typeColors[item.type] || "#000"}`}
+                      style={`color: ${DOMAIN_COLORS[item.type] ?? "var(--color-primary)"}`}
                     >
                       {item.title}
                     </Text>

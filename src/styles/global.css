@@ -21,7 +21,15 @@
   /* For accents */
   --color-accent: oklch(66.09% 0.195 37.35);
 }
+
 :root {
+  /* Five major domain colors (site-wide) */
+  --domain-business-technology-entrepreneurship: #660005;
+  --domain-design-and-futures-studies: #523A78;
+  --domain-health-fitness-longevity: #21557A;
+  --domain-sustainable-development: #104747;
+  --domain-learning-science: #A35C2E;
+
   /* Shiki code styles */
   --astro-code-foreground: theme(colors.zinc.950);
   --astro-code-background: theme(colors.zinc.100);
