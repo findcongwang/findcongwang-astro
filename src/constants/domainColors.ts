@@ -12,3 +12,12 @@ export const DOMAIN_COLORS: Record<string, string> = {
 
 /** Domain names in display order (e.g. for legends). */
 export const DOMAIN_NAMES = Object.keys(DOMAIN_COLORS) as (keyof typeof DOMAIN_COLORS)[];
+
+/** CSS variable names for domain colors (theme-aware in global.css). */
+export const DOMAIN_CSS_VAR_NAMES: Record<string, string> = {
+  "Business, Technology, Entrepreneurship": "domain-business-technology-entrepreneurship",
+  "Design and Futures Studies": "domain-design-and-futures-studies",
+  "Health, Fitness, and Longevity Studies": "domain-health-fitness-longevity",
+  "Sustainable Development": "domain-sustainable-development",
+  "Learning Science": "domain-learning-science",
+};

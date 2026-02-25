@@ -1,15 +1,29 @@
 ---
 /**
- * Initializes Rough Notation highlight on all [data-rough-highlight] elements.
- * Use data-rough-highlight="domains" | "influences" | "lexicon" | "posts" | "projects"
- * for collection-specific vibrant colors (burgundy, orange, turquoise, gray).
+ * Rough Notation for any page on the site.
+ *
+ * Single element:
+ *   data-rough-highlight="<key>"  — color key: primary, domains, influences, lexicon, posts, projects
+ *   data-rough-type="<type>"      — optional: highlight (default), box, circle, bracket
+ *
+ * Block content: wrap in data-rough-annotate="<key>"; children (p, blockquote, li) get that color.
+ * Children can override with data-rough-type (e.g. box, circle).
  */
 ---
 
 <script>
   import { annotate } from "rough-notation";
 
+  type AnnotationType = "highlight" | "box" | "circle" | "bracket";
+
+  const PRIMARY_COLOR = "#660005";
+  const PRIMARY_HIGHLIGHT = "rgba(102, 0, 5, 0.25)";
+  /** Standard highlighter yellow, 50% transparency */
+  const HIGHLIGHTER_YELLOW = "rgba(255, 255, 0, 0.5)";
+
   const HIGHLIGHT_COLORS: Record<string, string> = {
+    primary: PRIMARY_HIGHLIGHT,
+    yellow: HIGHLIGHTER_YELLOW,
     domains: "rgba(185, 28, 60, 0.3)",
     influences: "rgba(234, 140, 52, 0.3)",
     lexicon: "rgba(20, 184, 166, 0.3)",
@@ -17,19 +31,59 @@
     projects: "rgba(100, 116, 139, 0.3)",
   };
 
+  const STROKE_COLORS: Record<string, string> = {
+    primary: PRIMARY_COLOR,
+    domains: "rgb(185, 28, 60)",
+    influences: "rgb(234, 140, 52)",
+    lexicon: "rgb(20, 184, 166)",
+    posts: "rgb(100, 116, 139)",
+    projects: "rgb(100, 116, 139)",
+  };
+
+  function getColor(key: string | null, forStroke: boolean): string {
+    const map = forStroke ? STROKE_COLORS : HIGHLIGHT_COLORS;
+    return (key && map[key]) || map.primary;
+  }
+
+  function getType(el: HTMLElement): AnnotationType {
+    const t = el.getAttribute("data-rough-type");
+    if (t === "box" || t === "circle" || t === "highlight" || t === "bracket") return t;
+    return "highlight";
+  }
+
+  function annotateElement(el: HTMLElement, colorKey: string | null) {
+    const type = getType(el);
+    const isHighlight = type === "highlight";
+    const color = getColor(colorKey, !isHighlight);
+    const options: Parameters<typeof annotate>[1] = {
+      type,
+      color,
+      animate: true,
+      animationDuration: 400,
+      padding: 5,
+    };
+    if (type === "bracket") {
+      options.brackets = ["left", "right"];
+    }
+    const annotation = annotate(el, options);
+    annotation.show();
+  }
+
   function initHighlights() {
     document.querySelectorAll("[data-rough-highlight]").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
-      const key = el.getAttribute("data-rough-highlight");
-      const color = (key && HIGHLIGHT_COLORS[key]) || HIGHLIGHT_COLORS.posts;
-      const annotation = annotate(el, {
-        type: "highlight",
-        color,
-        animate: true,
-        animationDuration: 400,
-        padding: 5,
+      annotateElement(el, el.getAttribute("data-rough-highlight"));
+    });
+
+    const annotateSelector = "p, blockquote, li";
+    document.querySelectorAll("[data-rough-annotate]").forEach((container) => {
+      if (!(container instanceof HTMLElement)) return;
+      const key = container.getAttribute("data-rough-annotate");
+      container.querySelectorAll(annotateSelector).forEach((child) => {
+        if (!(child instanceof HTMLElement)) return;
+        if (child.hasAttribute("data-rough-highlight")) return;
+        annotateElement(child, key);
       });
-      annotation.show();
     });
   }
 

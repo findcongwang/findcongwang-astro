@@ -6,27 +6,10 @@ import Author from "/src/images/assets/francis_squared.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import { DOMAIN_COLORS, DOMAIN_NAMES } from "@/constants/domainColors";
+import { DOMAIN_COLORS, DOMAIN_NAMES, DOMAIN_CSS_VAR_NAMES } from "@/constants/domainColors";
 
 /** Alias for DOMAIN_COLORS so all references use the shared constant. */
 const typeColors = DOMAIN_COLORS;
-
-const bioParagraphs = [
-  "Francis Wang is a multipreneur with over a decade of experience leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.",
-  "Francis creates and coaches sustainable impact ventures in domains such as sustainability, education, and health. Leveraging his diverse background and expertise in strategic foresight by cross-pollinating ideas from fields like futures studies, AI, design thinking, sustainability, and entrepreneurship to foster innovative solutions for greater societal resilience."
-];
-
-const motivation = [
-  "The industrial revolution was humanity's withdrawal from the Earth's trust fund — a finite reserve built over eons. This investment gave us unprecedented power and understanding, but it left us with a debt that must now be repaid.",
-  "To be born in this era is to inherit both humanity's greatest knowledge and its greatest debt. It is our responsibility to use what we've learned to restore balance, for the cost of inaction is ruin.",
-  "- Francis Wang, \"Why Work in Sustainability\""
-];
-
-const currentResearch = [
-  "Francis is actively redefining the architecture of innovation through his doctoral research:",
-  "University of Calgary (DDes): Reseaching and developing a framework to create globally interconnected, self-reinforcing innovation ecosystems that accurately values long-term benefits to actualize greater societal resilience.",
-  "Golden Gate University (DBA [GenAI]): Researching human-AI collaboration. His work addresses the ethical leadership challenge of the AI age, i,e., preserving \"Digital Sovereignty\" and human agency in a post-agentic world. This work champions GGU's values of social responsibility by creating tools for that serve the long-term public good.",
-];
 
 // Education data structure
 const degrees = [
@@ -717,6 +700,18 @@ const waterlooStudents = [
         print-color-adjust: exact;
         color-adjust: exact;
       }
+
+      /* Hide rough annotations in print: hide SVG and strip decoration so text prints plain */
+      :global(svg.rough-annotation) {
+        display: none !important;
+      }
+      [data-rough-highlight] {
+        border: none !important;
+        border-radius: 0 !important;
+        background: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+      }
       
       /* Unified rules for all section headings - ensure headings never appear alone on a page */
       /* Prevent headings from breaking away from their content */
@@ -782,17 +777,22 @@ const waterlooStudents = [
         </Text>
       </header>
       <article class="flex flex-col mt-4 gap-4">
-        {
-          bioParagraphs.map((para) => (
-            <Text
-              tag="p"
-              variant="textBase"
-              class="font-serif text-primary/60 text-balance"
-            >
-              {para}
-            </Text>
-          ))
-        }
+        <div class="flex flex-col gap-4">
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            Francis Wang is a multipreneur with <span data-rough-highlight="yellow" data-rough-type="highlight">over a decade of experience</span> leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            Francis creates and coaches <span data-rough-highlight="yellow" data-rough-type="highlight">sustainable impact ventures</span> in domains such as sustainability, education, and health. Leveraging his diverse background and expertise in <span data-rough-highlight="yellow" data-rough-type="highlight">strategic foresight</span> by cross-pollinating ideas from fields like futures studies, AI, design thinking, sustainability, and entrepreneurship to foster innovative solutions for <span data-rough-highlight="yellow" data-rough-type="highlight">greater societal resilience</span>.
+          </Text>
+        </div>
       </article>
     </Wrapper>
   </section>
@@ -810,17 +810,29 @@ const waterlooStudents = [
       <article
         class="flex flex-col pt-2 mt-2 border-t border-dotted gap-4 border-primary/10"
       >
-        {
-          currentResearch.map((item) => (
-            <Text
-              tag="p"
-              variant="textBase"
-              class="font-serif text-primary/60 text-balance"
-            >
-              {item}
-            </Text>
-          ))
-        }
+        <div class="flex flex-col gap-4">
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            Francis is actively redefining the architecture of innovation through his doctoral research:
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            University of Calgary (DDes): Reseaching and developing a framework to create globally interconnected, self-reinforcing innovation ecosystems that accurately values long-term benefits to actualize greater societal resilience.
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            Golden Gate University (DBA [GenAI]): Researching <span data-rough-highlight="yellow" data-rough-type="highlight">human-AI collaboration</span>. His work addresses the ethical leadership challenge of the AI age, i,e., preserving "Digital Sovereignty" and human agency in a post-agentic world. This work champions GGU's values of social responsibility by creating tools for that serve the long-term public good.
+          </Text>
+        </div>
       </article>
     </Wrapper>
   </section>
@@ -838,17 +850,34 @@ const waterlooStudents = [
       <article
         class="flex flex-col pt-2 mt-2 border-t border-dotted gap-4 border-primary/10"
       >
-        {
-          motivation.map((item) => (
-            <Text
-              tag="p"
-              variant="textBase"
-              class="font-serif text-primary/60 text-balance"
-            >
-              {item}
-            </Text>
-          ))
-        }
+        <div
+          class="flex flex-col gap-4"
+          data-rough-highlight="primary"
+          data-rough-type="bracket"
+        >
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            The industrial revolution was humanity's withdrawal from the Earth's trust fund — a finite reserve built over eons. This investment gave us unprecedented power and understanding, but it left us with a debt that must now be repaid.
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="font-serif text-primary/60 text-balance"
+          >
+            To be born in this era is to inherit both humanity's greatest knowledge and its greatest debt. It is our responsibility to use what we've learned to restore balance, for the cost of inaction is ruin.
+          </Text>
+          
+        </div>
+        <Text
+          tag="p"
+          variant="textBase"
+          class="font-serif text-primary/60 text-balance"
+        >
+          — Francis Wang, "Why Work in Sustainability"
+        </Text>
       </article>
     </Wrapper>
   </section>
@@ -866,10 +895,10 @@ const waterlooStudents = [
       </Text>
       <div class="flex flex-wrap items-center gap-4 my-4 text-xs">
         {DOMAIN_NAMES.map((name) => (
-          <span class="flex items-center gap-1">
+          <span class="flex items-center gap-1 text-primary">
             <span
               class="inline-block w-3 h-3 rounded-full border border-primary/30"
-              style={`background-color: ${DOMAIN_COLORS[name]}`}
+              style={`background-color: var(--${DOMAIN_CSS_VAR_NAMES[name]})`}
             ></span>
             {name}
           </span>
@@ -890,7 +919,7 @@ const waterlooStudents = [
                       tag="p" 
                       variant="textSM" 
                       class="font-medium mb-1"
-                      style={`color: ${DOMAIN_COLORS[item.type] ?? "var(--color-primary)"}`}
+                      style={`color: var(--${DOMAIN_CSS_VAR_NAMES[item.type] ?? "color-primary"})`}
                     >
                       {item.title}
                     </Text>
@@ -935,7 +964,7 @@ const waterlooStudents = [
                       tag="p" 
                       variant="textSM" 
                       class="font-medium mb-1"
-                      style={`color: ${DOMAIN_COLORS[item.type] ?? "var(--color-primary)"}`}
+                      style={`color: var(--${DOMAIN_CSS_VAR_NAMES[item.type] ?? "color-primary"})`}
                     >
                       {item.title}
                     </Text>

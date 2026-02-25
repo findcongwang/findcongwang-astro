@@ -20,6 +20,13 @@
   --color-secondary: oklch(0.1684 0 0);
   /* For accents */
   --color-accent: oklch(66.09% 0.195 37.35);
+
+  /* Domain colors: lighter for text/dots on dark background */
+  --domain-business-technology-entrepreneurship: #e06666;
+  --domain-design-and-futures-studies: #b794f6;
+  --domain-health-fitness-longevity: #7dd3fc;
+  --domain-sustainable-development: #5eead4;
+  --domain-learning-science: #fdba74;
 }
 
 :root {
