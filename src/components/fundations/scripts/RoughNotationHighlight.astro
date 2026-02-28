@@ -63,7 +63,13 @@
       padding: 5,
     };
     if (type === "bracket") {
-      options.brackets = ["left", "right"];
+      const brackets = el.getAttribute("data-rough-brackets");
+      // Default to ["left", "right"] unless specified, e.g. data-rough-brackets="left" or "right"
+      if (brackets === "left" || brackets === "right") {
+        options.brackets = [brackets];
+      } else {
+        options.brackets = ["left", "right"];
+      }
     }
     const annotation = annotate(el, options);
     annotation.show();

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import ContentIndex from "@/components/content/ContentIndex.astro";
+import FilterableContentLayout from "@/components/content/FilterableContentLayout.astro";
 import { getListableEntries, toIndexEntries } from "@/utils/content";
 
 const listable = await getListableEntries("posts");
@@ -11,15 +11,17 @@ const sorted = [...entries].sort((a, b) => {
   const db = b.publishDate ? new Date(b.publishDate).getTime() : 0;
   return db - da;
 });
+const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
 ---
 
 <BaseLayout>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <ContentIndex
+      <FilterableContentLayout
         entries={sorted}
         title="Posts"
         description="Ideas, insights & experiments."
+        initialTags={initialTags}
       />
     </Wrapper>
   </section>

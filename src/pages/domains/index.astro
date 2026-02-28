@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import ContentIndex from "@/components/content/ContentIndex.astro";
+import FilterableContentLayout from "@/components/content/FilterableContentLayout.astro";
 import { getListableEntries, toIndexEntries } from "@/utils/content";
 
 const listable = await getListableEntries("domains");
@@ -9,15 +9,17 @@ const entries = toIndexEntries("domains", listable);
 const sorted = [...entries].sort((a, b) =>
   a.title.localeCompare(b.title)
 );
+const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
 ---
 
 <BaseLayout>
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
-      <ContentIndex
+      <FilterableContentLayout
         entries={sorted}
         title="Domains"
         description="Domains are how I organize my thinking, these notes are atlas-level overviews. Sometimes, a topic crosses multiple domains at different levels of abstraction."
+        initialTags={initialTags}
       />
     </Wrapper>
   </section>
