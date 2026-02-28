@@ -1,20 +1,33 @@
 ---
-import { COLLECTION_LABELS, type ContentCollectionId } from "@/utils/content";
+import {
+  PUBLISH_TYPE_LABELS,
+  COLLECTION_TO_PUBLISH_TYPE,
+  type ContentCollectionId,
+} from "@/utils/content";
 
 interface Props {
   entry: { slug: string; data: Record<string, unknown> };
   href: string;
   showPubDate?: boolean;
   collection?: ContentCollectionId;
+  /** Prefer this for label/color when set; otherwise from entry.data.publish_type or collection fallback. */
+  publishType?: string;
 }
-const { entry, href, showPubDate = true, collection } = Astro.props as Props;
+const { entry, href, showPubDate = true, collection, publishType: publishTypeProp } = Astro.props as Props;
 const { slug, data } = entry;
 const title = "title" in data ? data.title : "";
 const description = "description" in data ? data.description : "";
 const publishDate =
-  showPubDate && "publish_date" in data && data.publish_date
-    ? new Date(data.publish_date)
+  showPubDate && "publish_date" in data && data.publish_date != null
+    ? new Date(data.publish_date as string | number | Date)
     : null;
+const publishTypeFromData =
+  typeof data.publish_type === "string" && data.publish_type.length > 0
+    ? data.publish_type
+    : null;
+const publishType =
+  publishTypeProp ?? publishTypeFromData ?? (collection ? COLLECTION_TO_PUBLISH_TYPE[collection] : null);
+const typeLabel = publishType ? PUBLISH_TYPE_LABELS[publishType] ?? publishType : null;
 ---
 
 <div class="relative flex flex-col md:flex-row items-start gap-4">
@@ -26,13 +39,13 @@ const publishDate =
   />
   <div class="min-w-0 flex flex-col gap-0">
     <div class="flex flex-wrap items-center gap-x-2 gap-y-0">
-      {collection && (
+      {typeLabel && (
         <span class="relative inline-block shrink-0">
           <span
             class="text-[10px] font-semibold uppercase tracking-wide text-primary"
-            data-rough-highlight={collection}
+            data-rough-highlight={publishType}
           >
-            {COLLECTION_LABELS[collection]}
+            {typeLabel}
           </span>
         </span>
       )}

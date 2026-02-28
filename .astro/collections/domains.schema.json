@@ -28,11 +28,13 @@
         "publish_type": {
           "type": "string",
           "enum": [
-            "posts",
-            "domains",
+            "blog",
+            "paper",
+            "domain",
             "lexicon",
-            "influences",
-            "projects"
+            "influence",
+            "book",
+            "project"
           ]
         },
         "tags": {

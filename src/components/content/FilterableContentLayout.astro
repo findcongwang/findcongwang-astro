@@ -11,6 +11,7 @@ import {
 export interface IndexEntry {
   slug: string;
   collection: ContentCollectionId;
+  publishType: string;
   title: string;
   description: string;
   tags: string[];
@@ -33,6 +34,7 @@ const serialized = JSON.stringify(
   entries.map((e) => ({
     slug: e.slug,
     collection: e.collection,
+    publishType: e.publishType,
     title: e.title,
     description: e.description,
     tags: e.tags,
@@ -154,6 +156,7 @@ const initialTagsJson = JSON.stringify(initialTags);
           class="filterable-item"
           data-slug={e.slug}
           data-collection={e.collection}
+          data-publish-type={e.publishType}
           data-title={e.title.toLowerCase()}
           data-description={e.description.toLowerCase()}
           data-tags={e.tags.join(",")}
@@ -171,6 +174,7 @@ const initialTagsJson = JSON.stringify(initialTags);
             }}
             href={entryHref(e.collection, e.slug)}
             collection={e.collection}
+            publishType={e.publishType}
           />
         </div>
       ))}
