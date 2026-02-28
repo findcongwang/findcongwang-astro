@@ -1,7 +1,6 @@
 ---
 import Button from "@/components/fundations/elements/Button.astro";
 // Icons
-import Twitter from "@/components/fundations/icons/Twitter.astro";
 import Facebook from "@/components/fundations/icons/Facebook.astro";
 import Linkedin from "@/components/fundations/icons/Linkedin.astro";
 import Link from "@/components/fundations/icons/Link.astro";
@@ -15,15 +14,6 @@ interface Props {
 const { url, title, description, contentType = "generic" } = Astro.props;
 ---
 
-<Button
-  size="xs"
-  variant="muted"
-  iconOnly
-  id="twitter-share"
-  aria-label="Share on Twitter"
->
-  <Twitter slot="icon" size="xs" />
-</Button>
 <Button
   size="xs"
   variant="muted"
@@ -67,11 +57,6 @@ const { url, title, description, contentType = "generic" } = Astro.props;
   if (pageDesc) {
     shareText += ` - ${pageDesc}`;
   }
-  // Twitter share
-  document.getElementById("twitter-share")?.addEventListener("click", () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
-    window.open(twitterUrl, "_blank");
-  });
   // Facebook share
   document.getElementById("facebook-share")?.addEventListener("click", () => {
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;

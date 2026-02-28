@@ -9,7 +9,8 @@ import Navigation from "@/components/global/Navigation.astro";
 // Hides nav and footer on selected screens by passing
 // the hideNav and hideFooter props
 // <BaseLayout hideNav={true} hideFooter={true}>
-const { hideNav = false, hideFooter = false } = Astro.props;
+// Optional SEO: title, description, canonical, noindex, image (for OG/Twitter)
+const { hideNav = false, hideFooter = false, title, description, canonical, noindex, image } = Astro.props;
 // Scripts
 import ToggleScript from "@/components/fundations/scripts/ToggleScript.astro";
 import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotationHighlight.astro";
@@ -19,7 +20,7 @@ import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotatio
   class="scroll-smooth selection:bg-accent selection:text-secondary"
 >
   <head>
-    <BaseHead />
+    <BaseHead title={title} description={description} canonical={canonical} noindex={noindex} image={image} />
   </head>
   <body class="relative flex flex-col bg-secondary min-h-svh">
     {!hideNav && <Navigation />}

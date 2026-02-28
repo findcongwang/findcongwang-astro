@@ -1,22 +1,41 @@
 ---
 import { AstroSeo } from "@astrolib/seo";
+
+const site = import.meta.env.SITE ?? "https://findcongwang.com";
+const defaultTitle = "Francis Wang";
+const defaultDescription = "Francis Wang's personal website.";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+  image?: string;
+}
+const { title: pageTitle, description: pageDescription, canonical: canonicalUrl, noindex = false, image: ogImage } = Astro.props as Props;
+
+const title = pageTitle != null && pageTitle !== "" ? pageTitle : defaultTitle;
+const description = pageDescription != null && pageDescription !== "" ? pageDescription : defaultDescription;
+const canonical = canonicalUrl ?? (`${site}${Astro.url.pathname}`.replace(/\/?$/, "") || `${site}/`);
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
+const titleTemplate = isHome ? undefined : `${defaultTitle} | %s`;
+const openGraphTitle = pageTitle ?? defaultTitle;
+const openGraphDescription = pageDescription ?? defaultDescription;
 ---
 
 <AstroSeo
-  title="Francis Wang"
-  description="Francis Wang's personal website."
-  canonical="https://findcongwang.com/"
+  title={title}
+  titleTemplate={titleTemplate}
+  description={description}
+  canonical={canonical}
+  noindex={noindex}
   openGraph={{
-    url: "https://findcongwang.com/",
-    title: "Francis Wang",
-    description: "Francis Wang's personal website.",
-    site_name: "Francis Wang",
+    url: canonical,
+    title: openGraphTitle,
+    description: openGraphDescription,
+    site_name: defaultTitle,
     type: "website",
     locale: "en_US",
-  }}
-  twitter={{
-    handle: "@findcongwang",
-    site: "@findcongwang",
-    cardType: "summary_large_image",
+    ...(ogImage && { images: [{ url: ogImage }] }),
   }}
 />

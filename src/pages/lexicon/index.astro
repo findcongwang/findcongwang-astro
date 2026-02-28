@@ -10,7 +10,7 @@ const sorted = [...entries].sort((a, b) => a.title.localeCompare(b.title));
 const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
 ---
 
-<BaseLayout>
+<BaseLayout title="Lexicon" description="Key terms, concepts, and distinctions I use to think about the world.">
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
       <FilterableContentLayout

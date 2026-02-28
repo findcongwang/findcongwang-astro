@@ -13,7 +13,7 @@ const entries = unifiedToIndexEntries(sortByPublishDate(unified));
 const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
 ---
 
-<BaseLayout>
+<BaseLayout title="Browse" description="Published entries from all collections. Filter by tags, search, and sort.">
   <section>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
       <BrowseContent

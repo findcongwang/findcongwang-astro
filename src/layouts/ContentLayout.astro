@@ -34,6 +34,11 @@ const publishType =
     : COLLECTION_TO_PUBLISH_TYPE[collection];
 const typeLabel = PUBLISH_TYPE_LABELS[publishType] ?? publishType;
 
+const site = import.meta.env.SITE ?? "https://findcongwang.com";
+const pathname = Astro.url.pathname.replace(/\/?$/, "") || "";
+const canonical = `${site}${pathname}`;
+const metaDescription = description || (title ? `${title} — Francis Wang's personal website.` : undefined);
+
 // Naive word count from markdown body for reading time (≈200 wpm)
 const wordCount =
   typeof body === "string"
@@ -73,8 +78,7 @@ for (const col of contentCollections) {
 const related = relatedWithCollection.slice(0, 3);
 ---
 
-<BaseLayout>
-  <section>
+<BaseLayout title={title} description={metaDescription} canonical={canonical}>
     <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
       {backHref && (
         <a
