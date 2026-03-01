@@ -106,7 +106,7 @@ export function entryHref(collection: ContentCollectionId, slug: string): string
 }
 
 /** Publish type enum from content schema (specific detail on entry cards). */
-export type PublishTypeId = "blog" | "paper" | "domain" | "lexicon" | "influence" | "book" | "project";
+export type PublishTypeId = "atom" | "blog" | "essay" | "paper" | "domain" | "lexicon" | "influence" | "book" | "project";
 
 // ─── Single source of truth: collection = large category (Browse/filter); publish type = specific detail (entry cards). ───
 // Multiple publish types can belong to the same collection.
@@ -125,7 +125,9 @@ const PUBLISH_TYPE_CONFIG: Record<
   PublishTypeId,
   { label: string; color: string; collection: ContentCollectionId }
 > = {
+  atom: { label: "Atom", color: "#7D8491", collection: "posts" },
   blog: { label: "Blog", color: "#7D8491", collection: "posts" },
+  essay: { label: "Essay", color: "#7D8491", collection: "posts" },
   paper: { label: "Paper", color: "#7D8491", collection: "posts" },
   domain: { label: "Domain", color: "#6D6875", collection: "domains" },
   lexicon: { label: "Lexicon", color: "#8A9A5B", collection: "lexicon" },
