@@ -126,7 +126,7 @@ const PUBLISH_TYPE_CONFIG: Record<
   { label: string; color: string; collection: ContentCollectionId }
 > = {
   atom: { label: "Atom", color: "#7D8491", collection: "posts" },
-  blog: { label: "Blog", color: "#7D8491", collection: "posts" },
+  blog: { label: "Note", color: "#7D8491", collection: "posts" },
   essay: { label: "Essay", color: "#7D8491", collection: "posts" },
   paper: { label: "Paper", color: "#7D8491", collection: "posts" },
   domain: { label: "Domain", color: "#6D6875", collection: "domains" },

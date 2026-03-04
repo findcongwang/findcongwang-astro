@@ -3,7 +3,7 @@ import { defineCollection, z } from "astro:content";
 // Single base schema for all content collections
 const statusEnum = z.enum(["private", "seed", "wip", "ready", "published", "unlisted"]);
 const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project"]);
-const contentTypeEnum = z.enum(["note", "source", "person"]);
+const contentTypeEnum = z.enum(["atom", "note", "source", "person"]);
 
 const baseSchema = z.object({
   type: contentTypeEnum.default("note"),
