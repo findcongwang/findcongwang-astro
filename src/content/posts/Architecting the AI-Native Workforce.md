@@ -31,7 +31,7 @@ This bidirectional model yields highly compounded organizational benefits. The e
 ### Systematic Cultivation at Nova Roma Horizon Innovation Society
 Incumbent companies do not suffer from a lack of access to advanced technology; they suffer from a severe lack of human capital capable of wielding it.  
 To bridge this execution gap, Nova Roma Horizon Innovation Society has established a systematic, rigorous program dedicated to developing this exact profile of AI-native, future-ready talent.  
-By prioritizing experiential learning and high-level architectural oversight, the society’s program ensures that graduates move beyond passive tool usage.  
+By prioritizing experiential learning and high-level architectural oversight, the society's program ensures that graduates move beyond passive tool usage.  
 Nova Roma systematically cultivates the W-shaped cognitive elasticity required to dismantle outdated processes and design new, AI-first workflows from the ground up. These graduates enter the workforce not merely as entry-level employees, but as strategic change agents equipped to drive enterprise transformation.
 ### References
 * NStarX Inc., "The AI-Native Revolution: Building Tomorrow's Companies Today," _NStarX Blog_. [Online]. Available: [https://nstarxinc.com/blog/the-ai-native-revolution-building-tomorrows-companies-today/](https://nstarxinc.com/blog/the-ai-native-revolution-building-tomorrows-companies-today/). Accessed: Feb. 24, 2026.  
