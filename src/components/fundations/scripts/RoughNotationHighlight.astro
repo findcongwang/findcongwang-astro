@@ -26,6 +26,7 @@
   const HIGHLIGHTER_YELLOW = "rgba(255, 255, 0, 0.5)";
 
   /** Publish-type and collection-slug highlight colors. Collection slugs (domains, influences, lexicon, posts) map to same as singular types. */
+  /** Five major domain keys for Hero/labels: domain-dfs, domain-bet, domain-lkm, domain-hfl, domain-sdev. */
   const HIGHLIGHT_COLORS: Record<string, string> = {
     primary: PRIMARY_HIGHLIGHT,
     yellow: HIGHLIGHTER_YELLOW,
@@ -42,6 +43,11 @@
     book: "rgba(74, 111, 165, 0.3)",
     project: "rgba(194, 139, 46, 0.3)",
     posts: "rgba(125, 132, 145, 0.3)",
+    "domain-dfs": "rgba(82, 58, 120, 0.12)",
+    "domain-bet": "rgba(102, 0, 5, 0.12)",
+    "domain-lkm": "rgba(163, 92, 46, 0.12)",
+    "domain-hfl": "rgba(33, 85, 122, 0.12)",
+    "domain-sdev": "rgba(16, 71, 71, 0.12)",
   };
 
   const STROKE_COLORS: Record<string, string> = {
@@ -60,6 +66,11 @@
     book: "rgb(74, 111, 165)",
     project: "rgb(194, 139, 46)",
     posts: "rgb(125, 132, 145)",
+    "domain-dfs": "#523A78",
+    "domain-bet": "#660005",
+    "domain-lkm": "#A35C2E",
+    "domain-hfl": "#21557A",
+    "domain-sdev": "#104747",
   };
 
   function getColor(key: string | null, forStroke: boolean): string {
