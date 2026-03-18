@@ -29,7 +29,7 @@ The Super Oligarchy is characterized by a distinct split between a strategic "Go
 - **Algorithmic Management:** Below strategy, the Operational layer is defined by "algorithmic management". In this model, management functions are outsourced to algorithms that coordinate and evaluate a massive workforce with minimal human intervention. Workers often face an "autonomy paradox", that is superficially flexible schedules governed by rigid, hidden controls like behaviour scoring and dynamic pricing.
 #### Surveillance-Resilience
 The stability of this structure is maintained through "surveillance-resilience" using superhuman monitoring to neutralize dissent before it manifests physically. This represents a paradigm shift from historical models of revolution.  
-Modern tools, such as Cognyte's NEXYTE, use AI to conduct risk scoring and real-time sentiment analysis. Unlike the fragmented surveillance of the past, these data fusion tools create a level of technical opacity that makes it nearly impossible for the monitored populace to understand or challenge the basis of their surveillance. By monitoring digital platforms to detect shifts in public mood, the Super Oligarchy can defuse organized action at the cognitive stage.
+Modern tools, such as Cognyte’s NEXYTE, use AI to conduct risk scoring and real-time sentiment analysis. Unlike the fragmented surveillance of the past, these data fusion tools create a level of technical opacity that makes it nearly impossible for the monitored populace to understand or challenge the basis of their surveillance. By monitoring digital platforms to detect shifts in public mood, the Super Oligarchy can defuse organized action at the cognitive stage.
 #### Digital Opium
 To ensure continued compliance, the elite manages the populace's cognitive landscape by leveraging System 1 thinking, the fast, intuitive, and emotional mode of thought identified by Daniel Kahneman.  
 While the elite uses AI as an externalized "System 2" for complex reasoning, the populace is often fed "Digital Opium", in the form of personalized, AI-driven content designed to prioritize emotional engagement. Oxford University research indicates that conversational AI systems can be fine-tuned to be up to 51% more persuasive than standard models, effectively overwhelming human critical capacity. In this state of "cognitive surrender," individuals adopt AI-generated outputs with minimal scrutiny, allowing the elite to manage public opinion through algorithmically tailored narratives.
@@ -45,7 +45,7 @@ The stabilization of this organizational pattern marks a transition from traditi
 * J. Woodcock and M. Graham, _The Gig Economy: A Critical Introduction_, Polity Press, 2020. 
 * P. Williams, "Predictive Policing and the Future of Surveillance," _Journal of Digital Criminology_, 2024. 
 * Cognyte, "NEXYTE Decision Intelligence Platform: Technical Overview," 2025. 
-* C. O'Neil, _Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy_, Crown, 2016. 
+* C. O’Neil, _Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy_, Crown, 2016. 
 * D. Kahneman, _Thinking, Fast and Slow_, Farrar, Straus and Giroux, 2011. 
 * S. Zuboff, _The Age of Surveillance Capitalism_, PublicAffairs, 2019. 
 * Oxford Internet Institute, "The Persuasive Power of Conversational AI," 2024. 
