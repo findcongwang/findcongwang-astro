@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "generate-pdfs": "node scripts/generate-pdfs.mjs",
-    "sanitize-content": "node scripts/sanitize-markdown.mjs"
+    "sanitize-content": "node scripts/sanitize-markdown.mjs",
+    "sanitize-content:check": "node scripts/sanitize-markdown.mjs --check"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",

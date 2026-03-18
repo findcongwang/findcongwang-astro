@@ -28,4 +28,4 @@ In academia, the "one-sentence challenge" is often found in the abstract's core 
 - **Theory of General Relativity (Einstein):** Space-time tells matter how to move, and matter tells space-time how to curve.
 - **The Double Helix (Watson & Crick):** This structure consists of two helical chains each coiled round the same axis, suggesting a possible copying mechanism for the genetic material.
 - **The Efficient Market Hypothesis (Fama):** This theory asserts that financial markets are "informationally efficient," meaning that stock prices always reflect all available information.
-- **The Prisoner’s Dilemma (Game Theory):** Two rational individuals might not cooperate, even if it appears that it is in their best interests to do so, due to the structure of their individual incentives.
+- **The Prisoner's Dilemma (Game Theory):** Two rational individuals might not cooperate, even if it appears that it is in their best interests to do so, due to the structure of their individual incentives.

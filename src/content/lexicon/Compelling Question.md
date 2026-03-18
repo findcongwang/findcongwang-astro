@@ -32,7 +32,7 @@ We don't ask if the ambition is possible. We treat it as a "supposed future", a 
 Almost like a pre-mortem analysis, the significant constraints are used as critical intelligence. They represent the exact junctions where the trajectory toward the supposed future is most likely to fail. If a specific constraint is ignored, the strategy "goes off the rails" and falls into alternative scenarios.
 
 ### Dissecting the Question
-Once we formulated the Compelling Question, we analyze the tension between ambition and constraint using two distinct modes of thinking derived from Morgan and Barden’s methodology.
+Once we formulated the Compelling Question, we analyze the tension between ambition and constraint using two distinct modes of thinking derived from Morgan and Barden's methodology.
 
 **Phase 1: "Can't Because" (Identifying Risks)**  
 This is the default reaction. When facing a severe constraint, it is natural to list the barriers that make the ambition impossible.
@@ -47,7 +47,7 @@ The Mindset: Finding requisite conditions.
 This is the Navigation Logic. It maps the exact innovations, partnerships, or policy shifts required to steer around the off-ramp and keep the trajectory on track to the Design Fiction.
 
 ### Seeing It In Practice
-Let’s look at an example of how this framework moves from a question to a strategic map.
+Let's look at an example of how this framework moves from a question to a strategic map.
 > How might we achieve a zero-carbon logistics network by 2035 (Ambition) while relying exclusively on existing legacy infrastructure grids (Constraint)?
 
 If we attack this with normal brainstorming, the constraint will kill the ambition immediately.  
