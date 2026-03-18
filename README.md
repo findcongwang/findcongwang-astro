@@ -43,7 +43,7 @@ Updated on 19th August 2025
 ### Optional CMS with pagesCMS
 
 This theme includes a ready-to-use [PagesCMS](https://pagescms.org) config file (`.pages.yml`).
-- Optional — delete the file if you don’t want CMS.  But you could keep in case you want to in the future, it won't affect the theme.
+- Optional — delete the file if you don't want CMS.  But you could keep in case you want to in the future, it won't affect the theme.
 - Zero dependencies — it does not add anything to your code, build or installs.  
 - Instant setup — if you want simple content editing, the config is already there. 
 
