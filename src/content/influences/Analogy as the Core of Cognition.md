@@ -19,12 +19,12 @@ In his framework, analogy is the fuel and fire of thinking itself. For those of 
 * [Paper: "Analogy as the Core of Cognition" (Hofstadter, 2001)](https://worrydream.com/refs/Hofstadter_2001_-_Analogy_as_the_Core_of_Cognition.pdf)
 * [Seminar: "Analogy as the Core of Cognition" (YouTube)](https://www.youtube.com/watch?v=n8m7lFQ3njk)
 ### The Mechanism of Mind
-Hofstadter's thesis is radical in its simplicity: every thought you have is an analogy.  
+Hofstadter’s thesis is radical in its simplicity: every thought you have is an analogy.  
 When you walk into a room and see a four-legged object, your brain instantly labels it a "chair." You do not consciously analyze its geometry. You subconsciously access a lifetime of "chair-experiences" and map them onto the current object. You are making an analogy.  
 This becomes more powerful with abstract concepts. Consider the idiom "sour grapes." When you see a colleague scorn a promotion they failed to get, you instantly label it "sour grapes." You have taken an ancient fable about a fox and a vine and mapped its structural essence onto a modern office dynamic.  
 This is cognition. It is the relentless, high-speed process of retrieving past patterns to make sense of the present. Intelligence is not just processing speed; it is the fluidity with which we can access these categories and map them to novel situations.
-### The Generalist's Toolkit
-If cognition is pattern matching, then the "Polymath" is simply someone with a more diverse library of patterns and a more rigorous method of mapping them. Here is how we turn Hofstadter's theory into practice.
+### The Generalist’s Toolkit
+If cognition is pattern matching, then the "Polymath" is simply someone with a more diverse library of patterns and a more rigorous method of mapping them. Here is how we turn Hofstadter’s theory into practice.
 #### 1. Structural Isomorphism (Map Verbs, Not Nouns)
 The biggest mistake smart people make is mapping surface-level traits. They compare a business to a sports team because both have "players" (nouns). This is weak.  
 To practice rigorous generalism, you must map the "verbs." You must look for Structural Isomorphism—a shared underlying dynamic.  
@@ -39,4 +39,4 @@ That specific divergence of random vs. intentional tells us exactly where the "N
 #### 3. Intellectual Arbitrage
 Specialization creates brittle thinking. It traps powerful concepts inside the jargon of a single industry.  
 By accepting analogy as the core of cognition, we engage in intellectual arbitrage. We can take "Technical Debt" from software engineering and apply it to "Cognitive Debt" in psychology. We can take "Carrying Capacity" from ecology and apply it to "Societal Resilience."  
-This is the ultimate utility of Hofstadter's work. It validates that looking outside your field is not a distraction. It is the only way to build a mind that is robust, flexible, and capable of seeing the solutions that specialists miss.
+This is the ultimate utility of Hofstadter’s work. It validates that looking outside your field is not a distraction. It is the only way to build a mind that is robust, flexible, and capable of seeing the solutions that specialists miss.

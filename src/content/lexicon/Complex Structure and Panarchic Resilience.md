@@ -9,7 +9,7 @@ title: Complex Structure and Panarchic Resilience
 description: 'Distinction between "complicated" and "complex," why that matters for innovation, and how can we design more resilient systems.'
 ---
 ## Introduction
-We have a dangerous obsession with connection. In the digital age, we view the "network" as the ultimate good, i.e., the more connected nodes, the better the system. We look at a visualization of a global social network or a bustling startup ecosystem, see a dense web of lines connecting everyone to everyone, and we think: "Wow, that's complex. That must be robust."  
+We have a dangerous obsession with connection. In the digital age, we view the "network" as the ultimate good, i.e., the more connected nodes, the better the system. We look at a visualization of a global social network or a bustling startup ecosystem, see a dense web of lines connecting everyone to everyone, and we think: "Wow, that’s complex. That must be robust."  
 We are mistaking a hairball for an ecosystem.  
 In systems theory, there is a counter-intuitive truth: Visual density is often a mask for structural simplicity. And in that simplicity lies a profound brittleness that threatens our organizations, our markets, and our future technologies.
 ### The False Complexity of "Connect All"
