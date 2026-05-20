@@ -90,6 +90,50 @@
           "type": "string",
           "default": "Francis Wang"
         },
+        "syndicated_to": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "site": {
+                "type": "string"
+              },
+              "collection": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "last_synced": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  {
+                    "type": "integer",
+                    "format": "unix-time"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "site",
+              "collection",
+              "slug",
+              "last_synced"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "canonical_url": {
+          "type": "string",
+          "format": "uri"
+        },
         "$schema": {
           "type": "string"
         }

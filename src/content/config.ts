@@ -5,6 +5,14 @@ const statusEnum = z.enum(["private", "seed", "wip", "ready", "published", "unli
 const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project"]);
 const contentTypeEnum = z.enum(["atom", "note", "source", "person"]);
 
+// Cross-post syndication tracking (see 00_Protocol/Playbooks/content-publishing.md)
+const syndicationEntry = z.object({
+  site: z.string(),           // e.g. "novaromahorizon.org"
+  collection: z.string(),     // e.g. "insights"
+  slug: z.string(),           // slug on the target site
+  last_synced: z.coerce.date(),
+});
+
 const baseSchema = z.object({
   type: contentTypeEnum.default("note"),
   status: statusEnum.default("wip"),
@@ -15,6 +23,10 @@ const baseSchema = z.object({
   title: z.string(),
   description: z.string().default(""),
   author: z.string().optional().default("Francis Wang"),
+  // Syndication: tracks where this content has been cross-posted
+  syndicated_to: z.array(syndicationEntry).optional(),
+  // Canonical URL: set when THIS page is a mirror of content hosted elsewhere
+  canonical_url: z.string().url().optional(),
 });
 
 // All five collections use the same schema (folder names plural)
