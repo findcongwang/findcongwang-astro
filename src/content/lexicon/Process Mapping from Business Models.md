@@ -84,3 +84,17 @@ Agentic workforce design extends the decomposition to agent coordination. Each c
 The methodology does not dictate which context an organization chooses. It provides a common language across contexts. A software architect can discuss the process map with a business analyst and an AI infrastructure lead. They all understand the layering: domain boundaries, functional roles, and coordination mechanisms.
 
 In each context, the method addresses a common problem: how to scale without centralizing. The process map reveals where decentralization makes sense. It identifies boundaries where coordination overhead exceeds coordination benefits. It enables scaling by adding more boundaries, not by making existing boundaries larger.
+
+## References
+
+- Evans, Eric. *Domain-Driven Design: Tackling Complexity in the Heart of Software.* Addison-Wesley, 2003. Bounded contexts and aggregate roots as decomposition principles.
+- Newman, Sam. *Building Microservices.* O'Reilly, 2015. Service decomposition patterns applicable to organizational team design.
+- Osterwalder, Alexander, and Yves Pigneur. *Business Model Generation.* Wiley, 2010. The Business Model Canvas as input artifact for process derivation.
+
+## Cross-links
+
+- [AI Adoption Maturity Model](/lexicon/ai-adoption-maturity-model)
+- [Hybrid Intelligence](/lexicon/hybrid-intelligence)
+- [Knowledge Composability](/lexicon/knowledge-composability)
+- [Process Mapping from Business Models](/lexicon/process-mapping-from-business-models)
+- [Strategy Map](/lexicon/strategy-map)

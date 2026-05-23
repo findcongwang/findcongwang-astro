@@ -71,12 +71,19 @@ This separation is intentional. The research stands on its own as intellectual c
 
 When we present an Innovation Challenge on Nova Roma, the reader encounters not a vague "we want to improve X" statement but a specification backed by documented failure archaeology, temporal analysis, and scenario projection. The challenge carries authority because the underlying problem-first research is public, citable, and rigorous. Solvers trust the framing because they can verify the evidence. And evaluators can assess submissions against criteria that emerge naturally from the problem's structure rather than being imposed arbitrarily.
 
-### References
-- XPRIZE Foundation. "How We Design Prizes." https://www.xprize.org
+## References
+
+- Cooperathon. *Evaluation Grid — Cooperathon 2026 (Participants).* Mouvement des caisses Desjardins.
+- Darpa. *Grand Challenge Program History.* https://www.darpa.mil
 - Engineers Canada. *Canadian Engineering Grand Challenges.* May 2022.
-- Cooperathon. Evaluation Grid — Cooperathon 2026 (Participants). Mouvement des caisses Desjardins.
-- HeroX. "Challenge Design Services." https://www.herox.com
-- Smith, Larry. Problem Lab Methodology. University of Waterloo. https://uwaterloo.ca/entrepreneurship/problem-lab/our-methods
-- DARPA. Grand Challenge Program History. https://www.darpa.mil
+- HeroX. *Challenge Design Services.* https://www.herox.com
 - Morgan, Adam, and Mark Barden. *A Beautiful Constraint.* Wiley, 2015.
 - Rittel, Horst W. J., and Melvin M. Webber. "Dilemmas in a General Theory of Planning." *Policy Sciences* 4, no. 2 (1973): 155-169.
+- Smith, Larry. *Problem Lab Methodology.* University of Waterloo. https://uwaterloo.ca/entrepreneurship/problem-lab/our-methods
+- XPRIZE Foundation. *How We Design Prizes.* https://www.xprize.org
+
+## Cross-links
+
+- [Compelling Question](/lexicon/compelling-question)
+- [Innovation Challenge](/lexicon/innovation-challenge)
+- [Problem-First Research](/lexicon/problem-first-research)

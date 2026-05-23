@@ -90,11 +90,17 @@ This asset enables a specific format for mobilising action: the Innovation Chall
 
 The integration is deliberate. Problem-first research produces understanding. The design brief compresses it. The [Innovation Challenge](/lexicon/innovation-challenge) deploys it. Each layer builds on the previous, and each references the same underlying temporal analysis.
 
-### References
-- Smith, Larry. Problem Lab Methodology. University of Waterloo, Centre for Business, Entrepreneurship and Technology. https://uwaterloo.ca/entrepreneurship/problem-lab/our-methods
-- Rittel, Horst W. J., and Melvin M. Webber. "Dilemmas in a General Theory of Planning." *Policy Sciences* 4, no. 2 (1973): 155-169.
-- XPRIZE Foundation. Grand Challenge Design Methodology. https://www.xprize.org
+## References
+
+- British Design Council. *The Double Diamond Framework.*
 - Engineers Canada. *Canadian Engineering Grand Challenges.* May 2022.
+- HeroX. *Open Innovation Challenge Design.*
 - Morgan, Adam, and Mark Barden. *A Beautiful Constraint: How to Transform Your Limitations Into Advantages, and Why It's Everyone's Business.* Wiley, 2015.
-- British Design Council. The Double Diamond Framework.
-- HeroX. Open Innovation Challenge Design. https://www.herox.com
+- Rittel, Horst W. J., and Melvin M. Webber. "Dilemmas in a General Theory of Planning." *Policy Sciences* 4, no. 2 (1973): 155-169.
+- Smith, Larry. *Problem Lab Methodology.* University of Waterloo, Centre for Business, Entrepreneurship and Technology. https://uwaterloo.ca/entrepreneurship/problem-lab/our-methods
+- XPRIZE Foundation. *Grand Challenge Design Methodology.* https://www.xprize.org
+
+## Cross-links
+
+- [Compelling Question](/lexicon/compelling-question)
+- [Innovation Challenge](/lexicon/innovation-challenge)

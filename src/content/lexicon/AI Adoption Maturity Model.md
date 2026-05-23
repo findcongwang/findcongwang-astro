@@ -86,3 +86,15 @@ The key adaptation is in the prescriptive stage. In analytics, prescriptive mode
 The model also incorporates lessons from enterprise architecture and systems thinking. Organizations do not adopt AI in isolation. Tier 1 requires data architecture. Tier 2 requires process architecture. Tier 3 requires governance architecture. The model reflects this layers approach. Progression from one tier to the next depends on completing the previous layer.
 
 The model serves as a diagnostic tool rather than a prescription. Organizations use it to identify where they stand. They use it to prioritize investments. They use it to set realistic expectations. The model does not guarantee success. It clarifies the path to success.
+
+## References
+
+- Gartner. *Analytics maturity model defining descriptive, diagnostic, predictive, and prescriptive stages of analytical capability.*
+
+## Cross-links
+
+- [AI Adoption Maturity Model](/lexicon/ai-adoption-maturity-model)
+- [Hybrid Intelligence](/lexicon/hybrid-intelligence)
+- [Perceptiosphere](/lexicon/perceptiosphere)
+- [Process Mapping from Business Models](/lexicon/process-mapping-from-business-models)
+- [Strategy Map](/lexicon/strategy-map)

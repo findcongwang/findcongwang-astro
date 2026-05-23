@@ -105,14 +105,12 @@ The framework provides a way to audit strategic correlation between parties. Two
 
 ## References
 
-Mintzberg, Henry. Patterns in Strategy Formation. *Management Science* 24, no. 9 (1978): 934-948. Mintzberg's distinction between deliberate and emergent strategy informs the bidirectional traversal model.
-
-Kaplan, Robert S., and David P. Norton. Having Trouble with Your Strategy? Then Map It. *Harvard Business Review* 78, no. 5 (2000): 167-176. The Balanced Scorecard introduced layered strategic perspectives; the Strategy Map presented here replaces metric-driven statics with problem-first dynamics.
-
-Schwartz, Peter. *The Art of the Long View: Planning for the Future in an Uncertain World.* Currency, 1996. Scenario planning methodology provides the foundation for temporal integration.
+- Kaplan, Robert S., and David P. Norton. "Having Trouble with Your Strategy? Then Map It." *Harvard Business Review* 78, no. 5 (2000): 167-176. The Balanced Scorecard introduced layered strategic perspectives; the Strategy Map presented here replaces metric-driven statics with problem-first dynamics.
+- Mintzberg, Henry. "Patterns in Strategy Formation." *Management Science* 24, no. 9 (1978): 934-948. Mintzberg's distinction between deliberate and emergent strategy informs the bidirectional traversal model.
+- Schwartz, Peter. *The Art of the Long View: Planning for the Future in an Uncertain World.* Currency, 1996. Scenario planning methodology provides the foundation for temporal integration.
 
 ## Cross-links
 
-- [Problem-First Research](/lexicon/problem-first-research)
-- [Innovation Challenge](/lexicon/innovation-challenge)
 - [Compelling Question](/lexicon/compelling-question)
+- [Innovation Challenge](/lexicon/innovation-challenge)
+- [Problem-First Research](/lexicon/problem-first-research)

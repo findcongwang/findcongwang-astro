@@ -62,7 +62,7 @@ Event-driven operations replace status updates. Agents report anomalies, not pro
 
 The principle of squirrel yeller becomes operational. In a command center, someone must maintain attention on what matters. The system does not decide. A designated human monitors the broader environment for distractions or noise that could pull attention away from current objectives. This person has two responsibilities. First, to shield the cluster from irrelevant information. Second, to trigger attention shifts when the environment changes sufficiently to warrant strategic reprioritization. The squirrel yeller ensures that urgency does not dictate importance.
 
-The command center does not eliminate judgment. It changes how judgment is applied. Human judgment becomes temporal rather than continuous. Attention focuses at specific moments (when exceptions arise, when strategy shifts, when data indicates a need for adjustment). The rest of the time, the system runs under pre-encoded policy. This模式 reduces cognitive load on human leaders while increasing output volume. It creates a rhythm of attention, not constant supervision.
+The command center does not eliminate judgment. It changes how judgment is applied. Human judgment becomes temporal rather than continuous. Attention focuses at specific moments (when exceptions arise, when strategy shifts, when data indicates a need for adjustment). The rest of the time, the system runs under pre-encoded policy. This mode reduces cognitive load on human leaders while increasing output volume. It creates a rhythm of attention, not constant supervision.
 
 This model requires strong data infrastructure. Dashboards do not appear by default. The organization must invest in monitoring capabilities, alerting systems, and real-time analytics. Agents generate activity logs. The command center tooling aggregates these logs into actionable signals. The infrastructure investment precedes the operational model. Without it, the command center remains theoretical.
 
@@ -85,3 +85,17 @@ Hybrid Intelligence draws from patterns that predate AI but reflect similar stru
 AI-native startups exhibit Hybrid Intelligence patterns even before deploying full agent fleets. Teams operate with lean headcount but achieve disproportionate output by leveraging specialized tools, standardized workflows, and clear decision rules. These startups do not wait for process maturity to scale. They build scalability into their foundation. This mirrors how software development shifted from heroic individual coding to team-based, tool-assisted development. Hybrid Intelligence extends this shift from individual capability to team orchestration.
 
 These precedents share a common denominator: encoded context. Whether through software design patterns or policy files, successful scaling depends on translating strategic intent into actionable constraints. Hybrid Intelligence represents the formalization of this principle for the AI age. It does not invent new organizational physics. It applies well-understood scaling principles to a new substrate of execution.
+
+## References
+
+- Brooks, Frederick P. *The Mythical Man-Month.* Addison-Wesley, 1975. Coordination overhead scaling non-linearly with team size.
+- Leonard, Mark. *Constellation Software annual letters.* The acquisition-and-upgrade model as precedent for HI scaling.
+
+## Cross-links
+
+- [AI Adoption Maturity Model](/lexicon/ai-adoption-maturity-model)
+- [Hybrid Intelligence](/lexicon/hybrid-intelligence)
+- [Knowledge Composability](/lexicon/knowledge-composability)
+- [Perceptiosphere](/lexicon/perceptiosphere)
+- [Process Mapping from Business Models](/lexicon/process-mapping-from-business-models)
+- [Strategy Map](/lexicon/strategy-map)
