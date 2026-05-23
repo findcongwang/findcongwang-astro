@@ -49,7 +49,7 @@ const initialTagsJson = JSON.stringify(initialTags);
 ---
 
 <div
-  class="filterable-content grid grid-cols-1 md:grid-cols-[1fr_minmax(0,12rem)] gap-8"
+  class="filterable-content grid grid-cols-1 md:grid-cols-[1fr_minmax(0,14rem)] gap-8"
   data-initial-tags={initialTagsJson}
   data-show-collection-filters={showCollectionFilters}
 >
@@ -65,20 +65,53 @@ const initialTagsJson = JSON.stringify(initialTags);
     >
       <!-- Pills injected by script -->
     </div>
+    <input
+      type="search"
+      id="filterable-tag-search"
+      placeholder="Filter tags…"
+      class="w-full rounded border border-primary/20 bg-secondary px-2 py-1 text-xs text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent mb-2"
+      aria-label="Filter tags"
+    />
+    <div
+      id="filterable-tag-ranges"
+      class="flex flex-wrap gap-1 mb-2"
+      role="group"
+      aria-label="Filter tags by letter"
+    >
+      <!-- Range buttons injected by script -->
+    </div>
     <div
       id="filterable-tag-list"
-      class="flex flex-col gap-0.5 max-h-[50vh] overflow-y-auto scrollbar-hide"
+      class="flex flex-col gap-0.5 leading-tight"
       role="list"
     >
-      {allTags.map((tag) => (
-        <button
-          type="button"
-          class="filterable-tag-btn text-left text-xs text-primary/70 hover:text-accent cursor-pointer py-0.5 px-1 -mx-1 rounded truncate"
-          data-tag={tag}
-        >
-          {tag}
-        </button>
-      ))}
+      <!-- Tag buttons injected by script -->
+    </div>
+    <p id="filterable-tag-empty" class="hidden text-xs text-primary/50 py-1">
+      No tags match.
+    </p>
+    <div
+      id="filterable-tag-pagination"
+      class="mt-2 flex items-center justify-between gap-2 text-xs text-primary/70"
+      hidden
+    >
+      <button
+        type="button"
+        id="filterable-tag-prev"
+        class="rounded px-2 py-1 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
+        aria-label="Previous page of tags"
+      >
+        Prev
+      </button>
+      <span id="filterable-tag-page-status" aria-live="polite"></span>
+      <button
+        type="button"
+        id="filterable-tag-next"
+        class="rounded px-2 py-1 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
+        aria-label="Next page of tags"
+      >
+        Next
+      </button>
     </div>
   </aside>
 
@@ -188,6 +221,15 @@ const initialTagsJson = JSON.stringify(initialTags);
 
 <script define:vars={{ entriesJson: serialized, tagsJson, collectionIdsJson, collectionLabelsJson, initialTagsJson }}>
   (function () {
+    const TAG_PAGE_SIZE = 20;
+    const LETTER_RANGES = [
+      { id: "all", label: "All", test: () => true },
+      { id: "a-f", label: "A–F", test: (t) => /^[a-f]/i.test(t) },
+      { id: "g-l", label: "G–L", test: (t) => /^[g-l]/i.test(t) },
+      { id: "m-r", label: "M–R", test: (t) => /^[m-r]/i.test(t) },
+      { id: "s-z", label: "S–Z", test: (t) => /^[s-z]/i.test(t) },
+    ];
+
     const list = document.getElementById("filterable-list");
     const noResults = document.getElementById("filterable-no-results");
     const searchInput = document.getElementById("filterable-search");
@@ -195,6 +237,13 @@ const initialTagsJson = JSON.stringify(initialTags);
     const suggestionsList = document.getElementById("filterable-search-suggestions");
     const activeTagsContainer = document.getElementById("filterable-active-tags");
     const tagListContainer = document.getElementById("filterable-tag-list");
+    const tagSearchInput = document.getElementById("filterable-tag-search");
+    const tagRangesContainer = document.getElementById("filterable-tag-ranges");
+    const tagEmptyEl = document.getElementById("filterable-tag-empty");
+    const tagPaginationEl = document.getElementById("filterable-tag-pagination");
+    const tagPrevBtn = document.getElementById("filterable-tag-prev");
+    const tagNextBtn = document.getElementById("filterable-tag-next");
+    const tagPageStatusEl = document.getElementById("filterable-tag-page-status");
     const root = document.querySelector(".filterable-content");
     const showCollectionFilters = root?.getAttribute("data-show-collection-filters") === "true";
 
@@ -207,6 +256,10 @@ const initialTagsJson = JSON.stringify(initialTags);
       const fromUrl = p.getAll("tags").filter(Boolean);
       return fromUrl.length > 0 ? fromUrl : JSON.parse(initialTagsJson);
     })();
+
+    let tagSearchQuery = "";
+    let activeLetterRange = "all";
+    let tagPage = 1;
 
     function getTitle(entry) {
       return entry.title || "";
@@ -258,10 +311,103 @@ const initialTagsJson = JSON.stringify(initialTags);
             selectedTags = selectedTags.filter((x) => x !== t);
             updateUrl();
             renderActivePills();
+            renderTagList();
             apply();
           }
         });
       });
+    }
+
+    function getFilteredTags() {
+      const q = tagSearchQuery.toLowerCase().trim();
+      const range = LETTER_RANGES.find((r) => r.id === activeLetterRange) ?? LETTER_RANGES[0];
+      return allTags.filter((tag) => {
+        if (q && !tag.toLowerCase().includes(q)) return false;
+        if (activeLetterRange === "all") return true;
+        const first = tag.trim().charAt(0);
+        if (!first) return false;
+        if (/^[a-z]/i.test(first)) return range.test(tag);
+        return false;
+      });
+    }
+
+    function renderTagRanges() {
+      if (!tagRangesContainer) return;
+      tagRangesContainer.innerHTML = LETTER_RANGES.map(
+        (r) =>
+          `<button type="button" class="filterable-tag-range-btn rounded px-1.5 py-0.5 text-xs cursor-pointer ${
+            activeLetterRange === r.id
+              ? "bg-accent text-secondary font-medium"
+              : "text-primary/70 hover:bg-primary/10"
+          }" data-range="${r.id}">${r.label}</button>`
+      ).join("");
+      tagRangesContainer.querySelectorAll(".filterable-tag-range-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const range = btn.getAttribute("data-range");
+          if (range && range !== activeLetterRange) {
+            activeLetterRange = range;
+            tagPage = 1;
+            renderTagRanges();
+            renderTagList();
+          }
+        });
+      });
+    }
+
+    function renderTagPagination(totalPages) {
+      if (!tagPaginationEl || !tagPrevBtn || !tagNextBtn || !tagPageStatusEl) return;
+      const show = totalPages > 1;
+      tagPaginationEl.hidden = !show;
+      if (!show) return;
+      tagPageStatusEl.textContent = `Page ${tagPage} of ${totalPages}`;
+      tagPrevBtn.disabled = tagPage <= 1;
+      tagNextBtn.disabled = tagPage >= totalPages;
+      tagPrevBtn.setAttribute("aria-disabled", tagPage <= 1 ? "true" : "false");
+      tagNextBtn.setAttribute("aria-disabled", tagPage >= totalPages ? "true" : "false");
+    }
+
+    function addTagFilter(tag) {
+      if (!tag || selectedTags.includes(tag)) return;
+      selectedTags = [...selectedTags, tag].sort();
+      updateUrl();
+      renderActivePills();
+      renderTagList();
+      apply();
+    }
+
+    function renderTagList() {
+      if (!tagListContainer) return;
+      const filtered = getFilteredTags();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / TAG_PAGE_SIZE));
+      if (tagPage > totalPages) tagPage = totalPages;
+      const start = (tagPage - 1) * TAG_PAGE_SIZE;
+      const pageTags = filtered.slice(start, start + TAG_PAGE_SIZE);
+
+      tagListContainer.innerHTML = pageTags
+        .map((tag) => {
+          const isSelected = selectedTags.includes(tag);
+          return `<button type="button" class="filterable-tag-btn text-left text-xs leading-tight break-words cursor-pointer py-0.5 px-1 -mx-1 rounded ${
+            isSelected
+              ? "font-medium text-accent"
+              : "text-primary/70 hover:text-accent"
+          }" data-tag="${escapeAttr(tag)}">${escapeHtml(tag)}</button>`;
+        })
+        .join("");
+
+      tagListContainer.querySelectorAll(".filterable-tag-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tag = btn.getAttribute("data-tag");
+          if (tag) addTagFilter(tag);
+        });
+      });
+
+      if (tagEmptyEl) {
+        const empty = filtered.length === 0;
+        tagEmptyEl.classList.toggle("hidden", !empty);
+        tagListContainer.classList.toggle("hidden", empty);
+      }
+
+      renderTagPagination(totalPages);
     }
 
     function showSuggestions(query) {
@@ -295,15 +441,10 @@ const initialTagsJson = JSON.stringify(initialTags);
         li.dataset.action = "tag";
         li.dataset.value = tag;
         li.addEventListener("click", () => {
-          if (!selectedTags.includes(tag)) {
-            selectedTags = [...selectedTags, tag].sort();
-            updateUrl();
-            renderActivePills();
-          }
+          addTagFilter(tag);
           searchInput.value = "";
           suggestionsList.classList.add("hidden");
           searchInput.setAttribute("aria-expanded", "false");
-          apply();
         });
         suggestionsList.appendChild(li);
       });
@@ -391,16 +532,26 @@ const initialTagsJson = JSON.stringify(initialTags);
     });
     sortSelect?.addEventListener("change", apply);
 
-    tagListContainer?.querySelectorAll(".filterable-tag-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const tag = btn.getAttribute("data-tag");
-        if (tag && !selectedTags.includes(tag)) {
-          selectedTags = [...selectedTags, tag].sort();
-          updateUrl();
-          renderActivePills();
-          apply();
-        }
-      });
+    tagSearchInput?.addEventListener("input", () => {
+      tagSearchQuery = tagSearchInput.value;
+      tagPage = 1;
+      renderTagList();
+    });
+
+    tagPrevBtn?.addEventListener("click", () => {
+      if (tagPage > 1) {
+        tagPage--;
+        renderTagList();
+      }
+    });
+
+    tagNextBtn?.addEventListener("click", () => {
+      const filtered = getFilteredTags();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / TAG_PAGE_SIZE));
+      if (tagPage < totalPages) {
+        tagPage++;
+        renderTagList();
+      }
     });
 
     if (showCollectionFilters) {
@@ -409,7 +560,9 @@ const initialTagsJson = JSON.stringify(initialTags);
       });
     }
 
+    renderTagRanges();
     renderActivePills();
+    renderTagList();
     apply();
   })();
 </script>
