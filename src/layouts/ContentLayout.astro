@@ -26,6 +26,21 @@ const publishDate =
   "publish_date" in frontmatter && frontmatter.publish_date
     ? new Date(frontmatter.publish_date as string | number | Date)
     : null;
+const originatedDate =
+  "originated_date" in frontmatter && frontmatter.originated_date
+    ? new Date(frontmatter.originated_date as string | number | Date)
+    : null;
+const updatedDate =
+  "updated_date" in frontmatter && frontmatter.updated_date
+    ? new Date(frontmatter.updated_date as string | number | Date)
+    : null;
+// Display date: for listing/general use, prefer originated_date, fall back to publish_date, then created_date
+const displayDate = originatedDate ?? publishDate ??
+  ("created_date" in frontmatter && frontmatter.created_date
+    ? new Date(frontmatter.created_date as string | number | Date)
+    : null);
+// Secondary date: updated_date if present, else publish_date (only shown if different from originated)
+const secondaryDate = updatedDate ?? (publishDate && originatedDate && publishDate.getTime() !== originatedDate.getTime() ? publishDate : null);
 const tags = "tags" in frontmatter ? ((frontmatter.tags as string[]) ?? []) : [];
 const author = (frontmatter.author as string) ?? "Francis Wang";
 const publishType =
@@ -115,28 +130,45 @@ const related = relatedWithCollection.slice(0, 3);
             {author && (
               <>
                 <span>By {author === "Francis Wang" ? (<a href="/curriculum-vitae" class="hover:text-primary underline underline-offset-2">{author}</a>) : author}</span>
-                {(publishDate || tags.length > 0 || readMinutes > 0) && <span aria-hidden="true">·</span>}
+                {(displayDate || tags.length > 0 || readMinutes > 0) && <span aria-hidden="true">·</span>}
               </>
             )}
-            {publishDate && (
-              <time datetime={publishDate.toISOString().slice(0, 10)}>
-                {publishDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                  timeZone: "UTC",
-                })}
-              </time>
+            {displayDate && (
+              <span>
+                Originated: <time datetime={displayDate.toISOString().slice(0, 10)}>
+                  {displayDate.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                    timeZone: "UTC",
+                  })}
+                </time>
+              </span>
+            )}
+            {secondaryDate && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>
+                  Updated: <time datetime={secondaryDate.toISOString().slice(0, 10)}>
+                    {secondaryDate.toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                      timeZone: "UTC",
+                    })}
+                  </time>
+                </span>
+              </>
             )}
             {readMinutes > 0 && (
               <>
-                {(publishDate ?? tags.length > 0) && <span aria-hidden="true">·</span>}
+                {(displayDate ?? tags.length > 0) && <span aria-hidden="true">·</span>}
                 <span>{readMinutes} min read</span>
               </>
             )}
             {tags.length > 0 && (
               <>
-                {publishDate && <span aria-hidden="true">·</span>}
+                {displayDate && <span aria-hidden="true">·</span>}
                 <span class="flex flex-wrap items-center gap-x-1.5 gap-y-0">
                   {tags.map((tag) => (
                     <a

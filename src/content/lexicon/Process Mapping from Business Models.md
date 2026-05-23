@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Business Architecture, Process Design, Business Model Canvas, Domain-Driven Design, Organizational Design]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-04-12
+publish_date: 2026-04-12
+updated_date: 2026-05-23
 title: Process Mapping from Business Models
 description: A methodology for deriving operational process maps from a Business Model Canvas by tracing dependencies between entries, forming natural clusters that become team units for both traditional and agentic organizational design.
 ---

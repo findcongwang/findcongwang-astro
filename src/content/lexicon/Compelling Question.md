@@ -3,7 +3,7 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Strategic Foresight, Design Fiction, Scenario Planning, Innovation]
-created_date: 2025-12-25
+originated_date: 2025-12-25
 publish_date: 2025-12-25
 title: Compelling Question (Foresight)
 description: A strategic tool to fracture conventional thinking and reveal latent opportunities within complex problems.

@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Knowledge Management, Curation, Active Library, Knowledge Succession, Stewardship]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-02-03
+publish_date: 2026-02-03
+updated_date: 2026-05-23
 title: Knowledge Curation and Stewardship
 description: The deliberate practice of cultivating knowledge as living material through decomposition, connection-making, graded validation, and intergenerational stewardship, distinguishing the irreplaceable human role from AI collection in knowledge work.
 ---

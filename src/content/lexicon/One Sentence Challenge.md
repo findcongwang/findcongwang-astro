@@ -3,7 +3,7 @@ type: atom
 status: published
 publish_type: lexicon
 tags: [Strategy, Communication]
-created_date: 2026-03-04
+originated_date: 2026-03-04
 publish_date: 2026-03-04
 title: One Sentence Challenge
 description: The One Sentence Challenge is a discipline in radical brevity designed to test the structural integrity of an idea.

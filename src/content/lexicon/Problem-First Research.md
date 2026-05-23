@@ -3,7 +3,7 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Innovation Methodology, Temporal Analysis, Failure Archaeology, Futures Studies, Design Thinking]
-created_date: 2026-05-20
+originated_date: 2026-01-15
 publish_date: 2026-05-20
 title: Problem-First Research
 description: A convergent methodology requiring deep problem understanding—history, context, failure analysis, and temporal projection—before any solution ideation occurs.

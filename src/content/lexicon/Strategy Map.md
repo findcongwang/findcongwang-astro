@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Strategic Foresight, Problem-First Strategy, Visualization, Cross-Sector Coordination]
-created_date: 2026-05-22
-publish_date: 2026-05-22
+originated_date: 2026-04-17
+publish_date: 2026-04-17
+updated_date: 2026-05-23
 title: Strategy Map
 description: A four-layer framework that structures strategic thinking inside-out, from a problem-first contextual core (What, Why, Who Cares) through success metrics, concrete tactics, and observable artifacts.
 ---

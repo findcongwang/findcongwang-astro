@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Knowledge Architecture, Sovereign Knowledge, Contextual Integrity, Concentric Model, AI-Augmented Thinking]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2025-12-21
+publish_date: 2026-02-03
+updated_date: 2026-05-23
 title: Perceptiosphere
 description: A nested set of sovereign zones of cognitive and digital influence where personal data, lived experience, and tacit knowledge converge concentrically, providing structural mechanisms for knowledge succession, composable collaboration, and contextual integrity.
 ---

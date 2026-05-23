@@ -3,7 +3,7 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Systems Thinking, Resilience, Network Theory, Innovation Ecosystems]
-created_date: 2026-01-02
+originated_date: 2026-01-02
 publish_date: 2026-01-02
 title: Complex Structure and Panarchic Resilience
 description: 'Distinction between "complicated" and "complex," why that matters for innovation, and how can we design more resilient systems.'

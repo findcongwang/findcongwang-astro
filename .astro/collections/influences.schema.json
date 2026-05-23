@@ -63,7 +63,39 @@
             }
           ]
         },
+        "originated_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
         "publish_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "updated_date": {
           "anyOf": [
             {
               "type": "string",
@@ -140,7 +172,6 @@
       },
       "required": [
         "publish_type",
-        "created_date",
         "title"
       ],
       "additionalProperties": false

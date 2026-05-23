@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Learning, Knowledge Architecture, Tacit Knowledge, Curation, Self-Teaching]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-02-03
+publish_date: 2026-02-03
+updated_date: 2026-05-23
 title: Structured Reflection
 description: The deliberate process of externalizing tacit knowledge into communicable artifacts, serving simultaneously as a learning mechanism and a curation act that moves knowledge from inner sovereign spheres toward collective contribution.
 ---

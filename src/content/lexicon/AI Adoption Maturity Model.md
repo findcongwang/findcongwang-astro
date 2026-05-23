@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [AI Adoption, Organizational Maturity, Agentic AI, Analytics, Enterprise Architecture]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-04-12
+publish_date: 2026-04-12
+updated_date: 2026-05-23
 title: AI Adoption Maturity Model
 description: A three-tier progression for organizational AI adoption, adapted from Gartner's analytics maturity framework, mapping the path from data aggregation through human-initiated reasoning to fully autonomous agentic operations.
 ---

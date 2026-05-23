@@ -3,7 +3,7 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Innovation Methodology, Challenge Design, Grand Challenges, Cooperathon, Design Brief]
-created_date: 2026-05-20
+originated_date: 2026-02-05
 publish_date: 2026-05-20
 title: Innovation Challenge
 description: A structured, solution-agnostic problem specification that mobilises diverse solvers toward measurable outcomes, built on problem-first research methodology.

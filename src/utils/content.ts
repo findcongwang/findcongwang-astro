@@ -46,6 +46,8 @@ function getDisplayTitle(data: UnifiedEntry["data"]): string {
 }
 
 function getPublishDate(data: UnifiedEntry["data"]): Date | null {
+  if ("originated_date" in data && data.originated_date)
+    return new Date(data.originated_date);
   if ("publish_date" in data && data.publish_date)
     return new Date(data.publish_date);
   if ("pubDate" in data && data.pubDate) return new Date(data.pubDate as Date);
@@ -155,6 +157,8 @@ function getEntryTitle(data: Record<string, unknown>): string {
 }
 
 function getEntryPublishDate(data: Record<string, unknown>): string | null {
+  // Listing cards show originated_date (concept birth) if available
+  if (data.originated_date) return new Date(data.originated_date as Date).toISOString();
   if (data.publish_date) return new Date(data.publish_date as Date).toISOString();
   if (data.pubDate) return new Date(data.pubDate as Date).toISOString();
   if (data.created_date) return new Date(data.created_date as Date).toISOString();

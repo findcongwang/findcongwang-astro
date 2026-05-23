@@ -18,8 +18,12 @@ const baseSchema = z.object({
   status: statusEnum.default("wip"),
   publish_type: publishTypeEnum,
   tags: z.array(z.string()).default([]),
-  created_date: z.coerce.date(),
+  // Date fields: collections may use either created_date or originated_date
+  // Lexicon uses originated_date (concept birth date); other collections use created_date
+  created_date: z.coerce.date().optional(),
+  originated_date: z.coerce.date().optional(),
   publish_date: z.coerce.date().optional(),
+  updated_date: z.coerce.date().optional(),
   title: z.string(),
   description: z.string().default(""),
   author: z.string().optional().default("Francis Wang"),

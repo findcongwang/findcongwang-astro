@@ -8,8 +8,9 @@ tags:
   - AI-Native Teams
   - Agentic AI
   - Policy as Code
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-01-20
+publish_date: 2026-01-20
+updated_date: 2026-05-23
 title: Hybrid Intelligence (HI-Scaling Teams)
 description: An organizational operating model where small human teams orchestrate AI agent workforces to achieve enterprise-scale output, structured around encoded policy and process clusters rather than hierarchical departments.
 ---

@@ -3,8 +3,9 @@ type: note
 status: published
 publish_type: lexicon
 tags: [Knowledge Architecture, Composability, Interoperability, Knowledge Succession, Cross-Domain Synthesis]
-created_date: 2026-05-23
-publish_date: 2026-05-23
+originated_date: 2026-02-03
+publish_date: 2026-02-03
+updated_date: 2026-05-23
 title: Knowledge Composability
 description: The principle that knowledge decomposed into semantic units and organized with shared structural frameworks becomes overlayable, recontextualizable, and combinable across boundaries, enabling cross-generational collaboration and resolving knowledge succession.
 ---
