@@ -48,7 +48,7 @@ The alternative—context economy—offers a path to more equitable value distri
 
 ### Without Corporations Claiming Ownership of Lived Experience
 
-The failure scenario is dystopian but plausible. Employees sign contracts that grant employers ownership of "all work product, including digital patterns and cognitive signatures." Over time, the boundaries blur: email通讯, meeting notes, code comments—all become corporate IP. The result is not just wage labour but cognitive enclosure, where individuals cannot license their own expertise even outside their employment.
+The failure scenario is dystopian but plausible. Employees sign contracts that grant employers ownership of "all work product, including digital patterns and cognitive signatures." Over time, the boundaries blur: email correspondence, meeting notes, code comments—all become corporate IP. The result is not just wage labour but cognitive enclosure, where individuals cannot license their own expertise even outside their employment.
 
 The constraint forces us toward protocols that separate employment from context ownership. An individual may work for an organisation on specific contexts, but that doesn't automatically grant ownership of all their patterns. The architecture must support multiple context Licences, each with clear boundaries.
 
