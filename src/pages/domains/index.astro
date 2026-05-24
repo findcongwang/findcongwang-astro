@@ -20,7 +20,7 @@ const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
         title="Domains"
         description="Domains are how I organize my thinking, these notes are atlas-level overviews. Sometimes, a topic crosses multiple domains at different levels of abstraction."
         initialTags={initialTags}
-        defaultSort="name"
+        defaultSort="date-desc"
       />
     </Wrapper>
   </section>
