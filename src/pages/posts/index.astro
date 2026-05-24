@@ -22,6 +22,7 @@ const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
         title="Posts"
         description="Ideas, insights & experiments."
         initialTags={initialTags}
+        defaultSort="date-desc"
       />
     </Wrapper>
   </section>

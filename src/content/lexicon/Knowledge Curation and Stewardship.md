@@ -66,7 +66,7 @@ A symposium presentation that exists only as a PDF is a single, indivisible arti
 - The methodology
 - The relationship to adjacent ideas
 
-This practice directly enables **Knowledge Composability**: the principle that decomposed, well-structured knowledge can be overlaid, recombined, and recontextualized across boundaries. Without decomposition, composability is impossible. The curator who breaks knowledge into its semantic units is performing the foundational act that makes all downstream composition possible.
+This practice directly enables **Knowledge Composability**: the principle that decomposed, well-structured knowledge can be overlaid, recombined, and recontextualised across boundaries. Without decomposition, composability is impossible. The curator who breaks knowledge into its semantic units is performing the foundational act that makes all downstream composition possible.
 
 **Decomposition follows the Problem-First Research methodology:**
 

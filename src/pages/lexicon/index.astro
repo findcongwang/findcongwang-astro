@@ -18,6 +18,7 @@ const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
         title="Lexicon"
         description="A set of key terms, concepts, and distinctions that I use to think about the world."
         initialTags={initialTags}
+        defaultSort="name"
       />
     </Wrapper>
   </section>

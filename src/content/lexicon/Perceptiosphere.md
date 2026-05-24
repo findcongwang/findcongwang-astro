@@ -9,9 +9,9 @@ updated_date: 2026-05-23
 title: Perceptiosphere
 description: A nested set of sovereign zones of cognitive and digital influence where personal data, lived experience, and tacit knowledge converge concentrically, providing structural mechanisms for knowledge succession, composable collaboration, and contextual integrity.
 ---
-# Perceptiosphere
 
-Knowledge succession is the central failure of modern organizations and communities. When people leave, their context leaves with them. When projects end, connections between their components dissolve. Existing systems treat knowledge as inventory to store rather than living context to maintain. The result: every generation rediscovers what the previous generation already knew.
+
+Knowledge succession is the central failure of modern organisations and communities. When people leave, their context leaves with them. When projects end, connections between their components dissolve. Existing systems treat knowledge as inventory to store rather than living context to maintain. The result: every generation rediscovers what the previous generation already knew.
 
 A deeper problem compounds this failure: contextual integrity. AI agents now move fluidly between private, corporate, and public digital spaces. Without structural boundaries defining who has access to what context, collaboration becomes surveillance and knowledge sharing becomes extraction. The question is not whether to share knowledge but how to maintain appropriate boundaries while enabling productive collaboration.
 
@@ -35,9 +35,9 @@ Knowledge in this layer is transitional. It exists in the space between the inef
 
 ### Community of Practice: Shared Context
 
-The Community of Practice layer represents knowledge shared with registered communities where there is mutual benefit and shared context. This includes organizations, companies, professional associations, and collaborative networks. Knowledge here has typically passed through some form of structured reflection before reaching this layer.
+The Community of Practice layer represents knowledge shared with registered communities where there is mutual benefit and shared context. This includes organisations, companies, professional associations, and collaborative networks. Knowledge here has typically passed through some form of structured reflection before reaching this layer.
 
-This is where collective knowledge lives: team documentation, shared frameworks, organizational memory, community resources. Contributions are more deliberate than in the Closed Social sphere because the knowledge will be interpreted by people outside the immediate trust circle. The relationship is reciprocal: contributors gain access to the collective resources, and the community benefits from individual contributions.
+This is where collective knowledge lives: team documentation, shared frameworks, organisational memory, community resources. Contributions are more deliberate than in the Closed Social sphere because the knowledge will be interpreted by people outside the immediate trust circle. The relationship is reciprocal: contributors gain access to the collective resources, and the community benefits from individual contributions.
 
 ### Public: Deliberate Contribution
 
@@ -47,9 +47,9 @@ The transition to the Public layer involves additional gates: clarity of express
 
 ### Entity-Level Framing
 
-The Perceptiosphere can belong to an individual human, a family unit, a small team, or an organization. The key structural property: the frame of reference has an owner or set of creators who decide what is sovereign to their unit and what is shared with which communities.
+The Perceptiosphere can belong to an individual human, a family unit, a small team, or an organisation. The key structural property: the frame of reference has an owner or set of creators who decide what is sovereign to their unit and what is shared with which communities.
 
-The model always starts from this layered context around an entity. There is no universal Perceptiosphere applicable to everyone. Each entity constructs its own spatial framework. This is not about categorizing knowledge into fixed taxonomies; it is about maintaining boundaries that reflect the relationships in which the knowledge exists.
+The model always starts from this layered context around an entity. There is no universal Perceptiosphere applicable to everyone. Each entity constructs its own spatial framework. This is not about categorising knowledge into fixed taxonomies; it is about maintaining boundaries that reflect the relationships in which the knowledge exists.
 
 ## Spatial Layers and Confidence Tiers
 
@@ -81,7 +81,7 @@ The distinction between spatial layer and confidence tier is critical. A Core in
 
 Knowledge moves from inner to outer spheres through Structured Reflection: the deliberate process of externalizing tacit knowledge into communicable artifacts.
 
-The flow begins in the Core, where tacit knowledge exists. Through Structured Reflection, it becomes articulated. This articulation may take many forms: notes, models, diagrams, narratives. Once articulated, the entity faces a decision point: keep sovereign, or contribute to a collective layer? If contributing: which layer? Close circle for feedback and development? Community of practice for organizational benefit? Public for broad impact?
+The flow begins in the Core, where tacit knowledge exists. Through Structured Reflection, it becomes articulated. This articulation may take many forms: notes, models, diagrams, narratives. Once articulated, the entity faces a decision point: keep sovereign, or contribute to a collective layer? If contributing: which layer? Close circle for feedback and development? Community of practice for organisational benefit? Public for broad impact?
 
 This process is deliberate, not automatic. No mechanism exists to extract knowledge from someone's inner spheres without their consent. The architecture makes contribution natural through tools that support articulation and contribution while keeping the decision with the entity.
 
@@ -113,7 +113,7 @@ Source material includes documents, conversations, data streams, observations, a
 
 ### Organize
 
-AI librarian agents structure input into semantic atoms using a consistent taxonomy. The result is a navigable graph rather than a pile of documents. The organization stage applies structure without interpretation. It identifies connections between atoms but does not judge their value or accuracy.
+AI librarian agents structure input into semantic atoms using a consistent taxonomy. The result is a navigable graph rather than a pile of documents. The organisation stage applies structure without interpretation. It identifies connections between atoms but does not judge their value or accuracy.
 
 The ACCESS framework provides sufficient structure for navigation and connection while preserving the flexibility of the underlying material. Each atom retains its original context and metadata, making later refinement possible.
 
@@ -131,7 +131,7 @@ Knowledge becomes action. Humans and AI produce new artifacts, efforts, and outp
 
 The Execute stage is not separate from the others. It feeds into the next Collect cycle, adding new material for processing. The cycle is continuous and self-renewing.
 
-The cycle is fractal: it operates at individual, team, and organizational scales simultaneously. An individual might be running their own CORE cycle while participating in team and organizational cycles. Each scale informs the others.
+The cycle is fractal: it operates at individual, team, and organisational scales simultaneously. An individual might be running their own CORE cycle while participating in team and organisational cycles. Each scale informs the others.
 
 ## Composable Collaboration
 

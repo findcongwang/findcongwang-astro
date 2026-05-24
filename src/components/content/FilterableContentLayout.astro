@@ -26,9 +26,10 @@ interface Props {
   initialTags?: string[];
   /** When true, show collection checkboxes and filter by collection (browse mode). */
   showCollectionFilters?: boolean;
+  defaultSort?: "date-desc" | "date-asc" | "name";
 }
 
-const { entries, title, description, initialTags = [], showCollectionFilters = false } = Astro.props;
+const { entries, title, description, initialTags = [], showCollectionFilters = false, defaultSort = "date-desc" } = Astro.props;
 const allTags = [...new Set(entries.flatMap((e) => e.tags))].sort();
 const serialized = JSON.stringify(
   entries.map((e) => ({
@@ -98,7 +99,7 @@ const initialTagsJson = JSON.stringify(initialTags);
       <button
         type="button"
         id="filterable-tag-prev"
-        class="rounded px-2 py-1 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="rounded px-3 py-1.5 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label="Previous page of tags"
       >
         Prev
@@ -107,7 +108,7 @@ const initialTagsJson = JSON.stringify(initialTags);
       <button
         type="button"
         id="filterable-tag-next"
-        class="rounded px-2 py-1 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="rounded px-3 py-1.5 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label="Next page of tags"
       >
         Next
@@ -147,36 +148,35 @@ const initialTagsJson = JSON.stringify(initialTags);
       </div>
     )}
 
-    <div class="mt-4 relative">
-      <input
-        type="search"
-        id="filterable-search"
-        placeholder="Search or add tag filter…"
-        class="w-full rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent"
-        aria-label="Search"
-        aria-autocomplete="list"
-        aria-controls="filterable-search-suggestions"
-        aria-expanded="false"
-      />
-      <ul
-        id="filterable-search-suggestions"
-        class="absolute top-full left-0 right-0 mt-1 py-1 bg-secondary border border-primary/20 rounded shadow-lg z-10 hidden max-h-60 overflow-y-auto"
-        role="listbox"
-        aria-label="Search and tag suggestions"
-      >
-        <!-- Injected by script -->
-      </ul>
-    </div>
-
-    <div class="mt-2">
+    <div class="mt-4 flex items-center gap-2">
+      <div class="relative flex-1">
+        <input
+          type="search"
+          id="filterable-search"
+          placeholder="Search or add tag filter…"
+          class="w-full rounded border border-primary/20 bg-secondary px-2 py-1 text-xs text-primary placeholder:text-primary/50 focus:outline-none focus:ring-2 focus:ring-accent"
+          aria-label="Search"
+          aria-autocomplete="list"
+          aria-controls="filterable-search-suggestions"
+          aria-expanded="false"
+        />
+        <ul
+          id="filterable-search-suggestions"
+          class="absolute top-full left-0 right-0 mt-1 py-1 bg-secondary border border-primary/20 rounded shadow-lg z-10 hidden max-h-60 overflow-y-auto"
+          role="listbox"
+          aria-label="Search and tag suggestions"
+        >
+          <!-- Injected by script -->
+        </ul>
+      </div>
       <select
         id="filterable-sort"
-        class="min-w-[10.5rem] rounded border border-primary/20 bg-secondary px-3 py-1.5 text-sm text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+        class="rounded border border-primary/20 bg-secondary px-2 py-1 text-xs text-primary focus:outline-none focus:ring-2 focus:ring-accent"
         aria-label="Sort by"
       >
-        <option value="date-desc">Newest first</option>
-        <option value="date-asc">Oldest first</option>
-        <option value="name">Name / title</option>
+        <option value="date-desc" selected={defaultSort === "date-desc"}>Newest first</option>
+        <option value="date-asc" selected={defaultSort === "date-asc"}>Oldest first</option>
+        <option value="name" selected={defaultSort === "name"}>Name / title</option>
       </select>
     </div>
 
@@ -216,12 +216,22 @@ const initialTagsJson = JSON.stringify(initialTags);
     <p id="filterable-no-results" class="hidden mt-4 text-sm text-primary/60">
       No matching entries.
     </p>
+    <div id="filterable-list-pagination" class="mt-3 flex items-center justify-between gap-2 text-xs text-primary/70" hidden>
+      <button type="button" id="filterable-list-prev" class="rounded px-3 py-1.5 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed" aria-label="Previous page">
+        ← Prev
+      </button>
+      <span id="filterable-list-page-status" aria-live="polite"></span>
+      <button type="button" id="filterable-list-next" class="rounded px-3 py-1.5 hover:bg-primary/10 disabled:opacity-40 disabled:cursor-not-allowed" aria-label="Next page">
+        Next →
+      </button>
+    </div>
   </div>
 </div>
 
-<script define:vars={{ entriesJson: serialized, tagsJson, collectionIdsJson, collectionLabelsJson, initialTagsJson }}>
+<script define:vars={{ entriesJson: serialized, tagsJson, collectionIdsJson, collectionLabelsJson, initialTagsJson, defaultSortJson: JSON.stringify(defaultSort) }}>
   (function () {
-    const TAG_PAGE_SIZE = 20;
+    const TAG_PAGE_SIZE = 30;
+    const LIST_PAGE_SIZE = 8;
     const LETTER_RANGES = [
       { id: "all", label: "All", test: () => true },
       { id: "a-f", label: "A–F", test: (t) => /^[a-f]/i.test(t) },
@@ -234,7 +244,13 @@ const initialTagsJson = JSON.stringify(initialTags);
     const noResults = document.getElementById("filterable-no-results");
     const searchInput = document.getElementById("filterable-search");
     const sortSelect = document.getElementById("filterable-sort");
+    const defaultSort = JSON.parse(defaultSortJson);
+    if (sortSelect) sortSelect.value = defaultSort;
     const suggestionsList = document.getElementById("filterable-search-suggestions");
+    const listPaginationEl = document.getElementById("filterable-list-pagination");
+    const listPrevBtn = document.getElementById("filterable-list-prev");
+    const listNextBtn = document.getElementById("filterable-list-next");
+    const listPageStatusEl = document.getElementById("filterable-list-page-status");
     const activeTagsContainer = document.getElementById("filterable-active-tags");
     const tagListContainer = document.getElementById("filterable-tag-list");
     const tagSearchInput = document.getElementById("filterable-tag-search");
@@ -260,6 +276,7 @@ const initialTagsJson = JSON.stringify(initialTags);
     let tagSearchQuery = "";
     let activeLetterRange = "all";
     let tagPage = 1;
+    let listPage = 1;
 
     function getTitle(entry) {
       return entry.title || "";
@@ -309,6 +326,7 @@ const initialTagsJson = JSON.stringify(initialTags);
           const t = btn.getAttribute("data-tag");
           if (t) {
             selectedTags = selectedTags.filter((x) => x !== t);
+            listPage = 1;
             updateUrl();
             renderActivePills();
             renderTagList();
@@ -369,6 +387,7 @@ const initialTagsJson = JSON.stringify(initialTags);
     function addTagFilter(tag) {
       if (!tag || selectedTags.includes(tag)) return;
       selectedTags = [...selectedTags, tag].sort();
+      listPage = 1;
       updateUrl();
       renderActivePills();
       renderTagList();
@@ -460,8 +479,7 @@ const initialTagsJson = JSON.stringify(initialTags);
       const sort = sortSelect?.value ?? "date-desc";
       const selectedCollections = getSelectedCollections();
 
-      const items = list?.querySelectorAll(".filterable-item") ?? [];
-      let visible = 0;
+      const items = [...(list?.querySelectorAll(".filterable-item") ?? [])];
 
       const sortedEntries = [...entries].sort((a, b) => {
         if (sort === "name") return getTitle(a).localeCompare(getTitle(b));
@@ -475,10 +493,21 @@ const initialTagsJson = JSON.stringify(initialTags);
         sortedEntries.map((e, i) => [`${e.collection}/${e.slug}`, i])
       );
 
-      [...items].forEach((el) => {
+      // Sort DOM nodes
+      const container = list;
+      if (container) {
+        items.sort((a, b) => {
+          const ka = `${a.getAttribute("data-collection")}/${a.getAttribute("data-slug")}`;
+          const kb = `${b.getAttribute("data-collection")}/${b.getAttribute("data-slug")}`;
+          return (orderMap.get(ka) ?? 0) - (orderMap.get(kb) ?? 0);
+        });
+        items.forEach((node) => container.appendChild(node));
+      }
+
+      // Filter
+      const visibleItems = items.filter((el) => {
         const slug = el.getAttribute("data-slug");
         const collection = el.getAttribute("data-collection");
-        const key = `${collection}/${slug}`;
         const title = (el.getAttribute("data-title") ?? "").toLowerCase();
         const description = (el.getAttribute("data-description") ?? "").toLowerCase();
         const tags = (el.getAttribute("data-tags") ?? "").split(",").filter(Boolean);
@@ -490,28 +519,39 @@ const initialTagsJson = JSON.stringify(initialTags);
         const matchesSearch =
           !query || title.includes(query) || description.includes(query);
 
-        const show = matchesCollection && matchesTags && matchesSearch;
-        el.classList.toggle("hidden", !show);
-        if (show) visible++;
+        return matchesCollection && matchesTags && matchesSearch;
       });
 
-      if (sort !== "name") {
-        const container = list;
-        if (container) {
-          const childArray = [...container.querySelectorAll(".filterable-item")];
-          childArray.sort((a, b) => {
-            const ka = `${a.getAttribute("data-collection")}/${a.getAttribute("data-slug")}`;
-            const kb = `${b.getAttribute("data-collection")}/${b.getAttribute("data-slug")}`;
-            return (orderMap.get(ka) ?? 0) - (orderMap.get(kb) ?? 0);
-          });
-          childArray.forEach((node) => container.appendChild(node));
+      // Paginate
+      const totalPages = Math.max(1, Math.ceil(visibleItems.length / LIST_PAGE_SIZE));
+      if (listPage > totalPages) listPage = totalPages;
+      const start = (listPage - 1) * LIST_PAGE_SIZE;
+      const end = start + LIST_PAGE_SIZE;
+
+      // Show/hide items
+      items.forEach((el) => {
+        const isVisible = visibleItems.includes(el);
+        const idx = visibleItems.indexOf(el);
+        const onPage = isVisible && idx >= start && idx < end;
+        el.classList.toggle("hidden", !onPage);
+      });
+
+      // Update pagination UI
+      if (listPaginationEl && listPrevBtn && listNextBtn && listPageStatusEl) {
+        const showPagination = totalPages > 1;
+        listPaginationEl.hidden = !showPagination;
+        if (showPagination) {
+          listPageStatusEl.textContent = `Page ${listPage} of ${totalPages}`;
+          listPrevBtn.disabled = listPage <= 1;
+          listNextBtn.disabled = listPage >= totalPages;
         }
       }
 
-      if (noResults) noResults.classList.toggle("hidden", visible > 0);
+      if (noResults) noResults.classList.toggle("hidden", visibleItems.length > 0);
     }
 
     searchInput?.addEventListener("input", () => {
+      listPage = 1;
       showSuggestions(searchInput.value);
       apply();
     });
@@ -530,7 +570,10 @@ const initialTagsJson = JSON.stringify(initialTags);
         searchInput?.setAttribute("aria-expanded", "false");
       }
     });
-    sortSelect?.addEventListener("change", apply);
+    sortSelect?.addEventListener("change", () => {
+      listPage = 1;
+      apply();
+    });
 
     tagSearchInput?.addEventListener("input", () => {
       tagSearchQuery = tagSearchInput.value;
@@ -552,6 +595,18 @@ const initialTagsJson = JSON.stringify(initialTags);
         tagPage++;
         renderTagList();
       }
+    });
+
+    listPrevBtn?.addEventListener("click", () => {
+      if (listPage > 1) {
+        listPage--;
+        apply();
+      }
+    });
+
+    listNextBtn?.addEventListener("click", () => {
+      listPage++;
+      apply();
     });
 
     if (showCollectionFilters) {

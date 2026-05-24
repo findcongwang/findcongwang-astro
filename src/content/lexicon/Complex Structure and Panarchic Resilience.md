@@ -11,7 +11,7 @@ description: 'Distinction between "complicated" and "complex," why that matters 
 ## Introduction
 We have a dangerous obsession with connection. In the digital age, we view the "network" as the ultimate good, i.e., the more connected nodes, the better the system. We look at a visualization of a global social network or a bustling startup ecosystem, see a dense web of lines connecting everyone to everyone, and we think: "Wow, that's complex. That must be robust."  
 We are mistaking a hairball for an ecosystem.  
-In systems theory, there is a counter-intuitive truth: Visual density is often a mask for structural simplicity. And in that simplicity lies a profound brittleness that threatens our organizations, our markets, and our future technologies.
+In systems theory, there is a counter-intuitive truth: Visual density is often a mask for structural simplicity. And in that simplicity lies a profound brittleness that threatens our organisations, our markets, and our future technologies.
 ### The False Complexity of "Connect All"
 Consider a graph where every node is connected to every other node. To the eye, it looks incredibly intricate, as a massive, impenetrable web. But to a mathematician or an information theorist, this system is trivial. Its description length is short and simple: "For n nodes, connect all."  
 Because the rule governing its structure is simple, its behaviour is dangerously predictable. In a fully connected system, there are no "firebreaks." There is no distance. A disturbance introduced at one node, e.g., a computer virus, a banking panic, or a viral outrage, propagates throughout the entire network.  
@@ -36,6 +36,6 @@ Panarchy describes how resilient systems are organized into nested levels of spe
 The genius of Panarchy is that it insulates the whole from the parts. It allows for Local Collapse to prevent Global Collapse. A forest fire can burn out the dead wood in the underbrush without destroying the ancient redwoods.  
 In a fully connected "hairball" system, you can't have a local fire. You only get the inferno.
 ### "So What?": Designing for Friction
-This distinction matters because we are currently building the digital and organizational operating systems of the future on the wrong principles.  
+This distinction matters because we are currently building the digital and organisational operating systems of the future on the wrong principles.  
 As we architect AI Agent swarms and "frictionless" corporate structures, we are inadvertently designing for total collapse. We are optimizing for speed of connection rather than resilience of structure.  
 If we want to build systems that survive the next crisis, we need to stop worshipping density. We need to start designing modularity. We need to reintroduce designed "firebreaks", buffers of time, space, and distinctness that prevent a single bad actor or bad idea from infecting the whole.
