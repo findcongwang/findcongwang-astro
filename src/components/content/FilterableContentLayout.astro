@@ -548,6 +548,9 @@ const initialTagsJson = JSON.stringify(initialTags);
       }
 
       if (noResults) noResults.classList.toggle("hidden", visibleItems.length > 0);
+
+      // Notify rough-notation to re-annotate newly visible elements
+      document.dispatchEvent(new CustomEvent("filterable:page-change"));
     }
 
     searchInput?.addEventListener("input", () => {

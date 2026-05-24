@@ -116,16 +116,39 @@
     annotation.show();
   }
 
+  /** Check if an element is currently visible (not hidden or inside a hidden parent) */
+  function isVisible(el: HTMLElement): boolean {
+    return el.offsetParent !== null || el.getClientRects().length > 0;
+  }
+
+  /** Remove any existing rough-notation SVG annotations from an element.
+   *  rough-notation wraps the element in a <span style="display:inline-block;position:relative">
+   *  and appends an <svg> inside that wrapper span. */
+  function clearAnnotation(el: HTMLElement) {
+    const parent = el.parentElement;
+    if (parent) {
+      // Find and remove any SVGs that rough-notation may have added as siblings
+      parent.querySelectorAll(":scope > svg").forEach((svg) => svg.remove());
+    }
+    delete el.dataset.roughAnnotated;
+  }
+
   function initHighlights() {
     document.querySelectorAll("[data-rough-highlight]").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
+      if (!isVisible(el)) return;
+      if (el.dataset.roughAnnotated) return;
       annotateElement(el, el.getAttribute("data-rough-highlight"));
+      el.dataset.roughAnnotated = "true";
     });
 
     document.querySelectorAll("[data-rough]").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
+      if (!isVisible(el)) return;
+      if (el.dataset.roughAnnotated) return;
       const colorKey = el.getAttribute("data-rough-color");
       annotateElement(el, colorKey);
+      el.dataset.roughAnnotated = "true";
     });
 
     const annotateSelector = "p, blockquote, li";
@@ -134,10 +157,26 @@
       const key = container.getAttribute("data-rough-annotate");
       container.querySelectorAll(annotateSelector).forEach((child) => {
         if (!(child instanceof HTMLElement)) return;
+        if (!isVisible(child)) return;
+        if (child.dataset.roughAnnotated) return;
         if (child.hasAttribute("data-rough-highlight") || child.hasAttribute("data-rough")) return;
         annotateElement(child, key);
+        child.dataset.roughAnnotated = "true";
       });
     });
+  }
+
+  /** On page change: clear annotations on now-hidden elements, then annotate newly visible ones */
+  function refreshAnnotations() {
+    // Clear annotations on elements that are now hidden
+    document.querySelectorAll("[data-rough-annotated]").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      if (!isVisible(el)) {
+        clearAnnotation(el);
+      }
+    });
+    // Annotate newly visible elements
+    initHighlights();
   }
 
   if (document.readyState === "loading") {
@@ -145,4 +184,10 @@
   } else {
     initHighlights();
   }
+
+  // Re-annotate when pagination or filtering reveals new elements
+  document.addEventListener("filterable:page-change", () => {
+    // Small delay to let DOM updates settle (hidden class toggling)
+    requestAnimationFrame(refreshAnnotations);
+  });
 </script>
