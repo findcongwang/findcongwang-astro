@@ -5,10 +5,10 @@ publish_type: question
 tags: [Digital Sovereignty, Work Twins, AI Agents, Ownership, Knowledge Economy, Liability]
 originated_date: 2025-07-01
 publish_date: 2026-05-24
-title: "How Might We Design a Digital Sovereignty Economy?"
+title: "How Might We Build a Digital Sovereignty Economy?"
 description: "Structuring economics and legal frameworks around dynamic knowledge context, where individuals license their AI agents' trained patterns while avoiding static decay and catastrophic liability."
 domain_theme: "Digital Sovereignty"
-bold_ambition: "design a Digital Sovereignty economy where individuals license their dynamic context to generate perpetual value"
+bold_ambition: "build a Digital Sovereignty economy where individuals license their dynamic context to generate perpetual value"
 constraints:
   - "the value of that context collapsing due to static decay"
   - "exposing individual creators to catastrophic personal liability for their agent's autonomous actions"

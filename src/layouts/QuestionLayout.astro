@@ -203,26 +203,30 @@ const related = relatedWithCollection.slice(0, 3);
 
           {/* ─── Hero Question Block ─── */}
           {boldAmbition && (
-            <div class="my-8 flex flex-col gap-5">
+            <div class="my-8 flex flex-col gap-5 max-w-xl">
               {/* How might we */}
               <p class="text-xs uppercase tracking-widest text-primary/40 font-sans mb-0">
                 How might we
               </p>
               
               {/* Bold ambition + ", without" appended */}
-              <p class="text-base sm:text-lg md:text-xl lg:text-2xl font-serif text-balance">
-                <span style="color: #0c899e;">{boldAmbition}</span><span class="text-[15px] text-primary/30 font-sans">, without</span>
+              <p class="text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance">
+                <span style="color: #0c899e;">{boldAmbition}</span><span class="text-[15px] text-primary/60 font-sans">, without</span>
               </p>
               <span class="text-[10px] text-primary/30 italic font-sans -mt-4">
                 (bold ambition)
               </span>
 
               {/* Constraints — each line ends with ", and" except last which ends with "?" */}
-              {constraints.map((constraint: string, index: number) => (
-                <p class="text-base sm:text-lg md:text-xl lg:text-2xl font-serif text-balance">
-                  <span style="color: #d54021;">{cap(constraint)}</span>{index === constraints.length - 1 ? <span style="color: #d54021;">?</span> : <span class="text-[15px] text-primary/30 font-sans">, and</span>}
-                </p>
-              ))}
+              <p class="text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance">
+
+                {constraints.map((constraint: string, index: number) => (
+                  <>
+                    <span style="color: #d54021;">{cap(constraint)}</span>{index === constraints.length - 1 ? <span style="color: #d54021;">?</span> : <span class="text-[15px] text-primary/60 font-sans">, and</span>}
+                  </>
+                ))}
+              </p>
+
               <span class="text-[10px] text-primary/30 italic font-sans -mt-3">
                 (significant constraints)
               </span>
