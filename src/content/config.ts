@@ -2,7 +2,7 @@ import { defineCollection, z } from "astro:content";
 
 // Single base schema for all content collections
 const statusEnum = z.enum(["private", "seed", "wip", "ready", "published", "unlisted"]);
-const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project"]);
+const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project", "question", "challenge"]);
 const contentTypeEnum = z.enum(["atom", "note", "source", "person"]);
 
 // Cross-post syndication tracking (see 00_Protocol/Playbooks/content-publishing.md)
@@ -33,12 +33,21 @@ const baseSchema = z.object({
   canonical_url: z.string().url().optional(),
 });
 
+// Extended schema for Compelling Questions (hero question rendering)
+const questionsSchema = baseSchema.extend({
+  domain_theme: z.string().optional(),
+  bold_ambition: z.string().optional(),
+  constraints: z.array(z.string()).default([]),
+});
+
 // All five collections use the same schema (folder names plural)
 const posts = defineCollection({ schema: () => baseSchema });
 const domains = defineCollection({ schema: () => baseSchema });
 const lexicon = defineCollection({ schema: () => baseSchema });
 const influences = defineCollection({ schema: () => baseSchema });
 const projects = defineCollection({ schema: () => baseSchema });
+const questions = defineCollection({ schema: () => questionsSchema });
+const challenges = defineCollection({ schema: () => baseSchema });
 
 export const collections = {
   posts,
@@ -46,4 +55,6 @@ export const collections = {
   lexicon,
   influences,
   projects,
+  questions,
+  challenges,
 };

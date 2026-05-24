@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
-export type ContentCollectionId = "posts" | "domains" | "lexicon" | "influences" | "projects";
+export type ContentCollectionId = "posts" | "domains" | "lexicon" | "influences" | "projects" | "questions" | "challenges";
 
 const CONTENT_COLLECTIONS: ContentCollectionId[] = [
   "posts",
@@ -8,6 +8,8 @@ const CONTENT_COLLECTIONS: ContentCollectionId[] = [
   "lexicon",
   "influences",
   "projects",
+  "questions",
+  "challenges",
 ];
 
 /** Status that should appear on index pages (excludes unlisted and non-published) */
@@ -97,6 +99,8 @@ export function collectionBasePath(collection: ContentCollectionId): string {
     lexicon: "/lexicon",
     influences: "/influences",
     projects: "/projects",
+    questions: "/research/questions",
+    challenges: "/research/challenges",
   };
   return map[collection];
 }
@@ -108,7 +112,7 @@ export function entryHref(collection: ContentCollectionId, slug: string): string
 }
 
 /** Publish type enum from content schema (specific detail on entry cards). */
-export type PublishTypeId = "atom" | "blog" | "essay" | "paper" | "domain" | "lexicon" | "influence" | "book" | "project";
+export type PublishTypeId = "atom" | "blog" | "essay" | "paper" | "domain" | "lexicon" | "influence" | "book" | "project" | "question" | "challenge";
 
 // ─── Single source of truth: collection = large category (Browse/filter); publish type = specific detail (entry cards). ───
 // Multiple publish types can belong to the same collection.
@@ -120,6 +124,8 @@ const COLLECTION_CONFIG: Record<ContentCollectionId, { label: string }> = {
   lexicon: { label: "Lexicon" },
   influences: { label: "Influence" },
   projects: { label: "Projects" },
+  questions: { label: "Question" },
+  challenges: { label: "Challenge" },
 };
 
 /** Publish types: specific detail shown on content entry cards. Each maps to one collection. */
@@ -136,6 +142,8 @@ const PUBLISH_TYPE_CONFIG: Record<
   influence: { label: "Influence", color: "#D4A373", collection: "influences" },
   book: { label: "Books", color: "#4A6FA5", collection: "projects" },
   project: { label: "Projects", color: "#C28B2E", collection: "projects" },
+  question: { label: "Question", color: "#B8860B", collection: "questions" },
+  challenge: { label: "Challenge", color: "#8B4513", collection: "challenges" },
 };
 
 /** Shape for index/list pages: serializable entry with display fields */

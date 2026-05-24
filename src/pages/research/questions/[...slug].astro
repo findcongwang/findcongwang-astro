@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import QuestionLayout from "@/layouts/QuestionLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("questions");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+    trailingSlash: false,
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<QuestionLayout
+  frontmatter={entry.data}
+  collection="questions"
+  backHref="/research"
+  body={entry.body}
+>
+  <Content />
+</QuestionLayout>

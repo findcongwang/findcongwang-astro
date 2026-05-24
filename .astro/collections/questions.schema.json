@@ -1,7 +1,7 @@
 {
-  "$ref": "#/definitions/domains",
+  "$ref": "#/definitions/questions",
   "definitions": {
-    "domains": {
+    "questions": {
       "type": "object",
       "properties": {
         "type": {
@@ -167,6 +167,19 @@
         "canonical_url": {
           "type": "string",
           "format": "uri"
+        },
+        "domain_theme": {
+          "type": "string"
+        },
+        "bold_ambition": {
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
         },
         "$schema": {
           "type": "string"

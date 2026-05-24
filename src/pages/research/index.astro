@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import FilterableContentLayout from "@/components/content/FilterableContentLayout.astro";
+import { getListableEntries, toIndexEntries } from "@/utils/content";
+
+const questionEntries = await getListableEntries("questions");
+const challengeEntries = await getListableEntries("challenges");
+const entries = [
+  ...toIndexEntries("questions", questionEntries).map((e) => ({
+    ...e,
+    title: e.title.replace(/^How Might We\s+/i, "HMW: "),
+  })),
+  ...toIndexEntries("challenges", challengeEntries),
+];
+const sorted = [...entries].sort((a, b) => {
+  const da = a.publishDate ? new Date(a.publishDate).getTime() : 0;
+  const db = b.publishDate ? new Date(b.publishDate).getTime() : 0;
+  if (db !== da) return db - da;
+  return a.title.localeCompare(b.title);
+});
+const initialTags = Astro.url.searchParams.getAll("tags").filter(Boolean);
+---
+
+<BaseLayout title="Research" description="Compelling questions and innovation challenges exploring the boundaries of what's possible.">
+  <section>
+    <Wrapper variant="standard" class="pt-24 pb-12 lg:pt-48">
+      <FilterableContentLayout
+        entries={sorted}
+        title="Research"
+        description="Compelling questions and innovation challenges exploring the boundaries of what's possible."
+        initialTags={initialTags}
+        defaultSort="date-desc"
+      />
+    </Wrapper>
+  </section>
+</BaseLayout>

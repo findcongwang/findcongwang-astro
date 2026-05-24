@@ -37,7 +37,9 @@
             "lexicon",
             "influence",
             "book",
-            "project"
+            "project",
+            "question",
+            "challenge"
           ]
         },
         "tags": {

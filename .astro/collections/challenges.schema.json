@@ -1,7 +1,7 @@
 {
-  "$ref": "#/definitions/domains",
+  "$ref": "#/definitions/challenges",
   "definitions": {
-    "domains": {
+    "challenges": {
       "type": "object",
       "properties": {
         "type": {

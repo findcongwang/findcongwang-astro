@@ -40,10 +40,20 @@ const CONFIG: Record<TagCollectionScope, TagIndexConfig> = {
     title: "Tags (Projects)",
     description: "Filter projects by tag.",
   },
+  questions: {
+    basePath: "/research/questions",
+    title: "Tags (Questions)",
+    description: "Filter questions by tag.",
+  },
+  challenges: {
+    basePath: "/research/challenges",
+    title: "Tags (Challenges)",
+    description: "Filter challenges by tag.",
+  },
   all: {
     basePath: "/browse",
     title: "Tags (Browse)",
-    description: "Tags across posts, domains, lexicon, influences, and projects.",
+    description: "Tags across posts, domains, lexicon, influences, projects, questions, and challenges.",
   },
 };
 
@@ -129,6 +139,8 @@ const ALL_COLLECTIONS: ContentCollectionId[] = [
   "lexicon",
   "influences",
   "projects",
+  "questions",
+  "challenges",
 ];
 
 /** Static paths for [tag].astro – all collections (e.g. /all/tags/[tag]). */
