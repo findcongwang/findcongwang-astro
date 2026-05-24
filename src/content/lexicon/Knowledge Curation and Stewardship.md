@@ -11,7 +11,7 @@ description: The deliberate practice of cultivating knowledge as living material
 ---
 AI has made information collection trivially easy. Any agent can monitor thousands of sources, extract relevant passages, and deposit them into a repository. The bottleneck has shifted permanently from access to judgment. The scarce resource is no longer information; it is the capacity to determine what matters, what connects, and what to do about it.
 
-Most knowledge management systems treat this challenge as a storage problem. They optimize for retrieval: better search, better tagging, better recommendations. This produces well-organized filing cabinets. It does not produce wisdom. Wisdom requires cultivation: the deliberate act of connecting, validating, pruning, and growing knowledge over time.
+Most knowledge management systems treat this challenge as a storage problem. They optimise for retrieval: better search, better tagging, better recommendations. This produces well-organised filing cabinets. It does not produce wisdom. Wisdom requires cultivation: the deliberate act of connecting, validating, pruning, and growing knowledge over time.
 
 Knowledge Curation and Stewardship is the practice of treating knowledge as living material rather than static inventory. It encompasses two complementary metaphors (the Active Library and the Community Garden), a grading system for epistemic confidence, and a set of practices that ensure knowledge compounds across generations rather than decaying with each departure.
 
@@ -21,7 +21,17 @@ A traditional library waits for queries. An Active Library does not. The Active 
 
 **Attraction Points** define the Active Library's gravitational field. These are deliberately chosen subjects the system monitors, files toward, and surfaces connections around. Without defined attraction points, the Active Library has no direction; it would surface everything indiscriminately. With them, it becomes a focused instrument of intellectual development. The entity chooses their attraction points based on current work, long-term interests, and strategic priorities.
 
-Key properties of the Active Library include proactive surfacing, contextually activated material, connection revelation, health maintenance, and attraction points alignment. Proactive surfacing means relevant material appears without explicit search. Contextual activation means what surfaces depends on what you are currently working on. Connection revelation occurs when the system identifies relationships that the user has not yet noticed. Health maintenance refers to the system monitoring its own integrity, tracking staleness, orphans, and inconsistencies. Attraction points alignment ensures that all surfacing activity serves the curated focus areas.
+The Active Library's functionality emerges from five key properties:
+
+- **Proactive surfacing**: Relevant material appears without explicit search.
+
+- **Contextual activation**: What surfaces depends on what you are currently working on.
+
+- **Connection revelation**: The system identifies relationships that the user has not yet noticed.
+
+- **Health maintenance**: The system monitors its own integrity, tracking staleness, orphans, and inconsistencies.
+
+- **Attraction points alignment**: All surfacing activity serves the curated focus areas.
 
 AI enables this at scale. A human cannot monitor thousands of knowledge atoms for relevance shifts. But the human defines what relevant means. The Active Library is a partnership: AI performs the monitoring and surfacing; humans validate and act on what surfaces. The library grows more valuable as it learns your patterns of interest, but it remains under your control. You decide which connections merit attention, which atoms deserve expansion, and which should be archived.
 
@@ -37,21 +47,34 @@ Knowledge cultivation operates in continuous cycles of growth, connection-making
 
 **Pruning** is as important as planting. Actively removing outdated, incorrect, or noise-level content is essential. Most knowledge systems only grow; they never shrink. The result is accumulation without quality. Effective stewardship includes the courage to declare something obsolete or superseded. A well-pruned garden remains fertile. An overgrown one chokes on its own debris.
 
-Pruning deserves emphasis because it is where most knowledge systems fail. Collection is trivial in an age of AI agents that can monitor thousands of sources. Accumulation is the default. Active removal of outdated, superseded, or noise-level content requires the same quality of judgment as deciding what to add. A knowledge system that only grows eventually becomes unusable: signal drowns in noise, and the Active Library loses its ability to surface what matters.
+**Why pruning fails in most systems:**
+
+- **Collection is trivial** in an age of AI agents that can monitor thousands of sources.
+
+- **Accumulation is the default** behaviour; it requires no judgment or decision-making.
+
+- **Active removal** of outdated, superseded, or noise-level content requires the same quality of judgment as deciding what to add. A knowledge system that only grows eventually becomes unusable: signal drowns in noise, and the Active Library loses its ability to surface what matters.
 
 ## Decomposition into Semantic Units
 
-The highest-leverage curation act is decomposition: breaking intact wholes (projects, papers, presentations, conversations) into their first-principle components so that each component can be independently discovered, connected, and reused.
+The highest-leverage curation act is **decomposition**: breaking intact wholes (projects, papers, presentations, conversations) into their first-principle components so that each component can be independently discovered, connected, and reused.
 
-A symposium presentation that exists only as a PDF is a single, indivisible artifact. Its insights are locked inside its original framing and context. Decomposed into semantic atoms (the key concept, the supporting evidence, the methodology, the relationship to adjacent ideas), each component becomes independently addressable and connectable.
+A symposium presentation that exists only as a PDF is a single, indivisible artifact. Its insights are locked inside its original framing and context. Decomposed into semantic atoms, each component becomes independently addressable and connectable:
 
-This practice directly enables Knowledge Composability: the principle that decomposed, well-structured knowledge can be overlaid, recombined, and recontextualized across boundaries. Without decomposition, composability is impossible. The curator who breaks knowledge into its semantic units is performing the foundational act that makes all downstream composition possible.
+- The key concept
+- The supporting evidence
+- The methodology
+- The relationship to adjacent ideas
 
-Decomposition follows the Problem-First Research methodology. You identify a problem space, then deconstruct existing work into the minimum necessary units to address that problem. This yields reusable components rather than context-bound artifacts. A single decomposition session can produce dozens of atoms that feed into multiple future projects.
+This practice directly enables **Knowledge Composability**: the principle that decomposed, well-structured knowledge can be overlaid, recombined, and recontextualized across boundaries. Without decomposition, composability is impossible. The curator who breaks knowledge into its semantic units is performing the foundational act that makes all downstream composition possible.
 
-The technical requirement is consistent structure. Each atom should contain: a concise assertion, supporting evidence or reasoning, provenance (source or derivation), and connective tags indicating its relationship to other known concepts. This structure makes the atom machine-readable and human-reviewable.
+**Decomposition follows the Problem-First Research methodology:**
 
-The key curatorial act of moving knowledge from tacit to explicit is called [Structured Reflection](/lexicon/structured-reflection): the deliberate process of articulating internal understanding into communicable artifacts, which simultaneously serves as a learning mechanism.
+- You identify a problem space, then deconstruct existing work into the minimum necessary units to address that problem. This yields reusable components rather than context-bound artifacts. A single decomposition session can produce dozens of atoms that feed into multiple future projects.
+
+- The technical requirement is consistent structure. Each atom should contain: a concise assertion, supporting evidence or reasoning, provenance (source or derivation), and connective tags indicating its relationship to other known concepts. This structure makes the atom machine-readable and human-reviewable.
+
+- The key curatorial act of moving knowledge from tacit to explicit is called [Structured Reflection](/lexicon/structured-reflection): the deliberate process of articulating internal understanding into communicable artifacts, which simultaneously serves as a learning mechanism.
 
 ## Graded Confidence
 
@@ -73,7 +96,7 @@ Grades should be explicit in the knowledge atom's metadata. Systems that hide or
 
 ## The Human Role: Why Curation Cannot Be Fully Automated
 
-The division of labor is clear: AI collects, humans curate. But why?
+The division of labour is clear: AI collects, humans curate. But why?
 
 Three reasons curation resists full automation.
 
@@ -87,11 +110,19 @@ The human curates not because AI cannot manage the task, but because curation is
 
 ## Stewardship as Intergenerational Responsibility
 
-Stewardship frames curation as a responsibility that extends beyond the curator's own use. You curate not only for yourself but for those who will inherit your knowledge commons.
+**Stewardship frames curation as a responsibility that extends beyond the curator's own use.** You curate not only for yourself but for those who will inherit your knowledge commons.
 
-This means contributing validated knowledge back to the collective, not hoarding insights that could benefit others. It means maintaining the commons even when you are not personally benefiting from it. It means documenting provenance: where knowledge came from, how it was validated, what it supersedes. And it means enabling onboarding: new members can access and understand the commons without requiring the original curator to explain everything in person.
+**Key aspects of stewardship include:**
 
-Knowledge succession is resolved through stewardship: the deliberate, ongoing practice of maintaining a knowledge commons that persists beyond any individual contributor. Not through forced documentation or surveillance, but through architectural incentives that make contribution natural and decay visible.
+- **Contributing validated knowledge back to the collective**, not hoarding insights that could benefit others.
+
+- **Maintaining the commons** even when you are not personally benefiting from it.
+
+- **Documenting provenance**: where knowledge came from, how it was validated, what it supersedes.
+
+- **Enabling onboarding**: new members can access and understand the commons without requiring the original curator to explain everything in person.
+
+- **Knowledge succession** is resolved through stewardship: the deliberate, ongoing practice of maintaining a knowledge commons that persists beyond any individual contributor. Not through forced documentation or surveillance, but through architectural incentives that make contribution natural and decay visible.
 
 Stewardship is the difference between knowledge as personal property and knowledge as shared infrastructure. Shared infrastructure requires maintenance. It requires norms. It requires recognition that current use benefits depend on past contributions and future maintenance. Stewardship makes these dependencies visible and actionable.
 

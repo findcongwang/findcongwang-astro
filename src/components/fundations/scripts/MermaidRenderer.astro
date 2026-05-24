@@ -1,0 +1,54 @@
+<script>
+  // Conditional: only load beautiful-mermaid if code blocks exist on page
+  async function initMermaid() {
+    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"] > code');
+    if (mermaidBlocks.length === 0) return;
+
+    const { renderMermaidSVG } = await import('beautiful-mermaid');
+
+    // Use a theme that fits the site's dark-mode-default academic aesthetic
+    // Detect if dark mode via CSS custom property or media query
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches ||
+      document.documentElement.classList.contains('dark');
+
+    const theme = isDark
+      ? { bg: 'transparent', fg: '#a1a1aa', accent: '#ce8f00', transparent: true }
+      : { bg: 'transparent', fg: '#27272a', accent: '#ce8f00', transparent: true };
+
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      if (!pre) continue;
+
+      const lines = block.querySelectorAll('.line');
+      const code = lines.length
+        ? Array.from(lines, (line) => line.textContent ?? '').join('\n')
+        : block.textContent ?? '';
+      try {
+        const svg = renderMermaidSVG(code, theme);
+        const container = document.createElement('div');
+        container.className = 'mermaid-diagram';
+        container.innerHTML = svg;
+        pre.replaceWith(container);
+      } catch (err) {
+        console.warn('Mermaid render failed:', err);
+        // Leave the code block as-is if rendering fails
+      }
+    }
+  }
+
+  // Run on page load and after view transitions
+  initMermaid();
+  document.addEventListener('astro:page-load', initMermaid);
+</script>
+
+<style is:global>
+  .mermaid-diagram {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
+  .mermaid-diagram svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
