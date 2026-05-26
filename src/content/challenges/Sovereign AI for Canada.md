@@ -5,7 +5,7 @@ publish_type: challenge
 tags: [Sovereign AI, Canada, Compute Infrastructure, Decentralized Energy, Climate Advantage, SDG 7, SDG 9, SDG 12]
 originated_date: 2026-05-24
 publish_date: 2026-05-24
-title: "Sovereign AI for Canada"
+title: "Sovereign Distributed Energy and AI for Canada"
 description: "Building domestic AI infrastructure that leverages Canada's geographic and energy advantages to retain talent, reduce dependency on foreign compute, and prepare for a climate-shifted future."
 domain_theme: "Digital Sovereignty & Infrastructure"
 parent_questions: ["ai-collaboration", "digital-sovereignty"]
@@ -321,6 +321,23 @@ Structure designed for climate migration:
 - **Phase 3:** Population support infrastructure (50+ years)
 
 The architecture that serves GPU clusters today serves water desalination, heating, and computing for future population centres.
+
+### Narrative Tools for Sovereign Futures
+
+Our approach to capturing and raising awareness for sovereign distributed energy and AI infrastructure is grounded in storytelling and futures research. We develop interactive narrative tools that help stakeholders visualize the importance of this sovereign infrastructure and understand the long-term consequences of dependency on foreign compute.
+
+The prototype demonstrates this through interactive knowledge maps with temporal navigation, showing how Canada's AI ecosystem evolves across planning horizons. Stakeholders can explore alternate futures based on policy choices, investment patterns, and infrastructure decisions. This futures research justifies the need for economic mechanisms that incentivize sovereign investment.
+
+### Blockchain Incentive Mechanism (Design Intention)
+
+The desired outcome of this narrative and research work is a precisely defined blockchain-based incentive mechanism for Canadians to invest in sovereign decentralized energy and compute resources. Inspired by precedents like USD.ai (a cryptocurrency collateralized against physical AI compute assets), the mechanism works as follows:
+
+- **Token collateralization**: Each token is backed by real renewable energy generation capacity and distributed compute infrastructure
+- **Economic flywheel**: As more participants buy tokens, more physical infrastructure is acquired, increasing the backing value and compute capacity available
+- **Utility function**: Tokens can be redeemed for compute time on the sovereign distributed network, creating intrinsic demand
+- **Sovereignty guarantee**: All collateralized assets are physically located in Canada, owned by Canadian entities, and governed under Canadian law
+
+This creates an economic incentive loop where individual investment directly grows Canada's sovereign capacity, aligning private financial interest with national infrastructure development. The mechanism economically rewards Canadians for reinvesting in their own sovereignty rather than routing compute spend to foreign cloud providers.
 
 ---
 
