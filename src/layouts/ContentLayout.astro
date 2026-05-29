@@ -5,6 +5,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import ShareButtons from "@/components/fundations/elements/ShareButtons.astro";
 import ContentEntry from "@/components/content/ContentEntry.astro";
 import MermaidRenderer from "@/components/fundations/scripts/MermaidRenderer.astro";
+import PagedViewer from "@/components/paged/PagedViewer.astro";
 import {
   getListableEntries,
   entryHref,
@@ -185,10 +186,22 @@ const related = relatedWithCollection.slice(0, 3);
               </>
             )}
           </div>
+          <div class="flex items-center gap-3 mt-2 text-xs text-primary/40">
+            <span>View as:</span>
+            <a href="?format=print" class="hover:text-primary underline underline-offset-2" target="_blank">Print</a>
+            <a href="?format=slides" class="hover:text-primary underline underline-offset-2" target="_blank">Slides</a>
+          </div>
           <div class="border-b border-dotted border-primary/10">
             <br>
           </div>
           <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_span[data-rough]]:text-inherit [&_span[data-rough]]:font-inherit [&_span[data-rough-highlight]]:text-inherit [&_span[data-rough-highlight]]:font-inherit">
+            <PagedViewer
+              title={title}
+              subtitle={description}
+              author={author}
+              date={displayDate?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}
+              type={typeLabel}
+            />
             <slot />
           </div>
         </div>

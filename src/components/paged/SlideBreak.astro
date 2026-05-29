@@ -1,0 +1,13 @@
+---
+// SlideBreak — marks an explicit slide boundary in slides mode
+// In web mode, renders as a subtle horizontal rule
+// In print book mode, ignored
+// In slides mode, forces a new slide (page break)
+interface Props {
+  /** Optional: add a section-divider style to the next slide */
+  section?: boolean;
+}
+const { section = false } = Astro.props;
+---
+
+<hr class="slide-break my-8 border-t border-primary/10" data-section={section ? "true" : undefined} />

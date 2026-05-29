@@ -1,0 +1,169 @@
+/* Paged.js Slides Layout — 16:9 Presentation */
+
+@page {
+  size: 13.33in 7.5in;
+  margin: 0;
+}
+
+body.paged-mode {
+  font-family: 'Geist', sans-serif;
+  font-size: 24pt;
+  line-height: 1.4;
+  color: #1a1a1a;
+  max-width: none !important;
+  padding: 0 !important;
+  background: white;
+}
+
+/* Hide web-mode elements */
+body.paged-mode .margin-note-web {
+  display: none !important;
+}
+
+body.paged-mode .margin-note-print {
+  display: none !important;
+}
+
+/* === SLIDE CONTAINERS === */
+.slide {
+  break-before: page;
+  box-sizing: border-box;
+  padding: 0.8in 1.2in;
+  min-height: 7.5in;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide:first-of-type {
+  break-before: auto;
+}
+
+/* === SLIDE TYPOGRAPHY === */
+.slide h1 {
+  font-size: 48pt;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.3em;
+  color: #111;
+}
+
+.slide h2 {
+  font-size: 36pt;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.4em;
+  color: #222;
+}
+
+.slide h3 {
+  font-size: 28pt;
+  font-weight: 500;
+  margin-bottom: 0.3em;
+  color: #333;
+}
+
+.slide p {
+  font-size: 22pt;
+  line-height: 1.5;
+  color: #444;
+  max-width: 75%;
+  margin-bottom: 0.5em;
+}
+
+.slide ul, .slide ol {
+  font-size: 22pt;
+  color: #333;
+  padding-left: 1em;
+}
+
+.slide li {
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+.slide strong {
+  color: #111;
+}
+
+.slide code {
+  font-family: 'Geist Mono', monospace;
+  font-size: 18pt;
+  background: #f0f0f0;
+  padding: 0.1em 0.3em;
+  border-radius: 4pt;
+}
+
+.slide blockquote {
+  border-left: 4pt solid #ddd;
+  padding-left: 0.5em;
+  font-style: italic;
+  font-size: 24pt;
+  color: #555;
+  max-width: 70%;
+}
+
+.slide img {
+  max-width: 80%;
+  max-height: 4in;
+  margin: 0.5em 0;
+}
+
+/* === TITLE SLIDE === */
+.slide-title {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-title h1 {
+  font-size: 56pt;
+  max-width: 80%;
+}
+
+.slide-title p {
+  font-size: 20pt;
+  color: #666;
+  max-width: 60%;
+  text-align: center;
+}
+
+.slide-title .slide-author {
+  font-size: 18pt;
+  color: #888;
+  margin-top: 1em;
+}
+
+/* === SECTION DIVIDER SLIDE === */
+.slide-section {
+  background: #1a1a1a;
+  color: white;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 1.5in;
+}
+
+.slide-section h2 {
+  color: white;
+  font-size: 42pt;
+}
+
+.slide-section p {
+  color: rgba(255,255,255,0.7);
+}
+
+/* === SLIDE NUMBER === */
+.pagedjs_page::after {
+  content: counter(page);
+  position: absolute;
+  bottom: 0.4in;
+  right: 0.6in;
+  font-size: 12pt;
+  color: #bbb;
+  font-family: 'Geist', sans-serif;
+}
+
+/* First slide has no number */
+.pagedjs_first_page::after {
+  content: none;
+}

@@ -1,0 +1,131 @@
+---
+// PagedViewer — Detects ?format=print|slides and activates Paged.js rendering
+interface Props {
+  title?: string;
+  subtitle?: string;
+  author?: string;
+  date?: string;
+  type?: string;
+}
+const { title, subtitle, author, date, type } = Astro.props;
+---
+
+<!-- Print-mode header (hidden by default, shown when paged-mode activates) -->
+<div class="print-header hidden" id="print-header" data-title={title} data-subtitle={subtitle} data-author={author} data-date={date} data-type={type}>
+</div>
+
+<script is:inline>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var format = params.get('format');
+
+    if (!format || (format !== 'print' && format !== 'slides')) return;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait for Mermaid diagrams to render (with timeout)
+      waitForMermaid().then(function() {
+        var proseContainer = document.querySelector('[class*="prose"]');
+        if (!proseContainer) return;
+
+        var header = document.getElementById('print-header');
+        var contentHTML = '';
+
+        if (format === 'print') {
+          contentHTML = buildPrintHTML(proseContainer, header);
+        } else if (format === 'slides') {
+          contentHTML = buildSlidesHTML(proseContainer, header);
+        }
+
+        var cssPath = format === 'print' ? '/styles/paged-book.css' : '/styles/paged-slides.css';
+
+        // Write clean document
+        var pageHTML = [
+          '<!DOCTYPE html>',
+          '<html lang="en">',
+          '<head>',
+          '  <meta charset="utf-8">',
+          '  <title>' + (header ? header.dataset.title : 'Print View') + '</title>',
+          '  <link rel="stylesheet" href="' + cssPath + '">',
+          '  <script src="/scripts/paged.js"><\/script>',
+          '  <style>* { box-sizing: border-box; } body { margin: 0; padding: 0; }</style>',
+          '</head>',
+          '<body class="paged-mode">',
+          contentHTML,
+          '<script src="/scripts/paged-post-process.js"><\/script>',
+          '</body>',
+          '</html>'
+        ].join('\n');
+
+        document.open();
+        document.write(pageHTML);
+        document.close();
+      });
+    });
+
+    function waitForMermaid() {
+      var mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+      if (mermaidBlocks.length === 0) return Promise.resolve();
+      return new Promise(function(resolve) {
+        var timeout = setTimeout(resolve, 3000);
+        var check = function() {
+          var remaining = document.querySelectorAll('pre[data-language="mermaid"]');
+          if (remaining.length === 0) {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            setTimeout(check, 50);
+          }
+        };
+        setTimeout(check, 100);
+      });
+    }
+
+    function buildPrintHTML(container, header) {
+      var html = '<div class="print-header">'
+        + '<p class="print-type">' + (header ? header.dataset.type || 'Article' : 'Article') + '</p>'
+        + '<h1>' + (header ? header.dataset.title || '' : '') + '</h1>'
+        + (header && header.dataset.subtitle ? '<p class="print-subtitle">' + header.dataset.subtitle + '</p>' : '')
+        + '<p class="print-meta">' + (header ? header.dataset.author || 'Francis Wang' : 'Francis Wang') + (header && header.dataset.date ? ' \u00B7 ' + header.dataset.date : '') + '</p>'
+        + '</div>';
+      html += container.innerHTML;
+      return html;
+    }
+
+    function buildSlidesHTML(container, header) {
+      var titleText = header ? header.dataset.title || '' : '';
+      var subtitleText = header ? header.dataset.subtitle || '' : '';
+      var authorText = header ? header.dataset.author || 'Francis Wang' : 'Francis Wang';
+
+      var html = '<div class="slide slide-title">'
+        + '<h1>' + titleText + '</h1>'
+        + (subtitleText ? '<p>' + subtitleText + '</p>' : '')
+        + '<p class="slide-author">' + authorText + '</p>'
+        + '</div>';
+
+      var temp = document.createElement('div');
+      temp.innerHTML = container.innerHTML;
+      var children = Array.from(temp.children);
+      var currentSlideHTML = '';
+      var hasContent = false;
+
+      for (var i = 0; i < children.length; i++) {
+        var el = children[i];
+        if (el.id === 'print-header') continue;
+        if (el.classList && el.classList.contains('slide-break')) {
+          if (hasContent) { html += '<div class="slide">' + currentSlideHTML + '</div>'; currentSlideHTML = ''; hasContent = false; }
+          continue;
+        }
+        if (el.tagName === 'H2') {
+          if (hasContent) { html += '<div class="slide">' + currentSlideHTML + '</div>'; }
+          currentSlideHTML = el.outerHTML;
+          hasContent = true;
+        } else {
+          currentSlideHTML += el.outerHTML;
+          hasContent = true;
+        }
+      }
+      if (hasContent) { html += '<div class="slide">' + currentSlideHTML + '</div>'; }
+      return html;
+    }
+  })();
+</script>

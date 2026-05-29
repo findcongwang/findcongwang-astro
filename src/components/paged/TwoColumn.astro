@@ -1,0 +1,13 @@
+---
+// TwoColumn — wraps content in a dual-column layout for print mode
+// In web mode, renders as a normal single-column flow (or optionally as columns on wide screens)
+interface Props {
+  /** Also show as two columns in web mode on large screens */
+  webColumns?: boolean;
+}
+const { webColumns = false } = Astro.props;
+---
+
+<div class:list={["two-column", { "lg:columns-2 lg:gap-8": webColumns }]}>
+  <slot />
+</div>

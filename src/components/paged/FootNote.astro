@@ -1,0 +1,22 @@
+---
+interface Props {
+  /** Footnote number */
+  n: number | string;
+  /** The footnote content */
+  note: string;
+}
+const { n, note } = Astro.props;
+---
+
+{/* Web mode: the word with superscript + hover tooltip */}
+<span class="footnote-web group/fn relative inline-block">
+  <slot /><sup class="text-xs text-accent/80 cursor-help font-sans select-none">{n}</sup>
+  <span class="invisible opacity-0 group-hover/fn:visible group-hover/fn:opacity-100 transition-opacity duration-200 absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-secondary border border-primary/10 p-2 text-xs rounded shadow-lg w-56 z-50 font-sans text-primary/70 leading-relaxed">
+    {note}
+  </span>
+</span>
+
+{/* Print mode: the word + superscript number, with hidden content for page-bottom placement */}
+<span class="footnote-anchor" data-footnote={n} data-footnote-content={note}>
+  <slot /><sup class="footnote-ref">{n}</sup>
+</span>

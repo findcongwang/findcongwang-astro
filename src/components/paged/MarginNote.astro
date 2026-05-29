@@ -1,0 +1,26 @@
+---
+interface Props {
+  /** Note number */
+  n?: number | string;
+  /** The annotation content that appears in the margin */
+  note: string;
+  /** Short label displayed above the note in print mode */
+  label?: string;
+}
+const { n, label, note } = Astro.props;
+const noteColor = {
+  '1': '#7c9eb2', '2': '#b07c9e', '3': '#9eb07c', '4': '#b0a07c',
+  '5': '#7c8fb0', '6': '#b07c7c', '7': '#7cb0a0'
+}[String(n)] || '#999';
+---
+
+{/* Single wrapper — rendered differently by web CSS vs print JS */}
+<span class="margin-note-anchor" data-note={n} data-color={noteColor} data-label={label || ''} data-margin-content={note}>
+  <span class="margin-note-web group/mn relative inline cursor-help" style={`text-decoration: underline dotted ${noteColor}; text-decoration-thickness: 1.5px; text-underline-offset: 3px;`}>
+    <slot /><span class="font-sans text-sm" style={`color: ${noteColor};`}>&thinsp;[{n}]</span>
+    <span class="invisible opacity-0 group-hover/mn:visible group-hover/mn:opacity-100 transition-opacity duration-200 absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-secondary border border-primary/10 p-2 text-xs rounded shadow-lg w-64 z-50 font-sans text-primary/70 leading-relaxed">
+      {label && <strong class="block mb-0.5">{label}</strong>}
+      {note}
+    </span>
+  </span>
+</span>

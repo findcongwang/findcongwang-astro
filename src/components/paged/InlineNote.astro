@@ -1,0 +1,13 @@
+---
+interface Props {
+  /** The annotation text displayed above (furigana/ruby style) */
+  reading: string;
+  /** Color for the annotation text */
+  color?: string;
+}
+const { reading, color = '#777' } = Astro.props;
+---
+
+<ruby class="inline-note">
+  <slot /><rp>(</rp><rt style={`color: ${color}; font-size: 0.6em; font-family: Geist, sans-serif; font-style: italic;`}>{reading}</rt><rp>)</rp>
+</ruby>
