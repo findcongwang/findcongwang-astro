@@ -83,15 +83,91 @@
   // ============================================
   function distributeMarginNotes() {
     var pages = document.querySelectorAll('.pagedjs_page');
-    var MIN_GAP = 32;
+    var pagesArray = Array.from(pages);
+    var MIN_GAP = 24;
+    var LINE_HEIGHT = 12; // approx px per line at 6.5pt with 1.35 line-height
+    var PAGE_TOP_MARGIN = 58; // 0.6in ≈ 58px — content starts here
+    var PAGE_BOTTOM_CLEARANCE = 80; // reserve for page number
 
-    pages.forEach(function(page) {
+    // Overflow queue: notes that need continuation on subsequent pages
+    // Each entry: { noteId, content, label, shownHeight }
+    var overflowQueue = [];
+
+    pagesArray.forEach(function(page, pageIndex) {
+      var pageRect = page.getBoundingClientRect();
+      var pageHeight = pageRect.height;
+      var maxBottom = pageHeight - PAGE_BOTTOM_CLEARANCE;
+      var lastBottom = 0;
+
+      // First: place overflow continuations from previous pages
+      var remainingOverflow = [];
+      for (var k = 0; k < overflowQueue.length; k++) {
+        var ov = overflowQueue[k];
+        var ovTop = lastBottom > 0 ? lastBottom + MIN_GAP : PAGE_TOP_MARGIN;
+
+        if (ovTop > maxBottom - MIN_GAP) {
+          remainingOverflow.push(ov);
+          continue;
+        }
+
+        // Create a container that clips and offsets to show only the unseen portion
+        var ovContainer = document.createElement('div');
+        ovContainer.className = 'margin-note-item margin-note-continued';
+        ovContainer.dataset.note = ov.noteId;
+        ovContainer.style.position = 'absolute';
+        ovContainer.style.top = ovTop + 'px';
+        ovContainer.style.right = '0.25in';
+        ovContainer.style.width = '1.5in';
+        ovContainer.style.overflow = 'hidden';
+
+        // Inner content shifted up by the amount already shown
+        var ovInner = document.createElement('div');
+        ovInner.style.marginTop = '-' + ov.shownHeight + 'px';
+        var innerHTML = '';
+        if (ov.label) {
+          innerHTML += '<strong class="margin-note-label">' + ov.label + '</strong>';
+        }
+        innerHTML += '<span class="margin-note-num">[' + ov.noteId + ']</span> ' + ov.content;
+        ovInner.innerHTML = innerHTML;
+        ovContainer.appendChild(ovInner);
+
+        page.appendChild(ovContainer);
+
+        // Measure how much is visible
+        var availHeight = maxBottom - ovTop;
+        var innerFullHeight = ovInner.getBoundingClientRect().height;
+        var remainingHeight = innerFullHeight - ov.shownHeight;
+
+        if (remainingHeight <= availHeight) {
+          // Fits entirely — no more overflow
+          lastBottom = ovTop + remainingHeight;
+        } else {
+          // Check if only one line would overflow — let it bleed
+          var clippedHeight = Math.floor(availHeight / LINE_HEIGHT) * LINE_HEIGHT;
+          var stillRemaining = remainingHeight - clippedHeight;
+
+          if (stillRemaining <= LINE_HEIGHT * 1.5) {
+            // Allow full remaining — minor bleed
+            lastBottom = ovTop + remainingHeight;
+          } else {
+            ovContainer.style.maxHeight = clippedHeight + 'px';
+            lastBottom = ovTop + clippedHeight;
+            remainingOverflow.push({
+              noteId: ov.noteId,
+              content: ov.content,
+              label: ov.label,
+              shownHeight: ov.shownHeight + clippedHeight
+            });
+          }
+        }
+      }
+      overflowQueue = remainingOverflow;
+
+      // Now place notes that have references on this page
       var refs = page.querySelectorAll('.margin-note-ref');
       if (refs.length === 0) return;
 
-      var pageRect = page.getBoundingClientRect();
       var placed = {};
-      var lastBottom = 0;
 
       refs.forEach(function(ref) {
         var noteId = ref.dataset.note;
@@ -110,14 +186,26 @@
           targetTop = lastBottom + MIN_GAP;
         }
 
+        // Ensure we're within the page's content area
+        if (targetTop < PAGE_TOP_MARGIN) {
+          targetTop = PAGE_TOP_MARGIN;
+        }
+
+        // If can't even start one line, overflow entirely
+        if (targetTop > maxBottom - LINE_HEIGHT) {
+          overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: 0 });
+          return;
+        }
+
         // Create note element
         var noteEl = document.createElement('div');
         noteEl.className = 'margin-note-item';
         noteEl.dataset.note = noteId;
-      noteEl.style.position = 'absolute';
-      noteEl.style.top = targetTop + 'px';
-      noteEl.style.right = '0.25in';
-      noteEl.style.width = '1.5in';
+        noteEl.style.position = 'absolute';
+        noteEl.style.top = targetTop + 'px';
+        noteEl.style.right = '0.25in';
+        noteEl.style.width = '1.5in';
+        noteEl.style.overflow = 'hidden';
 
         var innerHTML = '';
         if (noteData.label) {
@@ -128,9 +216,35 @@
 
         page.appendChild(noteEl);
 
-        // Measure actual height for next overlap check
+        // Measure actual height
         var noteRect = noteEl.getBoundingClientRect();
-        lastBottom = targetTop + noteRect.height;
+        var noteBottom = targetTop + noteRect.height;
+
+        if (noteBottom > maxBottom) {
+          // Clip at clean line boundary
+          var availHeight = maxBottom - targetTop;
+          var clippedHeight = Math.floor(availHeight / LINE_HEIGHT) * LINE_HEIGHT;
+          var totalHeight = noteRect.height;
+          var remainingAfterClip = totalHeight - clippedHeight;
+
+          // If only one line would overflow, let it bleed slightly rather than splitting
+          if (remainingAfterClip <= LINE_HEIGHT * 1.5) {
+            // Allow the full note — minor bleed into bottom margin
+            lastBottom = noteBottom;
+          } else if (clippedHeight < LINE_HEIGHT) {
+            // Can't fit even one line here — overflow entirely
+            noteEl.remove();
+            overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: 0 });
+            return;
+          } else {
+            noteEl.style.maxHeight = clippedHeight + 'px';
+            lastBottom = targetTop + clippedHeight;
+            // Queue continuation with the amount already shown
+            overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: clippedHeight });
+          }
+        } else {
+          lastBottom = noteBottom;
+        }
       });
     });
   }

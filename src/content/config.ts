@@ -27,6 +27,8 @@ const baseSchema = z.object({
   title: z.string(),
   description: z.string().default(""),
   author: z.string().optional().default("Francis Wang"),
+  // Alternative format views available for this content (e.g. ["print", "slides"])
+  formats: z.array(z.enum(["print", "slides"])).optional(),
   // Syndication: tracks where this content has been cross-posted
   syndicated_to: z.array(syndicationEntry).optional(),
   // Canonical URL: set when THIS page is a mirror of content hosted elsewhere
