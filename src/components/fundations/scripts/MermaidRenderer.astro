@@ -51,4 +51,32 @@
     max-width: 100%;
     height: auto;
   }
+  /* Force legible text in mermaid diagrams */
+  .mermaid-diagram svg text {
+    fill: #1a1a1a !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+  }
+  .mermaid-diagram svg .messageText,
+  .mermaid-diagram svg .labelText,
+  .mermaid-diagram svg .loopText,
+  .mermaid-diagram svg .noteText,
+  .mermaid-diagram svg tspan {
+    fill: #1a1a1a !important;
+    font-size: 13px !important;
+  }
+  .mermaid-diagram svg .actor-line {
+    stroke: #555 !important;
+  }
+  .mermaid-diagram svg .messageLine0,
+  .mermaid-diagram svg .messageLine1 {
+    stroke: #444 !important;
+  }
+  [data-theme="dark"] .mermaid-diagram svg text,
+  [data-theme="dark"] .mermaid-diagram svg .messageText,
+  [data-theme="dark"] .mermaid-diagram svg .labelText,
+  [data-theme="dark"] .mermaid-diagram svg .noteText,
+  [data-theme="dark"] .mermaid-diagram svg tspan {
+    fill: #e4e4e7 !important;
+  }
 </style>
