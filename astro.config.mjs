@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import { fileURLToPath } from 'url';
 import { resolve } from 'path';
 
@@ -29,5 +30,5 @@ export default defineConfig({
     drafts: true
   },
   site: 'https://findcongwang.com',
-  integrations: [ sitemap(), mdx()]
+  integrations: [ sitemap(), mdx(), react()]
 });
