@@ -25,7 +25,8 @@ export type SlideLayout =
   | "n-plus-one"
   | "one-plus-n"
   | "audacious-goal"
-  | "where-started";
+  | "where-started"
+  | "content-anchored";
 
 export interface SlideContent {
   id: string;

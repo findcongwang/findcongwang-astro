@@ -1,10 +1,10 @@
 import { useState, useEffect, type ReactNode } from "react";
 import type { SlideContent, TimelineEvent } from "./types";
 import { ForesightScope } from "./ForesightScope";
-import { StrategyMapSector } from "./StrategyMapSector";
+import { GestaltStrategyMapSlide } from "./GestaltStrategyMapSlide";
+import { GestaltBusinessCanvasSlide } from "./GestaltBusinessCanvasSlide";
 import { ConvergenceRope } from "./ConvergenceRope";
 import { sovereignAiData } from "./data/foresight-sovereign-ai";
-import { ddesStrategyMapData } from "./data/strategy-map-ddes";
 
 interface SlideViewportProps {
   slide: SlideContent | null;
@@ -14,21 +14,16 @@ interface SlideViewportProps {
 
 function renderSlideWidget(
   slideId: string,
-  currentEventId: string | null,
-  timeline: TimelineEvent[]
+  _currentEventId: string | null,
+  _timeline: TimelineEvent[]
 ): ReactNode | null {
   switch (slideId) {
     case "slide-demo-foresight":
       return <ForesightScope data={sovereignAiData} />;
-    case "slide-demo-temporal":
     case "slide-demo-strategy-map":
-      return (
-        <StrategyMapSector
-          data={ddesStrategyMapData}
-          currentEventId={currentEventId}
-          timeline={timeline}
-        />
-      );
+      return <GestaltStrategyMapSlide />;
+    case "slide-demo-temporal":
+      return <GestaltBusinessCanvasSlide />;
     case "slide-convergence":
       return <ConvergenceRope />;
     default:
@@ -84,7 +79,7 @@ export function SlideViewport({
       <div
         className="gestalt-slide__content"
         dangerouslySetInnerHTML={{ __html: slide.html }}
-        style={{ margin: "0 auto", height: widget ? "auto" : "100%" }}
+        style={{ height: widget ? "auto" : "100%" }}
       />
       {widget && <div className="gestalt-slide__widget">{widget}</div>}
     </div>

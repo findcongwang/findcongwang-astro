@@ -1,0 +1,48 @@
+import type { BusinessCanvasData } from "@/components/fw-vision";
+
+/** MapleAI Cloud — AI Inflection era-ai snapshot (vendored from fw-vision temporal canvas). */
+export const bmcEraAi: BusinessCanvasData = {
+  variant: "traditional",
+  metadata: {
+    title: "MapleAI Cloud — Startup Platform (2023)",
+    designedFor: "National AI sovereignty planning",
+    designedBy: "FW.VISION Workshop",
+    date: "2023-06",
+    version: "0.2-demo",
+  },
+  zones: [],
+  nodes: [
+    { id: "ea-kp1", title: "AWS & Azure Canada", zoneId: "key-partners", briefDescription: "Default GPU training hosts", detailedDescription: "Canadian startups launch on foreign regions; sovereignty not a board concern." },
+    { id: "ea-kp2", title: "YC & CDL accelerators", zoneId: "key-partners", briefDescription: "Venture pipeline partners", detailedDescription: "Programs steer founders toward US cloud credits and investor networks." },
+    { id: "ea-ka1", title: "Rapid fine-tuning", zoneId: "key-activities", briefDescription: "Weekend model iterations", detailedDescription: "Teams ship demos on rented A100 clusters abroad." },
+    { id: "ea-ka2", title: "Prompt engineering R&D", zoneId: "key-activities", briefDescription: "Application-layer innovation", detailedDescription: "Differentiation happens above the infrastructure stack." },
+    { id: "ea-kr1", title: "Open-source model weights", zoneId: "key-resources", briefDescription: "LLaMA, Mistral checkpoints", detailedDescription: "Commodity base models downloaded from global hubs." },
+    { id: "ea-kr2", title: "ML engineer talent pool", zoneId: "key-resources", briefDescription: "Toronto-Waterloo corridor", detailedDescription: "Strong graduates, but infrastructure access is imported." },
+    { id: "ea-vp1", title: "Speed-to-demo on GPUs", zoneId: "value-propositions", briefDescription: "Fast iteration beats residency", detailedDescription: "Venture-backed firms optimize time-to-fundraise over data locality." },
+    { id: "ea-cr1", title: "Slack community support", zoneId: "customer-relationships", briefDescription: "Developer-first engagement", detailedDescription: "Self-serve docs and Discord channels replace enterprise sales." },
+    { id: "ea-ch1", title: "Product Hunt launches", zoneId: "channels", briefDescription: "Global discovery", detailedDescription: "Canadian AI apps marketed to worldwide early adopters." },
+    { id: "ea-ch2", title: "AWS Activate credits", zoneId: "channels", briefDescription: "Free-tier cloud onboarding", detailedDescription: "Hyperscaler credits lock startups into foreign stacks early." },
+    { id: "ea-cs1", title: "Seed-stage AI startups", zoneId: "customer-segments", briefDescription: "Pre-Series A ML companies", detailedDescription: "Founders assume compute is a commodity purchased abroad." },
+    { id: "ea-cs2", title: "Enterprise AI pilots", zoneId: "customer-segments", briefDescription: "Fortune 500 innovation labs", detailedDescription: "Canadian enterprises test copilots hosted on US regions." },
+    { id: "ea-co1", title: "Cloud GPU opex", zoneId: "cost-structure", briefDescription: "Pay-as-you-go inference", detailedDescription: "Training bills spike; margins depend on foreign pricing." },
+    { id: "ea-co2", title: "Talent retention bonuses", zoneId: "cost-structure", briefDescription: "Competing with US offers", detailedDescription: "Engineers courted by Silicon Valley relocation packages." },
+    { id: "ea-rs1", title: "SaaS API subscriptions", zoneId: "revenue-streams", briefDescription: "Per-seat and usage billing", detailedDescription: "Revenue assumes globally distributed cloud backends." },
+    { id: "ea-rs2", title: "Enterprise licence fees", zoneId: "revenue-streams", briefDescription: "Annual platform contracts", detailedDescription: "B2B deals priced in USD with US-hosted SLAs." },
+  ],
+  flows: [
+    { source: "ea-kp1", target: "ea-ka1", action: "hosts" },
+    { source: "ea-kp2", target: "ea-ch2", action: "funds" },
+    { source: "ea-kr1", target: "ea-ka2", action: "supplies" },
+    { source: "ea-kr2", target: "ea-ka1", action: "executes" },
+    { source: "ea-ka1", target: "ea-vp1", action: "enables" },
+    { source: "ea-ka2", target: "ea-vp1", action: "differentiates" },
+    { source: "ea-vp1", target: "ea-cs1", action: "serves" },
+    { source: "ea-vp1", target: "ea-cs2", action: "pilots" },
+    { source: "ea-ch1", target: "ea-cs1", action: "acquires" },
+    { source: "ea-ch2", target: "ea-ka1", action: "subsidizes" },
+    { source: "ea-cr1", target: "ea-cs1", action: "retains" },
+    { source: "ea-ka1", target: "ea-co1", action: "incurs" },
+    { source: "ea-vp1", target: "ea-rs1", action: "monetizes" },
+    { source: "ea-vp1", target: "ea-rs2", action: "scales" },
+  ],
+};
