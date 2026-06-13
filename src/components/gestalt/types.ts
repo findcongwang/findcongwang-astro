@@ -17,11 +17,22 @@ export interface GestaltTerm {
   thread: ThreadId;
 }
 
+export type SlideLayout =
+  | "title-anchored"
+  | "image-right"
+  | "five-comps"
+  | "two-column"
+  | "n-plus-one"
+  | "one-plus-n"
+  | "audacious-goal"
+  | "where-started";
+
 export interface SlideContent {
   id: string;
   title: string;
   html: string;
   type?: "title" | "content" | "demo" | "quote" | "section-break";
+  layout?: SlideLayout;
 }
 
 export interface StorylineStep {

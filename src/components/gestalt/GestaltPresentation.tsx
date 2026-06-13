@@ -43,9 +43,30 @@ interface GestaltPresentationProps {
 export function GestaltPresentation({ data }: GestaltPresentationProps) {
   const maxSteps = data.storyline.length;
   const reducer = useMemo(() => createReducer(maxSteps), [maxSteps]);
-  const [state, dispatch] = useReducer(reducer, { currentStepIndex: 0, maxSteps });
+
+  // Read initial step from URL ?step=N
+  const initialStep = useMemo(() => {
+    if (typeof window === "undefined") return 0;
+    const params = new URLSearchParams(window.location.search);
+    const stepParam = params.get("step");
+    if (stepParam !== null) {
+      const n = parseInt(stepParam, 10);
+      if (!isNaN(n) && n >= 0 && n < maxSteps) return n;
+    }
+    return 0;
+  }, [maxSteps]);
+
+  const [state, dispatch] = useReducer(reducer, { currentStepIndex: initialStep, maxSteps });
   const { currentStepIndex } = state;
   const [changeEvents, setChangeEvents] = useState<Set<string>>(new Set());
+
+  // Sync current step to URL parameter (without page reload)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("step", String(currentStepIndex));
+    window.history.replaceState({}, "", url.toString());
+  }, [currentStepIndex]);
 
   // Derived state
   const currentEventId = useMemo(() => {

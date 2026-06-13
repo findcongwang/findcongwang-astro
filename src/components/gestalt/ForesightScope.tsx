@@ -1,302 +1,451 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
-import type { ForesightBranch, ForesightScopeData } from "./types-foresight";
+import {
+  bandMidRadius,
+  coneHalfHeightPx,
+  defaultBandLabels,
+  driverAngle,
+  ellipsePath,
+  futureConeHalfHeightPx,
+  futureLowerBoundaryPath,
+  futureUpperBoundaryPath,
+  historyTubeBoundaryPath,
+  horizonRadii,
+  nestedRingPaths,
+  pointOnEllipse,
+  trajectoryToNow,
+} from "./foresightGeometry";
+import type {
+  ForesightDriver,
+  ForesightHorizon,
+  ForesightScenario,
+  ForesightScopeData,
+} from "./types-foresight";
+import {
+  DRIVER_COLORS,
+  SCENARIO_DEFAULT_COLOR,
+  TECHNOLOGY_COLORS,
+} from "./types-foresight";
 
 interface ForesightScopeProps {
   data: ForesightScopeData;
   className?: string;
 }
 
-interface BranchLayout {
-  branch: ForesightBranch;
-  slotY: number;
-  color: string;
-  strokeWidth: number;
-  strokeOpacity: number;
-  pathD: string;
-  eventPoints: { x: number; y: number; label: string; type: string }[];
-  labelPoint: { x: number; y: number; label: string };
-  branchOrigin: { x: number; y: number };
+const STROKE = "#18181b";
+const LEGEND_HEIGHT = 102;
+
+const LEGEND_LAYOUT = {
+  originX: 14,
+  originY: 10,
+  titleHeight: 22,
+  rowHeight: 14,
+  dotRadius: 3.5,
+  dotCx: 3.5,
+  labelX: 12,
+  colWidth: 138,
+} as const;
+
+const FS = {
+  legendTitle: 11,
+  legendItem: 10,
+  boundary: 10,
+  eraLabel: 9,
+  eraDateLabel: 8,
+  horizonLabel: 10,
+  horizonDateLabel: 8,
+  bandLabel: 8,
+  now: 11,
+  axis: 9,
+  scenarioDot: 4,
+  driverDot: 4,
+  signalDot: 3,
+  eraRingScale: 0.78,
+} as const;
+
+interface SplitLabel {
+  title: string;
+  subtitle: string | null;
 }
 
-const DEFAULT_PALETTE = [
-  "#10b981",
-  "#0ea5e9",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#6366f1",
-];
+function parseParenLabel(label: string): SplitLabel {
+  const match = label.match(/^(.+?)\s*\((.+)\)\s*$/);
+  if (!match) return { title: label, subtitle: null };
+  return { title: match[1]!.trim(), subtitle: match[2]!.trim() };
+}
 
-function branchColor(
-  branch: ForesightBranch,
+function appendSplitLabel(
+  parent: d3.Selection<SVGGElement, unknown, null, undefined>,
+  x: number,
+  y: number,
+  split: SplitLabel,
+  options: {
+    titleSize?: number;
+    subtitleSize?: number;
+    titleWeight?: number;
+    titleFill?: string;
+    subtitleFill?: string;
+  } = {}
+): void {
+  const {
+    titleSize = FS.eraLabel,
+    subtitleSize = FS.eraDateLabel,
+    titleWeight = 500,
+    titleFill = "#52525b",
+    subtitleFill = "#71717a",
+  } = options;
+
+  const text = parent
+    .append("text")
+    .attr("class", "foresight-split-label")
+    .attr("x", x)
+    .attr("y", y)
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "hanging");
+
+  text
+    .append("tspan")
+    .attr("x", x)
+    .attr("dy", 0)
+    .attr("font-size", titleSize)
+    .attr("font-weight", titleWeight)
+    .attr("fill", titleFill)
+    .text(split.title);
+
+  if (split.subtitle) {
+    text
+      .append("tspan")
+      .attr("x", x)
+      .attr("dy", "1.2em")
+      .attr("font-size", subtitleSize)
+      .attr("font-weight", 400)
+      .attr("fill", subtitleFill)
+      .text(split.subtitle);
+  }
+}
+
+function scenarioAngle(scenario: ForesightScenario, index: number): number {
+  if (scenario.angle !== undefined) return (scenario.angle * Math.PI) / 180;
+  const hash = scenario.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return (((hash + index * 37) % 120) - 60) * (Math.PI / 180);
+}
+
+function showTooltip(
+  container: HTMLElement,
+  html: string,
+  event: MouseEvent
+): void {
+  const rect = container.getBoundingClientRect();
+  d3.select(container)
+    .selectAll(".foresight-tooltip")
+    .data([null])
+    .join("div")
+    .attr("class", "foresight-tooltip")
+    .html(html)
+    .style("opacity", "1")
+    .style("left", `${event.clientX - rect.left + 12}px`)
+    .style("top", `${event.clientY - rect.top - 40}px`);
+}
+
+function hideTooltip(container: HTMLElement): void {
+  d3.select(container).selectAll(".foresight-tooltip").style("opacity", "0").remove();
+}
+
+function legendRowY(index: number): number {
+  return LEGEND_LAYOUT.titleHeight + index * LEGEND_LAYOUT.rowHeight;
+}
+
+function appendLegendTitle(
+  parent: d3.Selection<SVGGElement, unknown, null, undefined>,
+  label: string
+): void {
+  parent
+    .append("text")
+    .attr("class", "foresight-legend-title")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("dominant-baseline", "hanging")
+    .attr("font-size", FS.legendTitle)
+    .attr("font-weight", 600)
+    .attr("fill", STROKE)
+    .text(label);
+}
+
+function appendLegendRow(
+  parent: d3.Selection<SVGGElement, unknown, null, undefined>,
   index: number,
-  palette: string[]
-): string {
-  if (branch.color) return branch.color;
-  return palette[index % palette.length] ?? DEFAULT_PALETTE[0]!;
+  color: string,
+  label: string,
+  stroke = false
+): void {
+  const row = parent
+    .append("g")
+    .attr("class", "foresight-legend-row")
+    .attr("transform", `translate(0, ${legendRowY(index)})`);
+
+  row
+    .append("circle")
+    .attr("class", "foresight-legend-dot")
+    .attr("cx", LEGEND_LAYOUT.dotCx)
+    .attr("cy", 0)
+    .attr("r", LEGEND_LAYOUT.dotRadius)
+    .attr("fill", color)
+    .attr("stroke", stroke ? STROKE : "none")
+    .attr("stroke-width", stroke ? 0.5 : 0);
+
+  row
+    .append("text")
+    .attr("class", "foresight-legend-label")
+    .attr("x", LEGEND_LAYOUT.labelX)
+    .attr("y", 0)
+    .attr("dominant-baseline", "middle")
+    .attr("font-size", FS.legendItem)
+    .attr("fill", "#52525b")
+    .text(label);
 }
 
-function applyValence(color: string, valence?: ForesightBranch["valence"]): string {
-  if (valence === "negative") {
-    return d3.color(color)?.copy({ opacity: 0.7 }).formatRgb() ?? color;
-  }
-  return color;
+function drawLegends(
+  parent: d3.Selection<SVGGElement, unknown, null, undefined>
+): number {
+  const legendG = parent.append("g").attr("class", "foresight-legends");
+
+  const col1 = legendG
+    .append("g")
+    .attr("class", "foresight-legend-col foresight-legend-col--drivers")
+    .attr(
+      "transform",
+      `translate(${LEGEND_LAYOUT.originX}, ${LEGEND_LAYOUT.originY})`
+    );
+
+  appendLegendTitle(col1, "Drivers and Signals");
+
+  const drivers: { label: string; cat: keyof typeof DRIVER_COLORS }[] = [
+    { label: "Technological", cat: "technological" },
+    { label: "Political", cat: "political" },
+    { label: "Economic", cat: "economic" },
+    { label: "Social", cat: "social" },
+  ];
+  drivers.forEach((d, i) => {
+    appendLegendRow(col1, i, DRIVER_COLORS[d.cat], d.label);
+  });
+  appendLegendRow(col1, drivers.length, SCENARIO_DEFAULT_COLOR, "Events and Scenarios", true);
+
+  const col2 = legendG
+    .append("g")
+    .attr("class", "foresight-legend-col foresight-legend-col--tech")
+    .attr(
+      "transform",
+      `translate(${LEGEND_LAYOUT.originX + LEGEND_LAYOUT.colWidth}, ${LEGEND_LAYOUT.originY})`
+    );
+
+  appendLegendTitle(col2, "Technologies");
+
+  const techs: { label: string; mat: keyof typeof TECHNOLOGY_COLORS }[] = [
+    { label: "Current", mat: "current" },
+    { label: "Emerging", mat: "emerging" },
+    { label: "Hypothetical", mat: "hypothetical" },
+  ];
+  techs.forEach((t, i) => {
+    appendLegendRow(col2, i, TECHNOLOGY_COLORS[t.mat], t.label);
+  });
+
+  return LEGEND_HEIGHT;
 }
 
-function confidenceStroke(confidence: number): { width: number; opacity: number } {
-  return {
-    width: 0.5 + confidence * 2.5,
-    opacity: 0.3 + confidence * 0.7,
-  };
+function drawDriverDot(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  x: number,
+  y: number,
+  driver: ForesightDriver,
+  container: HTMLElement,
+  radius: number
+): void {
+  const dg = g
+    .append("g")
+    .attr("transform", `translate(${x}, ${y})`)
+    .style("cursor", "pointer");
+
+  dg.append("circle")
+    .attr("r", radius)
+    .attr("fill", DRIVER_COLORS[driver.category])
+    .attr("stroke", STROKE)
+    .attr("stroke-width", 0.5);
+
+  dg.on("mouseenter", (event: MouseEvent) => {
+    showTooltip(
+      container,
+      `<strong>${driver.label}</strong><br/><span class="foresight-tooltip-muted">${driver.category}</span>`,
+      event
+    );
+  });
+  dg.on("mouseleave", () => hideTooltip(container));
 }
 
-function slotYPositions(
-  count: number,
+function drawDriverCrossSection(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  cx: number,
   cy: number,
-  spread: number
-): number[] {
-  if (count <= 0) return [cy];
-  if (count === 1) return [cy];
-  const step = spread / (count - 1);
-  return Array.from({ length: count }, (_, i) => cy - spread / 2 + i * step);
+  halfH: number,
+  drivers: ForesightDriver[],
+  container: HTMLElement,
+  className: string
+): void {
+  const { rx, ry } = horizonRadii(halfH);
+  const sliceG = g.append("g").attr("class", className);
+
+  sliceG
+    .append("path")
+    .attr("d", ellipsePath(cx, cy, rx, ry))
+    .attr("fill", "none")
+    .attr("stroke", STROKE)
+    .attr("stroke-width", 0.8);
+
+  drivers.forEach((driver: ForesightDriver) => {
+    const angle = driverAngle(driver.position);
+    const pt = pointOnEllipse(cx, cy, rx, ry, angle);
+    drawDriverDot(sliceG, pt.x, pt.y, driver, container, FS.driverDot);
+  });
 }
 
-function historyPathD(
-  branch: ForesightBranch,
-  pastX: (d: Date) => number,
-  presentX: number,
+function drawTimelineNode(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  cx: number,
   cy: number,
-  startY: number
-): string {
-  const points: { x: number; y: number }[] = [];
-  const branchStart = new Date(branch.branchDate);
-  points.push({ x: pastX(branchStart), y: startY });
+  ringHalfH: number,
+  drivers: ForesightDriver[] | undefined,
+  container: HTMLElement,
+  className: string,
+  label?: string,
+  labelY?: number,
+  labelBold = false
+): void {
+  const nodeG = g.append("g").attr("class", className);
 
-  for (const ev of branch.events) {
-    points.push({ x: pastX(new Date(ev.date)), y: startY + (cy - startY) * 0.4 });
+  if (drivers?.length) {
+    drawDriverCrossSection(nodeG, cx, cy, ringHalfH, drivers, container, `${className}-ring`);
   }
 
-  points.push({ x: presentX, y: cy });
+  nodeG
+    .append("line")
+    .attr("x1", cx)
+    .attr("x2", cx)
+    .attr("y1", cy - ringHalfH - 3)
+    .attr("y2", cy + ringHalfH + 3)
+    .attr("stroke", STROKE)
+    .attr("stroke-width", 1);
 
-  if (points.length < 2) return "";
+  nodeG
+    .append("circle")
+    .attr("cx", cx)
+    .attr("cy", cy)
+    .attr("r", 3)
+    .attr("fill", "transparent")
+    .attr("stroke", STROKE)
+    .attr("stroke-width", 1.1);
 
-  let d = `M ${points[0]!.x} ${points[0]!.y}`;
-  for (let i = 1; i < points.length; i++) {
-    const prev = points[i - 1]!;
-    const curr = points[i]!;
-    const cpx = (prev.x + curr.x) / 2;
-    d += ` C ${cpx} ${prev.y}, ${cpx} ${curr.y}, ${curr.x} ${curr.y}`;
+  if (label !== undefined && labelY !== undefined) {
+    if (labelBold) {
+      nodeG
+        .append("text")
+        .attr("x", cx)
+        .attr("y", labelY)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "hanging")
+        .attr("font-size", FS.now)
+        .attr("font-weight", 600)
+        .attr("fill", STROKE)
+        .text(label);
+    } else {
+      appendSplitLabel(nodeG, cx, labelY, parseParenLabel(label), {
+        titleSize: FS.eraLabel,
+        subtitleSize: FS.eraDateLabel,
+      });
+    }
   }
-  return d;
 }
 
-function futurePathD(
-  branch: ForesightBranch,
-  futureX: (d: Date) => number,
-  presentX: number,
+function drawHorizon(
+  g: d3.Selection<SVGGElement, unknown, null, undefined>,
+  horizon: ForesightHorizon,
+  hx: number,
   cy: number,
-  endY: number,
-  startY?: number
-): string {
-  const points: { x: number; y: number }[] = [];
-  const originY = startY ?? cy;
-  points.push({ x: presentX, y: originY });
+  halfH: number,
+  chartH: number,
+  scenarios: ForesightScenario[],
+  showBandLabels: boolean,
+  container: HTMLElement
+): void {
+  const { rx, ry } = horizonRadii(halfH);
+  const bandCount = horizon.bands;
+  const bandLabels = horizon.bandLabels ?? defaultBandLabels(bandCount);
+  const ringG = g.append("g").attr("class", `foresight-horizon-${horizon.id}`);
+  const rings = nestedRingPaths(hx, cy, rx, ry, bandCount);
 
-  const branchStart = new Date(branch.branchDate);
-  if (branchStart > new Date(0)) {
-    points.push({ x: futureX(branchStart), y: originY + (endY - originY) * 0.3 });
-  }
+  rings.forEach((pathD, i) => {
+    const isOuter = i === rings.length - 1;
+    ringG
+      .append("path")
+      .attr("d", pathD)
+      .attr("fill", "none")
+      .attr("stroke", STROKE)
+      .attr("stroke-width", i === 0 ? 1 : 0.7)
+      .attr("stroke-opacity", isOuter ? 0.5 : 0.75)
+      .attr("stroke-dasharray", isOuter ? "3 3" : "none");
+  });
 
-  for (const ev of branch.events) {
-    const t = branch.events.indexOf(ev) / Math.max(branch.events.length, 1);
-    points.push({
-      x: futureX(new Date(ev.date)),
-      y: originY + (endY - originY) * (0.3 + t * 0.7),
+  if (showBandLabels) {
+    bandLabels.forEach((label, bi) => {
+      const mid = bandMidRadius(bi, bandCount, rx, ry);
+      if (mid.ry < 10) return;
+      ringG
+        .append("text")
+        .attr("x", hx + mid.rx + 6)
+        .attr("y", cy - mid.ry + bi * 12)
+        .attr("font-size", FS.bandLabel)
+        .attr("fill", "#71717a")
+        .text(label);
     });
   }
 
-  const endDate = branch.endDate
-    ? new Date(branch.endDate)
-    : branch.events.length > 0
-      ? new Date(branch.events[branch.events.length - 1]!.date)
-      : new Date(branch.branchDate);
-  points.push({ x: futureX(endDate), y: endY });
-
-  if (points.length < 2) return "";
-
-  let d = `M ${points[0]!.x} ${points[0]!.y}`;
-  for (let i = 1; i < points.length; i++) {
-    const prev = points[i - 1]!;
-    const curr = points[i]!;
-    const cpx = prev.x + (curr.x - prev.x) * 0.55;
-    d += ` C ${cpx} ${prev.y}, ${cpx} ${curr.y}, ${curr.x} ${curr.y}`;
-  }
-  return d;
-}
-
-function buildLayout(
-  data: ForesightScopeData,
-  width: number,
-  height: number
-): {
-  presentX: number;
-  cy: number;
-  histories: BranchLayout[];
-  futures: BranchLayout[];
-  mainThreadPoints: { x: number; y: number; label: string }[];
-  conePaths: string[];
-} {
-  const pad = 24;
-  const presentX = width * 0.45;
-  const cy = height / 2;
-  const palette = data.palette ?? DEFAULT_PALETTE;
-
-  const presentDate = new Date(data.presentDate);
-  const startDate = new Date(data.timeRange.start);
-  const endDate = new Date(data.timeRange.end);
-
-  const pastX = d3
-    .scaleTime()
-    .domain([startDate, presentDate])
-    .range([pad, presentX]);
-
-  const futureX = d3
-    .scaleTime()
-    .domain([presentDate, endDate])
-    .range([presentX, width - pad]);
-
-  const histCount = data.histories.length;
-  const futCount = data.futures.length;
-  const maxBranches = Math.max(histCount, futCount, 1);
-  const spread = Math.min(height * 0.38, 24 + maxBranches * 22);
-  const histSlots = slotYPositions(histCount, cy, spread);
-  const futSlots = slotYPositions(futCount, cy, spread);
-
-  const parentSlotMap = new Map<string, number>();
-
-  const histories: BranchLayout[] = data.histories.map((branch, i) => {
-    const slotY = histSlots[i] ?? cy;
-    const { width: strokeWidth, opacity: strokeOpacity } = confidenceStroke(
-      branch.confidence
-    );
-    const color = applyValence(branchColor(branch, i, palette), branch.valence);
-    const pathD = historyPathD(branch, pastX, presentX, cy, slotY);
-    parentSlotMap.set(branch.id, slotY);
-
-    return {
-      branch,
-      slotY,
-      color,
-      strokeWidth,
-      strokeOpacity,
-      pathD,
-      eventPoints: branch.events.map((ev) => ({
-        x: pastX(new Date(ev.date)),
-        y: slotY + (cy - slotY) * 0.4,
-        label: ev.label,
-        type: ev.type,
-      })),
-      labelPoint: {
-        x: pastX(new Date(branch.branchDate)) - 8,
-        y: slotY,
-        label: branch.label,
-      },
-      branchOrigin: {
-        x: pastX(new Date(branch.branchDate)),
-        y: slotY,
-      },
-    };
+  const split = parseParenLabel(horizon.label);
+  appendSplitLabel(ringG, hx, cy + halfH + 16, split, {
+    titleSize: FS.horizonLabel,
+    subtitleSize: FS.horizonDateLabel,
   });
 
-  const futures: BranchLayout[] = data.futures.map((branch, i) => {
-    let slotY = futSlots[i] ?? cy;
-    let startY: number | undefined;
+  const atHorizon = scenarios.filter((s) => s.horizonId === horizon.id);
 
-    if (branch.dependsOn) {
-      const parentY = parentSlotMap.get(branch.dependsOn);
-      if (parentY !== undefined) {
-        startY = parentY;
-        slotY = parentY + (slotY - cy) * 0.6;
-      }
-    }
-
-    const { width: strokeWidth, opacity: strokeOpacity } = confidenceStroke(
-      branch.confidence
+  atHorizon.forEach((scenario, idx) => {
+    const mid = bandMidRadius(
+      Math.min(scenario.bandIndex, bandCount - 1),
+      bandCount,
+      rx,
+      ry
     );
-    const color = applyValence(
-      branchColor(branch, i + histCount, palette),
-      branch.valence
-    );
-    const pathD = futurePathD(branch, futureX, presentX, cy, slotY, startY);
+    const angle = scenarioAngle(scenario, idx);
+    const pt = pointOnEllipse(hx, cy, mid.rx, mid.ry, angle);
 
-    return {
-      branch,
-      slotY,
-      color,
-      strokeWidth,
-      strokeOpacity,
-      pathD,
-      eventPoints: branch.events.map((ev, idx) => {
-        const t = (idx + 1) / Math.max(branch.events.length, 1);
-        const originY = startY ?? cy;
-        return {
-          x: futureX(new Date(ev.date)),
-          y: originY + (slotY - originY) * (0.3 + t * 0.7),
-          label: ev.label,
-          type: ev.type,
-        };
-      }),
-      labelPoint: {
-        x: futureX(
-          branch.endDate
-            ? new Date(branch.endDate)
-            : branch.events.length > 0
-              ? new Date(branch.events[branch.events.length - 1]!.date)
-              : new Date(branch.branchDate)
-        ) + 8,
-        y: slotY,
-        label: branch.label,
-      },
-      branchOrigin: {
-        x: futureX(new Date(branch.branchDate)),
-        y: startY ?? cy,
-      },
-    };
+    const color = scenario.color ?? SCENARIO_DEFAULT_COLOR;
+    const sg = ringG
+      .append("g")
+      .attr("transform", `translate(${pt.x}, ${pt.y})`)
+      .style("cursor", "pointer");
+
+    sg.append("circle")
+      .attr("r", FS.scenarioDot)
+      .attr("fill", color)
+      .attr("stroke", STROKE)
+      .attr("stroke-width", 0.5);
+
+    sg.on("mouseenter", (event: MouseEvent) => {
+      showTooltip(
+        container,
+        `<strong style="color:${color}">${scenario.label}</strong><br/><span class="foresight-tooltip-muted">${scenario.description}</span>`,
+        event
+      );
+    });
+    sg.on("mouseleave", () => hideTooltip(container));
   });
-
-  const mainThreadPoints = data.mainThread.map((ev) => ({
-    x:
-      new Date(ev.date) <= presentDate
-        ? pastX(new Date(ev.date))
-        : futureX(new Date(ev.date)),
-    y: cy,
-    label: ev.label,
-  }));
-
-  const coneSpread = spread * 0.55;
-  const conePaths: string[] = [];
-  if (futCount > 0) {
-    const rightX = width - pad;
-    conePaths.push(
-      `M ${presentX} ${cy} L ${rightX} ${cy - coneSpread} L ${rightX} ${cy + coneSpread} Z`
-    );
-  }
-  if (histCount > 0) {
-    const leftX = pad;
-    conePaths.push(
-      `M ${presentX} ${cy} L ${leftX} ${cy - coneSpread} L ${leftX} ${cy + coneSpread} Z`
-    );
-  }
-
-  return {
-    presentX,
-    cy,
-    histories,
-    futures,
-    mainThreadPoints,
-    conePaths,
-  };
 }
 
 export function ForesightScope({ data, className }: ForesightScopeProps) {
@@ -313,180 +462,262 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
       if (width < 10 || height < 10) return;
 
       const svg = d3.select(svgEl);
-      svg.attr("width", width).attr("height", height);
+      svg
+        .attr("width", width)
+        .attr("height", height)
+        .attr("overflow", "visible");
       svg.selectAll("*").remove();
 
-      const layout = buildLayout(data, width, height);
-      const { presentX, cy, histories, futures, mainThreadPoints, conePaths } =
-        layout;
+      const pad = 28;
+      const bottomPad = 30;
+      const chartTop = LEGEND_HEIGHT + 2;
+      const chartH = height - chartTop - bottomPad;
+      const labelReserve = 36;
+      const topReserve = 10;
+      const maxHalfHeight = Math.max(
+        24,
+        Math.min((chartH - labelReserve) / 2 - topReserve, chartH * 0.36)
+      );
+      const cy = topReserve + maxHalfHeight;
+      const presentX = width * 0.36;
+      const leftX = pad;
+      const rightX = width - pad;
 
-      const g = svg.append("g").attr("class", "foresight-root");
+      const presentDate = new Date(data.presentDate);
+      const endDate = new Date(data.timeRange.end);
 
-      const coneG = g.append("g").attr("class", "foresight-cones");
+      const futureX = d3.scaleTime().domain([presentDate, endDate]).range([presentX, rightX]);
+
+      const sortedHorizons = [...data.horizons].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      const horizonEndPad = 28;
+      const h1Offset = Math.max(56, (rightX - presentX) * 0.14);
+      const horizonXScale = d3
+        .scalePoint<string>()
+        .domain(sortedHorizons.map((h) => h.id))
+        .range([presentX + h1Offset, rightX - horizonEndPad])
+        .padding(0.1);
+
+      const horizonX = (horizonId: string): number =>
+        horizonXScale(horizonId) ?? presentX + h1Offset;
+
+      const h2X = horizonX("hz-h2");
+      const historyRingHalfH =
+        coneHalfHeightPx(h2X, presentX, rightX, maxHalfHeight) * FS.eraRingScale;
+      const tubeHalfH = historyRingHalfH;
+
+      const pastHistoryItems = [
+        ...(data.eras ?? []).map((era) => ({
+          id: era.id,
+          date: new Date(era.date),
+        })),
+        ...data.mainThread
+          .filter((ev) => new Date(ev.date) < presentDate)
+          .map((ev) => ({ id: ev.id, date: new Date(ev.date) })),
+      ].sort((a, b) => a.date.getTime() - b.date.getTime());
+
+      const pastEvenX = d3
+        .scalePoint<string>()
+        .domain(pastHistoryItems.map((item) => item.id))
+        .range([leftX + 14, presentX - 10])
+        .padding(0.14);
+
+      const pastX = (id: string): number => pastEvenX(id) ?? leftX + 14;
+
+      const growthLabel = data.coneLabels?.growth ?? "Growth / Transform";
+      const crisisLabel = data.coneLabels?.crisis ?? "Crisis / Discipline";
+
+      const root = svg.append("g").attr("class", "foresight-root");
+      drawLegends(root);
+
+      const chartG = root
+        .append("g")
+        .attr("class", "foresight-chart")
+        .attr("transform", `translate(0, ${chartTop})`);
+
+      const tubeG = chartG.append("g").attr("class", "foresight-history-tube");
+      tubeG
+        .append("path")
+        .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "top"))
+        .attr("fill", "none")
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.9);
+      tubeG
+        .append("path")
+        .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "bottom"))
+        .attr("fill", "none")
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.9);
+
+      const coneG = chartG.append("g").attr("class", "foresight-cone");
       coneG
-        .selectAll("path")
-        .data(conePaths)
-        .join("path")
-        .attr("d", (d) => d)
-        .attr("fill", "rgba(99, 102, 241, 0.04)")
-        .attr("stroke", "rgba(99, 102, 241, 0.12)")
-        .attr("stroke-width", 1);
+        .append("path")
+        .attr("d", futureUpperBoundaryPath(presentX, cy, rightX, maxHalfHeight))
+        .attr("fill", "none")
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.9);
+      coneG
+        .append("path")
+        .attr("d", futureLowerBoundaryPath(presentX, cy, rightX, maxHalfHeight))
+        .attr("fill", "none")
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.9);
 
-      const mainG = g.append("g").attr("class", "foresight-main-thread");
-      mainG
-        .append("line")
-        .attr("x1", 24)
-        .attr("y1", cy)
-        .attr("x2", width - 24)
-        .attr("y2", cy)
-        .attr("stroke", "#374151")
-        .attr("stroke-width", 1)
-        .attr("stroke-dasharray", "4 4");
-
-      mainG
-        .selectAll("circle")
-        .data(mainThreadPoints)
-        .join("circle")
-        .attr("cx", (d) => d.x)
-        .attr("cy", (d) => d.y)
-        .attr("r", 3)
-        .attr("fill", "#6366f1");
-
-      const drawBranches = (
-        branches: BranchLayout[],
-        side: "history" | "future"
-      ) => {
-        const branchG = g.append("g").attr("class", `foresight-${side}`);
-
-        const paths = branchG
-          .selectAll<SVGPathElement, BranchLayout>("path.branch")
-          .data(branches, (d) => d.branch.id)
-          .join("path")
-          .attr("class", "branch")
-          .attr("fill", "none")
-          .attr("stroke", (d) => d.color)
-          .attr("stroke-width", (d) => d.strokeWidth)
-          .attr("stroke-opacity", (d) => d.strokeOpacity)
-          .attr("d", (d) => d.pathD);
-
-        paths.each(function () {
-          const path = d3.select(this);
-          const totalLength = (this as SVGPathElement).getTotalLength();
-          path
-            .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
-            .attr("stroke-dashoffset", totalLength)
-            .transition()
-            .duration(800)
-            .ease(d3.easeCubicOut)
-            .attr("stroke-dashoffset", 0);
-        });
-
-        branchG
-          .selectAll("circle.event-node")
-          .data(
-            branches.flatMap((b) =>
-              b.eventPoints.map((p, i) => ({
-                ...p,
-                branchId: b.branch.id,
-                key: `${b.branch.id}-ev-${i}`,
-              }))
-            ),
-            (d) => d.key
-          )
-          .join("circle")
-          .attr("class", "event-node")
-          .attr("cx", (d) => d.x)
-          .attr("cy", (d) => d.y)
-          .attr("r", 4)
-          .attr("fill", (d) => {
-            const branch = branches.find((b) => b.branch.id === d.branchId);
-            return branch?.color ?? "#6366f1";
-          })
-          .attr("opacity", 0)
-          .transition()
-          .delay(400)
-          .duration(400)
-          .attr("opacity", 1);
-
-        branchG
-          .selectAll("circle.branch-origin")
-          .data(branches, (d) => d.branch.id)
-          .join("circle")
-          .attr("class", "branch-origin")
-          .attr("cx", (d) => d.branchOrigin.x)
-          .attr("cy", (d) => d.branchOrigin.y)
-          .attr("r", 7)
-          .attr("fill", "none")
-          .attr("stroke", (d) => d.color)
-          .attr("stroke-width", 2);
-
-        branchG
-          .selectAll("text.branch-label")
-          .data(branches, (d) => d.branch.id)
-          .join("text")
-          .attr("class", "branch-label")
-          .attr("x", (d) => d.labelPoint.x)
-          .attr("y", (d) => d.labelPoint.y)
-          .attr("text-anchor", side === "history" ? "end" : "start")
-          .attr("dominant-baseline", "middle")
-          .attr("font-family", "'Geist', sans-serif")
-          .attr("font-size", 10)
-          .attr("fill", (d) => d.color)
-          .attr("opacity", 0.85)
-          .text((d) => d.labelPoint.label);
-      };
-
-      if (histories.length > 0) drawBranches(histories, "history");
-      drawBranches(futures, "future");
-
-      const presentG = g.append("g").attr("class", "foresight-present");
-      presentG
-        .append("line")
-        .attr("x1", presentX)
-        .attr("y1", cy - spreadForHeight(height) / 2 - 8)
-        .attr("x2", presentX)
-        .attr("y2", cy + spreadForHeight(height) / 2 + 8)
-        .attr("stroke", "#a5b4fc")
-        .attr("stroke-width", 2);
-
-      presentG
-        .append("circle")
-        .attr("cx", presentX)
-        .attr("cy", cy)
-        .attr("r", 8)
-        .attr("fill", "#6366f1")
-        .attr("stroke", "#a5b4fc")
-        .attr("stroke-width", 2);
-
-      presentG
+      const futTopY = cy - maxHalfHeight;
+      const futBotY = cy + maxHalfHeight;
+      coneG
         .append("text")
-        .attr("x", presentX)
-        .attr("y", cy + spreadForHeight(height) / 2 + 20)
-        .attr("text-anchor", "middle")
-        .attr("font-family", "'Geist', sans-serif")
-        .attr("font-size", 11)
-        .attr("font-weight", 600)
-        .attr("fill", "#a5b4fc")
-        .text("Present");
-
-      const axisG = g.append("g").attr("class", "foresight-axis");
-      axisG
-        .append("text")
-        .attr("x", 24)
-        .attr("y", height - 8)
-        .attr("font-family", "'Geist', sans-serif")
-        .attr("font-size", 10)
-        .attr("fill", "#6b7280")
-        .text("Past");
-
-      axisG
-        .append("text")
-        .attr("x", width - 24)
-        .attr("y", height - 8)
+        .attr("x", rightX - 4)
+        .attr("y", futTopY - 6)
         .attr("text-anchor", "end")
-        .attr("font-family", "'Geist', sans-serif")
-        .attr("font-size", 10)
-        .attr("fill", "#6b7280")
+        .attr("font-size", FS.boundary)
+        .attr("font-style", "italic")
+        .attr("fill", "#52525b")
+        .text(growthLabel);
+      coneG
+        .append("text")
+        .attr("x", rightX - 4)
+        .attr("y", futBotY + 14)
+        .attr("text-anchor", "end")
+        .attr("font-size", FS.boundary)
+        .attr("font-style", "italic")
+        .attr("fill", "#52525b")
+        .text(crisisLabel);
+
+      chartG
+        .append("line")
+        .attr("x1", leftX)
+        .attr("y1", cy)
+        .attr("x2", rightX)
+        .attr("y2", cy)
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.6)
+        .attr("stroke-opacity", 0.35);
+
+      const eraG = chartG.append("g").attr("class", "foresight-eras");
+      (data.eras ?? []).forEach((era) => {
+        const ex = pastX(era.id);
+        drawTimelineNode(
+          eraG,
+          ex,
+          cy,
+          historyRingHalfH,
+          era.crossSection?.drivers,
+          container,
+          `foresight-era-${era.id}`,
+          era.label,
+          cy + tubeHalfH + 16
+        );
+      });
+
+      const horizonG = chartG.append("g").attr("class", "foresight-horizons");
+      const trajG = chartG.append("g").attr("class", "foresight-trajectories");
+      const allScenarioPoints: { scenario: ForesightScenario; x: number; y: number }[] = [];
+      const outerHorizonId = sortedHorizons[sortedHorizons.length - 1]?.id;
+
+      sortedHorizons.forEach((horizon) => {
+        const hx = horizonX(horizon.id);
+        const halfH = futureConeHalfHeightPx(hx, presentX, rightX, maxHalfHeight);
+        const { rx, ry } = horizonRadii(halfH);
+        const bandCount = horizon.bands;
+        const atHorizon = data.scenarios.filter((s) => s.horizonId === horizon.id);
+
+        atHorizon.forEach((scenario, idx) => {
+          const mid = bandMidRadius(
+            Math.min(scenario.bandIndex, bandCount - 1),
+            bandCount,
+            rx,
+            ry
+          );
+          const angle = scenarioAngle(scenario, idx);
+          const pt = pointOnEllipse(hx, cy, mid.rx, mid.ry, angle);
+          allScenarioPoints.push({ scenario, x: pt.x, y: pt.y });
+        });
+      });
+
+      allScenarioPoints.forEach(({ x, y }) => {
+        trajG
+          .append("path")
+          .attr("d", trajectoryToNow({ x, y }, { x: presentX, y: cy }))
+          .attr("fill", "none")
+          .attr("stroke", "#a1a1aa")
+          .attr("stroke-width", 0.7)
+          .attr("stroke-dasharray", "4 3")
+          .attr("stroke-opacity", 0.7);
+      });
+
+      sortedHorizons.forEach((horizon) => {
+        const hx = horizonX(horizon.id);
+        const halfH = futureConeHalfHeightPx(hx, presentX, rightX, maxHalfHeight);
+        drawHorizon(
+          horizonG,
+          horizon,
+          hx,
+          cy,
+          halfH,
+          chartH,
+          data.scenarios,
+          horizon.id === outerHorizonId,
+          container
+        );
+      });
+
+      const mainG = chartG.append("g").attr("class", "foresight-main-thread");
+      data.mainThread.forEach((ev) => {
+        const d = new Date(ev.date);
+        if (d.getTime() === presentDate.getTime()) return;
+
+        const mx = d < presentDate ? pastX(ev.id) : futureX(d);
+        const mg = mainG
+          .append("g")
+          .attr("transform", `translate(${mx}, ${cy})`)
+          .style("cursor", "pointer");
+
+        mg.append("circle")
+          .attr("r", FS.signalDot)
+          .attr("fill", STROKE)
+          .attr("opacity", 0.55);
+
+        mg.on("mouseenter", (event: MouseEvent) => {
+          showTooltip(
+            container,
+            `<strong>${ev.label}</strong><br/><span class="foresight-tooltip-muted">${ev.type}</span>`,
+            event
+          );
+        });
+        mg.on("mouseleave", () => hideTooltip(container));
+      });
+
+      const nowG = chartG.append("g").attr("class", "foresight-now");
+      drawTimelineNode(
+        nowG,
+        presentX,
+        cy,
+        historyRingHalfH,
+        data.presentCrossSection?.drivers,
+        container,
+        "foresight-present",
+        "Now",
+        cy + historyRingHalfH + 16,
+        true
+      );
+
+      const axisG = chartG.append("g").attr("class", "foresight-axis-labels");
+      axisG
+        .append("text")
+        .attr("x", leftX)
+        .attr("y", chartH - 2)
+        .attr("font-size", FS.axis)
+        .attr("fill", "#71717a")
+        .text("Past");
+      axisG
+        .append("text")
+        .attr("x", rightX)
+        .attr("y", chartH - 2)
+        .attr("text-anchor", "end")
+        .attr("font-size", FS.axis)
+        .attr("fill", "#71717a")
         .text("Futures");
     };
 
@@ -506,10 +737,6 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
       <svg ref={svgRef} />
     </div>
   );
-}
-
-function spreadForHeight(height: number): number {
-  return Math.min(height * 0.38, 120);
 }
 
 export default ForesightScope;

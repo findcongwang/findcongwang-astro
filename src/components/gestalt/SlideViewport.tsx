@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import type { SlideContent, TimelineEvent } from "./types";
 import { ForesightScope } from "./ForesightScope";
 import { StrategyMapSector } from "./StrategyMapSector";
+import { ConvergenceRope } from "./ConvergenceRope";
 import { sovereignAiData } from "./data/foresight-sovereign-ai";
 import { ddesStrategyMapData } from "./data/strategy-map-ddes";
 
@@ -20,6 +21,7 @@ function renderSlideWidget(
     case "slide-demo-foresight":
       return <ForesightScope data={sovereignAiData} />;
     case "slide-demo-temporal":
+    case "slide-demo-strategy-map":
       return (
         <StrategyMapSector
           data={ddesStrategyMapData}
@@ -27,6 +29,8 @@ function renderSlideWidget(
           timeline={timeline}
         />
       );
+    case "slide-convergence":
+      return <ConvergenceRope />;
     default:
       return null;
   }
@@ -48,6 +52,7 @@ export function SlideViewport({
   if (!slide) return null;
 
   const getSlideClass = () => {
+    if (slide.layout === "title-anchored") return "";
     switch (slide.type) {
       case "title":
         return "gestalt-slide--title";
@@ -63,11 +68,12 @@ export function SlideViewport({
   };
 
   const widget = renderSlideWidget(slide.id, currentEventId, timeline);
+  const layoutClass = slide.layout ? `gestalt-slide--layout-${slide.layout}` : "";
 
   return (
     <div
       key={key}
-      className={`gestalt-slide viewport-slide ${getSlideClass()}`}
+      className={`gestalt-slide viewport-slide ${getSlideClass()} ${layoutClass}`.trim()}
       style={{
         transition: "opacity 300ms ease-in-out",
         opacity: slide ? 1 : 0,

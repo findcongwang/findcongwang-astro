@@ -146,7 +146,7 @@ export function StrategyMapSector({
       const bulgeScale = outerR / 260;
 
       const svg = d3.select(svgEl);
-      svg.attr("width", width).attr("height", height);
+      svg.attr("width", width).attr("height", height).attr("overflow", "visible");
       svg.selectAll("*").remove();
 
       const root = svg.append("g").attr("class", "strategy-map-root");
@@ -189,16 +189,18 @@ export function StrategyMapSector({
       const bandG = root.append("g").attr("class", "strategy-map-bands");
       data.bandLabels.forEach((label, i) => {
         const band = (i + 1) as 1 | 2 | 3 | 4;
-        const x = centerX + (ringRadii[band - 1]! + ringRadii[band]!) / 2 * 0.707;
-        const y = centerY + (ringRadii[band - 1]! + ringRadii[band]!) / 2 * -0.707;
+        const midR = (ringRadii[band - 1]! + ringRadii[band]!) / 2;
+        // Position labels as x-axis along the bottom edge
+        const x = centerX + midR;
+        const y = centerY + 14; // below the arc center (which is at the bottom-left)
         bandG
           .append("text")
           .attr("x", x)
           .attr("y", y)
           .attr("text-anchor", "middle")
-          .attr("dominant-baseline", "middle")
+          .attr("dominant-baseline", "hanging")
           .attr("font-family", "'Geist', sans-serif")
-          .attr("font-size", 10)
+          .attr("font-size", 9)
           .attr("font-weight", 600)
           .attr("fill", "#6b7280")
           .text(label);
