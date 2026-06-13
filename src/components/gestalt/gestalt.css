@@ -807,9 +807,8 @@
 }
 
 .gestalt-audacious__highlight {
-  font-style: italic;
   color: #0d9488;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .gestalt-audacious__footnotes {
@@ -888,6 +887,10 @@
 
 .gestalt-compelling__goal {
   color: #0d9488;
+}
+
+.gestalt-compelling__goal--neutral {
+  color: #09090b;
 }
 
 .gestalt-compelling__constraints {
