@@ -428,11 +428,36 @@
   color: #09090b;
 }
 
+.gestalt-layout-image-right__lede {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--gestalt-dim);
+}
+
+.gestalt-layout-split__list--threads {
+  gap: 0.65rem;
+}
+
+.gestalt-layout-split__list--threads .gestalt-layout-split__item {
+  padding: 0.65rem 0.85rem;
+}
+
+.gestalt-layout-split__list--threads .gestalt-layout-split__item p {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
 .gestalt-layout-image-right__media img {
   width: 100%;
   max-height: min(72vh, 520px);
   object-fit: cover;
   border-radius: 4px;
+}
+
+.gestalt-layout-image-right__media--diagram img {
+  object-fit: contain;
+  max-height: min(78vh, 640px);
 }
 
 /* Five key components hub blueprint */

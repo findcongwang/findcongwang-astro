@@ -38,35 +38,54 @@ function createReducer(maxSteps: number) {
 
 interface GestaltPresentationProps {
   data: PresentationData;
+  /** Zero-based storyline index from URL ?slide=N (parsed server-side for hydration). */
+  initialSlideIndex?: number;
 }
 
-export function GestaltPresentation({ data }: GestaltPresentationProps) {
+function clampSlideIndex(index: number, maxSteps: number): number {
+  if (maxSteps <= 0) return 0;
+  return Math.max(0, Math.min(index, maxSteps - 1));
+}
+
+function parseSlideIndexFromSearch(search: string, maxSteps: number): number {
+  const params = new URLSearchParams(search);
+  const raw = params.get("slide") ?? params.get("step");
+  if (raw === null) return 0;
+  const n = parseInt(raw, 10);
+  if (isNaN(n)) return 0;
+  return clampSlideIndex(n, maxSteps);
+}
+
+export function GestaltPresentation({ data, initialSlideIndex = 0 }: GestaltPresentationProps) {
   const maxSteps = data.storyline.length;
   const reducer = useMemo(() => createReducer(maxSteps), [maxSteps]);
+  const initialIndex = clampSlideIndex(initialSlideIndex, maxSteps);
 
-  // Read initial step from URL ?step=N
-  const initialStep = useMemo(() => {
-    if (typeof window === "undefined") return 0;
-    const params = new URLSearchParams(window.location.search);
-    const stepParam = params.get("step");
-    if (stepParam !== null) {
-      const n = parseInt(stepParam, 10);
-      if (!isNaN(n) && n >= 0 && n < maxSteps) return n;
-    }
-    return 0;
-  }, [maxSteps]);
-
-  const [state, dispatch] = useReducer(reducer, { currentStepIndex: initialStep, maxSteps });
+  const [state, dispatch] = useReducer(reducer, {
+    currentStepIndex: initialIndex,
+    maxSteps,
+  });
   const { currentStepIndex } = state;
   const [changeEvents, setChangeEvents] = useState<Set<string>>(new Set());
+  const [urlReady, setUrlReady] = useState(false);
 
-  // Sync current step to URL parameter (without page reload)
+  // Client fallback: honor ?slide= after hydration if prop was not passed correctly.
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const fromUrl = parseSlideIndexFromSearch(window.location.search, maxSteps);
+    if (fromUrl !== initialIndex) {
+      dispatch({ type: "GOTO_STEP", payload: fromUrl });
+    }
+    setUrlReady(true);
+  }, [maxSteps, initialIndex]);
+
+  // Sync current slide to URL parameter (without page reload)
+  useEffect(() => {
+    if (!urlReady) return;
     const url = new URL(window.location.href);
-    url.searchParams.set("step", String(currentStepIndex));
+    url.searchParams.set("slide", String(currentStepIndex));
+    url.searchParams.delete("step");
     window.history.replaceState({}, "", url.toString());
-  }, [currentStepIndex]);
+  }, [currentStepIndex, urlReady]);
 
   // Derived state
   const currentEventId = useMemo(() => {

@@ -241,7 +241,7 @@ export const ddesStrategyMapData: TemporalStrategyMapData = {
       band: 4,
       sectorIndex: 0,
       label: "Perceptiosphere System",
-      description: "Operational knowledge architecture with AI agent fleet, ACCESS schema, CORE cycle.",
+      description: "Operational composable knowledge with AI agent fleet, ACCESS schema, CORE cycle.",
       progress: 0.7,
       appearedAt: "ev-07",
       valence: "positive",

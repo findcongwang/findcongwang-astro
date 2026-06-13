@@ -121,8 +121,7 @@ export const ddesS26Data: PresentationData = {
   { id: "step-05", title: "What Changed", slideId: "slide-catalyst", timelineAnchor: "ev-26", section: "Opening" },
 
   // Background: Four Threads
-  { id: "step-06", title: "Four Threads (3+1)", slideId: "slide-four-threads", timelineAnchor: "ev-05", section: "Background" },
-  { id: "step-06b", title: "Four Threads (1+n)", slideId: "slide-four-threads-mirror", timelineAnchor: "ev-05", section: "Background" },
+  { id: "step-06", title: "Four Threads", slideId: "slide-four-threads", timelineAnchor: "ev-05", section: "Background" },
   { id: "step-07", title: "Hybrid Intelligence", slideId: "slide-thread-hi", timelineAnchor: "ev-06", section: "Background" },
   { id: "step-08", title: "Innovation Ecosystems", slideId: "slide-thread-eco", timelineAnchor: "ev-08", section: "Background" },
   { id: "step-09", title: "Sanctuary & Archetypes", slideId: "slide-eco-sanctuary", timelineAnchor: "ev-15", section: "Background" },
@@ -163,7 +162,7 @@ export const ddesS26Data: PresentationData = {
       title: "Knowledge Succession",
       type: "content",
       layout: "image-right",
-      html: `<div class="gestalt-layout-image-right"><div class="gestalt-layout-image-right__text"><h2>Knowledge Succession</h2><h3>Wayne</h3><p>Father-figure and most formative mentor that got me into entrepreneurship.</p><p>One of his first pupils from 2013 when he pivoted his career to teach venture creation and entrepreneurial work-integrated learning.</p><p><strong>Context is lost when people leave the community.</strong></p><p>Resilience involves a continuation of context and collective efforts for long-term change — projects that go beyond individual lifetimes.</p></div><div class="gestalt-layout-image-right__media"><img src="/images/presentations/loveyoudad.jpeg" alt="Wayne holding a laser print of a drawing his son Declan made" /></div></div>`,
+      html: `<div class="gestalt-layout-image-right"><div class="gestalt-layout-image-right__text"><h2>Knowledge Succession</h2><h3>Wayne</h3><p>Father-figure and most formative mentor that got me into entrepreneurship.</p><p>I'm one of his first pupils from 2013 when he pivoted his career to teach venture creation and entrepreneurial work-integrated learning.</p><p><strong>Context is lost when people leave the community.</strong></p><p>Resilience involves a continuation of context and collective efforts for long-term change — projects that go beyond individual lifetimes.</p></div><div class="gestalt-layout-image-right__media"><img src="/images/presentations/loveyoudad.jpeg" alt="Wayne holding a laser print of a drawing his son Declan made" /></div></div>`,
     },
     {
       id: "slide-five-components",
@@ -195,15 +194,8 @@ export const ddesS26Data: PresentationData = {
       id: "slide-four-threads",
       title: "Four Concurrent Threads",
       type: "content",
-      layout: "n-plus-one",
-      html: `<h2>Four Threads of Research & Practice</h2><p>Six months of parallel exploration — a deliberate scoping exercise. Layout: <strong>3 + 1</strong> (three active threads + meta commentary).</p><div class="gestalt-layout-split"><div class="gestalt-layout-split__list"><div class="gestalt-layout-split__item" style="border-color:#0ea5e9"><strong style="color:#0ea5e9">Hybrid Intelligence</strong><p>Small teams + AI agents scaling to enterprise output. Digital sovereignty and work twins.</p></div><div class="gestalt-layout-split__item" style="border-color:#10b981"><strong style="color:#10b981">Innovation Ecosystems</strong><p>Tripartite model, sanctuaries, archetypes, sovereignty — governance, education, industry.</p></div><div class="gestalt-layout-split__item" style="border-color:#f59e0b"><strong style="color:#f59e0b">Perceptiosphere</strong><p>CORE cycle, active library, visual tools, sovereign vs collective knowledge layers.</p></div></div><div class="gestalt-layout-split__highlight"><h3 style="color:#6366f1">Designing Innovation (Meta)</h3><p>The overarching evolution: from proposing foresight-driven innovation to <em>practicing</em> it through tools, communities, and annotated inquiry.</p><p>Mirror layout (<strong>1 + n</strong>) places this commentary column first — same content, inverted emphasis.</p></div></div>`,
-    },
-    {
-      id: "slide-four-threads-mirror",
-      title: "Four Threads (1+n)",
-      type: "content",
-      layout: "one-plus-n",
-      html: `<h2>Same Threads — 1 + n Layout</h2><div class="gestalt-layout-split"><div class="gestalt-layout-split__highlight"><h3 style="color:#6366f1">Designing Innovation (Meta)</h3><p>Long-term innovation as perpetuating inquiry across generations — the frame that holds the other three threads.</p></div><div class="gestalt-layout-split__list"><div class="gestalt-layout-split__item" style="border-color:#0ea5e9"><strong style="color:#0ea5e9">Hybrid Intelligence</strong><p>Human-AI teams, curated knowledge substrate, operational scale.</p></div><div class="gestalt-layout-split__item" style="border-color:#10b981"><strong style="color:#10b981">Innovation Ecosystems</strong><p>Channel partnerships vs perimeter — gravity slingshot through a tripartite core.</p></div><div class="gestalt-layout-split__item" style="border-color:#f59e0b"><strong style="color:#f59e0b">Perceptiosphere</strong><p>Foundational knowledge mapping for people and AI systems alike.</p></div></div></div>`,
+      layout: "image-right",
+      html: `<div class="gestalt-layout-image-right"><div class="gestalt-layout-image-right__text"><h2>Four Threads of Research & Practice</h2><p class="gestalt-layout-image-right__lede">Six months of parallel exploration, a scoping exercise.</p><div class="gestalt-layout-split__list gestalt-layout-split__list--threads"><div class="gestalt-layout-split__item" style="border-color:#6366f1"><strong style="color:#6366f1">Designing Innovation</strong><p>From proposing foresight-driven innovation to practicing it — tools, communities, and annotated inquiry that perpetuate context across generations.</p></div><div class="gestalt-layout-split__item" style="border-color:#0ea5e9"><strong style="color:#0ea5e9">Hybrid Intelligence</strong><p>Small teams + AI agents scaling to enterprise output. Digital sovereignty and work twins on a curated knowledge substrate.</p></div><div class="gestalt-layout-split__item" style="border-color:#10b981"><strong style="color:#10b981">Innovation Ecosystems</strong><p>Innovation sanctuaries, archetypes, sovereignty. Tripartite model: governance, education, and industry.</p></div><div class="gestalt-layout-split__item" style="border-color:#f59e0b"><strong style="color:#f59e0b">Perceptiosphere & Composable Knowledge</strong><p>CORE cycle, active library, visual tools, sovereign vs collective knowledge layers for people and AI alike.</p></div></div></div><div class="gestalt-layout-image-right__media gestalt-layout-image-right__media--diagram"><img src="/images/presentations/4threads.png" alt="Sequence diagram: four research threads from January to May 2026" /></div></div>`,
     },
     {
       id: "slide-thread-hi",
@@ -233,7 +225,7 @@ export const ddesS26Data: PresentationData = {
       id: "slide-thread-ps",
       title: "Thread: Perceptiosphere",
       type: "content",
-      html: `<h2>Perceptiosphere & Knowledge Architecture</h2><p>Neither personal tools (Obsidian, Notion) nor institutional tools (SharePoint) bridge individual sense-making and collective intelligence.</p><p>From the lexicon: the <strong>Perceptiosphere</strong> is an operating environment — knowledge architecture + agent fleet + sovereign/collective composition. Foundational knowledge mapping as substrate for all intelligent systems.</p><ul><li>Annotations as content · information density as design constraint</li><li>Multi-channel rendering across symposium, essay, and tool surfaces</li><li>Strategy map, foresight scope, constellation — artifacts of the same CORE cycle</li></ul><footer class="gestalt-slide__footnote"><span class="gestalt-slide__footnote-label">Lexicon:</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo1">Perceptiosphere</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo2">Strategy Map</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo3">Annotations & Density</span></footer>`,
+      html: `<h2>Perceptiosphere & Composable Knowledge</h2><p>Neither personal tools (Obsidian, Notion) nor institutional tools (SharePoint) bridge individual sense-making and collective intelligence.</p><p>From the lexicon: the <strong>Perceptiosphere</strong> is an operating environment — composable knowledge + agent fleet + sovereign/collective composition. Foundational knowledge mapping as substrate for all intelligent systems.</p><ul><li>Annotations as content · information density as design constraint</li><li>Multi-channel rendering across symposium, essay, and tool surfaces</li><li>Strategy map, foresight scope, constellation — artifacts of the same CORE cycle</li></ul><footer class="gestalt-slide__footnote"><span class="gestalt-slide__footnote-label">Lexicon:</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo1">Perceptiosphere</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo2">Strategy Map</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo3">Annotations & Density</span></footer>`,
     },
     {
       id: "slide-ps-core",
@@ -282,7 +274,7 @@ export const ddesS26Data: PresentationData = {
       id: "slide-fdi-returns",
       title: "Foresight-Driven Innovation Returns",
       type: "quote",
-      html: `<h2>Full Circle</h2><blockquote>"Foresight-Driven Innovation," the original thesis title from May 2025, returns. Not as a framework to be proposed, but as a <strong>practice being demonstrated</strong>.</blockquote><p>The research evolved from <em>proposing</em> a framework to value long-term innovation to <em>building and practicing</em> foresight-driven innovation directly.</p><p>The tools we built (Foresight Scope, temporal business canvas, scenario mapping) are the foresight-driven innovation the proposal envisioned, realized through the Perceptiosphere's knowledge architecture.</p>`,
+      html: `<h2>Full Circle</h2><blockquote>"Foresight-Driven Innovation," the original thesis title from May 2025, returns. Not as a framework to be proposed, but as a <strong>practice being demonstrated</strong>.</blockquote><p>The research evolved from <em>proposing</em> a framework to value long-term innovation to <em>building and practicing</em> foresight-driven innovation directly.</p><p>The tools we built (Foresight Scope, temporal business canvas, scenario mapping) are the foresight-driven innovation the proposal envisioned, realized through the Perceptiosphere's composable knowledge.</p>`,
     },
     {
       id: "slide-demo-foresight",
@@ -306,7 +298,7 @@ export const ddesS26Data: PresentationData = {
       id: "slide-nested-wholes",
       title: "Nested Wholes",
       type: "content",
-      html: `<h2>Nested Wholes: Recursive Gestalt</h2><ul><li><strong>Micro:</strong> Human-AI Partnership: neither alone can sustain throughput + curation quality. Together: a reified unit with emergent capabilities.</li><li><strong>Meso:</strong> The Perceptiosphere System: knowledge architecture + agent fleet + sovereign/collective composition. Not a tool, but an operating environment.</li><li><strong>Macro:</strong> The Long-Term Innovation Community: all tools, artifacts, people, processes composed. Produces insight no individual could sustain alone.</li></ul><p>Each addition reconfigures the emergent properties of the whole. The framework is a <strong>living Gestalt</strong> that evolves as its parts evolve.</p>`,
+      html: `<h2>Nested Wholes: Recursive Gestalt</h2><ul><li><strong>Micro:</strong> Human-AI Partnership: neither alone can sustain throughput + curation quality. Together: a reified unit with emergent capabilities.</li><li><strong>Meso:</strong> The Perceptiosphere System: composable knowledge + agent fleet + sovereign/collective composition. Not a tool, but an operating environment.</li><li><strong>Macro:</strong> The Long-Term Innovation Community: all tools, artifacts, people, processes composed. Produces insight no individual could sustain alone.</li></ul><p>Each addition reconfigures the emergent properties of the whole. The framework is a <strong>living Gestalt</strong> that evolves as its parts evolve.</p>`,
     },
     {
       id: "slide-creative-project",

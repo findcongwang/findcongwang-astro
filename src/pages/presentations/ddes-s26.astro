@@ -2,6 +2,17 @@
 import "@/components/gestalt/gestalt.css";
 import { GestaltPresentation } from "@/components/gestalt/GestaltPresentation";
 import { ddesS26Data } from "@/components/gestalt/data/ddes-s26";
+
+function parseSlideIndex(search: string, maxSteps: number): number {
+  const params = new URLSearchParams(search);
+  const raw = params.get("slide") ?? params.get("step");
+  if (raw === null) return 0;
+  const n = parseInt(raw, 10);
+  if (isNaN(n)) return 0;
+  return Math.max(0, Math.min(n, Math.max(0, maxSteps - 1)));
+}
+
+const initialSlideIndex = parseSlideIndex(Astro.url.search, ddesS26Data.storyline.length);
 ---
 <html lang="en" data-theme="light">
 <head>
@@ -18,6 +29,6 @@ import { ddesS26Data } from "@/components/gestalt/data/ddes-s26";
   </style>
 </head>
 <body>
-  <GestaltPresentation client:load data={ddesS26Data} />
+  <GestaltPresentation client:load data={ddesS26Data} initialSlideIndex={initialSlideIndex} />
 </body>
 </html>

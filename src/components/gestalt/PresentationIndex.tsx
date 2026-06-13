@@ -74,16 +74,21 @@ export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: 
     const el = scrollRef.current;
     if (!el || currentStepIndex < 0 || currentStepIndex >= storyline.length) return;
 
-    const currentStep = el.querySelector(`[data-step-index="${currentStepIndex}"]`);
-    if (currentStep) {
+    const scrollToCurrent = (behavior: ScrollBehavior = "smooth") => {
+      const currentStep = el.querySelector(`[data-step-index="${currentStepIndex}"]`);
+      if (!currentStep) return;
       const containerRect = el.getBoundingClientRect();
       const stepRect = currentStep.getBoundingClientRect();
-      const scrollLeft = stepRect.left - containerRect.left + el.scrollLeft - (containerRect.width / 2) + (stepRect.width / 2);
-      el.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    }
+      const scrollLeft =
+        stepRect.left - containerRect.left + el.scrollLeft - containerRect.width / 2 + stepRect.width / 2;
+      el.scrollTo({ left: scrollLeft, behavior });
+    };
 
-    // Recheck overflow after scroll
-    setTimeout(checkOverflow, 350);
+    scrollToCurrent("auto");
+    requestAnimationFrame(() => {
+      scrollToCurrent("auto");
+      setTimeout(checkOverflow, 50);
+    });
   }, [currentStepIndex, storyline.length, checkOverflow]);
 
   // Monitor scroll and resize
