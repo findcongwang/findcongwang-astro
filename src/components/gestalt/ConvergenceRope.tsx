@@ -19,14 +19,19 @@ const DEFAULT_LABELS: [string, string, string, string] = [
 
 export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: ConvergenceRopeProps) {
   const w = 800;
-  const h = 170;
+  const h = 200;
   const centerX = 400; // knot point (50/50 split)
   const centerY = h / 2;
   const leftStart = 200; // push right to give label room
   const rightEnd = 700;
+  const strokeWidth = 2.9;
+  const knotStrokeWidth = 1.4;
+  const labelFontSize = 15;
+  const endLabelFontSize = 15;
+  const endSubFontSize = 13;
 
   // Left side: spread positions
-  const spread = 44;
+  const spread = 52;
   const startYs = [
     centerY - spread * 1.5,
     centerY - spread * 0.5,
@@ -37,7 +42,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
   // Left side: wavy convergence paths (spread → knot)
   // Each thread has a gentle wave as it converges
   const numLeftPoints = 40;
-  const leftWaveAmplitude = 4;
+  const leftWaveAmplitude = 5;
   const leftWaveFrequency = 3; // oscillations over the convergence length
 
   const convergePaths = startYs.map((sy, i) => {
@@ -63,7 +68,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
   });
 
   // Right side: braided rope paths (knot → end)
-  const braidAmplitude = 5;
+  const braidAmplitude = 6;
   const braidWavelength = 26;
   const braidLength = rightEnd - centerX;
   const numRightPoints = 60;
@@ -87,12 +92,16 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
   });
 
   // Knot decoration
-  const knotRx = 6;
-  const knotRy = 10;
+  const knotRx = 7;
+  const knotRy = 12;
 
   return (
     <div className={`gestalt-convergence-rope ${className || ""}`}>
-      <svg viewBox={`0 0 ${w} ${h}`} xmlns="http://www.w3.org/2000/svg">
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         {/* Left side: wavy converging threads */}
         {convergePaths.map((d, i) => (
           <path
@@ -100,7 +109,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
             d={d}
             fill="none"
             stroke={COLORS[i]}
-            strokeWidth={2.5}
+            strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeLinejoin="round"
             opacity={0.85}
@@ -115,7 +124,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
           ry={knotRy}
           fill="rgba(30, 30, 50, 0.8)"
           stroke="#e8e8ea"
-          strokeWidth={1.2}
+          strokeWidth={knotStrokeWidth}
           opacity={0.6}
         />
 
@@ -126,7 +135,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
             d={d}
             fill="none"
             stroke={COLORS[i]}
-            strokeWidth={2.5}
+            strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeLinejoin="round"
             opacity={0.85}
@@ -139,7 +148,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
             key={`dot-${i}`}
             cx={leftStart}
             cy={sy}
-            r={4}
+            r={5}
             fill={COLORS[i]}
           />
         ))}
@@ -153,7 +162,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
             textAnchor="end"
             dominantBaseline="middle"
             fill={COLORS[i]}
-            fontSize={13}
+            fontSize={labelFontSize}
             fontWeight={600}
             fontFamily="'Geist', sans-serif"
           >
@@ -168,7 +177,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
           textAnchor="start"
           dominantBaseline="middle"
           fill="#e8e8ea"
-          fontSize={13}
+          fontSize={endLabelFontSize}
           fontWeight={700}
           fontFamily="'Geist', sans-serif"
         >
@@ -180,7 +189,7 @@ export function ConvergenceRope({ className, labels = DEFAULT_LABELS }: Converge
           textAnchor="start"
           dominantBaseline="middle"
           fill="#9ca3af"
-          fontSize={11}
+          fontSize={endSubFontSize}
           fontWeight={500}
           fontFamily="'Geist', sans-serif"
         >

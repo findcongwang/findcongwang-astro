@@ -2,11 +2,11 @@ import { useRef, useEffect, useCallback, useState } from "react";
 import * as d3 from "d3";
 import type { GestaltTerm, TimelineEvent, ThreadId } from "./types";
 import {
-  buildCloudFrameCache,
+  buildCloudFrameCacheAsync,
   resolveEventId,
+  textShapeChanged,
   wordGeometryChanged,
   wordStyleChanged,
-  countFrameChanges,
   type CloudFrameCache,
   type RenderWord,
 } from "./wordCloudCache";
@@ -16,24 +16,38 @@ interface WordCloudGestaltProps {
   timeline: TimelineEvent[];
   currentEventId: string | null;
   threadColors: Record<ThreadId, string>;
-  /** Narrow panel: inverted-T vertical mask */
+  /** Narrow panel: vertical ellipse mask */
   compact?: boolean;
   /** Called when frame cache is rebuilt */
   onCacheReady?: (changeEvents: Set<string>) => void;
-  /** Transition duration in ms (300 explorer, 600 presentation) */
+  /** Hero geometry transition duration in ms */
   transitionDuration?: number;
 }
 
+type AnimTier = "hero" | "prominent" | "filler";
+
 const FONT_STACK = "Arial, Helvetica, sans-serif";
 const RESIZE_DEBOUNCE_MS = 150;
-const BULK_CHANGE_THRESHOLD = 12;
 const STACKED_LINE_GAP_EM = 1.1;
+const FADE_ONLY_WORD_COUNT = 20;
+const FILLER_OPACITY_MS = 180;
+const PROMINENT_WEIGHT_CUTOFF = 0.65;
+const PROMINENT_RANK_CUTOFF = 2;
+
+function baseAnimTier(word: RenderWord): AnimTier {
+  if (word.weightRank === 0) return "hero";
+  if (word.weightRank <= PROMINENT_RANK_CUTOFF || word.weight >= PROMINENT_WEIGHT_CUTOFF) {
+    return "prominent";
+  }
+  return "filler";
+}
 
 function setWordTextContent(
   el: d3.Selection<SVGTextElement, RenderWord, SVGGElement, null>,
   word: RenderWord
 ): void {
   el.selectAll("tspan").remove();
+  el.text(null);
   if (word.layoutMode === "stacked" && word.lines.length > 1) {
     const offsetEm = ((word.lines.length - 1) * STACKED_LINE_GAP_EM) / 2;
     word.lines.forEach((line, i) => {
@@ -61,6 +75,17 @@ function applyWordAttrs(
     .attr("y", word.y)
     .attr("transform", word.rotation === 90 ? `rotate(90, ${word.x}, ${word.y})` : null);
   setWordTextContent(sel, word);
+}
+
+function applyGeometryOnly(
+  sel: d3.Selection<SVGTextElement, RenderWord, SVGGElement, null>,
+  word: RenderWord
+): void {
+  sel
+    .attr("font-size", `${word.fontSize}px`)
+    .attr("x", word.x)
+    .attr("y", word.y)
+    .attr("transform", word.rotation === 90 ? `rotate(90, ${word.x}, ${word.y})` : null);
 }
 
 export function WordCloudGestalt({
@@ -95,16 +120,14 @@ export function WordCloudGestalt({
       const frame = cache.framesByEvent.get(resolvedId);
       if (!frame) return;
 
-      const { width, height } = cache;
+      const { width } = cache;
       const prevWords = prevWordsRef.current;
-      const changeCount = countFrameChanges(prevWords, frame.words);
-      const bulkChange = animate && changeCount > BULK_CHANGE_THRESHOLD;
-      const duration = animate && !bulkChange ? transitionDuration : 0;
-      const opacityDuration = animate ? transitionDuration : 0;
-      const centerX = width / 2;
-      const centerY = height / 2;
+      const fadeOnly = animate && frame.words.length >= FADE_ONLY_WORD_COUNT;
+      const heroGeomMs = animate ? transitionDuration : 0;
+      const prominentMs = animate ? transitionDuration : 0;
+      const fillerMs = animate ? FILLER_OPACITY_MS : 0;
 
-      svg.attr("width", width).attr("height", height);
+      svg.attr("width", width).attr("height", cache.height);
 
       const g = svg
         .selectAll<SVGGElement, null>("g.cloud-group")
@@ -119,13 +142,13 @@ export function WordCloudGestalt({
         .data(frame.words, (d) => d.id);
 
       const exiting = textSel.exit();
-      if (opacityDuration > 0) {
+      if (animate) {
         exiting
+          .interrupt()
           .transition()
-          .duration(opacityDuration * 0.5)
+          .duration(fadeOnly ? FILLER_OPACITY_MS : fillerMs * 0.5)
           .ease(d3.easeCubicIn)
           .attr("opacity", 0)
-          .attr("font-size", (d) => `${Math.max(6, d.fontSize * 0.7)}px`)
           .remove();
       } else {
         exiting.remove();
@@ -144,24 +167,38 @@ export function WordCloudGestalt({
         const el = d3.select(this);
         const prev = prevWords.get(d.id);
         const isEnter = !prev;
+        const shapeChanged = textShapeChanged(prev, d);
         const geomChanged = wordGeometryChanged(prev, d);
         const styleChanged = wordStyleChanged(prev, d);
+        const tier = fadeOnly ? "filler" : baseAnimTier(d);
 
-        el.attr("font-family", FONT_STACK)
-          .attr("font-weight", 700)
-          .attr("fill", d.color);
+        el.interrupt();
+        el.attr("font-family", FONT_STACK).attr("font-weight", 700).attr("fill", d.color);
 
-        if (!animate || bulkChange) {
+        if (shapeChanged) {
           applyWordAttrs(el, d);
-          if (bulkChange && isEnter) {
-            el.attr("opacity", 0)
-              .transition()
-              .duration(opacityDuration)
+        }
+
+        if (!animate) {
+          applyWordAttrs(el, d);
+          return;
+        }
+
+        if (fadeOnly) {
+          if (isEnter) {
+            if (!shapeChanged) applyWordAttrs(el, d);
+            el.attr("opacity", 0);
+            el.transition()
+              .duration(FILLER_OPACITY_MS)
               .ease(d3.easeCubicOut)
               .attr("opacity", d.targetOpacity);
-          } else if (bulkChange && styleChanged) {
+            return;
+          }
+
+          if (!shapeChanged) applyWordAttrs(el, d);
+          if (styleChanged) {
             el.transition()
-              .duration(opacityDuration)
+              .duration(FILLER_OPACITY_MS)
               .ease(d3.easeCubicInOut)
               .attr("opacity", d.targetOpacity)
               .attr("fill", d.color);
@@ -175,52 +212,86 @@ export function WordCloudGestalt({
         }
 
         if (isEnter) {
-          el.attr("opacity", 0)
-            .attr("font-size", `${Math.max(6, d.fontSize * 0.5)}px`)
-            .attr("x", centerX)
-            .attr("y", centerY)
-            .attr("transform", null);
+          if (tier === "hero") {
+            el.attr("opacity", 0)
+              .attr("font-size", `${Math.max(6, d.fontSize * 0.5)}px`)
+              .attr("x", d.x)
+              .attr("y", d.y)
+              .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null);
+            if (!shapeChanged) setWordTextContent(el, d);
 
+            el.transition()
+              .duration(heroGeomMs)
+              .ease(d3.easeCubicOut)
+              .attr("opacity", d.targetOpacity)
+              .attr("font-size", `${d.fontSize}px`)
+              .on("end", function () {
+                applyWordAttrs(d3.select(this), d);
+              });
+            return;
+          }
+
+          applyWordAttrs(el, d);
+          el.attr("opacity", 0);
+          const enterMs = tier === "prominent" ? prominentMs : fillerMs;
           el.transition()
-            .duration(duration)
+            .duration(enterMs)
             .ease(d3.easeCubicOut)
-            .attr("opacity", d.targetOpacity)
-            .attr("font-size", `${d.fontSize}px`)
-            .attr("x", d.x)
-            .attr("y", d.y)
-            .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null);
+            .attr("opacity", d.targetOpacity);
           return;
         }
 
-        if (geomChanged && styleChanged) {
+        if (tier === "hero" && geomChanged) {
+          if (styleChanged) {
+            el.transition()
+              .duration(heroGeomMs)
+              .ease(d3.easeCubicInOut)
+              .attr("opacity", d.targetOpacity)
+              .attr("fill", d.color)
+              .attr("font-size", `${d.fontSize}px`)
+              .attr("x", d.x)
+              .attr("y", d.y)
+              .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null)
+              .on("end", function () {
+                applyWordAttrs(d3.select(this), d);
+              });
+            return;
+          }
+
           el.transition()
-            .duration(duration)
+            .duration(heroGeomMs)
+            .ease(d3.easeCubicInOut)
+            .attr("font-size", `${d.fontSize}px`)
+            .attr("x", d.x)
+            .attr("y", d.y)
+            .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null)
+            .on("end", function () {
+              applyWordAttrs(d3.select(this), d);
+            });
+          return;
+        }
+
+        if (tier === "prominent") {
+          if (geomChanged && !shapeChanged) applyGeometryOnly(el, d);
+          if (geomChanged || styleChanged) {
+            el.transition()
+              .duration(prominentMs)
+              .ease(d3.easeCubicInOut)
+              .attr("opacity", d.targetOpacity)
+              .attr("fill", d.color)
+              .attr("font-size", `${d.fontSize}px`);
+          }
+          return;
+        }
+
+        if (!shapeChanged) applyWordAttrs(el, d);
+        if (styleChanged) {
+          el.transition()
+            .duration(fillerMs)
             .ease(d3.easeCubicInOut)
             .attr("opacity", d.targetOpacity)
-            .attr("fill", d.color)
-            .attr("font-size", `${d.fontSize}px`)
-            .attr("x", d.x)
-            .attr("y", d.y)
-            .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null);
-          return;
+            .attr("fill", d.color);
         }
-
-        if (geomChanged) {
-          el.transition()
-            .duration(duration)
-            .ease(d3.easeCubicInOut)
-            .attr("font-size", `${d.fontSize}px`)
-            .attr("x", d.x)
-            .attr("y", d.y)
-            .attr("transform", d.rotation === 90 ? `rotate(90, ${d.x}, ${d.y})` : null);
-          return;
-        }
-
-        el.transition()
-          .duration(duration)
-          .ease(d3.easeCubicInOut)
-          .attr("opacity", d.targetOpacity)
-          .attr("fill", d.color);
       });
 
       prevWordsRef.current = new Map(frame.words.map((w) => [w.id, w]));
@@ -228,7 +299,7 @@ export function WordCloudGestalt({
     [timeline, transitionDuration]
   );
 
-  const buildCache = useCallback(() => {
+  const buildCache = useCallback(async () => {
     const container = containerRef.current;
     if (!container) return;
 
@@ -238,26 +309,46 @@ export function WordCloudGestalt({
     const gen = ++generationRef.current;
     setIsLoading(true);
 
-    requestAnimationFrame(() => {
-      if (gen !== generationRef.current) return;
+    const priorityEventId = resolveEventId(timeline, currentEventIdRef.current);
+    let partialRendered = false;
 
-      const cache = buildCloudFrameCache(
+    try {
+      const cache = await buildCloudFrameCacheAsync(
         terms,
         timeline,
         threadColors,
         width,
         height,
-        compact
+        compact,
+        {
+          priorityEventId,
+          isCancelled: () => gen !== generationRef.current,
+          onPartialCacheReady: (partialCache) => {
+            if (gen !== generationRef.current) return;
+            cacheRef.current = partialCache;
+            if (priorityEventId && partialCache.framesByEvent.has(priorityEventId)) {
+              partialRendered = true;
+              setIsLoading(false);
+              prevWordsRef.current = new Map();
+              renderFrame(currentEventIdRef.current, false);
+            }
+          },
+        }
       );
 
       if (gen !== generationRef.current) return;
 
       cacheRef.current = cache;
-      prevWordsRef.current = new Map();
+      if (!partialRendered) {
+        prevWordsRef.current = new Map();
+        renderFrame(currentEventIdRef.current, false);
+      }
       setIsLoading(false);
       onCacheReady?.(cache.changeEvents);
-      renderFrame(currentEventIdRef.current, false);
-    });
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
+      throw err;
+    }
   }, [terms, timeline, threadColors, compact, onCacheReady, renderFrame]);
 
   useEffect(() => {
@@ -268,10 +359,12 @@ export function WordCloudGestalt({
 
     const scheduleRebuild = () => {
       if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(buildCache, RESIZE_DEBOUNCE_MS);
+      debounceTimer = setTimeout(() => {
+        void buildCache();
+      }, RESIZE_DEBOUNCE_MS);
     };
 
-    buildCache();
+    void buildCache();
 
     const ro = new ResizeObserver(scheduleRebuild);
     ro.observe(container);

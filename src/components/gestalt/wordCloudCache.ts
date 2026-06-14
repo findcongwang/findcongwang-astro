@@ -1,9 +1,10 @@
 import type { GestaltTerm, TimelineEvent, ThreadId } from "./types";
 import {
   clearMeasureCache,
+  hintsFromPlaced,
   layoutWordCloud,
-  layoutWordCloudIncremental,
   type CloudWordInput,
+  type LayoutHint,
   type PlacedCloudWord,
 } from "./wordCloudLayout";
 
@@ -11,6 +12,7 @@ export interface RenderWord extends PlacedCloudWord {
   color: string;
   targetOpacity: number;
   weight: number;
+  weightRank: number;
 }
 
 export interface CloudWordFrame {
@@ -24,6 +26,12 @@ export interface CloudFrameCache {
   width: number;
   height: number;
   compact: boolean;
+}
+
+export interface BuildCacheOptions {
+  priorityEventId?: string | null;
+  onPartialCacheReady?: (cache: CloudFrameCache) => void;
+  isCancelled?: () => boolean;
 }
 
 interface TermMeta {
@@ -89,10 +97,24 @@ function resolveVisibleInputs(
   return { inputs, metas };
 }
 
+function buildWeightRanks(
+  placed: PlacedCloudWord[],
+  metas: Map<string, TermMeta>
+): Map<string, number> {
+  const sorted = [...placed].sort((a, b) => {
+    const wa = metas.get(a.id)?.weight ?? 0;
+    const wb = metas.get(b.id)?.weight ?? 0;
+    if (wb !== wa) return wb - wa;
+    return a.text.localeCompare(b.text);
+  });
+  return new Map(sorted.map((p, i) => [p.id, i]));
+}
+
 function toRenderWords(
   placed: PlacedCloudWord[],
   metas: Map<string, TermMeta>
 ): RenderWord[] {
+  const rankById = buildWeightRanks(placed, metas);
   return placed.map((p) => {
     const meta = metas.get(p.id)!;
     return {
@@ -100,11 +122,89 @@ function toRenderWords(
       color: meta.state === "fading" ? "#9ca3af" : meta.color,
       targetOpacity: meta.targetOpacity,
       weight: meta.weight,
+      weightRank: rankById.get(p.id) ?? 0,
     };
   });
 }
 
-export function buildCloudFrameCache(
+function yieldToMain(): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+}
+
+interface FrameBuildState {
+  prevSignature: string | null;
+  prevFrame: CloudWordFrame | null;
+  layoutHints: Map<string, LayoutHint>;
+}
+
+function makeCacheShell(
+  framesByEvent: Map<string, CloudWordFrame>,
+  changeEvents: Set<string>,
+  width: number,
+  height: number,
+  compact: boolean
+): CloudFrameCache {
+  return { framesByEvent, changeEvents, width, height, compact };
+}
+
+function buildFrameForEvent(
+  event: TimelineEvent,
+  terms: GestaltTerm[],
+  timeline: TimelineEvent[],
+  threadColors: Record<ThreadId, string>,
+  width: number,
+  height: number,
+  compact: boolean,
+  state: FrameBuildState,
+  framesByEvent: Map<string, CloudWordFrame>,
+  changeEvents: Set<string>
+): void {
+  const eventOrder = buildEventOrder(timeline);
+  const currentIdx = eventOrder.get(event.id) ?? -1;
+  const { inputs, metas } = resolveVisibleInputs(
+    terms,
+    eventOrder,
+    currentIdx,
+    threadColors
+  );
+  const signature = visibilitySignature(inputs);
+
+  if (signature === state.prevSignature && state.prevFrame) {
+    framesByEvent.set(event.id, state.prevFrame);
+    state.layoutHints = hintsFromPlaced(
+      state.prevFrame.words.map((w) => ({
+        id: w.id,
+        text: w.text,
+        lines: w.lines,
+        layoutMode: w.layoutMode,
+        x: w.x,
+        y: w.y,
+        fontSize: w.fontSize,
+        rotation: w.rotation,
+        state: w.state,
+      }))
+    );
+    return;
+  }
+
+  const placed = layoutWordCloud(inputs, width, height, compact, state.layoutHints);
+
+  const frame: CloudWordFrame = {
+    eventId: event.id,
+    words: toRenderWords(placed, metas),
+  };
+
+  framesByEvent.set(event.id, frame);
+  changeEvents.add(event.id);
+
+  state.prevSignature = signature;
+  state.prevFrame = frame;
+  state.layoutHints = hintsFromPlaced(placed);
+}
+
+export function buildCloudFrameCacheSync(
   terms: GestaltTerm[],
   timeline: TimelineEvent[],
   threadColors: Record<ThreadId, string>,
@@ -114,58 +214,109 @@ export function buildCloudFrameCache(
 ): CloudFrameCache {
   clearMeasureCache();
 
-  const eventOrder = buildEventOrder(timeline);
   const framesByEvent = new Map<string, CloudWordFrame>();
   const changeEvents = new Set<string>();
-
-  let prevSignature: string | null = null;
-  let prevFrame: CloudWordFrame | null = null;
-  let prevPlaced: PlacedCloudWord[] = [];
-  let prevInputById: Map<string, CloudWordInput> = new Map();
+  const state: FrameBuildState = {
+    prevSignature: null,
+    prevFrame: null,
+    layoutHints: new Map(),
+  };
 
   for (const event of timeline) {
-    const currentIdx = eventOrder.get(event.id) ?? -1;
-    const { inputs, metas } = resolveVisibleInputs(
+    buildFrameForEvent(
+      event,
       terms,
-      eventOrder,
-      currentIdx,
-      threadColors
+      timeline,
+      threadColors,
+      width,
+      height,
+      compact,
+      state,
+      framesByEvent,
+      changeEvents
     );
-    const signature = visibilitySignature(inputs);
-
-    if (signature === prevSignature && prevFrame) {
-      framesByEvent.set(event.id, prevFrame);
-      prevInputById = new Map(inputs.map((w) => [w.id, w]));
-      continue;
-    }
-
-    const placed =
-      prevPlaced.length === 0
-        ? layoutWordCloud(inputs, width, height, compact)
-        : layoutWordCloudIncremental(
-            prevPlaced,
-            inputs,
-            width,
-            height,
-            compact,
-            prevInputById
-          );
-
-    const frame: CloudWordFrame = {
-      eventId: event.id,
-      words: toRenderWords(placed, metas),
-    };
-
-    framesByEvent.set(event.id, frame);
-    changeEvents.add(event.id);
-
-    prevSignature = signature;
-    prevFrame = frame;
-    prevPlaced = placed;
-    prevInputById = new Map(inputs.map((w) => [w.id, w]));
   }
 
-  return { framesByEvent, changeEvents, width, height, compact };
+  return makeCacheShell(framesByEvent, changeEvents, width, height, compact);
+}
+
+/** Alias for sync builder */
+export const buildCloudFrameCache = buildCloudFrameCacheSync;
+
+export async function buildCloudFrameCacheAsync(
+  terms: GestaltTerm[],
+  timeline: TimelineEvent[],
+  threadColors: Record<ThreadId, string>,
+  width: number,
+  height: number,
+  compact: boolean,
+  options?: BuildCacheOptions
+): Promise<CloudFrameCache> {
+  clearMeasureCache();
+
+  const framesByEvent = new Map<string, CloudWordFrame>();
+  const changeEvents = new Set<string>();
+  const state: FrameBuildState = {
+    prevSignature: null,
+    prevFrame: null,
+    layoutHints: new Map(),
+  };
+
+  const priorityId = options?.priorityEventId ?? null;
+
+  if (priorityId) {
+    const priorityEvent = timeline.find((e) => e.id === priorityId);
+    if (priorityEvent) {
+      if (options?.isCancelled?.()) {
+        throw new DOMException("Cache build cancelled", "AbortError");
+      }
+      const partialFrames = new Map<string, CloudWordFrame>();
+      const partialChanges = new Set<string>();
+      const priorityState: FrameBuildState = {
+        prevSignature: null,
+        prevFrame: null,
+        layoutHints: new Map(),
+      };
+      buildFrameForEvent(
+        priorityEvent,
+        terms,
+        timeline,
+        threadColors,
+        width,
+        height,
+        compact,
+        priorityState,
+        partialFrames,
+        partialChanges
+      );
+      options?.onPartialCacheReady?.(
+        makeCacheShell(partialFrames, partialChanges, width, height, compact)
+      );
+      await yieldToMain();
+    }
+  }
+
+  for (const event of timeline) {
+    if (options?.isCancelled?.()) {
+      throw new DOMException("Cache build cancelled", "AbortError");
+    }
+
+    buildFrameForEvent(
+      event,
+      terms,
+      timeline,
+      threadColors,
+      width,
+      height,
+      compact,
+      state,
+      framesByEvent,
+      changeEvents
+    );
+    await yieldToMain();
+  }
+
+  return makeCacheShell(framesByEvent, changeEvents, width, height, compact);
 }
 
 export function resolveEventId(
@@ -174,6 +325,16 @@ export function resolveEventId(
 ): string | null {
   if (eventId) return eventId;
   return timeline.length > 0 ? timeline[timeline.length - 1]!.id : null;
+}
+
+export function textShapeChanged(
+  prev: RenderWord | undefined,
+  next: RenderWord
+): boolean {
+  if (!prev) return true;
+  return (
+    prev.layoutMode !== next.layoutMode || prev.lines.join("|") !== next.lines.join("|")
+  );
 }
 
 export function wordGeometryChanged(
@@ -186,8 +347,7 @@ export function wordGeometryChanged(
     prev.y !== next.y ||
     prev.fontSize !== next.fontSize ||
     prev.rotation !== next.rotation ||
-    prev.layoutMode !== next.layoutMode ||
-    prev.lines.join("|") !== next.lines.join("|")
+    textShapeChanged(prev, next)
   );
 }
 
