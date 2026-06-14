@@ -6,6 +6,7 @@ import {
   resolveEventId,
   wordGeometryChanged,
   wordStyleChanged,
+  countFrameChanges,
   type CloudFrameCache,
   type RenderWord,
 } from "./wordCloudCache";
@@ -25,6 +26,26 @@ interface WordCloudGestaltProps {
 
 const FONT_STACK = "Arial, Helvetica, sans-serif";
 const RESIZE_DEBOUNCE_MS = 150;
+const BULK_CHANGE_THRESHOLD = 12;
+const STACKED_LINE_GAP_EM = 1.1;
+
+function setWordTextContent(
+  el: d3.Selection<SVGTextElement, RenderWord, SVGGElement, null>,
+  word: RenderWord
+): void {
+  el.selectAll("tspan").remove();
+  if (word.layoutMode === "stacked" && word.lines.length > 1) {
+    const offsetEm = ((word.lines.length - 1) * STACKED_LINE_GAP_EM) / 2;
+    word.lines.forEach((line, i) => {
+      el.append("tspan")
+        .attr("x", word.x)
+        .attr("dy", i === 0 ? `${-offsetEm}em` : `${STACKED_LINE_GAP_EM}em`)
+        .text(line);
+    });
+    return;
+  }
+  el.text(word.text);
+}
 
 function applyWordAttrs(
   sel: d3.Selection<SVGTextElement, RenderWord, SVGGElement, null>,
@@ -38,8 +59,8 @@ function applyWordAttrs(
     .attr("font-size", `${word.fontSize}px`)
     .attr("x", word.x)
     .attr("y", word.y)
-    .attr("transform", word.rotation === 90 ? `rotate(90, ${word.x}, ${word.y})` : null)
-    .text(word.text);
+    .attr("transform", word.rotation === 90 ? `rotate(90, ${word.x}, ${word.y})` : null);
+  setWordTextContent(sel, word);
 }
 
 export function WordCloudGestalt({
@@ -75,8 +96,11 @@ export function WordCloudGestalt({
       if (!frame) return;
 
       const { width, height } = cache;
-      const duration = animate ? transitionDuration : 0;
       const prevWords = prevWordsRef.current;
+      const changeCount = countFrameChanges(prevWords, frame.words);
+      const bulkChange = animate && changeCount > BULK_CHANGE_THRESHOLD;
+      const duration = animate && !bulkChange ? transitionDuration : 0;
+      const opacityDuration = animate ? transitionDuration : 0;
       const centerX = width / 2;
       const centerY = height / 2;
 
@@ -95,10 +119,10 @@ export function WordCloudGestalt({
         .data(frame.words, (d) => d.id);
 
       const exiting = textSel.exit();
-      if (duration > 0) {
+      if (opacityDuration > 0) {
         exiting
           .transition()
-          .duration(duration * 0.5)
+          .duration(opacityDuration * 0.5)
           .ease(d3.easeCubicIn)
           .attr("opacity", 0)
           .attr("font-size", (d) => `${Math.max(6, d.fontSize * 0.7)}px`)
@@ -125,10 +149,27 @@ export function WordCloudGestalt({
 
         el.attr("font-family", FONT_STACK)
           .attr("font-weight", 700)
-          .attr("fill", d.color)
-          .text(d.text);
+          .attr("fill", d.color);
 
-        if (!animate || (!isEnter && !geomChanged && !styleChanged)) {
+        if (!animate || bulkChange) {
+          applyWordAttrs(el, d);
+          if (bulkChange && isEnter) {
+            el.attr("opacity", 0)
+              .transition()
+              .duration(opacityDuration)
+              .ease(d3.easeCubicOut)
+              .attr("opacity", d.targetOpacity);
+          } else if (bulkChange && styleChanged) {
+            el.transition()
+              .duration(opacityDuration)
+              .ease(d3.easeCubicInOut)
+              .attr("opacity", d.targetOpacity)
+              .attr("fill", d.color);
+          }
+          return;
+        }
+
+        if (!isEnter && !geomChanged && !styleChanged) {
           applyWordAttrs(el, d);
           return;
         }

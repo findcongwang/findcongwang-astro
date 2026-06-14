@@ -1,9 +1,10 @@
 /**
  * Dense orthogonal word-cloud layout with shape masks.
- * Grid collision (2px step), 0/90° only, logarithmic scaling, shrink-to-fit.
+ * Grid collision (2px step), stacked multi-line or 0/90° single-line, shrink-to-fit.
  */
 
 export type CloudShape = "verticalT" | "horizontalEllipse";
+export type WordLayoutMode = "stacked" | "single";
 
 export interface CloudWordInput {
   id: string;
@@ -15,6 +16,8 @@ export interface CloudWordInput {
 export interface PlacedCloudWord {
   id: string;
   text: string;
+  lines: string[];
+  layoutMode: WordLayoutMode;
   x: number;
   y: number;
   fontSize: number;
@@ -30,15 +33,32 @@ export interface LayoutGrid {
   occupied: Uint8Array;
 }
 
+interface LayoutVariant {
+  layoutMode: WordLayoutMode;
+  lines: string[];
+  rotation: 0 | 90;
+}
+
 const FONT_FAMILY = "Arial, Helvetica, sans-serif";
 const CHAR_WIDTH_RATIO = 0.58;
 const LINE_HEIGHT_RATIO = 1.05;
+const STACKED_LINE_GAP = 1.1;
 const WORD_PAD = 1;
 const GRID_STEP = 2;
 const SEARCH_STEP = 3;
-const VERTICAL_PROB = 0.3;
 const MIN_FONT = 7;
 const MAX_ANCHORS = 720;
+const HIGH_WEIGHT_ENTER_THRESHOLD = 0.8;
+const PROMINENT_RANK_LIMIT = 1;
+const STACKED_TAIL_COUNT = 5;
+
+function isProminentRank(rank: number): boolean {
+  return rank <= PROMINENT_RANK_LIMIT;
+}
+
+function isStackEligible(rank: number, totalCount: number): boolean {
+  return rank >= totalCount - STACKED_TAIL_COUNT;
+}
 
 let measureCanvas: HTMLCanvasElement | null = null;
 let measureCtx: CanvasRenderingContext2D | null = null;
@@ -57,12 +77,39 @@ export function clearMeasureCache(): void {
   measureCache.clear();
 }
 
+export function splitTermLines(text: string): string[] {
+  const tokens = text.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length <= 1) return tokens;
+  if (tokens.length === 2) return tokens;
+
+  let bestSplit = 1;
+  let bestDiff = Infinity;
+  for (let i = 1; i < tokens.length; i++) {
+    const leftLen = tokens.slice(0, i).join(" ").length;
+    const rightLen = tokens.slice(i).join(" ").length;
+    const diff = Math.abs(leftLen - rightLen);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestSplit = i;
+    }
+  }
+  return [tokens.slice(0, bestSplit).join(" "), tokens.slice(bestSplit).join(" ")];
+}
+
+function isMultiWord(text: string): boolean {
+  return text.trim().includes(" ");
+}
+
+function longestLineLength(lines: string[]): number {
+  return Math.max(1, ...lines.map((l) => l.length));
+}
+
 export function measureWordBox(
   text: string,
   fontSize: number,
   rotation: 0 | 90
 ): { w: number; h: number } {
-  const key = `${text}|${fontSize}|${rotation}`;
+  const key = `${text}|${fontSize}|${rotation}|single`;
   const cached = measureCache.get(key);
   if (cached) return cached;
 
@@ -73,6 +120,34 @@ export function measureWordBox(
   const w = Math.max(metrics.width, upper.length * fontSize * CHAR_WIDTH_RATIO);
   const h = fontSize * LINE_HEIGHT_RATIO;
   const result = rotation === 90 ? { w: h, h: w } : { w, h };
+  measureCache.set(key, result);
+  return result;
+}
+
+export function measureWordBoxForLines(
+  lines: string[],
+  fontSize: number,
+  rotation: 0 | 90,
+  layoutMode: WordLayoutMode
+): { w: number; h: number } {
+  if (layoutMode === "single" || lines.length <= 1) {
+    return measureWordBox(lines.join(" "), fontSize, rotation);
+  }
+
+  const key = `${lines.join("|")}|${fontSize}|${rotation}|stacked`;
+  const cached = measureCache.get(key);
+  if (cached) return cached;
+
+  const ctx = getMeasureCtx();
+  ctx.font = `700 ${fontSize}px ${FONT_FAMILY}`;
+  let maxW = 0;
+  for (const line of lines) {
+    const upper = line.toUpperCase();
+    const metrics = ctx.measureText(upper);
+    maxW = Math.max(maxW, metrics.width, upper.length * fontSize * CHAR_WIDTH_RATIO);
+  }
+  const h = fontSize * LINE_HEIGHT_RATIO * lines.length * (STACKED_LINE_GAP / LINE_HEIGHT_RATIO);
+  const result = rotation === 90 ? { w: h, h: maxW } : { w: maxW, h };
   measureCache.set(key, result);
   return result;
 }
@@ -217,12 +292,9 @@ function markPlaced(
   }
 }
 
-interface RawAnchor {
+interface ScoredAnchor {
   x: number;
   y: number;
-}
-
-interface ScoredAnchor extends RawAnchor {
   score: number;
 }
 
@@ -230,8 +302,8 @@ function scanShapeAnchors(
   width: number,
   height: number,
   shape: CloudShape
-): RawAnchor[] {
-  const raw: RawAnchor[] = [];
+): { x: number; y: number }[] {
+  const raw: { x: number; y: number }[] = [];
   for (let y = SEARCH_STEP; y < height - SEARCH_STEP; y += SEARCH_STEP) {
     for (let x = SEARCH_STEP; x < width - SEARCH_STEP; x += SEARCH_STEP) {
       if (insideShape(x, y, width, height, shape)) {
@@ -243,7 +315,7 @@ function scanShapeAnchors(
 }
 
 function scoreAnchors(
-  raw: RawAnchor[],
+  raw: { x: number; y: number }[],
   width: number,
   height: number,
   shape: CloudShape,
@@ -314,24 +386,84 @@ function pickAnchors(
   return sets.default;
 }
 
+function layoutVariants(
+  word: CloudWordInput,
+  rank: number,
+  shape: CloudShape,
+  totalCount: number
+): LayoutVariant[] {
+  const multi = isMultiWord(word.text);
+  const variants: LayoutVariant[] = [];
+
+  if (multi) {
+    const singleLine = [word.text] as string[];
+
+    if (isProminentRank(rank)) {
+      if (shape === "verticalT" && rank === 0) {
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 90 });
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 0 });
+      } else if (shape === "verticalT" && rank === 1) {
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 0 });
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 90 });
+      } else {
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 0 });
+        variants.push({ layoutMode: "single", lines: singleLine, rotation: 90 });
+      }
+      return variants;
+    }
+
+    if (isStackEligible(rank, totalCount)) {
+      const lines = splitTermLines(word.text);
+      if (lines.length >= 2) {
+        variants.push({ layoutMode: "stacked", lines, rotation: 0 });
+      }
+    }
+
+    variants.push({ layoutMode: "single", lines: singleLine, rotation: 0 });
+    variants.push({ layoutMode: "single", lines: singleLine, rotation: 90 });
+    return variants;
+  }
+
+  if (shape === "verticalT" && rank === 0) {
+    variants.push({ layoutMode: "single", lines: [word.text], rotation: 90 });
+    variants.push({ layoutMode: "single", lines: [word.text], rotation: 0 });
+    return variants;
+  }
+
+  variants.push({ layoutMode: "single", lines: [word.text], rotation: 0 });
+  if (shape === "horizontalEllipse" && rank <= 1) {
+    variants.push({ layoutMode: "single", lines: [word.text], rotation: 90 });
+  } else if (hash01(word.text, 11) < 0.15) {
+    variants.push({ layoutMode: "single", lines: [word.text], rotation: 90 });
+  }
+  return variants;
+}
+
 function maxFontForWord(
   word: CloudWordInput,
   rank: number,
   width: number,
   height: number,
   shape: CloudShape,
-  state: "active" | "fading"
+  state: "active" | "fading",
+  variant: LayoutVariant
 ): number {
   const canvasMin = Math.min(width, height);
-  const len = Math.max(word.text.length, 1);
+  const len = longestLineLength(variant.lines);
   const scale = state === "fading" ? 0.55 : 1;
+  const stackedScale = variant.layoutMode === "stacked" ? 1.08 : 1;
 
   if (rank === 0) {
-    if (shape === "verticalT") {
+    if (shape === "verticalT" && variant.rotation === 90) {
       const colHeight = height * 0.62;
       const byHeight = colHeight / (len * CHAR_WIDTH_RATIO);
       const byWidth = (width * 0.36) / LINE_HEIGHT_RATIO;
       return Math.min(byHeight, byWidth) * scale;
+    }
+    if (variant.layoutMode === "stacked") {
+      const byWidth = (width * 0.38) / (len * CHAR_WIDTH_RATIO);
+      const byHeight = (height * 0.2) / variant.lines.length;
+      return Math.min(byWidth, byHeight) * scale * stackedScale;
     }
     const byWidth = (width * 0.52) / (len * CHAR_WIDTH_RATIO);
     const byHeight = height * 0.38;
@@ -341,8 +473,9 @@ function maxFontForWord(
   if (rank === 1) {
     if (shape === "verticalT") {
       const byWidth = (width * 0.92) / (len * CHAR_WIDTH_RATIO);
-      const byHeight = height * 0.14;
-      return Math.min(byWidth, byHeight) * scale;
+      const lineCount = variant.layoutMode === "stacked" ? variant.lines.length : 1;
+      const byHeight = (height * 0.14) / lineCount;
+      return Math.min(byWidth, byHeight) * scale * stackedScale;
     }
     const byWidth = (width * 0.42) / (len * CHAR_WIDTH_RATIO);
     const byHeight = height * 0.28;
@@ -350,21 +483,32 @@ function maxFontForWord(
   }
 
   const logNorm = Math.log(1 + word.weight * 24) / Math.log(25);
-  const ceiling = canvasMin * 0.16 * scale;
+  const ceiling = canvasMin * 0.16 * scale * stackedScale;
   return Math.max(MIN_FONT + 1, MIN_FONT + logNorm * (ceiling - MIN_FONT));
 }
 
-function rotationOrder(
+function makePlacedWord(
   word: CloudWordInput,
-  rank: number,
-  shape: CloudShape
-): (0 | 90)[] {
-  if (shape === "verticalT" && rank === 0) return [90, 0];
-  if (shape === "verticalT" && rank === 1) return [0, 90];
-  if (shape === "horizontalEllipse" && rank <= 1) return [0, 90];
-
-  const preferVertical = hash01(word.text, 11) < VERTICAL_PROB;
-  return preferVertical ? [90, 0] : [0, 90];
+  variant: LayoutVariant,
+  x: number,
+  y: number,
+  fontSize: number
+): PlacedCloudWord {
+  const displayLines =
+    variant.layoutMode === "stacked"
+      ? variant.lines.map((l) => l.toUpperCase())
+      : [word.text.toUpperCase()];
+  return {
+    id: word.id,
+    text: displayLines.join(variant.layoutMode === "stacked" ? " " : " "),
+    lines: displayLines,
+    layoutMode: variant.layoutMode,
+    x,
+    y,
+    fontSize,
+    rotation: variant.rotation,
+    state: word.state,
+  };
 }
 
 function tryPlaceWord(
@@ -374,28 +518,31 @@ function tryPlaceWord(
   minFont: number,
   anchors: { x: number; y: number }[],
   rank: number,
-  shape: CloudShape
+  shape: CloudShape,
+  width: number,
+  height: number,
+  totalCount: number
 ): PlacedCloudWord | null {
-  const rotations = rotationOrder(word, rank, shape);
+  const variants = layoutVariants(word, rank, shape, totalCount);
   const hi = Math.max(minFont, Math.floor(maxFont));
 
-  for (let fs = hi; fs >= minFont; fs -= fs > 24 ? 2 : 1) {
-    for (const rotation of rotations) {
-      const box = measureWordBox(word.text, fs, rotation);
+  for (const variant of variants) {
+    const variantMax = maxFontForWord(word, rank, width, height, shape, word.state, variant);
+    const effectiveHi = Math.max(minFont, Math.min(hi, Math.floor(variantMax)));
+
+    for (let fs = effectiveHi; fs >= minFont; fs -= fs > 24 ? 2 : 1) {
+      const box = measureWordBoxForLines(
+        variant.lines,
+        fs,
+        variant.rotation,
+        variant.layoutMode
+      );
 
       for (const anchor of anchors) {
         if (!canPlace(grid, anchor.x, anchor.y, box.w, box.h)) continue;
 
         markPlaced(grid, anchor.x, anchor.y, box.w, box.h);
-        return {
-          id: word.id,
-          text: word.text.toUpperCase(),
-          x: anchor.x,
-          y: anchor.y,
-          fontSize: fs,
-          rotation,
-          state: word.state,
-        };
+        return makePlacedWord(word, variant, anchor.x, anchor.y, fs);
       }
     }
   }
@@ -403,28 +550,53 @@ function tryPlaceWord(
   return null;
 }
 
-export function layoutWordCloud(
-  words: CloudWordInput[],
-  width: number,
-  height: number,
-  compact: boolean
-): PlacedCloudWord[] {
-  if (width < 20 || height < 20 || words.length === 0) return [];
-
-  const shape = pickCloudShape(width, height, compact);
-  const grid = buildLayoutGrid(width, height, shape);
-
-  const sorted = [...words].sort((a, b) => {
+function sortInputsByWeight(inputs: CloudWordInput[]): CloudWordInput[] {
+  return [...inputs].sort((a, b) => {
     if (b.weight !== a.weight) return b.weight - a.weight;
     return a.text.localeCompare(b.text);
   });
+}
 
-  const anchorSets = buildAnchorSets(width, height, shape);
+function heroIds(inputs: CloudWordInput[]): string[] {
+  const active = sortInputsByWeight(inputs.filter((w) => w.state === "active"));
+  return active.slice(0, 2).map((w) => w.id);
+}
+
+function markPlacedWordOnGrid(grid: LayoutGrid, word: PlacedCloudWord): void {
+  const box = measureWordBoxForLines(
+    word.lines,
+    word.fontSize,
+    word.rotation,
+    word.layoutMode
+  );
+  markPlaced(grid, word.x, word.y, box.w, box.h);
+}
+
+function placeWordList(
+  grid: LayoutGrid,
+  words: CloudWordInput[],
+  rankById: Map<string, number>,
+  anchorSets: AnchorSets,
+  shape: CloudShape,
+  width: number,
+  height: number,
+  totalCount: number
+): PlacedCloudWord[] {
   const placed: PlacedCloudWord[] = [];
 
-  sorted.forEach((word, rank) => {
+  for (const word of words) {
+    const rank = rankById.get(word.id) ?? placed.length;
     const anchors = pickAnchors(anchorSets, shape, rank);
-    const maxFont = maxFontForWord(word, rank, width, height, shape, word.state);
+    const probeVariant = layoutVariants(word, rank, shape, totalCount)[0]!;
+    const maxFont = maxFontForWord(
+      word,
+      rank,
+      width,
+      height,
+      shape,
+      word.state,
+      probeVariant
+    );
     const minFont =
       word.state === "fading"
         ? MIN_FONT
@@ -439,10 +611,139 @@ export function layoutWordCloud(
       minFont,
       anchors,
       rank,
-      shape
+      shape,
+      width,
+      height,
+      totalCount
     );
     if (result) placed.push(result);
-  });
+  }
+
+  return placed;
+}
+
+function buildGlobalRanks(inputs: CloudWordInput[]): Map<string, number> {
+  const sorted = sortInputsByWeight(inputs);
+  const ranks = new Map<string, number>();
+  sorted.forEach((w, i) => ranks.set(w.id, i));
+  return ranks;
+}
+
+export function layoutWordCloud(
+  words: CloudWordInput[],
+  width: number,
+  height: number,
+  compact: boolean
+): PlacedCloudWord[] {
+  if (width < 20 || height < 20 || words.length === 0) return [];
+
+  const shape = pickCloudShape(width, height, compact);
+  const grid = buildLayoutGrid(width, height, shape);
+  const anchorSets = buildAnchorSets(width, height, shape);
+  const rankById = buildGlobalRanks(words);
+  const heroes = heroIds(words);
+  const heroWords = heroes
+    .map((id) => words.find((w) => w.id === id))
+    .filter((w): w is CloudWordInput => w !== undefined);
+  const rest = sortInputsByWeight(words.filter((w) => !heroes.includes(w.id)));
+  const totalCount = words.length;
+
+  const placed: PlacedCloudWord[] = [];
+  placed.push(
+    ...placeWordList(grid, heroWords, rankById, anchorSets, shape, width, height, totalCount)
+  );
+  placed.push(
+    ...placeWordList(grid, rest, rankById, anchorSets, shape, width, height, totalCount)
+  );
+
+  return placed;
+}
+
+export function shouldFullRelayout(
+  prevInputById: Map<string, CloudWordInput> | undefined,
+  inputs: CloudWordInput[]
+): boolean {
+  if (!prevInputById) return false;
+  for (const input of inputs) {
+    if (!prevInputById.has(input.id) && input.weight >= HIGH_WEIGHT_ENTER_THRESHOLD && input.state === "active") {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Carry forward stable word positions; re-place heroes and changed terms.
+ */
+export function layoutWordCloudIncremental(
+  prevPlaced: PlacedCloudWord[],
+  inputs: CloudWordInput[],
+  width: number,
+  height: number,
+  compact: boolean,
+  prevInputById?: Map<string, CloudWordInput>
+): PlacedCloudWord[] {
+  if (width < 20 || height < 20 || inputs.length === 0) return [];
+
+  if (shouldFullRelayout(prevInputById, inputs)) {
+    return layoutWordCloud(inputs, width, height, compact);
+  }
+
+  const shape = pickCloudShape(width, height, compact);
+  const grid = buildLayoutGrid(width, height, shape);
+  const anchorSets = buildAnchorSets(width, height, shape);
+  const rankById = buildGlobalRanks(inputs);
+  const heroes = new Set(heroIds(inputs));
+  const prevById = new Map(prevPlaced.map((w) => [w.id, w]));
+
+  const carried: PlacedCloudWord[] = [];
+  const toPlace: CloudWordInput[] = [];
+
+  for (const input of inputs) {
+    const prev = prevById.get(input.id);
+    const prevInput = prevInputById?.get(input.id);
+    const weightChanged = prevInput !== undefined && prevInput.weight !== input.weight;
+    const isHero = heroes.has(input.id);
+
+    if (prev && prev.state === input.state && !weightChanged && !isHero) {
+      markPlacedWordOnGrid(grid, prev);
+      carried.push({ ...prev, state: input.state });
+    } else {
+      toPlace.push(input);
+    }
+  }
+
+  const heroesToPlace = toPlace.filter((w) => heroes.has(w.id));
+  const restToPlace = sortInputsByWeight(toPlace.filter((w) => !heroes.has(w.id)));
+  const totalCount = inputs.length;
+
+  const placed = [
+    ...carried,
+    ...placeWordList(
+      grid,
+      heroesToPlace,
+      rankById,
+      anchorSets,
+      shape,
+      width,
+      height,
+      totalCount
+    ),
+    ...placeWordList(
+      grid,
+      restToPlace,
+      rankById,
+      anchorSets,
+      shape,
+      width,
+      height,
+      totalCount
+    ),
+  ];
+
+  if (placed.length < inputs.length * 0.75) {
+    return layoutWordCloud(inputs, width, height, compact);
+  }
 
   return placed;
 }

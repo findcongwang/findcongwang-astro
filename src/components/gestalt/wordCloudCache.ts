@@ -2,6 +2,7 @@ import type { GestaltTerm, TimelineEvent, ThreadId } from "./types";
 import {
   clearMeasureCache,
   layoutWordCloud,
+  layoutWordCloudIncremental,
   type CloudWordInput,
   type PlacedCloudWord,
 } from "./wordCloudLayout";
@@ -32,6 +33,9 @@ interface TermMeta {
   state: "active" | "fading";
 }
 
+/** Timeline events a faded term stays visible before removal from layout */
+export const DEFAULT_FADE_GRACE_EVENTS = 2;
+
 function buildEventOrder(timeline: TimelineEvent[]): Map<string, number> {
   const map = new Map<string, number>();
   timeline.forEach((e, i) => map.set(e.id, i));
@@ -59,6 +63,11 @@ function resolveVisibleInputs(
     if (currentIdx < appearedIdx) return;
 
     const fadedIdx = t.fadedAt ? (eventOrder.get(t.fadedAt) ?? Infinity) : Infinity;
+    const grace = t.fadeGraceEvents ?? DEFAULT_FADE_GRACE_EVENTS;
+    const exitIdx = fadedIdx === Infinity ? Infinity : fadedIdx + grace;
+
+    if (currentIdx >= exitIdx) return;
+
     const state = currentIdx >= fadedIdx ? ("fading" as const) : ("active" as const);
     const id = `term-${i}`;
 
@@ -111,6 +120,8 @@ export function buildCloudFrameCache(
 
   let prevSignature: string | null = null;
   let prevFrame: CloudWordFrame | null = null;
+  let prevPlaced: PlacedCloudWord[] = [];
+  let prevInputById: Map<string, CloudWordInput> = new Map();
 
   for (const event of timeline) {
     const currentIdx = eventOrder.get(event.id) ?? -1;
@@ -124,25 +135,34 @@ export function buildCloudFrameCache(
 
     if (signature === prevSignature && prevFrame) {
       framesByEvent.set(event.id, prevFrame);
+      prevInputById = new Map(inputs.map((w) => [w.id, w]));
       continue;
     }
 
-    const placed = layoutWordCloud(inputs, width, height, compact);
+    const placed =
+      prevPlaced.length === 0
+        ? layoutWordCloud(inputs, width, height, compact)
+        : layoutWordCloudIncremental(
+            prevPlaced,
+            inputs,
+            width,
+            height,
+            compact,
+            prevInputById
+          );
+
     const frame: CloudWordFrame = {
       eventId: event.id,
       words: toRenderWords(placed, metas),
     };
 
     framesByEvent.set(event.id, frame);
-
-    if (prevSignature !== null) {
-      changeEvents.add(event.id);
-    } else {
-      changeEvents.add(event.id);
-    }
+    changeEvents.add(event.id);
 
     prevSignature = signature;
     prevFrame = frame;
+    prevPlaced = placed;
+    prevInputById = new Map(inputs.map((w) => [w.id, w]));
   }
 
   return { framesByEvent, changeEvents, width, height, compact };
@@ -165,7 +185,9 @@ export function wordGeometryChanged(
     prev.x !== next.x ||
     prev.y !== next.y ||
     prev.fontSize !== next.fontSize ||
-    prev.rotation !== next.rotation
+    prev.rotation !== next.rotation ||
+    prev.layoutMode !== next.layoutMode ||
+    prev.lines.join("|") !== next.lines.join("|")
   );
 }
 
@@ -179,4 +201,25 @@ export function wordStyleChanged(
     prev.color !== next.color ||
     prev.state !== next.state
   );
+}
+
+export function countFrameChanges(
+  prev: Map<string, RenderWord>,
+  next: RenderWord[]
+): number {
+  const nextIds = new Set(next.map((w) => w.id));
+  let changes = 0;
+
+  for (const id of prev.keys()) {
+    if (!nextIds.has(id)) changes += 1;
+  }
+
+  for (const word of next) {
+    const prior = prev.get(word.id);
+    if (!prior || wordGeometryChanged(prior, word) || wordStyleChanged(prior, word)) {
+      changes += 1;
+    }
+  }
+
+  return changes;
 }

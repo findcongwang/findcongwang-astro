@@ -22,9 +22,9 @@ export const ddesS26Data: PresentationData = {
 
     // Existing events renumbered (ev-01→ev-03, ev-02→ev-04, etc.)
     { id: "ev-03", date: "2025-12-21", label: "Thesis-to-book strategy", thread: "perceptiosphere", conceptsAdded: ["Thesis Strategy", "Knowledge Succession"] },
-    { id: "ev-04", date: "2025-12-28", label: "Information reduction vs. expansion; Intentionality", thread: "meta", conceptsAdded: ["Intentionality", "Information Architecture"] },
-    { id: "ev-05", date: "2026-01-15", label: "30-year climate strategy; Career Founders; Living Archive", thread: "meta", conceptsAdded: ["Long-term Innovation", "Career Founders", "Living Archive", "30-Year Horizon"] },
-    { id: "ev-06", date: "2026-01-20", label: "Long-term thinking as core goal; HI-Scaling Teams", thread: "hybrid-intelligence", conceptsAdded: ["Hybrid Intelligence", "HI-Scaling Teams", "80,000→80"] },
+    { id: "ev-04", date: "2025-12-28", label: "Information reduction vs. expansion; Intentionality", thread: "meta", conceptsAdded: ["Intentionality", "Information Architecture", "Problem-First Research", "Knowledge Composability", "Structured Reflection"] },
+    { id: "ev-05", date: "2026-01-15", label: "30-year climate strategy; Career Founders; Living Archive", thread: "meta", conceptsAdded: ["Long-term Innovation", "Career Founders", "Living Archive", "30-Year Horizon", "Perceptiosphere", "Composable Knowledge"] },
+    { id: "ev-06", date: "2026-01-20", label: "Long-term thinking as core goal; HI-Scaling Teams", thread: "hybrid-intelligence", conceptsAdded: ["Hybrid Intelligence", "HI-Scaling Teams", "80,000→80", "Digital Sovereignty", "Process Mapping", "AI Agents"] },
     { id: "ev-07", date: "2026-01-23", label: "Minard, Tube maps, Nolli; Form IS perspective", thread: "perceptiosphere", conceptsAdded: ["Visual Storytelling", "Form IS Perspective", "Force-Directed Layouts"] },
     { id: "ev-08", date: "2026-02-02", label: "Nova Roma + Innovation Sovereignty", thread: "ecosystems", conceptsAdded: ["Nova Roma", "Innovation Sovereignty"] },
     { id: "ev-09", date: "2026-02-03", label: "Intentional Knowledge Cultivation", thread: "perceptiosphere", conceptsAdded: ["Intentional Cultivation"] },
@@ -42,10 +42,14 @@ export const ddesS26Data: PresentationData = {
     { id: "ev-21", date: "2026-05-08", label: "CORE cycle; Active Library; Community Garden", thread: "perceptiosphere", conceptsAdded: ["CORE Cycle", "Active Library", "Community Garden", "Sovereign vs Collective"], conceptsFading: ["Intentional Cultivation", "Build-to-Manage"] },
     { id: "ev-22", date: "2026-05-11", label: "Visible depth; AI collector / human curator", thread: "meta", conceptsAdded: ["Visible Depth", "AI Collector / Human Curator", "Anthology"] },
     { id: "ev-23", date: "2026-05-15", label: "Constellation display; Advisory councils; Demo", thread: "perceptiosphere", conceptsAdded: ["Constellation Display", "Advisory Councils"] },
-    { id: "ev-24", date: "2026-05-22", label: "Figure-ground reversible; Thesis = AI methodology", thread: "meta", conceptsAdded: ["Figure-Ground Reversible", "Thesis as Methodology"], conceptsFading: ["HI-Scaling Teams", "80,000→80"] },
+    { id: "ev-24", date: "2026-05-22", label: "Figure-ground reversible; Thesis = AI methodology", thread: "meta", conceptsAdded: ["Figure-Ground Reversible", "Thesis as Methodology"], conceptsFading: ["HI-Scaling Teams", "80,000→80", "Hub Blueprint", "Cat's Cradle"] },
     { id: "ev-25", date: "2026-05-29", label: "Multi-channel rendering; Annotation IS content", thread: "perceptiosphere", conceptsAdded: ["Multi-Channel Rendering", "Annotation System", "Scoping Exercise"] },
     { id: "ev-26", date: "2026-06-05", label: "Gestalt framework; Nested wholes; Emergence", thread: "meta", conceptsAdded: ["Gestalt", "Nested Wholes", "Emergence", "Anthology Model"], conceptsFading: ["Career Founders", "W-Shaped Identity"] },
-    { id: "ev-27", date: "2026-06-12", label: "Emergence presentation system; Storylines", thread: "perceptiosphere", conceptsAdded: ["Emergence System", "Storylines", "Temporal Presentation"] },
+    { id: "ev-27", date: "2026-06-12", label: "Emergence presentation system; Storylines", thread: "perceptiosphere", conceptsAdded: ["Emergence System"] },
+    { id: "ev-28", date: "2026-06-08", label: "Constellation live demo; intellectual legacy", thread: "perceptiosphere", conceptsAdded: ["Intellectual Legacy", "Organizational Memory"] },
+    { id: "ev-29", date: "2026-06-09", label: "Foresight Scope live demo", thread: "perceptiosphere", conceptsAdded: ["Sovereign AI"] },
+    { id: "ev-30", date: "2026-06-10", label: "Strategy Map and temporal business tools demos", thread: "perceptiosphere", conceptsAdded: ["Temporal Tools"] },
+    { id: "ev-31", date: "2026-06-12", label: "Symposium closing; creative project scope", thread: "meta", conceptsAdded: ["Storylines", "Temporal Presentation", "Thesis as Methodology"] },
   ],
 
   gestaltTerms: [
@@ -63,9 +67,9 @@ export const ddesS26Data: PresentationData = {
     { term: "Intellectual Culture Hub", weight: 0.55, appearedAt: "ev-00", fadedAt: "ev-10", thread: "ecosystems" },
     { term: "Design-Science Research", weight: 0.5, appearedAt: "ev-00", thread: "meta" },
     { term: "Innovation Ecosystem", weight: 0.75, appearedAt: "ev-00", thread: "ecosystems" },
-    { term: "Hub Blueprint", weight: 0.6, appearedAt: "ev-02", fadedAt: "ev-12", thread: "meta" },
-    { term: "Cat's Cradle", weight: 0.5, appearedAt: "ev-02", fadedAt: "ev-12", thread: "meta" },
-    { term: "Knowledge Wastage", weight: 0.75, appearedAt: "ev-01", thread: "perceptiosphere" },
+    { term: "Hub Blueprint", weight: 0.6, appearedAt: "ev-02", fadedAt: "ev-05", thread: "meta" },
+    { term: "Cat's Cradle", weight: 0.5, appearedAt: "ev-02", fadedAt: "ev-05", thread: "meta" },
+    { term: "Knowledge Succession", weight: 0.9, appearedAt: "ev-01", thread: "perceptiosphere" },
     { term: "Designing Innovation", weight: 0.7, appearedAt: "ev-02", fadedAt: "ev-26", thread: "meta" },
 
     // FDI RETURN - second entry for Foresight-Driven Innovation (reappears at ev-19)
@@ -73,8 +77,15 @@ export const ddesS26Data: PresentationData = {
 
     // Original terms with updated event IDs (ev-03→ev-05, ev-04→ev-06, etc.)
     { term: "Long-term Innovation", weight: 1.0, appearedAt: "ev-05", thread: "meta" },
+    { term: "Perceptiosphere", weight: 0.88, appearedAt: "ev-05", thread: "perceptiosphere" },
+    { term: "Composable Knowledge", weight: 0.8, appearedAt: "ev-05", fadedAt: "ev-21", thread: "perceptiosphere" },
     { term: "Hybrid Intelligence", weight: 0.85, appearedAt: "ev-06", thread: "hybrid-intelligence" },
-    { term: "Knowledge Succession", weight: 0.82, appearedAt: "ev-03", thread: "perceptiosphere" },
+    { term: "Digital Sovereignty", weight: 0.72, appearedAt: "ev-06", thread: "hybrid-intelligence" },
+    { term: "Process Mapping", weight: 0.58, appearedAt: "ev-06", thread: "hybrid-intelligence" },
+    { term: "AI Agents", weight: 0.55, appearedAt: "ev-06", thread: "hybrid-intelligence" },
+    { term: "Problem-First Research", weight: 0.52, appearedAt: "ev-04", fadedAt: "ev-25", thread: "meta" },
+    { term: "Knowledge Composability", weight: 0.68, appearedAt: "ev-04", thread: "perceptiosphere" },
+    { term: "Structured Reflection", weight: 0.5, appearedAt: "ev-04", fadedAt: "ev-25", thread: "meta" },
     { term: "Career Founders", weight: 0.5, appearedAt: "ev-05", fadedAt: "ev-26", thread: "hybrid-intelligence" },
     { term: "Living Archive", weight: 0.7, appearedAt: "ev-05", thread: "perceptiosphere" },
     { term: "Intentionality", weight: 0.55, appearedAt: "ev-04", fadedAt: "ev-21", thread: "meta" },
@@ -93,9 +104,15 @@ export const ddesS26Data: PresentationData = {
     { term: "Active Library", weight: 0.82, appearedAt: "ev-21", thread: "perceptiosphere" },
     { term: "Community Garden", weight: 0.72, appearedAt: "ev-21", thread: "ecosystems" },
     { term: "Constellation", weight: 0.75, appearedAt: "ev-23", thread: "perceptiosphere" },
+    { term: "Intellectual Legacy", weight: 0.7, appearedAt: "ev-28", thread: "perceptiosphere" },
+    { term: "Organizational Memory", weight: 0.65, appearedAt: "ev-28", thread: "perceptiosphere" },
+    { term: "Sovereign AI", weight: 0.72, appearedAt: "ev-29", thread: "perceptiosphere" },
+    { term: "Temporal Tools", weight: 0.6, appearedAt: "ev-30", thread: "perceptiosphere" },
     { term: "Figure-Ground", weight: 0.7, appearedAt: "ev-24", thread: "meta" },
+    { term: "Thesis as Methodology", weight: 0.62, appearedAt: "ev-24", thread: "meta" },
     { term: "Emergence", weight: 0.92, appearedAt: "ev-26", thread: "meta" },
     { term: "Nested Wholes", weight: 0.8, appearedAt: "ev-26", thread: "meta" },
+    { term: "Managerial Short-Termism", weight: 0.68, appearedAt: "ev-26", thread: "meta" },
     { term: "Multi-Channel Rendering", weight: 0.6, appearedAt: "ev-25", thread: "perceptiosphere" },
     { term: "Annotation System", weight: 0.65, appearedAt: "ev-25", thread: "perceptiosphere" },
     { term: "Visible Depth", weight: 0.55, appearedAt: "ev-22", thread: "meta" },
@@ -108,37 +125,37 @@ export const ddesS26Data: PresentationData = {
     { term: "Geopolitics of Knowledge", weight: 0.48, appearedAt: "ev-18", thread: "meta" },
     { term: "National Scale", weight: 0.5, appearedAt: "ev-16", thread: "ecosystems" },
     { term: "Advisory Councils", weight: 0.5, appearedAt: "ev-23", thread: "perceptiosphere" },
-    { term: "Temporal Presentation", weight: 0.65, appearedAt: "ev-27", thread: "perceptiosphere" },
-    { term: "Storylines", weight: 0.6, appearedAt: "ev-27", thread: "perceptiosphere" },
+    { term: "Temporal Presentation", weight: 0.65, appearedAt: "ev-31", thread: "perceptiosphere" },
+    { term: "Storylines", weight: 0.6, appearedAt: "ev-31", thread: "perceptiosphere" },
   ],
 
   storyline: [
   // Opening
-  { id: "step-01", title: "Title", slideId: "slide-title", timelineAnchor: "ev-27", section: "Opening" },
+  { id: "step-01", title: "Title", slideId: "slide-title", timelineAnchor: "ev-00", section: "Opening" },
   { id: "step-02", title: "Where We Started", slideId: "slide-origin", timelineAnchor: "ev-00", section: "Opening" },
   { id: "step-03", title: "Knowledge Succession", slideId: "slide-knowledge-succession", timelineAnchor: "ev-01", section: "Opening" },
   { id: "step-04", title: "Five Key Components", slideId: "slide-five-components", timelineAnchor: "ev-02", section: "Opening" },
-  { id: "step-05", title: "What Changed", slideId: "slide-catalyst", timelineAnchor: "ev-26", section: "Opening" },
+  { id: "step-05", title: "What Changed", slideId: "slide-catalyst", timelineAnchor: "ev-04", section: "Opening" },
 
   // Background: Four Threads
   { id: "step-06", title: "Four Threads", slideId: "slide-four-threads", timelineAnchor: "ev-05", section: "Background" },
   { id: "step-07", title: "Hybrid Intelligence", slideId: "slide-thread-hi", timelineAnchor: "ev-06", section: "Background" },
-  { id: "step-08", title: "Innovation Ecosystems", slideId: "slide-thread-eco", timelineAnchor: "ev-08", section: "Background" },
-  { id: "step-09", title: "Innovation Sanctuary", slideId: "slide-eco-sanctuary", timelineAnchor: "ev-15", section: "Background" },
+  { id: "step-08", title: "Innovation Ecosystems", slideId: "slide-thread-eco", timelineAnchor: "ev-10", section: "Background" },
+  { id: "step-09", title: "Innovation Sanctuary", slideId: "slide-eco-sanctuary", timelineAnchor: "ev-13", section: "Background" },
   { id: "step-10", title: "Perceptiosphere & CORE", slideId: "slide-thread-ps", timelineAnchor: "ev-21", section: "Background" },
   { id: "step-11", title: "Convergence", slideId: "slide-convergence", timelineAnchor: "ev-24", section: "Background" },
 
   // Demos
   { id: "step-12", title: "Problems", slideId: "slide-problems", timelineAnchor: "ev-26", section: "Demos" },
-  { id: "step-13", title: "Constellation", slideId: "slide-demo-constellation-live", timelineAnchor: "ev-23", section: "Demos" },
-  { id: "step-14", title: "Foresight Scope", slideId: "slide-demo-foresight", timelineAnchor: "ev-19", section: "Demos" },
-  { id: "step-15", title: "Strategy Map", slideId: "slide-demo-strategy-map", timelineAnchor: "ev-19", section: "Demos" },
-  { id: "step-16", title: "Temporal Tools", slideId: "slide-demo-temporal", timelineAnchor: "ev-19", section: "Demos" },
+  { id: "step-13", title: "Constellation", slideId: "slide-demo-constellation-live", timelineAnchor: "ev-28", section: "Demos" },
+  { id: "step-14", title: "Foresight Scope", slideId: "slide-demo-foresight", timelineAnchor: "ev-29", section: "Demos" },
+  { id: "step-15", title: "Strategy Map", slideId: "slide-demo-strategy-map", timelineAnchor: "ev-30", section: "Demos" },
+  { id: "step-16", title: "Temporal Tools", slideId: "slide-demo-temporal", timelineAnchor: "ev-30", section: "Demos" },
 
   // Closing
-  { id: "step-17", title: "Where We Arrived", slideId: "slide-audacious-spring", timelineAnchor: "ev-27", section: "Closing" },
-  { id: "step-18", title: "Creative Project", slideId: "slide-creative-project", timelineAnchor: "ev-27", section: "Closing" },
-  { id: "step-19", title: "Questions", slideId: "slide-questions", timelineAnchor: "ev-27", section: "Closing" },
+  { id: "step-17", title: "Where We Arrived", slideId: "slide-audacious-spring", timelineAnchor: "ev-31", section: "Closing" },
+  { id: "step-18", title: "Creative Project", slideId: "slide-creative-project", timelineAnchor: "ev-31", section: "Closing" },
+  { id: "step-19", title: "Questions", slideId: "slide-questions", timelineAnchor: "ev-31", section: "Closing" },
 ],
 
   slides: [
@@ -241,7 +258,7 @@ export const ddesS26Data: PresentationData = {
       title: "Thread Convergence",
       type: "content",
       layout: "content-anchored",
-      html: `<h2>Convergence</h2><p><strong>Designing Innovation</strong> is the meta method for composing the three operational threads into one practice. The threads do not merge into a single tool; they align around perpetuating inquiry when context would otherwise be lost.</p><p>Wayne's succession problem asked how communities hold context across generations. These threads answer it at three scales: operational teams, ecosystem infrastructure, and composable knowledge substrate.</p><div class="gestalt-convergence-rope" id="convergence-rope-mount"></div><table><tr><th>Thread</th><th>Converges into</th></tr><tr><td><strong style="color:#0ea5e9">Hybrid Intelligence</strong></td><td>Operational layer: agentic workflows on curated collective knowledge</td></tr><tr><td><strong style="color:#10b981">Innovation Ecosystems</strong></td><td>Sovereign contexts composed into strategic coalitions via collective layers</td></tr><tr><td><strong style="color:#f59e0b">Perceptiosphere</strong></td><td>Foundational composable knowledge for people and AI</td></tr><tr><td><strong style="color:#6366f1">Designing Innovation</strong></td><td>Practice of cultivating long-term innovation communities</td></tr></table><footer class="gestalt-slide__footnote"><span class="gestalt-slide__footnote-label">Builds toward:</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo1">Demo: Constellation</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo2">Demo: Foresight</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo3">Demo: Temporal Tools</span></footer>`,
+      html: `<h2>Convergence</h2><p><strong>Designing Innovation</strong> is the meta method for composing the three operational threads into one practice. The threads do not merge into a single tool; they align around perpetuating inquiry when context would otherwise be lost.</p><p>Wayne's succession problem asked how communities hold context across generations. These threads answer it at three scales: operational teams, ecosystem infrastructure, and composable knowledge substrate.</p><table><tr><th>Thread</th><th>Converges into</th></tr><tr><td><strong style="color:#0ea5e9">Hybrid Intelligence</strong></td><td>Operational layer: agentic workflows on curated collective knowledge</td></tr><tr><td><strong style="color:#10b981">Innovation Ecosystems</strong></td><td>Sovereign contexts composed into strategic coalitions via collective layers</td></tr><tr><td><strong style="color:#f59e0b">Perceptiosphere</strong></td><td>Foundational composable knowledge for people and AI</td></tr><tr><td><strong style="color:#6366f1">Designing Innovation</strong></td><td>Practice of cultivating long-term innovation communities</td></tr></table><footer class="gestalt-slide__footnote"><span class="gestalt-slide__footnote-label">Builds toward:</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo1">Demo: Constellation</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo2">Demo: Foresight</span><span class="gestalt-slide__footnote-tag gestalt-slide__footnote-tag--demo3">Demo: Temporal Tools</span></footer>`,
     },
     {
       id: "slide-problems",

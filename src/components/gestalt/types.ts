@@ -14,6 +14,8 @@ export interface GestaltTerm {
   weight: number;
   appearedAt: string;
   fadedAt?: string;
+  /** Timeline events to remain visible after fadedAt before removal (default 2) */
+  fadeGraceEvents?: number;
   thread: ThreadId;
 }
 

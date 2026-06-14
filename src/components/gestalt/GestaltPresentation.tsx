@@ -178,7 +178,7 @@ export function GestaltPresentation({ data, initialSlideIndex = 0 }: GestaltPres
           threadColors={data.threadColors}
           compact
           onCacheReady={handleCacheReady}
-          transitionDuration={600}
+          transitionDuration={300}
         />
       </div>
 
