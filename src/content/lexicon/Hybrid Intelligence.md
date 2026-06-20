@@ -103,8 +103,8 @@ These precedents share a common denominator: encoded context. Whether through so
 
 ## Cross-links
 
+- [Organisational Design as Code](/lexicon/organisational-design-as-code)
 - [AI Adoption Maturity Model](/lexicon/ai-adoption-maturity-model)
-- [Hybrid Intelligence](/lexicon/hybrid-intelligence)
 - [Knowledge Composability](/lexicon/knowledge-composability)
 - [Perceptiosphere](/lexicon/perceptiosphere)
 - [Process Mapping from Business Models](/lexicon/process-mapping-from-business-models)

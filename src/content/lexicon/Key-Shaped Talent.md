@@ -102,5 +102,6 @@ This profile is both an individual development model and an organizational desig
 - [Hybrid Intelligence](/lexicon/hybrid-intelligence)
 - [Innovation Sanctuary](/lexicon/innovation-sanctuary)
 - [Knowledge Curation and Stewardship](/lexicon/knowledge-curation)
+- [Organisational Design as Code](/lexicon/organisational-design-as-code)
 - [Strategy Map](/lexicon/strategy-map)
 - [Structured Reflection](/lexicon/structured-reflection)
