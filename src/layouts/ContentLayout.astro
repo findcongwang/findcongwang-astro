@@ -15,6 +15,7 @@ import {
   COLLECTION_TO_PUBLISH_TYPE,
   type ContentCollectionId,
 } from "@/utils/content";
+import { DEFAULT_PRINT_FORMAT, isPrintFormatKey, isPrintSpreadStart } from "@/data/print-formats";
 
 interface Props {
   frontmatter: Record<string, unknown>;
@@ -52,6 +53,29 @@ const publishType =
     ? frontmatter.publish_type
     : COLLECTION_TO_PUBLISH_TYPE[collection];
 const typeLabel = PUBLISH_TYPE_LABELS[publishType] ?? publishType;
+
+const printFormat =
+  typeof frontmatter.print_format === "string" && isPrintFormatKey(frontmatter.print_format)
+    ? frontmatter.print_format
+    : DEFAULT_PRINT_FORMAT;
+const printMode =
+  frontmatter.print_mode === "digital" || frontmatter.print_mode === "physical"
+    ? frontmatter.print_mode
+    : "physical";
+const printAnnotations =
+  typeof frontmatter.print_annotations === "boolean" ? String(frontmatter.print_annotations) : "";
+const printSpreadStart =
+  typeof frontmatter.print_spread_start === "string" && isPrintSpreadStart(frontmatter.print_spread_start)
+    ? frontmatter.print_spread_start
+    : "odd";
+const printLink =
+  printFormat === DEFAULT_PRINT_FORMAT
+    ? "?format=print"
+    : `?format=print&size=${encodeURIComponent(printFormat)}`;
+const printLinkWithMode =
+  printMode === "digital" ? `${printLink}&mode=digital` : printLink;
+const printLinkFull =
+  printSpreadStart !== "odd" ? `${printLinkWithMode}&spread=${printSpreadStart}` : printLinkWithMode;
 
 const site = import.meta.env.SITE ?? "https://findcongwang.com";
 const pathname = Astro.url.pathname.replace(/\/?$/, "") || "";
@@ -191,7 +215,7 @@ const related = relatedWithCollection.slice(0, 3);
             <div class="flex items-center gap-3 mt-2 text-xs text-primary/40">
               <span>Alternative formats:</span>
               {(frontmatter.formats as string[]).includes("print") && (
-                <a href="?format=print" class="hover:text-primary underline underline-offset-2" target="_blank">Print</a>
+                <a href={printLinkFull} class="hover:text-primary underline underline-offset-2" target="_blank">Print</a>
               )}
               {(frontmatter.formats as string[]).includes("slides") && (
                 <a href="?format=slides" class="hover:text-primary underline underline-offset-2" target="_blank">Slides</a>
@@ -201,6 +225,17 @@ const related = relatedWithCollection.slice(0, 3);
           <div class="border-b border-dotted border-primary/10">
             <br>
           </div>
+          <div
+            id="print-config"
+            class="hidden"
+            data-print-format={printFormat}
+            data-print-mode={printMode}
+            data-print-spread-start={printSpreadStart}
+            {...(printAnnotations ? { "data-print-annotations": printAnnotations } : {})}
+          ></div>
+          <div id="paged-content" class="article-body prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_.rough-annotation]:text-inherit [&_.rough-annotation]:font-inherit">
+            <slot />
+          </div>
           <PagedViewer
             title={title}
             subtitle={description}
@@ -208,9 +243,6 @@ const related = relatedWithCollection.slice(0, 3);
             date={displayDate?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}
             type={typeLabel}
           />
-          <div id="paged-content" class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_.rough-annotation]:text-inherit [&_.rough-annotation]:font-inherit">
-            <slot />
-          </div>
         </div>
         <div class="mt-8 pt-6 border-t border-dotted border-primary/10">
           <div class="relative flex flex-wrap gap-2">

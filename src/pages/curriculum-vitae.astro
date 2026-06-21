@@ -748,11 +748,16 @@ const waterlooStudents = [
     }
   </style>
 
-  <PagedViewer
-    title="Francis Wang's Curriculum Vitae"
-    author="Francis Wang"
-    type="CV"
-  />
+  <div
+    id="print-config"
+    class="hidden"
+    data-print-format="portrait-letter"
+    data-print-mode="physical"
+    data-print-spread-start="odd"
+    data-print-annotations="false"
+    data-print-body-class="paged-mode print-cv"
+    data-print-stylesheets="/styles/curriculum-vitae-print.css"
+  ></div>
 
   <div id="paged-content" class="paged-prose text-primary/60 max-w-none text-sm">
   <section>
@@ -1222,5 +1227,11 @@ const waterlooStudents = [
     </Wrapper>
   </section>
   </div>
+
+  <PagedViewer
+    title="Francis Wang's Curriculum Vitae"
+    author="Francis Wang"
+    type="CV"
+  />
   <CriticToggle />
-</BaseLayout> 
+</BaseLayout>

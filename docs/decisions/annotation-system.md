@@ -67,14 +67,34 @@ flowchart TB
 
 ### Print pipeline
 
-1. `ContentLayout` wraps article body in `#paged-content` and mounts `PagedViewer` **outside** that container (prevents script re-entry on capture).
-2. `PagedViewer` waits for Mermaid, then `document.write()` a clean print document with `paged-book.css` and post-process scripts.
+1. `ContentLayout` wraps article body in `#paged-content`, emits hidden `#print-config` from frontmatter (`print_format`, `print_mode`, `print_annotations`), and mounts `PagedViewer` **outside** that container (prevents script re-entry on capture).
+2. `PagedViewer` reads `#print-config` and URL overrides (`&size=`, `&mode=`, `&spread=`), resolves format via `src/data/print-formats.ts`, injects literal `@page` rules (Paged.js does not support `var()` in `@page`), loads `print-formats.css` + `paged-book.css`, and `document.write()` a clean print document.
 3. `sanitizeCaptureHTML()` strips `<script>` tags, removes orphan `svg.rough-annotation`, and clears `data-rough-annotated` before capture.
-4. `paged-post-process.js` transforms margin notes and footnotes, runs `Paged.Previewer().preview()`, then:
-   - **Margin notes:** absolute placement in the right margin with overflow continuation across pages
+4. `paged-post-process.js` transforms margin notes and footnotes, optionally appends a `.print-endnotes` section when the active preset has no margin column, runs `Paged.Previewer().preview()`, then:
+   - **Margin notes:** absolute placement in the right margin (only when `hasMarginNotes`); geometry from `window.__printFormatConfig`
+   - **Endnote fallback:** when format disables margin notes, note bodies render in a trailing Notes section instead
    - **Footnotes:** Paged.js native `float: footnote` (see Footnotes below)
    - **Rough marks:** `initPrintRoughAnnotations()` post-pagination (no animation)
 5. Optional `?critic=1` includes critic-layer DOM; default print strips `[data-critic="true"]`.
+
+### Print format selection
+
+Format presets live in `src/data/print-formats.ts`. Default is `square-8.5x9` (backward compatible with the original layout).
+
+| Frontmatter | Purpose |
+|-------------|---------|
+| `print_format` | Preset key (e.g. `portrait-6x9`, `portrait-letter`) |
+| `print_mode` | `physical` (single size) or `digital` (per-section overrides) |
+| `print_spread_start` | `odd` (page 1 alone, then pairs) or `even` (pairs from page 1) |
+| `print_annotations` | Force margin notes on/off; auto-detect from content if omitted |
+
+URL overrides for testing: `?format=print&size=portrait-6x9`, `?format=print&mode=digital`, `?format=print&spread=even`.
+
+**Spread preview:** On viewports wide enough for two pages, portrait/square formats show at most two pages per row. `print_spread_start: odd` (default) leaves page 1 alone before pairing; `even` pairs from page 1. Landscape, wide, and digital modes always use single-page preview.
+
+**Digital mode:** wrap sections in `<PrintSection format="wide-12x9">` or use `<PageBreak format="landscape-10x7" />`. PagedViewer scans `data-print-section-format` and injects named `@page print-{key}` rules.
+
+Only `square-8.5x9` enables margin-note placement. Other presets convert margin notes to endnotes at the document end.
 
 ## Component interfaces
 
@@ -171,8 +191,9 @@ Fixed panel: Content annotations (master), Critic layer, Chief Editor, Academic 
 
 | Component | Role |
 |-----------|------|
-| `PagedViewer.astro` | Detects `?format=print\|slides`, captures `#paged-content`, writes print document |
-| `PageBreak.astro` | Section/chapter page breaks |
+| `PagedViewer.astro` | Detects `?format=print\|slides`, reads format config, captures `#paged-content`, writes print document |
+| `PrintSection.astro` | Digital-mode section wrapper with per-section format |
+| `PageBreak.astro` | Section/chapter page breaks; optional `format` for named pages |
 | `TwoColumn.astro` | Two-column print sections |
 
 ## Colour model
@@ -227,7 +248,9 @@ CSS **must** use `.footnote-float { float: footnote; }` without a `body` prefix.
 
 ### Margin notes
 
-JS placement after pagination (`distributeMarginNotes` in `paged-post-process.js`). Notes align to ref vertical position, resolve overlaps, continue on following pages when clipped.
+JS placement after pagination (`distributeMarginNotes` in `paged-post-process.js`) when the active format has `hasMarginNotes: true`. Notes align to ref vertical position, resolve overlaps, continue on following pages when clipped. Placement geometry comes from `window.__printFormatConfig` (margin inset, width, top clearance).
+
+When `hasMarginNotes` is false, margin note bodies append to a `.print-endnotes` section before pagination instead.
 
 ### Rough marks in print
 
@@ -260,12 +283,14 @@ JS placement after pagination (`distributeMarginNotes` in `paged-post-process.js
 | Path | Role |
 |------|------|
 | `src/components/annotations/` | RoughAnnotation, AnnotationInit, CriticToggle, engine |
-| `src/components/paged/` | MarginNote, FootNote, InlineNote, PagedViewer, PageBreak, TwoColumn |
+| `src/components/paged/` | MarginNote, FootNote, InlineNote, PagedViewer, PrintSection, PageBreak, TwoColumn |
+| `src/data/print-formats.ts` | Format preset registry, `@page` rule builder, config resolver |
 | `src/utils/annotation-colours.ts` | Types and colour resolution |
 | `public/styles/annotation-colours.css` | Shared semantic tokens |
 | `public/styles/annotation-brand.css` | Site brand tokens |
-| `public/styles/paged-book.css` | Print typography, margin notes, footnotes, ruby |
-| `public/scripts/paged-post-process.js` | Pre-pagination transforms + margin placement |
+| `public/styles/paged-book.css` | Print typography, margin notes, footnotes, ruby (no static `@page`) |
+| `public/styles/print-formats.css` | Per-format CSS variables, typography, columns, preview breakpoints |
+| `public/scripts/paged-post-process.js` | Pre-pagination transforms, endnote fallback, margin placement |
 | `public/scripts/annotation-print-init.js` | Post-pagination roughNotation |
 | `public/scripts/rough-notation.esm.js` | Vendored library (ESM) |
 
@@ -292,7 +317,7 @@ Agents of <InlineNote reading="deep, narrowly defined" color="green">specialised
 </RoughAnnotation>
 ```
 
-Enable print from frontmatter: `formats: ["print"]`. Open `?format=print` (optional `&critic=1`).
+Enable print from frontmatter: `formats: ["print"]`. Optional: `print_format: "portrait-6x9"`, `print_mode: "digital"`. Open `?format=print` (optional `&size=`, `&mode=digital`, `&critic=1`).
 
 ## Known constraints
 
@@ -301,6 +326,7 @@ Enable print from frontmatter: `formats: ["print"]`. Open `?format=print` (optio
 - **Paged.js footnotes:** selector must not depend on `body` ancestor; one `.footnote-float` sibling per anchor.
 - **Print capture:** scripts stripped from `#paged-content`; interactive islands must not be required for print layout.
 - **Listing badges:** publish-type tag colours on index pages use Tailwind/site CSS, not this annotation system.
+- **Page format:** Currently hardcoded to 8.5" x 9". Dynamic format system planned in [`plans/dynamic-print-format-system.md`](../plans/dynamic-print-format-system.md); annotations may convert to endnotes in non-annotated formats.
 
 ## Changelog (v1 → v2)
 

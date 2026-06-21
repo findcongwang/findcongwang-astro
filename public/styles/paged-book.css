@@ -1,4 +1,5 @@
-/* Paged.js Book Layout — 8.5" × 9" wide format */
+/* Paged.js Book Layout — format-agnostic typography and components.
+   @page size/margin rules are injected at runtime by PagedViewer. */
 
 /* ============================================
    ON-SCREEN PREVIEW LAYOUT
@@ -15,99 +16,77 @@ body.paged-mode {
 }
 
 .pagedjs_pages {
+  container-type: inline-size;
+  container-name: paged-preview;
   margin: 0 auto;
   padding: 2em 1em;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 0.25em 0;
+  row-gap: 1.5em;
+  column-gap: 0;
+  width: 100%;
 }
 
 .pagedjs_page {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.06);
   background: white;
   position: relative;
+  flex: 0 0 auto;
 }
 
-/* Single-page stacked on narrow screens */
-@media screen and (max-width: 1750px) {
-  .pagedjs_pages {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5em;
-  }
-}
-
-/* Two-up magazine spread on wide screens */
-@media screen and (min-width: 1751px) {
-  .pagedjs_pages {
-    gap: 0;
+/* Two-up spread when the preview container fits two pages (at most two per row) */
+@container paged-preview (min-width: calc(var(--page-width) * 2 + 0.5em)) {
+  html[data-print-spread="enabled"] .pagedjs_pages {
+    flex-direction: row;
+    row-gap: 1.5em;
+    column-gap: 0;
   }
 
-  .pagedjs_page {
+  html[data-print-spread="enabled"] .pagedjs_page {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
   }
 
-  .pagedjs_page:nth-child(odd) {
+  /* odd: page 1 alone (title/cover), then pairs 2–3, 4–5, … */
+  html[data-print-spread="enabled"][data-print-spread-start="odd"] .pagedjs_page:first-child {
+    flex-basis: 100%;
+    margin-bottom: 0;
+  }
+
+  html[data-print-spread="enabled"] .pagedjs_page:nth-child(odd) {
     margin-left: 0.25em;
     margin-right: 0;
   }
 
-  .pagedjs_page:nth-child(even) {
+  html[data-print-spread="enabled"] .pagedjs_page:nth-child(even) {
     margin-left: 0;
     margin-right: 0.25em;
   }
 
-  .pagedjs_page:nth-child(n+3) {
-    margin-top: 1.5em;
-  }
-
-  .pagedjs_page:first-child {
-    margin-bottom: 1.5em;
+  html[data-print-spread="enabled"][data-print-spread-start="odd"] .pagedjs_page:first-child {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
-/* ============================================
-   PAGE SIZE & MARGINS
-   ============================================ */
-
-@page {
-  size: 8.5in 9in;
-  /* margin: top right bottom left */
-  /* Right margin is wide for margin notes, left margin balances it */
-  margin: 0.6in 2in 0.6in 0.8in;
-
-  @footnote {
-    float: bottom;
-    border-top: 0.5pt solid #ccc;
-    padding-top: 0.3em;
+/* Single-page column when only one page fits */
+@container paged-preview (max-width: calc(var(--page-width) * 2 + 0.5em - 1px)) {
+  .pagedjs_pages {
+    flex-direction: column;
+    align-items: center;
   }
 
-  @bottom-center {
-    content: counter(page);
-    font-family: 'Geist', sans-serif;
-    font-size: 7.5pt;
-    color: #aaa;
+  .pagedjs_page {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
-}
-
-@page :left {
-  /* Verso (even/left) pages: same layout */
-  margin: 0.6in 2in 0.6in 0.8in;
-}
-
-@page :right {
-  /* Recto (odd/right) pages: same layout */
-  margin: 0.6in 2in 0.6in 0.8in;
-}
-
-@page :first {
-  margin-top: 2in;
-  @bottom-center { content: none; }
 }
 
 /* ============================================
    BODY TYPOGRAPHY
+   (font-size set per format in print-formats.css)
    ============================================ */
 
 body.paged-mode h1 {
@@ -141,7 +120,6 @@ body.paged-mode h3 {
 
 body.paged-mode p {
   font-family: 'Newsreader', serif;
-  font-size: 10pt;
   line-height: 1.55;
   margin-bottom: 0.6em;
   text-align: justify;
@@ -160,7 +138,6 @@ body.paged-mode blockquote {
 
 body.paged-mode ul, body.paged-mode ol {
   font-family: 'Newsreader', serif;
-  font-size: 10pt;
   line-height: 1.5;
   margin-bottom: 0.6em;
   padding-left: 1.2em;
@@ -411,14 +388,7 @@ ruby.inline-note rt {
   margin-top: 0;
 }
 
-/* Page following a section break: normal top margin via named page */
-@page section-continuation {
-  margin-top: 0.6in;
-}
-
-/* ============================================
-   TITLE PAGE
-   ============================================ */
+/* section-continuation margin-top comes from injected @page rules */
 
 body.paged-mode .print-header {
   margin-bottom: 1.5em;

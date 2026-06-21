@@ -1,0 +1,232 @@
+/* Print format tokens — layout variables (not @page; those are injected by PagedViewer) */
+
+:root {
+  --page-width: 8.5in;
+  --page-height: 9in;
+  --margin-top: 0.6in;
+  --margin-right: 2in;
+  --margin-bottom: 0.6in;
+  --margin-left: 0.8in;
+  --text-area-width: 5.7in;
+  --text-area-height: 7.8in;
+  --has-margin-notes: 1;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="square-7x7"] {
+  --page-width: 7in;
+  --page-height: 7in;
+  --margin-top: 0.75in;
+  --margin-right: 0.75in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.75in;
+  --text-area-width: 5.5in;
+  --text-area-height: 5.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="square-8x8"] {
+  --page-width: 8in;
+  --page-height: 8in;
+  --margin-top: 0.75in;
+  --margin-right: 0.75in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.75in;
+  --text-area-width: 6.5in;
+  --text-area-height: 6.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="square-8.5x9"] {
+  --page-width: 8.5in;
+  --page-height: 9in;
+  --margin-top: 0.6in;
+  --margin-right: 2in;
+  --margin-bottom: 0.6in;
+  --margin-left: 0.8in;
+  --text-area-width: 5.7in;
+  --text-area-height: 7.8in;
+  --has-margin-notes: 1;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="square-8.5x9-clean"] {
+  --page-width: 8.5in;
+  --page-height: 9in;
+  --margin-top: 0.75in;
+  --margin-right: 0.75in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.75in;
+  --text-area-width: 7in;
+  --text-area-height: 7.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="portrait-6x9"] {
+  --page-width: 6in;
+  --page-height: 9in;
+  --margin-top: 0.75in;
+  --margin-right: 0.625in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.625in;
+  --text-area-width: 4.75in;
+  --text-area-height: 7.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="portrait-a5"] {
+  --page-width: 5.83in;
+  --page-height: 8.27in;
+  --margin-top: 0.6in;
+  --margin-right: 0.6in;
+  --margin-bottom: 0.6in;
+  --margin-left: 0.6in;
+  --text-area-width: 4.63in;
+  --text-area-height: 7.07in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="portrait-letter"] {
+  --page-width: 8.5in;
+  --page-height: 11in;
+  --margin-top: 0.75in;
+  --margin-right: 0.8in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.8in;
+  --text-area-width: 6.9in;
+  --text-area-height: 9.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 11pt;
+}
+
+[data-print-format="portrait-a4"] {
+  --page-width: 8.27in;
+  --page-height: 11.7in;
+  --margin-top: 0.6in;
+  --margin-right: 0.6in;
+  --margin-bottom: 0.6in;
+  --margin-left: 0.6in;
+  --text-area-width: 7.07in;
+  --text-area-height: 10.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="landscape-10x7"] {
+  --page-width: 10in;
+  --page-height: 7in;
+  --margin-top: 0.6in;
+  --margin-right: 0.7in;
+  --margin-bottom: 0.6in;
+  --margin-left: 0.7in;
+  --text-area-width: 8.6in;
+  --text-area-height: 5.8in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="landscape-11x8.5"] {
+  --page-width: 11in;
+  --page-height: 8.5in;
+  --margin-top: 0.75in;
+  --margin-right: 0.75in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.75in;
+  --text-area-width: 9.5in;
+  --text-area-height: 7in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+[data-print-format="wide-12x9"] {
+  --page-width: 12in;
+  --page-height: 9in;
+  --margin-top: 0.75in;
+  --margin-right: 0.75in;
+  --margin-bottom: 0.75in;
+  --margin-left: 0.75in;
+  --text-area-width: 10.5in;
+  --text-area-height: 7.5in;
+  --has-margin-notes: 0;
+  --print-body-size: 10pt;
+}
+
+/* Format-aware body typography */
+body.paged-mode p,
+body.paged-mode ul,
+body.paged-mode ol {
+  font-size: var(--print-body-size, 10pt);
+}
+
+[data-print-format="portrait-letter"] body.paged-mode p,
+[data-print-format="portrait-letter"] body.paged-mode ul,
+[data-print-format="portrait-letter"] body.paged-mode ol {
+  font-size: 11pt;
+}
+
+/* Auto-column for wide formats */
+[data-print-format^="landscape"] #paged-content:not(.two-column),
+[data-print-format^="landscape"] .article-body:not(.two-column) {
+  column-count: 2;
+  column-gap: 0.3in;
+}
+
+[data-print-format="wide-12x9"] #paged-content:not(.two-column),
+[data-print-format="wide-12x9"] .article-body:not(.two-column) {
+  column-count: 3;
+  column-gap: 0.25in;
+}
+
+/* Landscape / wide / digital: always single-page preview (no two-up spread) */
+html[data-print-spread="disabled"] .pagedjs_pages {
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1.5em;
+}
+
+html[data-print-spread="disabled"] .pagedjs_page {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Endnotes section (non-annotated formats) */
+.print-endnotes {
+  break-before: page;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 0.5pt solid #ccc;
+}
+
+.print-endnotes h2 {
+  font-family: 'Geist', sans-serif;
+  font-size: 11pt;
+  font-weight: 600;
+  margin-bottom: 0.6em;
+}
+
+.print-endnote-item {
+  font-family: 'Geist', sans-serif;
+  font-size: 8pt;
+  line-height: 1.45;
+  color: #555;
+  margin-bottom: 0.5em;
+}
+
+.print-endnote-num {
+  font-weight: 700;
+  margin-right: 0.25em;
+}
+
+.print-endnote-label {
+  display: block;
+  font-size: 7pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 0.1em;
+}

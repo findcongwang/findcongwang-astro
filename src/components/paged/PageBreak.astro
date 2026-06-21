@@ -1,15 +1,19 @@
 ---
-// PageBreak — forces a page break in print mode
-// type="chapter" — starts new page with extra top spacing (chapter start feel in web view)
-// type="section" (default) — starts new page, zero visual footprint
+import type { PrintFormatKey } from "@/data/print-formats";
+import { isPrintFormatKey } from "@/data/print-formats";
+
 interface Props {
-  type?: 'chapter' | 'section';
+  type?: "chapter" | "section";
+  format?: PrintFormatKey | string;
 }
-const { type = 'section' } = Astro.props;
-const className = type === 'chapter' ? 'chapter-break' : 'page-break';
-const style = type === 'chapter'
-  ? 'border-top: 1px dashed rgba(0,0,0,0.05); margin: 3em 0;'
-  : 'margin: 0; padding: 0; height: 0;';
+
+const { type = "section", format } = Astro.props;
+const className = type === "chapter" ? "chapter-break" : "page-break";
+const formatKey = format && isPrintFormatKey(format) ? format : undefined;
+const pageStyle = formatKey ? `page: print-${formatKey};` : "";
+const style = type === "chapter"
+  ? `border-top: 1px dashed rgba(0,0,0,0.05); margin: 3em 0; ${pageStyle}`
+  : `margin: 0; padding: 0; height: 0; ${pageStyle}`;
 ---
 
-<div class={className} style={style}></div>
+<div class={className} style={style} data-print-section-format={formatKey}></div>

@@ -1,6 +1,6 @@
 // paged-post-process.js
 // Runs inside the clean document.write() page after content is loaded.
-// Transforms annotation components, then runs Paged.js, then positions margin notes + footnotes.
+// Transforms annotation components, then runs Paged.js, then positions margin notes.
 
 (function() {
   // ============================================
@@ -15,10 +15,14 @@
     });
   }
 
+  var formatConfig = window.__printFormatConfig || {};
+  var hasMarginNotes = document.body.dataset.hasMarginNotes === '1' && formatConfig.hasMarginNotes !== false;
+
   // ============================================
   // 1. TRANSFORM MARGIN NOTES
   // ============================================
   var noteMap = {};
+  var noteOrder = [];
 
   document.querySelectorAll('.margin-note-anchor').forEach(function(anchor) {
     var noteId = anchor.dataset.note;
@@ -27,24 +31,24 @@
     var label = anchor.dataset.label || '';
     var marginContent = anchor.dataset.marginContent || '';
 
-    if (noteId) noteMap[noteId] = { content: marginContent, label: label, color: color, semanticColor: semanticColor };
+    if (noteId) {
+      if (!noteMap[noteId]) noteOrder.push(noteId);
+      noteMap[noteId] = { content: marginContent, label: label, color: color, semanticColor: semanticColor };
+    }
 
     var webSpan = anchor.querySelector('.margin-note-web');
     if (!webSpan) return;
 
-    // Extract body text nodes (slot content before the [n] badge span and tooltip)
     var bodyNodes = [];
     for (var i = 0; i < webSpan.childNodes.length; i++) {
       var child = webSpan.childNodes[i];
       if (child.nodeType === Node.ELEMENT_NODE) {
-        // Stop at the [n] badge (has font-sans class) or tooltip (has invisible/opacity-0)
         var cl = child.className || '';
         if (cl.indexOf('font-sans') !== -1 || cl.indexOf('invisible') !== -1 || cl.indexOf('opacity-0') !== -1) break;
       }
       bodyNodes.push(child.cloneNode(true));
     }
 
-    // Create ref span with dotted underline wrapping the body text
     var refSpan = document.createElement('span');
     refSpan.className = 'margin-note-ref';
     refSpan.dataset.note = noteId;
@@ -53,15 +57,41 @@
     refSpan.style.textUnderlineOffset = '2px';
     for (var j = 0; j < bodyNodes.length; j++) refSpan.appendChild(bodyNodes[j]);
 
-    // Add [n] number at the end — same font as body text
     var numSpan = document.createElement('span');
     numSpan.style.color = color;
     numSpan.textContent = '\u2009[' + noteId + ']';
     refSpan.appendChild(numSpan);
 
-    // Replace the anchor with the ref span
     anchor.parentNode.replaceChild(refSpan, anchor);
   });
+
+  // ============================================
+  // 1b. ENDNOTE FALLBACK (non-annotated formats)
+  // ============================================
+  if (!hasMarginNotes && noteOrder.length > 0) {
+    var endnotesSection = document.createElement('section');
+    endnotesSection.className = 'print-endnotes';
+    endnotesSection.innerHTML = '<h2>Notes</h2>';
+
+    noteOrder.forEach(function(noteId) {
+      var noteData = noteMap[noteId];
+      if (!noteData) return;
+
+      var item = document.createElement('div');
+      item.className = 'print-endnote-item';
+      if (noteData.semanticColor) item.dataset.semanticColor = noteData.semanticColor;
+
+      var innerHTML = '<span class="print-endnote-num">[' + noteId + ']</span> ';
+      if (noteData.label) {
+        innerHTML += '<strong class="print-endnote-label">' + noteData.label + '</strong> ';
+      }
+      innerHTML += noteData.content;
+      item.innerHTML = innerHTML;
+      endnotesSection.appendChild(item);
+    });
+
+    document.body.appendChild(endnotesSection);
+  }
 
   // ============================================
   // 2. TRANSFORM FOOTNOTES (Paged.js float: footnote)
@@ -97,7 +127,6 @@
       floatEl.style.setProperty('--footnote-call-color', callColor);
     }
 
-    // Sibling after anchor so the call sits on the term, body floats to page bottom
     anchor.parentNode.insertBefore(floatEl, anchor.nextSibling);
   });
 
@@ -107,7 +136,9 @@
   var paged = new Paged.Previewer();
   paged.preview().then(function(flow) {
     console.log('Paged.js rendered', flow.total, 'pages');
-    distributeMarginNotes();
+    if (hasMarginNotes) {
+      distributeMarginNotes();
+    }
     if (typeof window.initPrintRoughAnnotations === 'function') {
       window.initPrintRoughAnnotations().catch(function(err) {
         console.error('Print rough annotation error:', err);
@@ -123,22 +154,34 @@
   function distributeMarginNotes() {
     var pages = document.querySelectorAll('.pagedjs_page');
     var pagesArray = Array.from(pages);
-    var MIN_GAP = 24;
-    var LINE_HEIGHT = 12; // approx px per line at 6.5pt with 1.35 line-height
-    var PAGE_TOP_MARGIN = 58; // 0.6in ≈ 58px — content starts here
-    var PAGE_BOTTOM_CLEARANCE = 80; // reserve for page number
+    if (pagesArray.length === 0) return;
 
-    // Overflow queue: notes that need continuation on subsequent pages
-    // Each entry: { noteId, content, label, shownHeight }
+    var cfg = window.__printFormatConfig || {};
+    var MIN_GAP = cfg.minGap || 24;
+    var LINE_HEIGHT = cfg.lineHeight || 12;
+    var PAGE_BOTTOM_CLEARANCE = cfg.pageBottomClearance || 80;
+    var marginNoteRight = cfg.marginNoteInset || '0.25in';
+    var marginNoteWidth = cfg.marginNoteWidth || '1.5in';
+
+    var firstPage = pagesArray[0];
+    var firstPageRect = firstPage.getBoundingClientRect();
+    var contentArea = firstPage.querySelector('.pagedjs_page_content');
+    var PAGE_TOP_MARGIN = 58;
+    if (contentArea) {
+      var contentRect = contentArea.getBoundingClientRect();
+      PAGE_TOP_MARGIN = contentRect.top - firstPageRect.top;
+    } else if (cfg.marginTop) {
+      PAGE_TOP_MARGIN = parseLengthToPx(cfg.marginTop, firstPageRect.height);
+    }
+
     var overflowQueue = [];
 
-    pagesArray.forEach(function(page, pageIndex) {
+    pagesArray.forEach(function(page) {
       var pageRect = page.getBoundingClientRect();
       var pageHeight = pageRect.height;
       var maxBottom = pageHeight - PAGE_BOTTOM_CLEARANCE;
       var lastBottom = 0;
 
-      // First: place overflow continuations from previous pages
       var remainingOverflow = [];
       for (var k = 0; k < overflowQueue.length; k++) {
         var ov = overflowQueue[k];
@@ -149,17 +192,15 @@
           continue;
         }
 
-        // Create a container that clips and offsets to show only the unseen portion
         var ovContainer = document.createElement('div');
         ovContainer.className = 'margin-note-item margin-note-continued';
         ovContainer.dataset.note = ov.noteId;
         ovContainer.style.position = 'absolute';
         ovContainer.style.top = ovTop + 'px';
-        ovContainer.style.right = '0.25in';
-        ovContainer.style.width = '1.5in';
+        ovContainer.style.right = marginNoteRight;
+        ovContainer.style.width = marginNoteWidth;
         ovContainer.style.overflow = 'hidden';
 
-        // Inner content shifted up by the amount already shown
         var ovInner = document.createElement('div');
         ovInner.style.marginTop = '-' + ov.shownHeight + 'px';
         var innerHTML = '';
@@ -172,21 +213,17 @@
 
         page.appendChild(ovContainer);
 
-        // Measure how much is visible
         var availHeight = maxBottom - ovTop;
         var innerFullHeight = ovInner.getBoundingClientRect().height;
         var remainingHeight = innerFullHeight - ov.shownHeight;
 
         if (remainingHeight <= availHeight) {
-          // Fits entirely — no more overflow
           lastBottom = ovTop + remainingHeight;
         } else {
-          // Check if only one line would overflow — let it bleed
           var clippedHeight = Math.floor(availHeight / LINE_HEIGHT) * LINE_HEIGHT;
           var stillRemaining = remainingHeight - clippedHeight;
 
           if (stillRemaining <= LINE_HEIGHT * 1.5) {
-            // Allow full remaining — minor bleed
             lastBottom = ovTop + remainingHeight;
           } else {
             ovContainer.style.maxHeight = clippedHeight + 'px';
@@ -202,7 +239,6 @@
       }
       overflowQueue = remainingOverflow;
 
-      // Now place notes that have references on this page
       var refs = page.querySelectorAll('.margin-note-ref');
       if (refs.length === 0) return;
 
@@ -216,70 +252,59 @@
         var noteData = noteMap[noteId];
         if (!noteData) return;
 
-        // Get vertical position of ref relative to page
         var refRect = ref.getBoundingClientRect();
         var targetTop = refRect.top - pageRect.top;
 
-        // Overlap resolution
         if (targetTop < lastBottom + MIN_GAP) {
           targetTop = lastBottom + MIN_GAP;
         }
 
-        // Ensure we're within the page's content area
         if (targetTop < PAGE_TOP_MARGIN) {
           targetTop = PAGE_TOP_MARGIN;
         }
 
-        // If can't even start one line, overflow entirely
         if (targetTop > maxBottom - LINE_HEIGHT) {
           overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: 0 });
           return;
         }
 
-        // Create note element
         var noteEl = document.createElement('div');
         noteEl.className = 'margin-note-item';
         noteEl.dataset.note = noteId;
         if (noteData.semanticColor) noteEl.dataset.semanticColor = noteData.semanticColor;
         noteEl.style.position = 'absolute';
         noteEl.style.top = targetTop + 'px';
-        noteEl.style.right = '0.25in';
-        noteEl.style.width = '1.5in';
+        noteEl.style.right = marginNoteRight;
+        noteEl.style.width = marginNoteWidth;
         noteEl.style.overflow = 'hidden';
 
-        var innerHTML = '';
+        var noteInnerHTML = '';
         if (noteData.label) {
-          innerHTML += '<strong class="margin-note-label">' + noteData.label + '</strong>';
+          noteInnerHTML += '<strong class="margin-note-label">' + noteData.label + '</strong>';
         }
-        innerHTML += '<span class="margin-note-num">[' + noteId + ']</span> ' + noteData.content;
-        noteEl.innerHTML = innerHTML;
+        noteInnerHTML += '<span class="margin-note-num">[' + noteId + ']</span> ' + noteData.content;
+        noteEl.innerHTML = noteInnerHTML;
 
         page.appendChild(noteEl);
 
-        // Measure actual height
         var noteRect = noteEl.getBoundingClientRect();
         var noteBottom = targetTop + noteRect.height;
 
         if (noteBottom > maxBottom) {
-          // Clip at clean line boundary
           var availHeight = maxBottom - targetTop;
           var clippedHeight = Math.floor(availHeight / LINE_HEIGHT) * LINE_HEIGHT;
           var totalHeight = noteRect.height;
           var remainingAfterClip = totalHeight - clippedHeight;
 
-          // If only one line would overflow, let it bleed slightly rather than splitting
           if (remainingAfterClip <= LINE_HEIGHT * 1.5) {
-            // Allow the full note — minor bleed into bottom margin
             lastBottom = noteBottom;
           } else if (clippedHeight < LINE_HEIGHT) {
-            // Can't fit even one line here — overflow entirely
             noteEl.remove();
             overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: 0 });
             return;
           } else {
             noteEl.style.maxHeight = clippedHeight + 'px';
             lastBottom = targetTop + clippedHeight;
-            // Queue continuation with the amount already shown
             overflowQueue.push({ noteId: noteId, content: noteData.content, label: noteData.label, shownHeight: clippedHeight });
           }
         } else {
@@ -287,5 +312,18 @@
         }
       });
     });
+  }
+
+  function parseLengthToPx(value, referencePx) {
+    if (!value) return 0;
+    var match = String(value).trim().match(/^([\d.]+)(in|px|pt|rem|em)?$/);
+    if (!match) return 0;
+    var num = parseFloat(match[1]);
+    var unit = match[2] || 'px';
+    if (unit === 'in') return num * 96;
+    if (unit === 'pt') return num * (96 / 72);
+    if (unit === 'rem' || unit === 'em') return num * 16;
+    if (unit === 'px') return num;
+    return num * (referencePx || 96);
   }
 })();

@@ -1,6 +1,6 @@
 # Dynamic Print Format System — Implementation Spec
 
-> **Status:** Ready for implementation
+> **Status:** Implemented (June 2026)
 > **Target:** `findcongwang-astro`
 > **Implementer:** Cursor (with visual debugging)
 > **Created:** 2026-06-20
@@ -368,22 +368,39 @@ function distributeMarginNotes() {
 }
 ```
 
-### 6. On-Screen Preview Adjustments
+### 6. On-Screen Preview: Spread Pairing (IMPLEMENTED)
 
-The spread preview CSS (`.pagedjs_pages` layout) needs to respond to format dimensions for the visual preview:
+The on-screen preview already pairs pages into correct book spreads on wide screens. This mimics how the physical book opens: page 1 (recto/cover) displays alone, then subsequent pages pair as verso-recto spreads (2-3, 4-5, 6-7, etc.).
+
+**Existing behaviour** (in `paged-book.css`):
+- Single-page stacked view on screens < 1751px
+- Two-up spread pairing on screens >= 1751px
+- Page 1 displays alone (cover/title page)
+- Even pages (verso/left) pair with the following odd page (recto/right)
+
+**What remains for dynamic formats:**
 
 ```css
-/* Landscape formats get different preview layout */
+/* Landscape formats need single-column preview at earlier breakpoint
+   because two landscape pages side-by-side exceeds most screens */
 [data-print-format^="landscape"] .pagedjs_pages,
 [data-print-format^="wide"] .pagedjs_pages {
-  /* Wider pages need single-column preview at earlier breakpoint */
+  /* Override: show spreads only at very wide viewports (e.g., 2400px+)
+     or always single-page for landscape */
 }
 
-/* Small formats (7x7, A5) can show spreads at narrower screens */
+/* Small formats (7x7, A5) can show spreads at narrower screens
+   because two small pages fit at lower breakpoints */
 [data-print-format="square-7x7"] .pagedjs_pages {
-  /* Could show side-by-side at 1400px instead of 1751px */
+  /* Could enable spread view at 1400px instead of 1751px */
+}
+
+[data-print-format="portrait-a5"] .pagedjs_pages {
+  /* Could enable spread view at 1200px instead of 1751px */
 }
 ```
+
+**Spread pairing logic stays the same across all formats:** The even/odd pairing is format-agnostic. Only the breakpoint at which spreads activate needs to scale with page dimensions.
 
 ---
 
@@ -441,7 +458,7 @@ If format truly cannot accommodate annotations, warn the author and suggest an a
 
 ## Migration Path
 
-### Phase 1: Variable @page (Non-Breaking)
+### Phase 1: Variable @page (Non-Breaking) — **Done**
 
 1. Add `print-formats.css` with preset definitions
 2. Modify `PagedViewer.astro` to read `print_format` from frontmatter
@@ -451,24 +468,24 @@ If format truly cannot accommodate annotations, warn the author and suggest an a
 
 **Test:** Existing articles with `formats: ["print"]` should render identically (no regression).
 
-### Phase 2: Typography Scaling + Auto-Column
+### Phase 2: Typography Scaling + Auto-Column — **Done**
 
 1. Add format-aware font size adjustments
 2. Add auto-column rules for wide formats
 3. Adjust on-screen preview breakpoints per format
 
-### Phase 3: Annotation Fallback
+### Phase 3: Annotation Fallback — **Done**
 
 1. Implement endnote conversion for non-annotated formats
 2. Add `print_annotations: false` override to disable margin notes even on annotated formats
-3. Warning system for format-annotation incompatibility
+3. Warning system for format-annotation incompatibility — deferred (endnote fallback covers v1)
 
-### Phase 4: Digital PDF Mode (Variable Pages)
+### Phase 4: Digital PDF Mode (Variable Pages) — **Done**
 
 1. Support `print_mode: "digital"` which allows section-level format switching
-2. Use named pages (`@page opener`, `@page body`, `@page gallery`) with different sizes
-3. Section-level frontmatter or MDX component to switch format mid-document
-4. Preview adapts to show mixed page sizes
+2. Use named pages (`@page print-{key}`) with different sizes
+3. `PrintSection.astro` and `PageBreak format=` for mid-document format switches
+4. Preview adapts to show mixed page sizes (single-column flex, no forced spreads for landscape/wide)
 
 ---
 
@@ -487,10 +504,10 @@ If format truly cannot accommodate annotations, warn the author and suggest an a
 
 ---
 
-## Open Questions for Implementation
+## Open Questions for Implementation — **Resolved**
 
-1. **Paged.js + CSS variables in @page:** Does the polyfill support `var()` inside `@page`? If not, string interpolation in a `<style>` tag is the fallback.
-2. **On-screen preview scaling:** Should all formats be displayed at the same pixel scale (larger formats = larger on screen) or normalised to fit the viewport?
-3. **Spread view for landscape:** Does spread view (two pages side by side) make sense for landscape formats, or should it always be single-page?
-4. **Font loading:** Do all formats share the same font stack (Newsreader + Geist), or should some formats have different typeface options?
-5. **Print dialog:** When the user hits Ctrl+P from the preview, does the browser's print dialog respect the dynamic page size? (Likely needs a separate media query approach for actual paper printing vs. PDF export.)
+1. **Paged.js + CSS variables in @page:** No — use literal value injection via inline `<style id="print-page-rules">` from `buildPageRulesCSS()`.
+2. **On-screen preview scaling:** True size from `@page`; viewport scrolls.
+3. **Spread view for landscape:** Single-page preview only for landscape and wide formats.
+4. **Font loading:** Shared Newsreader + Geist for all presets in v1.
+5. **Print dialog:** Recommend Save as PDF from preview; native Ctrl+P may require manual paper size matching.

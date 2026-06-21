@@ -1,0 +1,22 @@
+---
+import type { PrintFormatKey } from "@/data/print-formats";
+import { isPrintFormatKey } from "@/data/print-formats";
+
+interface Props {
+  format?: PrintFormatKey | string;
+  class?: string;
+}
+
+const { format, class: className = "" } = Astro.props;
+
+const formatKey = format && isPrintFormatKey(format) ? format : undefined;
+const pageName = formatKey ? `print-${formatKey}` : undefined;
+---
+
+<div
+  class:list={["print-section", className]}
+  data-print-section-format={formatKey}
+  style={pageName ? `page: ${pageName};` : undefined}
+>
+  <slot />
+</div>

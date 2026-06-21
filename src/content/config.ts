@@ -1,9 +1,11 @@
 import { defineCollection, z } from "astro:content";
+import { PRINT_FORMAT_KEYS } from "@/data/print-formats";
 
 // Single base schema for all content collections
 const statusEnum = z.enum(["private", "seed", "wip", "ready", "published", "unlisted"]);
 const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project", "question", "challenge"]);
 const contentTypeEnum = z.enum(["atom", "note", "source", "person"]);
+const printFormatEnum = z.enum(PRINT_FORMAT_KEYS);
 
 // Cross-post syndication tracking (see 00_Protocol/Playbooks/content-publishing.md)
 const syndicationEntry = z.object({
@@ -29,6 +31,10 @@ const baseSchema = z.object({
   author: z.string().optional().default("Francis Wang"),
   // Alternative format views available for this content (e.g. ["print", "slides"])
   formats: z.array(z.enum(["print", "slides"])).optional(),
+  print_format: printFormatEnum.optional(),
+  print_mode: z.enum(["physical", "digital"]).optional(),
+  print_annotations: z.boolean().optional(),
+  print_spread_start: z.enum(["odd", "even"]).optional(),
   // Syndication: tracks where this content has been cross-posted
   syndicated_to: z.array(syndicationEntry).optional(),
   // Canonical URL: set when THIS page is a mirror of content hosted elsewhere
