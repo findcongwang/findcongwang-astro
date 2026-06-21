@@ -91,8 +91,8 @@ The work twin operates from your sovereign Core outward. Its context is not stor
 
 The spatial layers of the Perceptiosphere provide the governance architecture:
 
-- **Core (Sovereign)**: The twin's full trained context, accessible only to you
-- **Closed Social**: Shared selectively with trusted collaborators or close partners
+- **Self (Sovereign)**: The twin's full trained context, accessible only to you
+- **Trusted Circle**: Shared selectively with trusted collaborators or close partners
 - **Community of Practice**: Licensed capabilities available to organisational clusters
 - **Public**: Published outputs, open contributions, portfolio demonstration
 

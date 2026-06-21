@@ -513,3 +513,12 @@ body.paged-mode .bibliography li {
   pointer-events: none;
 }
 
+/* ============================================
+   CROSS-LINKS: Hide in Print (web-only navigation)
+   ============================================ */
+
+h2#cross-links,
+h2#cross-links + ul {
+  display: none !important;
+}
+
