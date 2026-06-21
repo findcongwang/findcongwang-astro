@@ -13,7 +13,7 @@ import Navigation from "@/components/global/Navigation.astro";
 const { hideNav = false, hideFooter = false, title, description, canonical, noindex, image } = Astro.props;
 // Scripts
 import ToggleScript from "@/components/fundations/scripts/ToggleScript.astro";
-import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotationHighlight.astro";
+import AnnotationInit from "@/components/annotations/AnnotationInit.astro";
 ---
 <html
   lang="en"
@@ -21,6 +21,8 @@ import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotatio
 >
   <head>
     <BaseHead title={title} description={description} canonical={canonical} noindex={noindex} image={image} />
+    <link rel="stylesheet" href="/styles/annotation-colours.css" />
+    <link rel="stylesheet" href="/styles/annotation-brand.css" />
   </head>
   <body class="relative flex flex-col bg-secondary min-h-svh">
     {!hideNav && <Navigation />}
@@ -29,6 +31,6 @@ import RoughNotationHighlight from "@/components/fundations/scripts/RoughNotatio
     </main>
     {!hideFooter && <Footer />}
       <ToggleScript />
-      <RoughNotationHighlight />
+      <AnnotationInit />
   </body>
 </html>

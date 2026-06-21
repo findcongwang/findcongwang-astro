@@ -1,0 +1,81 @@
+/**
+ * Site brand palette for findcongwang.com annotation marks.
+ * Override this file per deployment (fw-vision, novaroma, etc.).
+ */
+
+:root {
+  --annotation-brand-primary: #660005;
+  --annotation-brand-primary-highlight: rgba(102, 0, 5, 0.25);
+
+  --annotation-brand-yellow: rgb(200, 180, 0);
+  --annotation-brand-yellow-highlight: rgba(255, 255, 0, 0.5);
+
+  --annotation-brand-bet: #660005;
+  --annotation-brand-bet-highlight: rgba(102, 0, 5, 0.25);
+
+  --annotation-brand-atom: rgb(125, 132, 145);
+  --annotation-brand-atom-highlight: rgba(125, 132, 145, 0.3);
+  --annotation-brand-blog: rgb(125, 132, 145);
+  --annotation-brand-blog-highlight: rgba(125, 132, 145, 0.3);
+  --annotation-brand-essay: rgb(125, 132, 145);
+  --annotation-brand-essay-highlight: rgba(125, 132, 145, 0.3);
+  --annotation-brand-paper: rgb(125, 132, 145);
+  --annotation-brand-paper-highlight: rgba(125, 132, 145, 0.3);
+  --annotation-brand-posts: rgb(125, 132, 145);
+  --annotation-brand-posts-highlight: rgba(125, 132, 145, 0.3);
+
+  --annotation-brand-domain: rgb(109, 104, 117);
+  --annotation-brand-domain-highlight: rgba(109, 104, 117, 0.3);
+  --annotation-brand-domains: rgb(109, 104, 117);
+  --annotation-brand-domains-highlight: rgba(109, 104, 117, 0.3);
+
+  --annotation-brand-lexicon: rgb(138, 154, 91);
+  --annotation-brand-lexicon-highlight: rgba(138, 154, 91, 0.3);
+
+  --annotation-brand-influence: rgb(212, 163, 115);
+  --annotation-brand-influence-highlight: rgba(212, 163, 115, 0.3);
+  --annotation-brand-influences: rgb(212, 163, 115);
+  --annotation-brand-influences-highlight: rgba(212, 163, 115, 0.3);
+
+  --annotation-brand-book: rgb(74, 111, 165);
+  --annotation-brand-book-highlight: rgba(74, 111, 165, 0.3);
+
+  --annotation-brand-project: rgb(194, 139, 46);
+  --annotation-brand-project-highlight: rgba(194, 139, 46, 0.3);
+
+  --annotation-brand-research: rgb(125, 132, 145);
+  --annotation-brand-research-highlight: rgba(125, 132, 145, 0.3);
+
+  --annotation-brand-question: #0c899e;
+  --annotation-brand-question-highlight: rgba(12, 137, 158, 0.15);
+
+  --annotation-brand-challenge: #8B4513;
+  --annotation-brand-challenge-highlight: rgba(139, 69, 19, 0.15);
+
+  --annotation-brand-domain-dfs: #523A78;
+  --annotation-brand-domain-dfs-highlight: rgba(82, 58, 120, 0.12);
+  --annotation-brand-domain-bet: #660005;
+  --annotation-brand-domain-bet-highlight: rgba(102, 0, 5, 0.12);
+  --annotation-brand-domain-lkm: #A35C2E;
+  --annotation-brand-domain-lkm-highlight: rgba(163, 92, 46, 0.12);
+  --annotation-brand-domain-hfl: #21557A;
+  --annotation-brand-domain-hfl-highlight: rgba(33, 85, 122, 0.12);
+  --annotation-brand-domain-sdev: #104747;
+  --annotation-brand-domain-sdev-highlight: rgba(16, 71, 71, 0.12);
+}
+
+[data-theme="dark"] {
+  --annotation-brand-primary: oklch(66.09% 0.195 37.35);
+  --annotation-brand-primary-highlight: rgba(230, 100, 80, 0.2);
+
+  --annotation-brand-domain-dfs: #b794f6;
+  --annotation-brand-domain-dfs-highlight: rgba(183, 148, 246, 0.15);
+  --annotation-brand-domain-bet: #e06666;
+  --annotation-brand-domain-bet-highlight: rgba(224, 102, 102, 0.15);
+  --annotation-brand-domain-lkm: #fdba74;
+  --annotation-brand-domain-lkm-highlight: rgba(253, 186, 116, 0.15);
+  --annotation-brand-domain-hfl: #7dd3fc;
+  --annotation-brand-domain-hfl-highlight: rgba(125, 211, 252, 0.15);
+  --annotation-brand-domain-sdev: #5eead4;
+  --annotation-brand-domain-sdev-highlight: rgba(94, 234, 212, 0.15);
+}

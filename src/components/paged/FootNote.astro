@@ -1,22 +1,49 @@
 ---
+import type { SemanticColour } from "@/utils/annotation-colours";
+import { resolveColourHex, resolveColourStyle } from "@/utils/annotation-colours";
+
 interface Props {
-  /** Footnote number */
   n: number | string;
-  /** The footnote content */
   note: string;
+  color?: SemanticColour;
 }
-const { n, note } = Astro.props;
+
+const { n, note, color } = Astro.props;
+
+const footnoteColor = color
+  ? resolveColourStyle({ palette: "semantic", color, critic: false })
+  : undefined;
+const footnoteColorHex = color
+  ? resolveColourHex({ palette: "semantic", color, critic: false })
+  : undefined;
 ---
 
-{/* Web mode: the word with superscript + hover tooltip */}
 <span class="footnote-web group/fn relative inline-block">
-  <slot /><sup class="text-xs text-accent/80 cursor-help font-sans select-none">{n}</sup>
+  <slot /><sup
+    class:list={["text-xs cursor-help font-sans select-none", !footnoteColor && "text-accent/80"]}
+    style={footnoteColor ? `color: ${footnoteColor};` : undefined}>{n}</sup>
   <span class="invisible opacity-0 group-hover/fn:visible group-hover/fn:opacity-100 transition-opacity duration-200 absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-secondary border border-primary/10 p-2 text-xs rounded shadow-lg w-56 z-50 font-sans text-primary/70 leading-relaxed">
     {note}
   </span>
 </span>
 
-{/* Print mode: the word + superscript number, with hidden content for page-bottom placement */}
-<span class="footnote-anchor" data-footnote={n} data-footnote-content={note}>
-  <slot /><sup class="footnote-ref">{n}</sup>
+<span
+  class="footnote-anchor"
+  data-footnote={n}
+  data-footnote-content={note}
+  data-semantic-color={color}
+  data-color={footnoteColorHex}
+>
+  <slot /><sup class="footnote-ref" style={footnoteColor ? `color: ${footnoteColor};` : undefined}>{n}</sup>
 </span>
+
+<style is:global>
+  /* Web: hover variant only; print anchor is hidden */
+  .footnote-anchor {
+    display: none;
+  }
+
+  body.paged-mode .footnote-anchor {
+    display: inline;
+  }
+</style>

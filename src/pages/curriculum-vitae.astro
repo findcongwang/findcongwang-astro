@@ -6,6 +6,9 @@ import Author from "/src/images/assets/francis_squared.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import PagedViewer from "@/components/paged/PagedViewer.astro";
+import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
+import CriticToggle from "@/components/annotations/CriticToggle.astro";
 import { DOMAIN_COLORS, DOMAIN_NAMES, DOMAIN_CSS_VAR_NAMES } from "@/constants/domainColors";
 
 /** Alias for DOMAIN_COLORS so all references use the shared constant. */
@@ -701,18 +704,6 @@ const waterlooStudents = [
         color-adjust: exact;
       }
 
-      /* Hide rough annotations in print: hide SVG and strip decoration so text prints plain */
-      :global(svg.rough-annotation) {
-        display: none !important;
-      }
-      [data-rough-highlight] {
-        border: none !important;
-        border-radius: 0 !important;
-        background: none !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-      }
-      
       /* Unified rules for all section headings - ensure headings never appear alone on a page */
       /* Prevent headings from breaking away from their content */
       h2, h3 {
@@ -756,7 +747,14 @@ const waterlooStudents = [
       }
     }
   </style>
-  
+
+  <PagedViewer
+    title="Francis Wang's Curriculum Vitae"
+    author="Francis Wang"
+    type="CV"
+  />
+
+  <div id="paged-content" class="paged-prose text-primary/60 max-w-none text-sm">
   <section>
     <Wrapper variant="standard" class="pt-12 pb-6 lg:pt-24">
       <header class="flex items-center gap-4">
@@ -775,6 +773,13 @@ const waterlooStudents = [
         >
           Francis Wang's Curriculum Vitae
         </Text>
+        <a
+          href="?format=print"
+          class="no-print ml-auto text-xs text-primary/40 hover:text-primary underline underline-offset-2 shrink-0"
+          target="_blank"
+        >
+          Print
+        </a>
       </header>
       <article class="flex flex-col mt-4 gap-4">
         <div class="flex flex-col gap-4">
@@ -783,14 +788,14 @@ const waterlooStudents = [
             variant="textBase"
             class="font-serif text-primary/60 text-balance"
           >
-            Francis Wang is a multipreneur with <span data-rough-highlight="yellow" data-rough-type="highlight">over a decade of experience</span> leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.
+            Francis Wang is a multipreneur with <RoughAnnotation palette="brand" color="yellow" type="highlight">over a decade of experience</RoughAnnotation> leading multiple companies to successful exits ($70M & $650M) in both engineering and product roles.
           </Text>
           <Text
             tag="p"
             variant="textBase"
             class="font-serif text-primary/60 text-balance"
           >
-            Francis creates and coaches <span data-rough-highlight="yellow" data-rough-type="highlight">sustainable impact ventures</span> in domains such as sustainability, education, and health. Leveraging his diverse background and expertise in <span data-rough-highlight="yellow" data-rough-type="highlight">strategic foresight</span> by cross-pollinating ideas from fields like futures studies, AI, design thinking, sustainability, and entrepreneurship to foster innovative solutions for <span data-rough-highlight="yellow" data-rough-type="highlight">greater societal resilience</span>.
+            Francis creates and coaches <RoughAnnotation palette="brand" color="yellow" type="highlight">sustainable impact ventures</RoughAnnotation> in domains such as sustainability, education, and health. Leveraging his diverse background and expertise in <RoughAnnotation palette="brand" color="yellow" type="highlight">strategic foresight</RoughAnnotation> by cross-pollinating ideas from fields like futures studies, AI, design thinking, sustainability, and entrepreneurship to foster innovative solutions for <RoughAnnotation palette="brand" color="yellow" type="highlight">greater societal resilience</RoughAnnotation>.
           </Text>
         </div>
       </article>
@@ -830,7 +835,7 @@ const waterlooStudents = [
             variant="textBase"
             class="font-serif text-primary/60 text-balance"
           >
-            Golden Gate University (DBA [GenAI]): Researching <span data-rough-highlight="yellow" data-rough-type="highlight">human-AI collaboration</span>. His work addresses the ethical leadership challenge of the AI age, i,e., preserving "Digital Sovereignty" and human agency in a post-agentic world. This work champions GGU's values of social responsibility by creating tools for that serve the long-term public good.
+            Golden Gate University (DBA [GenAI]): Researching <RoughAnnotation palette="brand" color="yellow" type="highlight">human-AI collaboration</RoughAnnotation>. His work addresses the ethical leadership challenge of the AI age, i,e., preserving "Digital Sovereignty" and human agency in a post-agentic world. This work champions GGU's values of social responsibility by creating tools for that serve the long-term public good.
           </Text>
         </div>
       </article>
@@ -850,11 +855,7 @@ const waterlooStudents = [
       <article
         class="flex flex-col pt-2 mt-2 border-t border-dotted gap-4 border-primary/10"
       >
-        <div
-          class="flex flex-col gap-4"
-          data-rough-highlight="primary"
-          data-rough-type="bracket"
-        >
+        <RoughAnnotation palette="brand" color="primary" type="bracket" class="flex flex-col gap-4">
           <Text
             tag="p"
             variant="textBase"
@@ -869,8 +870,7 @@ const waterlooStudents = [
           >
             To be born in this era is to inherit both humanity's greatest knowledge and its greatest debt. It is our responsibility to use what we've learned to restore balance, for the cost of inaction is ruin.
           </Text>
-          
-        </div>
+        </RoughAnnotation>
         <Text
           tag="p"
           variant="textBase"
@@ -1221,4 +1221,6 @@ const waterlooStudents = [
       </div>
     </Wrapper>
   </section>
+  </div>
+  <CriticToggle />
 </BaseLayout> 

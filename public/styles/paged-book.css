@@ -77,6 +77,12 @@ body.paged-mode {
   /* Right margin is wide for margin notes, left margin balances it */
   margin: 0.6in 2in 0.6in 0.8in;
 
+  @footnote {
+    float: bottom;
+    border-top: 0.5pt solid #ccc;
+    padding-top: 0.3em;
+  }
+
   @bottom-center {
     content: counter(page);
     font-family: 'Geist', sans-serif;
@@ -280,17 +286,37 @@ body.paged-mode img {
 }
 
 /* ============================================
-   FOOTNOTES
+   FOOTNOTES (Paged.js float: footnote)
+   Selector must not use body.paged-mode — content is parsed as a
+   DocumentFragment without a body ancestor, so only .footnote-float matches.
    ============================================ */
 
-/* Footnotes — positioned at page bottom by JS */
+.footnote-float {
+  float: footnote;
+  font-family: 'Geist', sans-serif;
+  font-size: 6.5pt;
+  line-height: 1.4;
+  color: #555;
+}
+
+.footnote-float::footnote-call {
+  content: attr(data-footnote);
+  font-family: 'Geist', sans-serif;
+  font-size: 7pt;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--footnote-call-color, #666);
+}
+
+.footnote-float::footnote-marker {
+  content: attr(data-footnote) ". ";
+  font-weight: 700;
+  font-family: 'Geist', sans-serif;
+}
+
+/* Legacy post-pagination footnotes (unused; kept for reference) */
 .page-footnotes {
-  position: absolute;
-  bottom: 0.6in;
-  left: 0.8in;
-  right: 2in;
-  border-top: 0.5pt solid #ccc;
-  padding-top: 0.3em;
+  display: none;
 }
 
 .footnote-item {
@@ -446,3 +472,73 @@ body.paged-mode .bibliography li {
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
+
+/* ============================================
+   SEMANTIC MARGIN NOTE COLOURS
+   ============================================ */
+
+.margin-note-item[data-semantic-color="blue"] { --note-color: var(--annotation-author-blue); }
+.margin-note-item[data-semantic-color="green"] { --note-color: var(--annotation-author-green); }
+.margin-note-item[data-semantic-color="purple"] { --note-color: var(--annotation-author-purple); }
+.margin-note-item[data-semantic-color="amber"] { --note-color: var(--annotation-author-amber); }
+.margin-note-item[data-semantic-color="teal"] { --note-color: var(--annotation-author-teal); }
+.margin-note-item[data-semantic-color="burgundy"] { --note-color: var(--annotation-author-burgundy); }
+.margin-note-item[data-semantic-color="red"] { --note-color: var(--annotation-critic-red); }
+
+/* ============================================
+   ROUGH ANNOTATION CSS FALLBACKS (safety net)
+   ============================================ */
+
+.rough-annotation--css-fallback[data-type="highlight"] {
+  background-color: var(--annotation-highlight, var(--annotation-author-green-highlight));
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.rough-annotation--css-fallback[data-type="box"] {
+  border: 1pt solid var(--annotation-stroke, var(--annotation-author-green));
+  padding: 0 2px;
+}
+
+.rough-annotation--css-fallback[data-type="circle"] {
+  border: 1pt solid var(--annotation-stroke, var(--annotation-author-green));
+  border-radius: 50%;
+  padding: 0 4px;
+}
+
+.rough-annotation--css-fallback[data-type="underline"] {
+  text-decoration: underline wavy var(--annotation-stroke, var(--annotation-author-green));
+  text-underline-offset: 2px;
+}
+
+.rough-annotation--css-fallback[data-type="bracket"] {
+  border-left: 3pt solid var(--annotation-stroke, var(--annotation-author-blue));
+  padding-left: 0.4em;
+  margin-left: 0.1em;
+}
+
+.rough-annotation--css-fallback[data-type="strikethrough"] {
+  text-decoration: line-through;
+  text-decoration-color: var(--annotation-stroke, var(--annotation-critic-red));
+}
+
+.rough-annotation--css-fallback[data-type="crossed-off"] {
+  text-decoration: line-through;
+  opacity: 0.55;
+  position: relative;
+}
+
+.rough-annotation--css-fallback[data-type="crossed-off"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 0.5pt),
+    var(--annotation-stroke, var(--annotation-critic-red)) calc(50% - 0.5pt),
+    var(--annotation-stroke, var(--annotation-critic-red)) calc(50% + 0.5pt),
+    transparent calc(50% + 0.5pt)
+  );
+  pointer-events: none;
+}
+

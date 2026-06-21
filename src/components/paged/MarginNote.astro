@@ -1,22 +1,48 @@
 ---
+import type { SemanticColour, CriticLens } from "@/utils/annotation-colours";
+import {
+  resolveColourHex,
+  resolveColourStyle,
+  POSITIONAL_PALETTE,
+} from "@/utils/annotation-colours";
+
 interface Props {
-  /** Note number */
   n?: number | string;
-  /** The annotation content that appears in the margin */
   note: string;
-  /** Short label displayed above the note in print mode */
   label?: string;
+  color?: SemanticColour;
+  critic?: boolean;
+  lens?: CriticLens;
 }
-const { n, label, note } = Astro.props;
-const noteColor = {
-  '1': '#7c9eb2', '2': '#b07c9e', '3': '#9eb07c', '4': '#b0a07c',
-  '5': '#7c8fb0', '6': '#b07c7c', '7': '#7cb0a0'
-}[String(n)] || '#999';
+
+const { n, label, note, color, critic = false, lens } = Astro.props;
+
+const usePositional = !color && !critic;
+const noteColor = usePositional
+  ? POSITIONAL_PALETTE[String(n)] ?? "#999"
+  : resolveColourHex({ palette: "semantic", color: color ?? "green", critic });
+
+const semanticColor = color ?? (critic ? "green" : undefined);
+const colorStyle = color || critic
+  ? resolveColourStyle({ palette: "semantic", color: color ?? "green", critic })
+  : noteColor;
 ---
 
-{/* Single wrapper — rendered differently by web CSS vs print JS */}
-<span class="margin-note-anchor" data-note={n} data-color={noteColor} data-label={label || ''} data-margin-content={note}>
-  <span class="margin-note-web group/mn relative inline cursor-help" style={`text-decoration: underline dotted ${noteColor}; text-decoration-thickness: 1.5px; text-underline-offset: 3px;`}>
+<span
+  class:list={["margin-note-anchor", critic && "margin-note-critic"]}
+  data-note={n}
+  data-color={noteColor}
+  data-semantic-color={semanticColor}
+  data-label={label || ""}
+  data-margin-content={note}
+  data-critic={critic ? "true" : undefined}
+  data-lens={critic && lens ? lens : undefined}
+  style={critic ? `--margin-critic-color: ${colorStyle};` : undefined}
+>
+  <span
+    class="margin-note-web group/mn relative inline cursor-help"
+    style={`text-decoration: underline dotted ${noteColor}; text-decoration-thickness: 1.5px; text-underline-offset: 3px;${critic ? ` border-left: 3px solid ${colorStyle}; padding-left: 4px;` : ""}`}
+  >
     <slot /><span class="font-sans text-sm" style={`color: ${noteColor};`}>&thinsp;[{n}]</span>
     <span class="invisible opacity-0 group-hover/mn:visible group-hover/mn:opacity-100 transition-opacity duration-200 absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-secondary border border-primary/10 p-2 text-xs rounded shadow-lg w-64 z-50 font-sans text-primary/70 leading-relaxed">
       {label && <strong class="block mb-0.5">{label}</strong>}
@@ -24,3 +50,4 @@ const noteColor = {
     </span>
   </span>
 </span>
+

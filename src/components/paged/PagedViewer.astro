@@ -16,16 +16,28 @@ const { title, subtitle, author, date, type } = Astro.props;
 
 <script is:inline>
   (function() {
+    if (window.__pagedPrintRendered) return;
+
     var params = new URLSearchParams(window.location.search);
     var format = params.get('format');
 
     if (!format || (format !== 'print' && format !== 'slides')) return;
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Wait for Mermaid diagrams to render (with timeout)
+      if (window.__pagedPrintRendered) return;
+
       waitForMermaid().then(function() {
-        var proseContainer = document.querySelector('[class*="prose"]');
-        if (!proseContainer) return;
+        var proseContainer =
+          document.getElementById('paged-content') ||
+          document.querySelector('.paged-prose') ||
+          document.querySelector('.prose');
+
+        if (!proseContainer) {
+          console.error('PagedViewer: no #paged-content container found');
+          return;
+        }
+
+        window.__pagedPrintRendered = true;
 
         var header = document.getElementById('print-header');
         var contentHTML = '';
@@ -37,8 +49,9 @@ const { title, subtitle, author, date, type } = Astro.props;
         }
 
         var cssPath = format === 'print' ? '/styles/paged-book.css' : '/styles/paged-slides.css';
+        var criticParam = params.get('critic') === '1' ? '&critic=1' : '';
+        var printSearch = '?format=print' + criticParam;
 
-        // Write clean document
         var pageHTML = [
           '<!DOCTYPE html>',
           '<html lang="en">',
@@ -46,10 +59,13 @@ const { title, subtitle, author, date, type } = Astro.props;
           '  <meta charset="utf-8">',
           '  <title>' + (header ? header.dataset.title : 'Print View') + '</title>',
           '  <link rel="stylesheet" href="' + cssPath + '">',
+          '  <link rel="stylesheet" href="/styles/annotation-colours.css">',
+          '  <link rel="stylesheet" href="/styles/annotation-brand.css">',
           '  <script src="/scripts/paged.js"><\/script>',
+          '  <script src="/scripts/annotation-print-init.js"><\/script>',
           '  <style>* { box-sizing: border-box; } body { margin: 0; padding: 0; }</style>',
           '</head>',
-          '<body class="paged-mode">',
+          '<body class="paged-mode" data-print-search="' + printSearch + '">',
           contentHTML,
           '<script src="/scripts/paged-post-process.js"><\/script>',
           '</body>',
@@ -61,6 +77,16 @@ const { title, subtitle, author, date, type } = Astro.props;
         document.close();
       });
     });
+
+    function sanitizeCaptureHTML(html) {
+      var temp = document.createElement('div');
+      temp.innerHTML = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      temp.querySelectorAll('svg.rough-annotation').forEach(function(s) { s.remove(); });
+      temp.querySelectorAll('[data-rough-annotation]').forEach(function(el) {
+        delete el.dataset.roughAnnotated;
+      });
+      return temp.innerHTML;
+    }
 
     function waitForMermaid() {
       var mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
@@ -87,7 +113,7 @@ const { title, subtitle, author, date, type } = Astro.props;
         + (header && header.dataset.subtitle ? '<p class="print-subtitle">' + header.dataset.subtitle + '</p>' : '')
         + '<p class="print-meta">' + (header ? header.dataset.author || 'Francis Wang' : 'Francis Wang') + (header && header.dataset.date ? ' \u00B7 ' + header.dataset.date : '') + '</p>'
         + '</div>';
-      html += container.innerHTML;
+      html += sanitizeCaptureHTML(container.innerHTML);
       return html;
     }
 
@@ -103,7 +129,7 @@ const { title, subtitle, author, date, type } = Astro.props;
         + '</div>';
 
       var temp = document.createElement('div');
-      temp.innerHTML = container.innerHTML;
+      temp.innerHTML = sanitizeCaptureHTML(container.innerHTML);
       var children = Array.from(temp.children);
       var currentSlideHTML = '';
       var hasContent = false;

@@ -2,6 +2,7 @@
 // Fundations
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 ---
 
 <section>
@@ -40,53 +41,48 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
       <ul class="font-serif text-primary/60 text-balance mt-2 space-y-2 list-disc list-outside pl-6 marker:text-primary/50">
         <li class="pl-1 flex flex-wrap items-baseline gap-x-2 gap-y-0">
           <span class="relative inline-block shrink-0">
-            <span
-              class="text-sm font-semibold font-sans text-primary"
-              data-rough-highlight="domain-dfs"
-            >
-              Design and Futures Studies
-            </span>
+            <RoughAnnotation palette="brand" color="domain-dfs" type="highlight">
+              <span class="text-sm font-semibold font-sans text-primary">
+                Design and Futures Studies
+              </span>
+            </RoughAnnotation>
           </span>
           How do we bring intention into innovating toward the right initiatives for long-term interests?
         </li>
         <li class="pl-1 flex flex-wrap items-baseline gap-x-2 gap-y-0">
           <span class="relative inline-block shrink-0">
-            <span
-              class="text-sm font-semibold font-sans text-primary"
-              data-rough-highlight="domain-bet"
-            >
-              Business, Technology, and Entrepreneurship
-            </span>
+            <RoughAnnotation palette="brand" color="domain-bet" type="highlight">
+              <span class="text-sm font-semibold font-sans text-primary">
+                Business, Technology, and Entrepreneurship
+              </span>
+            </RoughAnnotation>
           </span>
           How do we build organizations and societal structures at scale to facilitate these initiatives?
         </li>
         <li class="pl-1 flex flex-wrap items-baseline gap-x-2 gap-y-0">
           <span class="relative inline-block shrink-0">
-            <span
-              class="text-sm font-semibold font-sans text-primary"
-              data-rough-highlight="domain-lkm"
-            >
-              Learning Science and Knowledge Management
-            </span>
+            <RoughAnnotation palette="brand" color="domain-lkm" type="highlight">
+              <span class="text-sm font-semibold font-sans text-primary">
+                Learning Science and Knowledge Management
+              </span>
+            </RoughAnnotation>
           </span>
           How do we redesign education to prepare the workforce in order to deliver these initiatives?
         </li>
         <li class="pl-1 flex flex-wrap items-baseline gap-x-2 gap-y-0">
           <span class="relative inline-block shrink-0">
-            <span
-              class="text-sm font-semibold font-sans text-primary"
-              data-rough-highlight="domain-sdev"
-            >
-              Sustainable Development
-            </span>
+            <RoughAnnotation palette="brand" color="domain-sdev" type="highlight">
+              <span class="text-sm font-semibold font-sans text-primary">
+                Sustainable Development
+              </span>
+            </RoughAnnotation>
           </span>
           <span class="relative inline-block shrink-0">
-            <span
-              class="text-sm font-semibold font-sans text-primary"
-              data-rough-highlight="domain-hfl"
-            >
-              Health, Fitness, and Longevity
-            </span>
+            <RoughAnnotation palette="brand" color="domain-hfl" type="highlight">
+              <span class="text-sm font-semibold font-sans text-primary">
+                Health, Fitness, and Longevity
+              </span>
+            </RoughAnnotation>
           </span>
           How do we keep these individual and systemic processes going forever?
         </li>

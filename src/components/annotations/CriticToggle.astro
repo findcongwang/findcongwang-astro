@@ -1,0 +1,108 @@
+---
+/**
+ * Floating toggle for annotation layers (master, critic, per-lens).
+ * Brand marks (palette="brand") always stay visible; toggles affect content/critic layers only.
+ */
+---
+
+<div
+  id="critic-toggle-panel"
+  class="fixed bottom-4 right-4 z-50 font-sans text-xs bg-secondary border border-primary/10 rounded-lg shadow-lg p-3 max-w-[14rem]"
+  role="region"
+  aria-label="Annotation layer controls"
+>
+  <p class="font-semibold text-primary mb-2">Annotations</p>
+  <div class="flex flex-col gap-2">
+    <button
+      type="button"
+      id="toggle-annotation-master"
+      class="text-left px-2 py-1 rounded hover:bg-primary/5 text-primary/80"
+      aria-pressed="true"
+    >
+      Content annotations
+    </button>
+    <button
+      type="button"
+      id="toggle-annotation-critic"
+      class="text-left px-2 py-1 rounded hover:bg-primary/5 text-primary/80"
+      aria-pressed="false"
+    >
+      Critic layer
+    </button>
+    <div id="critic-lens-toggles" class="pl-2 border-l border-primary/10 flex flex-col gap-1">
+      <button
+        type="button"
+        id="toggle-lens-chief-editor"
+        class="text-left px-2 py-1 rounded hover:bg-primary/5 text-primary/60"
+        aria-pressed="true"
+      >
+        Chief Editor
+      </button>
+      <button
+        type="button"
+        id="toggle-lens-academic-critic"
+        class="text-left px-2 py-1 rounded hover:bg-primary/5 text-primary/60"
+        aria-pressed="true"
+      >
+        Academic Critic
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { saveAnnotationPreference } from "./annotation-engine";
+
+  function setupCriticToggle() {
+    const panel = document.getElementById("critic-toggle-panel");
+    if (!panel) return;
+
+    const hasCritic = document.querySelector("[data-critic='true']");
+    const criticBtn = document.getElementById("toggle-annotation-critic");
+    const lensToggles = document.getElementById("critic-lens-toggles");
+
+    if (!hasCritic) {
+      criticBtn?.remove();
+      lensToggles?.remove();
+    }
+
+    const bind = (id: string, key: "master" | "critic" | "chiefEditor" | "academicCritic") => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+
+      const storageKey =
+        key === "chiefEditor"
+          ? "annotation-lens-chief-editor"
+          : key === "academicCritic"
+            ? "annotation-lens-academic-critic"
+            : key === "master"
+              ? "annotation-master"
+              : "annotation-critic";
+
+      const stored = localStorage.getItem(storageKey);
+      const initial =
+        stored === null
+          ? key === "master" || key === "chiefEditor" || key === "academicCritic"
+          : stored === "true";
+      btn.setAttribute("aria-pressed", String(initial));
+
+      btn.addEventListener("click", () => {
+        const next = btn.getAttribute("aria-pressed") !== "true";
+        btn.setAttribute("aria-pressed", String(next));
+        saveAnnotationPreference(key, next);
+        document.dispatchEvent(new CustomEvent("annotation:preferences-changed"));
+      });
+    };
+
+    bind("toggle-annotation-master", "master");
+    bind("toggle-annotation-critic", "critic");
+    bind("toggle-lens-chief-editor", "chiefEditor");
+    bind("toggle-lens-academic-critic", "academicCritic");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupCriticToggle);
+  } else {
+    setupCriticToggle();
+  }
+</script>

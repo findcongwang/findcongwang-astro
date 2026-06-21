@@ -2,6 +2,7 @@
 // Fundations
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 
 const cards = [
   {
@@ -50,9 +51,9 @@ const cards = [
         cards.map((card) => (
           <div>
             <h3 class="relative inline-block text-sm font-semibold text-primary">
-              <span data-rough-highlight={card.slug}>
+              <RoughAnnotation palette="brand" color={card.slug} type="highlight">
                 {card.title}
-              </span>
+              </RoughAnnotation>
             </h3>
             <Text
               tag="p"
@@ -67,4 +68,3 @@ const cards = [
     </div>
   </Wrapper>
 </section>
-

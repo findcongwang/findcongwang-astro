@@ -4,6 +4,18 @@
 
 (function() {
   // ============================================
+  // 0. STRIP CRITIC LAYER (unless ?critic=1)
+  // ============================================
+  var urlParams = new URLSearchParams(window.location.search);
+  var includeCritic = urlParams.get('critic') === '1';
+
+  if (!includeCritic) {
+    document.querySelectorAll('[data-critic="true"]').forEach(function(el) {
+      el.remove();
+    });
+  }
+
+  // ============================================
   // 1. TRANSFORM MARGIN NOTES
   // ============================================
   var noteMap = {};
@@ -11,10 +23,11 @@
   document.querySelectorAll('.margin-note-anchor').forEach(function(anchor) {
     var noteId = anchor.dataset.note;
     var color = anchor.dataset.color;
+    var semanticColor = anchor.dataset.semanticColor || '';
     var label = anchor.dataset.label || '';
     var marginContent = anchor.dataset.marginContent || '';
 
-    if (noteId) noteMap[noteId] = { content: marginContent, label: label, color: color };
+    if (noteId) noteMap[noteId] = { content: marginContent, label: label, color: color, semanticColor: semanticColor };
 
     var webSpan = anchor.querySelector('.margin-note-web');
     if (!webSpan) return;
@@ -51,19 +64,41 @@
   });
 
   // ============================================
-  // 2. TRANSFORM FOOTNOTES
+  // 2. TRANSFORM FOOTNOTES (Paged.js float: footnote)
   // ============================================
-  var footnoteMap = {};
 
-  document.querySelectorAll('.footnote-anchor').forEach(function(el) {
-    var id = el.dataset.footnote;
-    var content = el.dataset.footnoteContent;
-    if (id) footnoteMap[id] = content;
-  });
-
-  // Hide web footnote tooltips, show anchor refs
   document.querySelectorAll('.footnote-web').forEach(function(el) {
     el.style.display = 'none';
+  });
+
+  document.querySelectorAll('.footnote-anchor').forEach(function(anchor) {
+    var id = anchor.dataset.footnote;
+    var content = anchor.dataset.footnoteContent;
+    if (!content) return;
+
+    if (anchor.dataset.semanticColor) {
+      anchor.style.setProperty(
+        '--footnote-call-color',
+        'var(--annotation-author-' + anchor.dataset.semanticColor + ')'
+      );
+    } else if (anchor.dataset.color) {
+      anchor.style.setProperty('--footnote-call-color', anchor.dataset.color);
+    }
+
+    var sup = anchor.querySelector('.footnote-ref');
+    if (sup) sup.remove();
+
+    var floatEl = document.createElement('span');
+    floatEl.className = 'footnote-float';
+    floatEl.dataset.footnote = id;
+    floatEl.textContent = content;
+    var callColor = anchor.style.getPropertyValue('--footnote-call-color');
+    if (callColor) {
+      floatEl.style.setProperty('--footnote-call-color', callColor);
+    }
+
+    // Sibling after anchor so the call sits on the term, body floats to page bottom
+    anchor.parentNode.insertBefore(floatEl, anchor.nextSibling);
   });
 
   // ============================================
@@ -73,7 +108,11 @@
   paged.preview().then(function(flow) {
     console.log('Paged.js rendered', flow.total, 'pages');
     distributeMarginNotes();
-    distributeFootnotes();
+    if (typeof window.initPrintRoughAnnotations === 'function') {
+      window.initPrintRoughAnnotations().catch(function(err) {
+        console.error('Print rough annotation error:', err);
+      });
+    }
   }).catch(function(err) {
     console.error('Paged.js error:', err);
   });
@@ -201,6 +240,7 @@
         var noteEl = document.createElement('div');
         noteEl.className = 'margin-note-item';
         noteEl.dataset.note = noteId;
+        if (noteData.semanticColor) noteEl.dataset.semanticColor = noteData.semanticColor;
         noteEl.style.position = 'absolute';
         noteEl.style.top = targetTop + 'px';
         noteEl.style.right = '0.25in';
@@ -246,40 +286,6 @@
           lastBottom = noteBottom;
         }
       });
-    });
-  }
-
-  // ============================================
-  // 5. DISTRIBUTE FOOTNOTES (after Paged.js)
-  // ============================================
-  function distributeFootnotes() {
-    var pages = document.querySelectorAll('.pagedjs_page');
-
-    pages.forEach(function(page) {
-      var anchors = page.querySelectorAll('.footnote-anchor');
-      if (anchors.length === 0) return;
-
-      var footnotesContainer = document.createElement('div');
-      footnotesContainer.className = 'page-footnotes';
-
-      var placed = {};
-      anchors.forEach(function(anchor) {
-        var id = anchor.dataset.footnote;
-        if (!id || placed[id]) return;
-        placed[id] = true;
-
-        var content = footnoteMap[id];
-        if (content) {
-          var noteEl = document.createElement('div');
-          noteEl.className = 'footnote-item';
-          noteEl.innerHTML = '<span class="footnote-num">' + id + '.</span> ' + content;
-          footnotesContainer.appendChild(noteEl);
-        }
-      });
-
-      if (footnotesContainer.children.length > 0) {
-        page.appendChild(footnotesContainer);
-      }
     });
   }
 })();

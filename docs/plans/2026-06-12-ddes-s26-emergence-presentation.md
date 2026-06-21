@@ -1,5 +1,6 @@
 # DDes S26 Emergence Presentation — Design & Handoff Document
 
+> **Location:** `findcongwang-astro/docs/plans/`  
 > **Status:** In Progress  
 > **Created:** 2026-06-12  
 > **Repos:** `findcongwang-astro` (presentation), `fw-vision-dataviz` (widget source)  

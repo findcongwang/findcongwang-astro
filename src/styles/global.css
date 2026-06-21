@@ -138,3 +138,9 @@ code .line::before {
   text-align: right;
   color: theme(colors.zinc.400);
 }
+
+/* Extra leading when paragraphs contain furigana-style inline notes */
+#paged-content p:has(ruby.inline-note),
+.prose p:has(ruby.inline-note) {
+  line-height: 1.85;
+}

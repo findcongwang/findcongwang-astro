@@ -1,0 +1,50 @@
+---
+/**
+ * Site-wide roughNotation initialisation (web view, animated).
+ */
+---
+
+<script>
+  import {
+    initRoughAnnotations,
+    refreshRoughAnnotations,
+    applyAnnotationVisibility,
+  } from "./annotation-engine";
+
+  function boot() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("format") === "print" || params.get("format") === "slides") return;
+    initRoughAnnotations({ animate: true, respectCriticToggle: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  document.addEventListener("filterable:page-change", () => {
+    requestAnimationFrame(refreshRoughAnnotations);
+  });
+
+  document.addEventListener("annotation:preferences-changed", () => {
+    requestAnimationFrame(applyAnnotationVisibility);
+  });
+</script>
+
+<style is:global>
+  /* Hide CSS fallback decoration only; text remains visible */
+  .rough-annotation--css-fallback.rough-annotation--overlay-hidden {
+    background: none !important;
+    border: none !important;
+    text-decoration: none !important;
+  }
+
+  .rough-annotation--css-fallback.rough-annotation--overlay-hidden::after {
+    display: none !important;
+  }
+
+  .margin-note-critic-hidden {
+    display: none !important;
+  }
+</style>

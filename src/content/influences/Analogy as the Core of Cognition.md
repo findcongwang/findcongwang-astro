@@ -8,7 +8,7 @@ publish_date: 2026-01-06
 title: Analogy as the Core of Cognition
 description: "Analogy is mechanism for generalism, which isn't about knowing many facts; it is the ability to transport logic between domains."
 ---
-<span data-rough="bracket" data-rough-color="yellow"  data-rough-bracket="left,right">Generalism is not dilettantism; it is the rigorous transport of logic across domain boundaries.  
+<span data-rough-annotation data-type="bracket" data-palette="brand" data-color="yellow" data-brackets="left,right">Generalism is not dilettantism; it is the rigorous transport of logic across domain boundaries.  
 Insight often comes from mapping the dynamics of systems (verbs) rather than their surface-level objects (nouns).  
 The exact point where an analogy breaks down reveals the unique constraints and leverage points of the problem.</span>
 # The Architecture of Thought: Why Analogy is the Code of Intelligence

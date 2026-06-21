@@ -5,6 +5,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import ShareButtons from "@/components/fundations/elements/ShareButtons.astro";
 import ContentEntry from "@/components/content/ContentEntry.astro";
 import MermaidRenderer from "@/components/fundations/scripts/MermaidRenderer.astro";
+import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 import {
   getListableEntries,
   entryHref,
@@ -122,12 +123,11 @@ const related = relatedWithCollection.slice(0, 3);
 
           {/* ─── Title + Meta ─── */}
           <span class="relative inline-block mb-2">
-            <span
-              class="text-xs font-semibold text-primary"
-              data-rough-highlight="question"
-            >
-              Question
-            </span>
+            <RoughAnnotation palette="brand" color="question" type="highlight">
+              <span class="text-xs font-semibold text-primary">
+                Question
+              </span>
+            </RoughAnnotation>
           </span>
           <Text tag="h1" variant="textBase" class="text-primary">
             {title}
@@ -234,7 +234,7 @@ const related = relatedWithCollection.slice(0, 3);
           )}
 
           {/* ─── Body Content ─── */}
-          <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_span[data-rough]]:text-inherit [&_span[data-rough]]:font-inherit [&_span[data-rough-highlight]]:text-inherit [&_span[data-rough-highlight]]:font-inherit">
+          <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_.rough-annotation]:text-inherit [&_.rough-annotation]:font-inherit">
             <slot />
           </div>
         </div>

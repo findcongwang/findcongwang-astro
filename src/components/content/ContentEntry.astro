@@ -4,6 +4,7 @@ import {
   COLLECTION_TO_PUBLISH_TYPE,
   type ContentCollectionId,
 } from "@/utils/content";
+import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 
 interface Props {
   entry: { slug: string; data: Record<string, unknown> };
@@ -41,12 +42,11 @@ const typeLabel = publishType ? PUBLISH_TYPE_LABELS[publishType] ?? publishType 
     <div class="flex flex-wrap items-center gap-x-2 gap-y-0">
       {typeLabel && (
         <span class="relative inline-block shrink-0">
-          <span
-            class="text-[10px] font-semibold uppercase tracking-wide text-primary"
-            data-rough-highlight={publishType}
-          >
-            {typeLabel}
-          </span>
+          <RoughAnnotation palette="brand" color={publishType ?? "atom"} type="highlight">
+            <span class="text-[10px] font-semibold uppercase tracking-wide text-primary">
+              {typeLabel}
+            </span>
+          </RoughAnnotation>
         </span>
       )}
       <span class="text-primary font-medium">

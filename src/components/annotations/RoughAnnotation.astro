@@ -1,0 +1,73 @@
+---
+import { colourVarName, highlightVarName } from "@/utils/annotation-colours";
+
+type RoughAnnotationType =
+  | "highlight"
+  | "box"
+  | "circle"
+  | "underline"
+  | "bracket"
+  | "strikethrough"
+  | "crossed-off";
+
+interface Props {
+  type?: RoughAnnotationType;
+  color?: string;
+  palette?: "semantic" | "brand";
+  customColor?: string;
+  critic?: boolean;
+  lens?: "chief-editor" | "academic-critic";
+  marginRef?: number;
+  /** Bracket sides: default "left" for margin layout */
+  brackets?: string;
+  class?: string;
+}
+
+const {
+  type = "highlight",
+  color = "green",
+  palette = "semantic",
+  customColor,
+  critic = false,
+  lens,
+  marginRef,
+  brackets = "left",
+  class: className = "",
+} = Astro.props;
+
+const isBlock = type === "bracket" || type === "crossed-off";
+const Tag = isBlock ? "div" : "span";
+
+const strokeVar = customColor
+  ? customColor
+  : `var(${colourVarName(palette, color, critic)})`;
+const highlightFillVar = customColor
+  ? customColor
+  : `var(${highlightVarName(palette, color, critic)})`;
+
+if (import.meta.env.DEV && color === "red" && !critic) {
+  console.warn("[RoughAnnotation] Red is critic-exclusive; set critic prop.");
+}
+---
+
+<Tag
+  class:list={[
+    "rough-annotation",
+    className,
+    critic && "rough-annotation--critic",
+    palette === "brand" && "rough-annotation--brand",
+  ]}
+  data-rough-annotation
+  data-type={type}
+  data-palette={palette}
+  data-brand-mark={palette === "brand" ? "true" : undefined}
+  data-color={color}
+  data-custom-color={customColor}
+  data-critic={critic ? "true" : undefined}
+  data-lens={critic && lens ? lens : undefined}
+  data-margin-ref={marginRef}
+  data-brackets={type === "bracket" ? brackets : undefined}
+  style={`--annotation-stroke: ${strokeVar}; --annotation-highlight: ${highlightFillVar};`}
+>
+  <slot />
+</Tag>

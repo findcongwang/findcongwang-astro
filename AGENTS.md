@@ -37,7 +37,7 @@ Personal website and blog for Francis Wang (findcongwang.com). Astro-based stati
 | `src/pages/emergence/` | Standalone explorer pages |
 | `src/styles/global.css` | Tailwind config + design tokens |
 | `public/images/presentations/` | Presentation static assets |
-| `docs/` | Design documents and implementation plans |
+| `docs/` | [`decisions/`](docs/decisions/), [`plans/`](docs/plans/), [`devnotes/`](docs/devnotes/) |
 | `tempfiles/` | Visual references and raw source files (not deployed) |
 
 ## Working agreements
