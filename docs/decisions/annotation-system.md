@@ -1,8 +1,10 @@
-# Annotation System (v2)
+# Annotation System (v2.1)
 
 > **Status:** Implemented in findcongwang-astro (June 2026)  
-> **Supersedes:** Legacy `data-rough*` attributes and `RoughNotationHighlight.astro`  
-> **Related:** [`plans/annotation-system-extraction.md`](../plans/annotation-system-extraction.md) (future package split)
+> **Supersedes:** v2 (fixed `@page` size) and legacy `data-rough*` / `RoughNotationHighlight.astro`  
+> **Related:** [`plans/dynamic-print-format-system.md`](../plans/dynamic-print-format-system.md) (implementation spec), [`plans/annotation-system-extraction.md`](../plans/annotation-system-extraction.md) (future package split)
+
+**v2.1** adds the **dynamic print format system** on top of the v2 annotation pipeline: per-document page presets, format-aware margin notes vs endnotes, spread preview, and optional per-page print CSS.
 
 ## Purpose
 
@@ -39,15 +41,21 @@ flowchart TB
   end
 
   subgraph print [Print view format=print]
-    PagedViewer[PagedViewer.astro]
+    PrintConfig["#print-config hidden div"]
+    Registry[print-formats.ts]
+    PagedViewer[PagedViewer + paged-viewer-boot.ts]
     Sanitize[sanitizeCaptureHTML]
     PostProcess[paged-post-process.js]
     PagedJS[Paged.js pagination]
+    Endnotes[print-endnotes fallback]
     MarginJS[Margin note placement]
     FootnoteFloat["float: footnote"]
     PrintRough[annotation-print-init.js]
+    PrintConfig --> PagedViewer
+    Registry --> PagedViewer
     PagedViewer --> Sanitize
     Sanitize --> PostProcess
+    PostProcess --> Endnotes
     PostProcess --> PagedJS
     PagedJS --> MarginJS
     PagedJS --> FootnoteFloat
@@ -67,8 +75,8 @@ flowchart TB
 
 ### Print pipeline
 
-1. `ContentLayout` wraps article body in `#paged-content`, emits hidden `#print-config` from frontmatter (`print_format`, `print_mode`, `print_annotations`), and mounts `PagedViewer` **outside** that container (prevents script re-entry on capture).
-2. `PagedViewer` reads `#print-config` and URL overrides (`&size=`, `&mode=`, `&spread=`), resolves format via `src/data/print-formats.ts`, injects literal `@page` rules (Paged.js does not support `var()` in `@page`), loads `print-formats.css` + `paged-book.css`, and `document.write()` a clean print document.
+1. `ContentLayout` (or page-specific layouts like `curriculum-vitae.astro`) wraps article body in `#paged-content`, emits hidden `#print-config`, and mounts `PagedViewer` **after** `#paged-content` (prevents script re-entry on capture).
+2. `PagedViewer` delegates to `paged-viewer-boot.ts`, which reads `#print-config` and URL overrides (`&size=`, `&mode=`, `&spread=`), resolves format via `src/data/print-formats.ts`, injects literal `@page` rules (Paged.js does not support `var()` in `@page`), loads Google Fonts + `print-formats.css` + `paged-book.css` + optional extra stylesheets, and `document.write()` a clean print document. Capture runs synchronously when no Mermaid blocks are present (deferring breaks `document.write` in some browsers).
 3. `sanitizeCaptureHTML()` strips `<script>` tags, removes orphan `svg.rough-annotation`, and clears `data-rough-annotated` before capture.
 4. `paged-post-process.js` transforms margin notes and footnotes, optionally appends a `.print-endnotes` section when the active preset has no margin column, runs `Paged.Previewer().preview()`, then:
    - **Margin notes:** absolute placement in the right margin (only when `hasMarginNotes`); geometry from `window.__printFormatConfig`
@@ -95,6 +103,34 @@ URL overrides for testing: `?format=print&size=portrait-6x9`, `?format=print&mod
 **Digital mode:** wrap sections in `<PrintSection format="wide-12x9">` or use `<PageBreak format="landscape-10x7" />`. PagedViewer scans `data-print-section-format` and injects named `@page print-{key}` rules.
 
 Only `square-8.5x9` enables margin-note placement. Other presets convert margin notes to endnotes at the document end.
+
+### `#print-config` bridge
+
+Build-time layouts emit a hidden config element read by `paged-viewer-boot.ts` before capture:
+
+```html
+<div id="print-config" class="hidden"
+  data-print-format="square-8.5x9"
+  data-print-mode="physical"
+  data-print-spread-start="odd"
+  data-print-annotations="true"
+  data-print-body-class="paged-mode"
+  data-print-stylesheets="/styles/my-page-print.css"
+></div>
+```
+
+| Attribute | Source | Purpose |
+|-----------|--------|---------|
+| `data-print-format` | Frontmatter `print_format` or page default | Preset key from `print-formats.ts` |
+| `data-print-mode` | Frontmatter `print_mode` | `physical` or `digital` |
+| `data-print-spread-start` | Frontmatter `print_spread_start` | Spread preview pairing (`odd` / `even`) |
+| `data-print-annotations` | Frontmatter `print_annotations` | Force margin notes on/off; omit to auto-detect |
+| `data-print-body-class` | Page override | Extra body classes (e.g. `paged-mode print-cv`) |
+| `data-print-stylesheets` | Page override | Comma-separated CSS paths loaded after `paged-book.css` |
+
+**Curriculum Vitae example:** `portrait-letter` format, `print-cv` body class, `/styles/curriculum-vitae-print.css` for grid tables, domain colours, and typography (Tailwind is not available in the print document).
+
+Content collection frontmatter fields are defined in `src/content/config.ts` (`print_format`, `print_mode`, `print_annotations`, `print_spread_start`).
 
 ## Component interfaces
 
@@ -174,9 +210,30 @@ Ruby-style reading above base text (furigana pattern).
 
 Slot = base word. Global CSS bumps `line-height` on paragraphs containing `ruby.inline-note`.
 
-### `CriticToggle.astro`
+### `AnnotationPanel.astro`
 
-Fixed panel: Content annotations (master), Critic layer, Chief Editor, Academic Critic. Removes critic controls when no `[data-critic]` content on page.
+Dynamic annotation legend and controls panel (replaces former CriticToggle). Fixed-position panel that scans the page DOM at runtime, discovers which annotation types and colours exist, and renders a grouped legend with per-item toggle controls.
+
+**Features:**
+- Two groups: Author annotations, Critic annotations (Critic hidden if no `[data-critic]` content)
+- Per-colour/type legend items with swatch, label from global `COLOUR_LEGEND`, count, and individual toggle
+- Margin notes, footnotes, and inline notes each get their own toggle
+- Critic lenses shown as sub-groups with their own annotation items
+- Collapsible to icon (remembers state in localStorage)
+- Mobile-first: starts collapsed on viewports < 768px, expanded on desktop
+- Web only; panel is `position: fixed` and outside `#paged-content`
+
+**Global Colour Legend (`COLOUR_LEGEND` in `annotation-colours.ts`):**
+
+| Colour | Author meaning | Critic meaning |
+|--------|---------------|----------------|
+| Green | Key insight | Approved |
+| Amber | Needs research | Needs revision |
+| Blue | Citation / source | Reference |
+| Red | (unused) | Deletion / issue |
+| Purple | Connection | Suggestion |
+| Teal | Definition / term | Definition |
+| Burgundy | Brand accent | (unused) |
 
 **localStorage keys:**
 
@@ -186,6 +243,12 @@ Fixed panel: Content annotations (master), Critic layer, Chief Editor, Academic 
 | `annotation-critic` | `false` |
 | `annotation-lens-chief-editor` | `true` |
 | `annotation-lens-academic-critic` | `true` |
+| `annotation-margin-notes` | `true` |
+| `annotation-footnotes` | `true` |
+| `annotation-inline-notes` | `true` |
+| `annotation-panel-collapsed` | `true` (mobile) / `false` (desktop) |
+| `annotation-author-{color}-{type}` | `true` |
+| `annotation-critic-{color}-{type}` | `true` |
 
 ### Structural (print layout)
 
@@ -244,7 +307,7 @@ Post-process inserts a sibling `.footnote-float` span after each `.footnote-anch
 
 CSS **must** use `.footnote-float { float: footnote; }` without a `body` prefix. Paged.js parses content as a `DocumentFragment`; selectors like `body.paged-mode .footnote-float` never match and footnotes render inline.
 
-`@page { @footnote { float: bottom; } }` in `paged-book.css`. Calls styled via `.footnote-float::footnote-call` (content from `attr(data-footnote)`).
+`@page { @footnote { float: bottom; } }` is injected at runtime via `buildPageRulesCSS()` (not a static rule in `paged-book.css`). Calls styled via `.footnote-float::footnote-call` (content from `attr(data-footnote)`).
 
 ### Margin notes
 
@@ -282,19 +345,22 @@ When `hasMarginNotes` is false, margin note bodies append to a `.print-endnotes`
 
 | Path | Role |
 |------|------|
-| `src/components/annotations/` | RoughAnnotation, AnnotationInit, CriticToggle, engine |
-| `src/components/paged/` | MarginNote, FootNote, InlineNote, PagedViewer, PrintSection, PageBreak, TwoColumn |
-| `src/data/print-formats.ts` | Format preset registry, `@page` rule builder, config resolver |
+| `src/components/annotations/` | RoughAnnotation, AnnotationInit, AnnotationPanel, engine |
+| `src/components/paged/` | MarginNote, FootNote, InlineNote, PagedViewer, paged-viewer-boot, PrintSection, PageBreak, TwoColumn |
+| `src/data/print-formats.ts` | Format preset registry, `@page` rule builder, config resolver, spread support |
 | `src/utils/annotation-colours.ts` | Types and colour resolution |
 | `public/styles/annotation-colours.css` | Shared semantic tokens |
 | `public/styles/annotation-brand.css` | Site brand tokens |
-| `public/styles/paged-book.css` | Print typography, margin notes, footnotes, ruby (no static `@page`) |
+| `public/styles/paged-book.css` | Print typography, margin notes, footnotes, ruby, spread preview (no static `@page`) |
 | `public/styles/print-formats.css` | Per-format CSS variables, typography, columns, preview breakpoints |
-| `public/scripts/paged-post-process.js` | Pre-pagination transforms, endnote fallback, margin placement |
+| `public/styles/curriculum-vitae-print.css` | CV-specific print styles (example of `data-print-stylesheets`) |
+| `public/scripts/paged-post-process.js` | Pre-pagination transforms, endnote fallback, format-aware margin placement |
 | `public/scripts/annotation-print-init.js` | Post-pagination roughNotation |
 | `public/scripts/rough-notation.esm.js` | Vendored library (ESM) |
 
 ## Content author quick reference
+
+**CRITICAL MDX CONSTRAINT:** All annotation components used **inline** (mid-paragraph, with text before or after) MUST have their opening tag, slot content, and closing tag on a **single line**. MDX treats line breaks between JSX tags as paragraph boundaries, causing parse errors like "Expected the closing tag either after the end of paragraph or another opening tag after the start of paragraph."
 
 ```mdx
 import RoughAnnotation from '@/components/annotations/RoughAnnotation.astro';
@@ -302,33 +368,57 @@ import MarginNote from '@/components/paged/MarginNote.astro';
 import FootNote from '@/components/paged/FootNote.astro';
 import InlineNote from '@/components/paged/InlineNote.astro';
 
-<RoughAnnotation type="highlight" color="green">Key definition sentence.</RoughAnnotation>
+{/* CORRECT: inline usage (mid-paragraph) — single line */}
+<RoughAnnotation type="highlight" color="green">Key definition sentence.</RoughAnnotation> More text continues here.
 
-<MarginNote n={1} label="Source" color="blue" note="Full citation text.">
-  Phrase with margin reference.
-</MarginNote>
+<MarginNote n={1} label="Source" color="blue" note="Full citation text.">Phrase with margin reference.</MarginNote> Rest of the paragraph continues.
 
-This framework builds on the <FootNote n={1} color="burgundy" note="Term definition.">Term</FootNote>.
+This framework builds on the <FootNote n={1} color="burgundy" note="Term definition.">Term</FootNote> concept.
 
 Agents of <InlineNote reading="deep, narrowly defined" color="green">specialised</InlineNote> expertise.
 
+{/* CORRECT: standalone usage (own paragraph, no trailing text) — multi-line OK */}
 <RoughAnnotation type="strikethrough" color="red" critic={true} lens="chief-editor">
-  Critic-only deletion suggestion.
+  Critic-only deletion suggestion that forms its own paragraph.
 </RoughAnnotation>
+
+{/* WRONG: inline usage with line breaks — WILL CAUSE PARSE ERROR */}
+{/* <MarginNote n={1} label="Source" note="Citation.">
+  Phrase here
+</MarginNote> trailing text continues */}
 ```
 
-Enable print from frontmatter: `formats: ["print"]`. Optional: `print_format: "portrait-6x9"`, `print_mode: "digital"`. Open `?format=print` (optional `&size=`, `&mode=digital`, `&critic=1`).
+Enable print from frontmatter: `formats: ["print"]`. Optional: `print_format: "portrait-6x9"`, `print_mode: "digital"`, `print_spread_start: "odd"`. Open `?format=print` (optional `&size=`, `&mode=digital`, `&spread=even`, `&critic=1`).
+
+For pages without content collections (e.g. CV), set `#print-config` attributes directly in the page template.
 
 ## Known constraints
 
 - **Box/circle on multi-line content:** imprecise rects; use highlight/underline.
+- **MDX inline component line breaks:** Components used inline (mid-paragraph) MUST be on a single line. MDX treats line breaks between JSX tags as paragraph boundaries, causing "Expected the closing tag" parse errors. Only standalone components (own paragraph, no trailing text) may use multi-line formatting.
 - **Margin note height:** long notes clip and continue on next page; minor bleed allowed for single-line overflow.
 - **Paged.js footnotes:** selector must not depend on `body` ancestor; one `.footnote-float` sibling per anchor.
-- **Print capture:** scripts stripped from `#paged-content`; interactive islands must not be required for print layout.
+- **Print capture:** scripts stripped from `#paged-content`; interactive islands must not be required for print layout. Tailwind classes in captured HTML have no effect unless replicated in a print stylesheet.
 - **Listing badges:** publish-type tag colours on index pages use Tailwind/site CSS, not this annotation system.
-- **Page format:** Currently hardcoded to 8.5" x 9". Dynamic format system planned in [`plans/dynamic-print-format-system.md`](../plans/dynamic-print-format-system.md); annotations may convert to endnotes in non-annotated formats.
+- **Page format:** chosen per document via `print_format` or `#print-config`. Only `square-8.5x9` supports margin-note columns; other presets use endnote fallback. Per-page print CSS (e.g. CV) must be registered via `data-print-stylesheets`.
+- **Browser PDF export:** use Save as PDF from the print preview; enable background graphics if highlights or domain colours are missing.
 
-## Changelog (v1 → v2)
+## Changelog
+
+### v2 → v2.1
+
+| Area | v2 | v2.1 |
+|------|----|------|
+| Page size | Hardcoded 8.5" × 9" in `paged-book.css` | Preset registry in `print-formats.ts`; literal `@page` injection |
+| Format selection | `?format=print` only | Frontmatter + URL overrides (`&size=`, `&mode=`, `&spread=`) |
+| Margin notes | Always attempted | Format-aware; endnote fallback when preset has no margin column |
+| Margin geometry | Hardcoded px/in in post-process | `window.__printFormatConfig` from active preset |
+| Digital PDF | Not supported | `PrintSection` / `PageBreak format=` with named `@page` rules |
+| Spread preview | Fixed 1751px breakpoint | Container-query two-up; `print_spread_start` odd/even |
+| Per-page print CSS | Not supported | `data-print-stylesheets`, `data-print-body-class` (CV example) |
+| PagedViewer boot | Inline script in `.astro` | `paged-viewer-boot.ts`; synchronous capture when no Mermaid |
+
+### v1 → v2
 
 | Area | v1 | v2 |
 |------|----|----|

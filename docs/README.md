@@ -8,4 +8,4 @@ Project documentation is grouped by purpose:
 | [`plans/`](plans/) | Implementation plans, migrations, handoffs | Widget migration, presentation build |
 | [`devnotes/`](devnotes/) | Working notes, checklists, scratch context | Session notes, one-off investigations |
 
-Start here for the annotation system: [`decisions/annotation-system.md`](decisions/annotation-system.md).
+Start here for the annotation and print pipeline: [`decisions/annotation-system.md`](decisions/annotation-system.md) (v2.1 — annotations + dynamic print formats).

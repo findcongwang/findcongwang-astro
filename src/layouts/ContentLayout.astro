@@ -6,7 +6,7 @@ import ShareButtons from "@/components/fundations/elements/ShareButtons.astro";
 import ContentEntry from "@/components/content/ContentEntry.astro";
 import MermaidRenderer from "@/components/fundations/scripts/MermaidRenderer.astro";
 import PagedViewer from "@/components/paged/PagedViewer.astro";
-import CriticToggle from "@/components/annotations/CriticToggle.astro";
+import AnnotationPanel from "@/components/annotations/AnnotationPanel.astro";
 import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 import {
   getListableEntries,
@@ -272,5 +272,5 @@ const related = relatedWithCollection.slice(0, 3);
     </section>
   )}
 <MermaidRenderer />
-<CriticToggle />
+<AnnotationPanel />
 </BaseLayout>

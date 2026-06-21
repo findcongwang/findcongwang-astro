@@ -330,8 +330,9 @@ ruby.inline-note {
 
 ruby.inline-note rt {
   font-family: 'Geist', sans-serif;
-  font-size: 7pt;
-  color: #777;
+  font-size: 8pt;
+  font-weight: 500;
+  color: var(--inline-note-color, #555);
   font-style: italic;
 }
 

@@ -1,0 +1,524 @@
+---
+/**
+ * AnnotationPanel: Dynamic annotation legend and controls.
+ * Scans the page for annotation types, builds a grouped legend (Author / Critic),
+ * and provides per-item toggles. Replaces the former CriticToggle.astro.
+ *
+ * Web only. Print always renders author annotations; this panel is outside #paged-content.
+ * Remembers collapse state and per-item preferences in localStorage.
+ */
+---
+
+<div
+  id="annotation-panel"
+  class="fixed bottom-4 right-4 z-50 font-sans text-xs bg-secondary border border-primary/10 rounded-lg shadow-lg max-w-[16rem] transition-all duration-200"
+  role="region"
+  aria-label="Annotation legend and controls"
+>
+  <!-- Collapsed state: icon only -->
+  <button
+    type="button"
+    id="annotation-panel-expand"
+    class="hidden w-9 h-9 items-center justify-center rounded-lg hover:bg-primary/5 text-primary/60"
+    aria-label="Show annotation legend"
+    title="Annotation legend"
+  >
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="2" y="2" width="12" height="12" rx="2" />
+      <line x1="5" y1="6" x2="11" y2="6" />
+      <line x1="5" y1="9" x2="9" y2="9" />
+    </svg>
+  </button>
+
+  <!-- Expanded state -->
+  <div id="annotation-panel-body" class="p-3">
+    <div class="flex items-center justify-between mb-2">
+      <p class="font-semibold text-primary text-[11px] uppercase tracking-wide">Annotations</p>
+      <button
+        type="button"
+        id="annotation-panel-collapse"
+        class="text-primary/40 hover:text-primary/70 p-0.5"
+        aria-label="Collapse annotation panel"
+        title="Collapse"
+      >
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="2,4 6,8 10,4" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Author section -->
+    <div id="annotation-section-author" class="mb-2">
+      <div class="flex items-center justify-between mb-1">
+        <span class="font-medium text-primary/80">Author</span>
+        <button
+          type="button"
+          id="toggle-annotation-master"
+          class="annotation-toggle-btn"
+          aria-pressed="true"
+          title="Toggle all author annotations"
+        >
+          <span class="toggle-dot"></span>
+        </button>
+      </div>
+      <div id="annotation-legend-author" class="pl-2 border-l border-primary/10 flex flex-col gap-0.5">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+
+    <!-- Critic section (hidden if no critic content) -->
+    <div id="annotation-section-critic" class="hidden">
+      <div class="flex items-center justify-between mb-1">
+        <span class="font-medium text-primary/80">Critic</span>
+        <button
+          type="button"
+          id="toggle-annotation-critic"
+          class="annotation-toggle-btn"
+          aria-pressed="false"
+          title="Toggle all critic annotations"
+        >
+          <span class="toggle-dot"></span>
+        </button>
+      </div>
+      <div id="annotation-legend-critic" class="pl-2 border-l border-primary/10 flex flex-col gap-0.5">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* Toggle button styling */
+  .annotation-toggle-btn {
+    width: 24px;
+    height: 14px;
+    border-radius: 7px;
+    background: var(--color-primary-10, rgba(0,0,0,0.1));
+    position: relative;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    transition: background 0.15s;
+  }
+  .annotation-toggle-btn[aria-pressed="true"] {
+    background: var(--annotation-author-green, #9eb07c);
+  }
+  .annotation-toggle-btn .toggle-dot {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 0.15s;
+  }
+  .annotation-toggle-btn[aria-pressed="true"] .toggle-dot {
+    transform: translateX(10px);
+  }
+
+  /* Legend item styling */
+  .annotation-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    color: var(--color-primary-70, rgba(0,0,0,0.7));
+  }
+  .annotation-legend-item:hover {
+    background: var(--color-primary-5, rgba(0,0,0,0.03));
+  }
+  .annotation-legend-swatch {
+    width: 12px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .annotation-legend-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--color-primary-50, rgba(0,0,0,0.5));
+  }
+  .annotation-legend-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .annotation-legend-count {
+    color: var(--color-primary-40, rgba(0,0,0,0.4));
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Lens sub-group */
+  .annotation-lens-group {
+    padding-left: 8px;
+    border-left: 1px solid var(--color-primary-5, rgba(0,0,0,0.05));
+    margin-top: 2px;
+  }
+  .annotation-lens-header {
+    display: flex;
+    align-items: center;
+    justify-content: between;
+    gap: 4px;
+    padding: 2px 0;
+    font-size: 10px;
+    color: var(--color-primary-60, rgba(0,0,0,0.6));
+  }
+
+  /* Visibility toggling for non-roughmark components */
+  /* MarginNote: hide artifacts (underline, badge, tooltip) but keep text visible */
+  .margin-note-anchor.annotation-hidden .margin-note-web {
+    text-decoration: none !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    cursor: default !important;
+  }
+  .margin-note-anchor.annotation-hidden .margin-note-web > span {
+    display: none;
+  }
+
+  /* FootNote: hide superscript and tooltip but keep text visible */
+  .footnote-web.annotation-hidden {
+    cursor: default;
+  }
+  .footnote-web.annotation-hidden > sup {
+    display: none;
+  }
+  .footnote-web.annotation-hidden > span {
+    display: none !important;
+  }
+
+  /* InlineNote: hide ruby reading but keep base text */
+  ruby.inline-note.annotation-hidden rt,
+  ruby.inline-note.annotation-hidden rp {
+    display: none;
+  }
+
+  /* Mobile: start collapsed */
+  @media (max-width: 767px) {
+    #annotation-panel[data-collapsed="false"] {
+      max-width: calc(100vw - 2rem);
+    }
+  }
+</style>
+
+<script>
+  import {
+    saveAnnotationPreference,
+    applyAnnotationVisibility,
+    applyComponentVisibility,
+    getPageAnnotationInventory,
+    type AnnotationInventory,
+  } from "./annotation-engine";
+  import { COLOUR_LEGEND, type SemanticColour } from "@/utils/annotation-colours";
+
+  function setupAnnotationPanel() {
+    const panel = document.getElementById("annotation-panel");
+    const body = document.getElementById("annotation-panel-body");
+    const expandBtn = document.getElementById("annotation-panel-expand");
+    const collapseBtn = document.getElementById("annotation-panel-collapse");
+    if (!panel || !body || !expandBtn || !collapseBtn) return;
+
+    // --- Collapse/Expand ---
+    const isMobile = window.innerWidth < 768;
+    const storedCollapsed = localStorage.getItem("annotation-panel-collapsed");
+    let collapsed = storedCollapsed !== null ? storedCollapsed === "true" : isMobile;
+
+    function applyCollapsed() {
+      panel.setAttribute("data-collapsed", String(collapsed));
+      if (collapsed) {
+        body.classList.add("hidden");
+        expandBtn.classList.remove("hidden");
+        expandBtn.classList.add("flex");
+      } else {
+        body.classList.remove("hidden");
+        expandBtn.classList.add("hidden");
+        expandBtn.classList.remove("flex");
+      }
+    }
+
+    collapseBtn.addEventListener("click", () => {
+      collapsed = true;
+      localStorage.setItem("annotation-panel-collapsed", "true");
+      applyCollapsed();
+    });
+
+    expandBtn.addEventListener("click", () => {
+      collapsed = false;
+      localStorage.setItem("annotation-panel-collapsed", "false");
+      applyCollapsed();
+    });
+
+    applyCollapsed();
+
+    // --- Build inventory ---
+    const inventory = getPageAnnotationInventory();
+    const authorSection = document.getElementById("annotation-section-author");
+    const criticSection = document.getElementById("annotation-section-critic");
+    const authorLegend = document.getElementById("annotation-legend-author");
+    const criticLegend = document.getElementById("annotation-legend-critic");
+
+    if (!authorSection || !criticSection || !authorLegend || !criticLegend) return;
+
+    const hasAuthorContent =
+      inventory.author.roughMarks.length > 0 ||
+      inventory.author.marginNotes > 0 ||
+      inventory.author.footnotes > 0 ||
+      inventory.author.inlineNotes > 0;
+
+    const hasCriticContent = inventory.critic.lenses.length > 0;
+
+    if (!hasAuthorContent && !hasCriticContent) {
+      panel.style.display = "none";
+      return;
+    }
+
+    if (!hasAuthorContent) {
+      authorSection.classList.add("hidden");
+    }
+
+    // --- Build author legend ---
+    buildAuthorLegend(authorLegend, inventory.author);
+
+    // --- Build critic legend ---
+    if (hasCriticContent) {
+      criticSection.classList.remove("hidden");
+      buildCriticLegend(criticLegend, inventory.critic);
+    }
+
+    // --- Bind master toggles ---
+    bindToggle("toggle-annotation-master", "master", "annotation-master", true);
+    bindToggle("toggle-annotation-critic", "critic", "annotation-critic", false);
+
+    // --- Apply initial component visibility ---
+    applyComponentVisibility();
+  }
+
+  function buildAuthorLegend(
+    container: HTMLElement,
+    author: AnnotationInventory["author"],
+  ) {
+    // Rough marks grouped by colour
+    for (const item of author.roughMarks) {
+      const label = getColourLabel(item.color, false);
+      const typeLabel = item.type !== "highlight" ? ` (${item.type})` : "";
+      const el = createLegendItem({
+        swatchColor: getCSSColour(item.color, false),
+        label: `${label}${typeLabel}`,
+        count: item.count,
+        prefKey: `annotation-author-${item.color}-${item.type}`,
+        defaultOn: true,
+        toggleType: "roughmark",
+        filter: { color: item.color, type: item.type, critic: false },
+      });
+      container.appendChild(el);
+    }
+
+    // Margin notes
+    if (author.marginNotes > 0) {
+      const el = createLegendItem({
+        icon: "n°",
+        label: "Margin notes",
+        count: author.marginNotes,
+        prefKey: "annotation-margin-notes",
+        defaultOn: true,
+        toggleType: "component",
+      });
+      container.appendChild(el);
+    }
+
+    // Footnotes
+    if (author.footnotes > 0) {
+      const el = createLegendItem({
+        icon: "¹",
+        label: "Footnotes",
+        count: author.footnotes,
+        prefKey: "annotation-footnotes",
+        defaultOn: true,
+        toggleType: "component",
+      });
+      container.appendChild(el);
+    }
+
+    // Inline notes
+    if (author.inlineNotes > 0) {
+      const el = createLegendItem({
+        icon: "ᵣ",
+        label: "Inline notes",
+        count: author.inlineNotes,
+        prefKey: "annotation-inline-notes",
+        defaultOn: true,
+        toggleType: "component",
+      });
+      container.appendChild(el);
+    }
+  }
+
+  function buildCriticLegend(
+    container: HTMLElement,
+    critic: AnnotationInventory["critic"],
+  ) {
+    for (const lensData of critic.lenses) {
+      const lensLabel = lensData.lens === "chief-editor"
+        ? "Chief Editor"
+        : lensData.lens === "academic-critic"
+          ? "Academic Critic"
+          : lensData.lens;
+
+      const lensKey = lensData.lens === "chief-editor"
+        ? "chiefEditor"
+        : lensData.lens === "academic-critic"
+          ? "academicCritic"
+          : lensData.lens;
+
+      const group = document.createElement("div");
+      group.className = "annotation-lens-group";
+
+      const header = document.createElement("div");
+      header.className = "annotation-lens-header";
+      header.innerHTML = `<span class="flex-1">${lensLabel}</span>`;
+
+      const toggle = createToggleBtn(
+        `annotation-lens-${lensData.lens}`,
+        lensKey,
+        true,
+      );
+      header.appendChild(toggle);
+      group.appendChild(header);
+
+      for (const item of lensData.roughMarks) {
+        const label = getColourLabel(item.color, true);
+        const typeLabel = item.type !== "highlight" ? ` (${item.type})` : "";
+        const el = createLegendItem({
+          swatchColor: getCSSColour(item.color, true),
+          label: `${label}${typeLabel}`,
+          count: item.count,
+          prefKey: `annotation-critic-${item.color}-${item.type}`,
+          defaultOn: true,
+          toggleType: "roughmark",
+          filter: { color: item.color, type: item.type, critic: true },
+        });
+        group.appendChild(el);
+      }
+
+      if (lensData.marginNotes > 0) {
+        const el = createLegendItem({
+          icon: "n°",
+          label: "Margin notes",
+          count: lensData.marginNotes,
+          prefKey: `annotation-critic-margin-${lensData.lens}`,
+          defaultOn: true,
+          toggleType: "component",
+        });
+        group.appendChild(el);
+      }
+
+      container.appendChild(group);
+    }
+  }
+
+  interface LegendItemOptions {
+    swatchColor?: string;
+    icon?: string;
+    label: string;
+    count: number;
+    prefKey: string;
+    defaultOn: boolean;
+    toggleType: "roughmark" | "component";
+    filter?: { color: string; type: string; critic: boolean };
+  }
+
+  function createLegendItem(opts: LegendItemOptions): HTMLElement {
+    const row = document.createElement("div");
+    row.className = "annotation-legend-item";
+
+    if (opts.swatchColor) {
+      const swatch = document.createElement("span");
+      swatch.className = "annotation-legend-swatch";
+      swatch.style.background = opts.swatchColor;
+      row.appendChild(swatch);
+    } else if (opts.icon) {
+      const icon = document.createElement("span");
+      icon.className = "annotation-legend-icon";
+      icon.textContent = opts.icon;
+      row.appendChild(icon);
+    }
+
+    const labelEl = document.createElement("span");
+    labelEl.className = "annotation-legend-label";
+    labelEl.textContent = opts.label;
+    row.appendChild(labelEl);
+
+    const countEl = document.createElement("span");
+    countEl.className = "annotation-legend-count";
+    countEl.textContent = `(${opts.count})`;
+    row.appendChild(countEl);
+
+    const toggle = createToggleBtn(opts.prefKey, opts.prefKey, opts.defaultOn);
+    row.appendChild(toggle);
+
+    return row;
+  }
+
+  function createToggleBtn(prefKey: string, saveKey: string, defaultOn: boolean): HTMLElement {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "annotation-toggle-btn";
+    btn.setAttribute("aria-pressed", String(readPref(prefKey, defaultOn)));
+    btn.innerHTML = '<span class="toggle-dot"></span>';
+
+    btn.addEventListener("click", () => {
+      const next = btn.getAttribute("aria-pressed") !== "true";
+      btn.setAttribute("aria-pressed", String(next));
+      localStorage.setItem(prefKey, String(next));
+      saveAnnotationPreference(saveKey, next);
+    });
+
+    return btn;
+  }
+
+  function bindToggle(elementId: string, key: string, prefKey: string, defaultOn: boolean) {
+    const btn = document.getElementById(elementId);
+    if (!btn) return;
+
+    const initial = readPref(prefKey, defaultOn);
+    btn.setAttribute("aria-pressed", String(initial));
+
+    btn.addEventListener("click", () => {
+      const next = btn.getAttribute("aria-pressed") !== "true";
+      btn.setAttribute("aria-pressed", String(next));
+      saveAnnotationPreference(key, next);
+    });
+  }
+
+  function readPref(key: string, fallback: boolean): boolean {
+    const v = localStorage.getItem(key);
+    return v === null ? fallback : v === "true";
+  }
+
+  function getColourLabel(color: string, critic: boolean): string {
+    const entry = COLOUR_LEGEND[color as SemanticColour];
+    if (!entry) return color;
+    return critic ? entry.critic : entry.author;
+  }
+
+  function getCSSColour(color: string, critic: boolean): string {
+    const mode = critic ? "critic" : "author";
+    return `var(--annotation-${mode}-${color}, #999)`;
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupAnnotationPanel);
+  } else {
+    setupAnnotationPanel();
+  }
+</script>

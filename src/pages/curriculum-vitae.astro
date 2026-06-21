@@ -8,7 +8,7 @@ import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import PagedViewer from "@/components/paged/PagedViewer.astro";
 import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
-import CriticToggle from "@/components/annotations/CriticToggle.astro";
+import AnnotationPanel from "@/components/annotations/AnnotationPanel.astro";
 import { DOMAIN_COLORS, DOMAIN_NAMES, DOMAIN_CSS_VAR_NAMES } from "@/constants/domainColors";
 
 /** Alias for DOMAIN_COLORS so all references use the shared constant. */
@@ -1233,5 +1233,5 @@ const waterlooStudents = [
     author="Francis Wang"
     type="CV"
   />
-  <CriticToggle />
+  <AnnotationPanel />
 </BaseLayout>

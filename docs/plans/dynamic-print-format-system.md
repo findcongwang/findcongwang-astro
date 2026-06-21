@@ -4,7 +4,7 @@
 > **Target:** `findcongwang-astro`
 > **Implementer:** Cursor (with visual debugging)
 > **Created:** 2026-06-20
-> **Related:** `docs/decisions/annotation-system.md`, `00_Protocol/Playbooks/print-annotation-system.md`
+> **Related:** [`docs/decisions/annotation-system.md`](../decisions/annotation-system.md) (v2.1 integrated reference)
 
 ---
 

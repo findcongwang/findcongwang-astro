@@ -146,3 +146,14 @@ export function resolveColourStyle(options: ResolveColourOptions): string {
   const varName = colourVarName(palette as "semantic" | "brand", color ?? "green", critic);
   return `var(${varName})`;
 }
+
+/** Global semantic colour legend: what each colour means in author vs. critic context. */
+export const COLOUR_LEGEND: Record<SemanticColour, { author: string; critic: string }> = {
+  green:    { author: "Key insight",       critic: "Approved" },
+  amber:    { author: "Needs research",    critic: "Needs revision" },
+  blue:     { author: "Citation / source", critic: "Reference" },
+  red:      { author: "(unused)",          critic: "Deletion / issue" },
+  purple:   { author: "Connection",        critic: "Suggestion" },
+  teal:     { author: "Definition / term", critic: "Definition" },
+  burgundy: { author: "Brand accent",      critic: "(unused)" },
+};

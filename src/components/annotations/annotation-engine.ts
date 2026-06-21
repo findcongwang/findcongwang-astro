@@ -80,10 +80,20 @@ function shouldShowOverlay(el: HTMLElement, prefs: ReturnType<typeof getPreferen
 
   const isCritic = el.dataset.critic === "true";
   if (isCritic) {
-    return prefs.critic && isCriticVisible(el, prefs);
+    if (!prefs.critic || !isCriticVisible(el, prefs)) return false;
+    return isGranularVisible(el, "critic");
   }
 
-  return prefs.master;
+  if (!prefs.master) return false;
+  return isGranularVisible(el, "author");
+}
+
+function isGranularVisible(el: HTMLElement, mode: "author" | "critic"): boolean {
+  const color = el.dataset.color ?? "green";
+  const type = el.dataset.type ?? "highlight";
+  const key = `annotation-${mode}-${color}-${type}`;
+  const v = localStorage.getItem(key);
+  return v === null ? true : v === "true";
 }
 
 function isVisible(el: HTMLElement): boolean {
@@ -280,7 +290,7 @@ export function applyAnnotationVisibility() {
 }
 
 export function saveAnnotationPreference(
-  key: "master" | "critic" | "chiefEditor" | "academicCritic",
+  key: "master" | "critic" | "chiefEditor" | "academicCritic" | string,
   value: boolean,
 ) {
   const storageKey =
@@ -290,10 +300,130 @@ export function saveAnnotationPreference(
         ? "annotation-lens-academic-critic"
         : key === "master"
           ? "annotation-master"
-          : "annotation-critic";
+          : key === "critic"
+            ? "annotation-critic"
+            : key;
 
   localStorage.setItem(storageKey, String(value));
-  const prefs = getPreferences();
-  prefs[key] = value;
+
+  if (key === "master" || key === "critic" || key === "chiefEditor" || key === "academicCritic") {
+    const prefs = getPreferences();
+    (prefs as Record<string, boolean>)[key] = value;
+  }
+
   applyAnnotationVisibility();
+  applyComponentVisibility();
+}
+
+/** Apply visibility for non-roughmark components (margin notes, footnotes, inline notes). */
+export function applyComponentVisibility() {
+  const masterVisible = readBoolPref("annotation-master", true);
+  const marginVisible = masterVisible && readBoolPref("annotation-margin-notes", true);
+  const footnotesVisible = masterVisible && readBoolPref("annotation-footnotes", true);
+  const inlineVisible = masterVisible && readBoolPref("annotation-inline-notes", true);
+
+  document.querySelectorAll(".margin-note-anchor:not([data-critic])").forEach((el) => {
+    el.classList.toggle("annotation-hidden", !marginVisible);
+  });
+
+  document.querySelectorAll(".footnote-web").forEach((el) => {
+    el.classList.toggle("annotation-hidden", !footnotesVisible);
+  });
+
+  document.querySelectorAll("ruby.inline-note").forEach((el) => {
+    el.classList.toggle("annotation-hidden", !inlineVisible);
+  });
+}
+
+function readBoolPref(key: string, fallback: boolean): boolean {
+  const v = localStorage.getItem(key);
+  return v === null ? fallback : v === "true";
+}
+
+/** Annotation type inventory for the panel to render from. */
+export interface AnnotationInventoryItem {
+  color: string;
+  type: string;
+  count: number;
+}
+
+export interface AnnotationInventory {
+  author: {
+    roughMarks: AnnotationInventoryItem[];
+    marginNotes: number;
+    footnotes: number;
+    inlineNotes: number;
+  };
+  critic: {
+    lenses: Array<{
+      lens: string;
+      roughMarks: AnnotationInventoryItem[];
+      marginNotes: number;
+    }>;
+  };
+}
+
+/** Scan the current page DOM and return a structured inventory of annotations present. */
+export function getPageAnnotationInventory(): AnnotationInventory {
+  const authorMarks = new Map<string, number>();
+  const criticLensMap = new Map<string, Map<string, number>>();
+  const criticMarginMap = new Map<string, number>();
+
+  document.querySelectorAll("[data-rough-annotation]").forEach((el) => {
+    if (!(el instanceof HTMLElement)) return;
+    // Skip brand-palette marks (site-native decoration, not content annotations)
+    if (el.dataset.brandMark === "true" || el.dataset.palette === "brand") return;
+    const isCritic = el.dataset.critic === "true";
+    const color = el.dataset.color ?? "green";
+    const type = el.dataset.type ?? "highlight";
+    const key = `${color}-${type}`;
+
+    if (isCritic) {
+      const lens = el.dataset.lens ?? "general";
+      if (!criticLensMap.has(lens)) criticLensMap.set(lens, new Map());
+      const lensMarks = criticLensMap.get(lens)!;
+      lensMarks.set(key, (lensMarks.get(key) ?? 0) + 1);
+    } else {
+      authorMarks.set(key, (authorMarks.get(key) ?? 0) + 1);
+    }
+  });
+
+  document.querySelectorAll(".margin-note-anchor[data-critic]").forEach((el) => {
+    if (!(el instanceof HTMLElement)) return;
+    const lens = el.dataset.lens ?? "general";
+    criticMarginMap.set(lens, (criticMarginMap.get(lens) ?? 0) + 1);
+  });
+
+  const authorRoughMarks: AnnotationInventoryItem[] = [];
+  for (const [key, count] of authorMarks) {
+    const [color, type] = key.split("-");
+    authorRoughMarks.push({ color, type, count });
+  }
+
+  const marginNotes = document.querySelectorAll(".margin-note-anchor:not([data-critic])").length;
+  const footnotes = document.querySelectorAll(".footnote-web").length;
+  const inlineNotes = document.querySelectorAll("ruby.inline-note").length;
+
+  const lenses: AnnotationInventory["critic"]["lenses"] = [];
+  const allLensKeys = new Set([...criticLensMap.keys(), ...criticMarginMap.keys()]);
+  for (const lens of allLensKeys) {
+    const marks: AnnotationInventoryItem[] = [];
+    const lensMarks = criticLensMap.get(lens);
+    if (lensMarks) {
+      for (const [key, count] of lensMarks) {
+        const [color, type] = key.split("-");
+        marks.push({ color, type, count });
+      }
+    }
+    lenses.push({
+      lens,
+      roughMarks: marks,
+      marginNotes: criticMarginMap.get(lens) ?? 0,
+    });
+  }
+
+  return {
+    author: { roughMarks: authorRoughMarks, marginNotes, footnotes, inlineNotes },
+    critic: { lenses },
+  };
 }
