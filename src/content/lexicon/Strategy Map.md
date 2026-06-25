@@ -5,11 +5,11 @@ publish_type: lexicon
 tags: [Strategic Foresight, Problem-First Strategy, Visualisation, Cross-Sector Coordination]
 originated_date: 2026-04-17
 publish_date: 2026-04-17
-updated_date: 2026-05-23
+updated_date: 2026-06-25
 title: Strategy Map
 description: A four-layer framework that structures strategic thinking inside-out, from a problem-first contextual core (What, Why, Who Cares) through success metrics, concrete tactics, and observable artifacts.
 ---
-Most strategy work conflates tactics with strategy. Organizations produce detailed plans for what they will do without first establishing why it matters or who it serves. The result is strategic activity disconnected from any coherent understanding of the problem being addressed. This is not a failure of execution; it is a failure of structure.
+Most strategy work conflates tactics with strategy. Organizations produce detailed plans for what they will do without first establishing why it matters or who it serves. The result is strategic activity disconnected from any coherent understanding of the problem being addressed. The failure is structural.
 
 **Strategy Map** is a four-layer framework that structures strategic thinking inside-out: from a contextual understanding of a problem, outward through success criteria, concrete tactics, and observable artifacts. Visualized as concentric rings radiating outward from a central problem context, with sectors represented as angular arcs sharing that core, the map makes strategic structure legible across multiple parties simultaneously. The framework originated from applying the journalist's fundamental inquiry (the five Ws and one H) to strategic planning. The contextual core asks: what is the problem? Why does it matter? Who cares? From these questions, everything else follows.
 
@@ -108,6 +108,23 @@ The four layers evolve at different paces:
 
 The temporal dimension transforms the Strategy Map from a planning document into a living instrument for understanding how strategy actually evolves. It acknowledges that strategy is not a one-time exercise but an ongoing process of adaptation governed by the relative stability and volatility of each layer.
 
+## Applied Implementation: CITAble Businesses
+
+The Strategy Map finds its operational counterpart in the [CITAble Businesses](/lexicon/citable-businesses) framework (CITE™: Context, Indicators, Tactics, Efforts). Where the Strategy Map provides the visualization and navigation system, CITE provides the data structure and operational architecture.
+
+The four layers of the Strategy Map correspond directly to the four CITE bands:
+
+| Strategy Map Layer | CITE Band | Function |
+|-------------------|-----------|----------|
+| Context (What, Why, Who Cares) | Context | Foundational identity and problem understanding |
+| Strategy (Metrics, Parameters) | Indicators | Directional signals and success criteria |
+| Tactics (Who, Where, How) | Tactics | Active execution and time-bounded work |
+| Artifacts (Evidence and Outputs) | Efforts | Produced outputs at any progress stage |
+
+A CITAble business maintains its CITE structure as living documentation. The Strategy Map renders that documentation as a navigable, temporal visualization. Together, they provide both the operational backbone (CITE) and the exploration interface (Strategy Map) for organisations pursuing structural clarity.
+
+The Artifacts Layer in the Strategy Map visualises both in-progress efforts and publicly shipped artifacts. Within CITE, the E-band (Efforts) tracks all work at every stage; the subset that ships publicly becomes **artifacts** with traceable lineage through all four layers. Citability (the external quality described in [CITAble Businesses](/lexicon/citable-businesses)) emerges specifically from these artifacts: completed work whose path through generating tactic, motivating indicator, and grounding context is navigable. The Strategy Map makes this lineage browsable, allowing external observers to follow any artifact backward to its strategic origin.
+
 ## Cross-Sector Coordination
 
 The Strategy Map is circular in visualisation. The Context core sits at the centre (the bullseye), with Strategy, Tactics, and Artifacts as concentric rings radiating outward. Sectors are defined as angular arcs on this circle: distinct disciplines, interests, or organisations each occupying their own slice of the map.
@@ -131,3 +148,4 @@ The framework provides a way to audit strategic correlation between parties. Two
 - [Compelling Question](/lexicon/compelling-question)
 - [Innovation Challenge](/lexicon/innovation-challenge)
 - [Problem-First Research](/lexicon/problem-first-research)
+- [CITAble Businesses](/lexicon/citable-businesses)
