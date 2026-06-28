@@ -90,6 +90,16 @@ This asset enables a specific format for mobilising action: the Innovation Chall
 
 The integration is deliberate. Problem-first research produces understanding. The design brief compresses it. The [Innovation Challenge](/lexicon/innovation-challenge) deploys it. Each layer builds on the previous, and each references the same underlying temporal analysis.
 
+### Framework Applications
+
+Problem-First Research serves as the primary enrichment methodology for the Context layer of the [CITAble Businesses](/lexicon/citable-businesses) framework. In a CITAble organisation, the Context band answers three foundational questions: What problems exist? Why do they matter? Who is affected? These "Three Ws" form the core of problem-space definition.
+
+Problem-First Research deepens this core through its Four-Dimensional Analysis. Scale enriches "who is affected" with population data and economic magnitude. Context enriches "why it matters" with causal structure and systemic reach. History adds temporal depth that reveals how the problem evolved to its present state. Failures provides the generative foundation (Actionable Mistakes) that informs where any response should begin.
+
+Within CITAble, the research outputs feed directly into two downstream processes. First, the knowledge gaps identified through research become the raw material for [Compelling Questions](/lexicon/compelling-question): structured provocations that combine bold ambitions with binding constraints. Second, the failure archaeology and scenario gates feed directly into [Innovation Challenge](/lexicon/innovation-challenge) evaluation criteria: the measurable standards by which any proposed solution will be judged.
+
+The enrichment sequence is recommended but not mandatory. A CITAble organisation can begin formulating strategy the moment its core Three Ws exist (even sparse). As Problem-First Research deepens the Context, strategies are revised. This iterative relationship between problem understanding and strategic direction is a design feature: CITAble documents the time-evolution of both diagnosis and response.
+
 ## References
 
 - British Design Council. *The Double Diamond Framework.*
@@ -104,3 +114,4 @@ The integration is deliberate. Problem-first research produces understanding. Th
 
 - [Compelling Question](/lexicon/compelling-question)
 - [Innovation Challenge](/lexicon/innovation-challenge)
+- [CITAble Businesses](/lexicon/citable-businesses)

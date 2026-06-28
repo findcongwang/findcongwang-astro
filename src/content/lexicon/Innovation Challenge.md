@@ -71,6 +71,23 @@ This separation is intentional. The research stands on its own as intellectual c
 
 When we present an Innovation Challenge on Nova Roma, the reader encounters not a vague "we want to improve X" statement but a specification backed by documented failure archaeology, temporal analysis, and scenario projection. The challenge carries authority because the underlying problem-first research is public, citable, and rigorous. Solvers trust the framing because they can verify the evidence. And evaluators can assess submissions against criteria that emerge naturally from the problem's structure rather than being imposed arbitrarily.
 
+### Framework Applications
+
+The Innovation Challenge occupies a specific architectural position within the [CITAble Businesses](/lexicon/citable-businesses) framework: it sits at the upper boundary of the Context layer, serving as the bridge between problem understanding and strategic action.
+
+In the CITAble enrichment progression, the Innovation Challenge is the final Context-layer methodology:
+
+1. **Three Ws** establish what problems exist, why they matter, who cares
+2. **[Problem-First Research](/lexicon/problem-first-research)** deepens this with temporal analysis and failure archaeology
+3. **[Compelling Questions](/lexicon/compelling-question)** identify required conditions through Can't Because / Can If analysis
+4. **Innovation Challenges** define how any proposed response will be evaluated
+
+The critical function: Innovation Challenges define evaluation criteria before solutions exist. This prevents post-hoc rationalisation, where organisations choose a strategy first and then construct justifications. By establishing measurable success criteria from the problem space, the framework ensures that strategy (which lives in the Indicators-Strategy band) is accountable to documented problem understanding rather than to the preferences of any particular solver.
+
+Within CITAble, the evaluation criteria from an Innovation Challenge cross directly into the Indicators-Strategy band as the foundation for OKRs and KPIs. The success metrics are derived from problem research, not imposed by strategic preference. This creates a traceable chain: problem observation (Context) produces evaluation criteria (Innovation Challenge) which become success metrics (Indicators-Strategy) which drive tactical action (Tactics) which produces efforts (Efforts). Every metric can be traced back to a documented problem.
+
+The Innovation Challenge also serves an external function for CITAble organisations: it becomes the public articulation of what the organisation is working to solve. When published, it demonstrates intellectual rigour (the underlying research is visible), invites diverse contribution (the criteria are transparent), and makes the organisation citable (external observers can reference both the problem framing and the evaluation methodology).
+
 ## References
 
 - Cooperathon. *Evaluation Grid — Cooperathon 2026 (Participants).* Mouvement des caisses Desjardins.
@@ -84,6 +101,6 @@ When we present an Innovation Challenge on Nova Roma, the reader encounters not 
 
 ## Cross-links
 
-- [Compelling Question](/lexicon/compelling-question)
-- [Innovation Challenge](/lexicon/innovation-challenge)
 - [Problem-First Research](/lexicon/problem-first-research)
+- [Compelling Question](/lexicon/compelling-question)
+- [CITAble Businesses](/lexicon/citable-businesses)

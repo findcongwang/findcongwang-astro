@@ -45,6 +45,21 @@ Personas and stakeholder profiles that answer "who is affected by this problem?"
 
 Strategy occupies the space between Context and Indicators. It derives from the problem understanding in Context and drives the selection of metrics in Indicators. By housing strategy with Indicators rather than Context, the problem-first integrity of the Context band is preserved.
 
+### Context Enrichment Progression
+
+The Context layer supports a recommended enrichment progression that deepens problem understanding over time. Each layer builds on the previous, but Strategy can begin at any point once the core Three Ws exist:
+
+| Layer | Methodology | What It Adds to Context |
+|-------|-------------|------------------------|
+| **Three Ws (Core)** | Problem observation | What problems/phenomena/patterns exist; why each matters; who is affected |
+| **[Problem-First Research](/lexicon/problem-first-research)** | Four-Dimensional Analysis | Temporal analysis, failure archaeology, causal structure, evidence-backed depth |
+| **[Compelling Questions](/lexicon/compelling-question)** | Bold Ambition + Constraints | Can't Because (barriers) and Can If (required conditions for success) |
+| **[Innovation Challenges](/lexicon/innovation-challenge)** | Solution-agnostic challenge design | Evaluation criteria, success metrics bridge, public challenge specification |
+
+This progression is iterative, not waterfall. An organisation can formulate initial strategy from sparse Three Ws, conduct problem research that reveals new dimensions, revise strategy accordingly, formulate Compelling Questions from the research gaps, revise again, and so on. The iterative loop between Context enrichment and Strategy revision is a design feature: it mirrors how genuine understanding develops through cycles of investigation and reflection rather than through a single pass.
+
+The enrichment progression also creates a natural content pipeline. Research produces essays and papers (published on the personal research platform). Design briefs compress that research. Innovation Challenges deploy it on organisational platforms. Each piece is independently valuable and independently citable, while together they form a system of increasing precision about the problem space.
+
 ### The Relationship Between Efforts and Artifacts
 
 Efforts capture all work at every stage. Artifacts are the curated subset of completed efforts selected to showcase the business publicly. An effort graduates to an artifact when it is complete AND chosen for public visibility as social proof.
@@ -168,6 +183,9 @@ Both share the CITA band structure and both emphasise temporal evolution as esse
 ## Cross-links
 
 - [Strategy CITEMap](/lexicon/strategy-citemap)
+- [Problem-First Research](/lexicon/problem-first-research)
+- [Compelling Question](/lexicon/compelling-question)
+- [Innovation Challenge](/lexicon/innovation-challenge)
 - [Hybrid Intelligence](/lexicon/hybrid-intelligence)
 - [Knowledge Composability](/lexicon/knowledge-composability)
 - [Organisational Design as Code](/lexicon/organisational-design-as-code)

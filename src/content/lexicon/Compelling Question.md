@@ -57,3 +57,27 @@ Using the framework, we dissect it:
 - The Navigation Logic (The "Can If"): We can reach zero-carbon using the legacy grid if we stop relying on central hubs and instead decentralize power generation at individual depots using local solar and battery storage.
 
 The Compelling Question framework does not promise easy answers. Instead, it provides a rigorous way to confront the tension between what you want and what is stopping you. By turning ambitions into design fictions and constraints into navigable off-ramps, you stop just talking about the future and start mapping the concrete steps to get there.
+
+### Framework Applications
+
+The Compelling Question serves as the second enrichment layer for the Context band of the [CITAble Businesses](/lexicon/citable-businesses) framework. Where [Problem-First Research](/lexicon/problem-first-research) establishes what problems exist, why they matter, and who is affected, the Compelling Question transforms that understanding into structured provocations that reveal what must change.
+
+In a CITAble organisation, the Context layer moves through a recommended progression:
+
+1. **Three Ws** (core): What problems exist, why they matter, who cares
+2. **Problem-First Research**: Temporal analysis, failure archaeology, evidence-backed depth
+3. **Compelling Questions**: Bold Ambition + Constraints, producing Can't Because / Can If analysis
+4. **Innovation Challenges**: Evaluation criteria, success metrics, public framing
+
+The Can't Because / Can If analysis is the specific contribution that bridges pure problem understanding into actionable framing. Each "Can't Because" identifies a barrier grounded in the problem research. Each "Can If" identifies a condition that must become true. These conditions serve two downstream functions within CITAble:
+
+- They inform [Innovation Challenge](/lexicon/innovation-challenge) evaluation criteria (conditions become measurable success indicators)
+- They inform the Indicators-Strategy band (conditions become the foundation for OKRs and strategic requirements)
+
+The Compelling Question remains in the Context layer because it does not prescribe solutions. It identifies required conditions for success without specifying how those conditions will be created. That prescription belongs to Strategy. This separation preserves the problem-first integrity of Context while providing the bridge material that makes strategy justifiable rather than arbitrary.
+
+## Cross-links
+
+- [Problem-First Research](/lexicon/problem-first-research)
+- [Innovation Challenge](/lexicon/innovation-challenge)
+- [CITAble Businesses](/lexicon/citable-businesses)
