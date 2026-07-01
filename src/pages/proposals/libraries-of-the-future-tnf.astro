@@ -369,7 +369,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
                 <p>AI Research Faculty, GGU/upGrad. Expert in GenAI applications and practitioner research.</p>
                 <p><strong>Greg Hart</strong> — greg@futurefitcities.com</p>
                 <p>Committee Member, University of Calgary. Expert in futures design and innovation systems.</p>
-                <p><strong>Dr. Larry Smith</strong> — larry@uwaterloo.ca</p>
+                <p><strong>Dr. Larry Smith</strong> — lwsmith@uwaterloo.ca</p>
                 <p>Professor Emeritus, University of Waterloo. Expert in entrepreneurship education, innovation economics, and career design.</p>
               </div>
             </div>
@@ -543,14 +543,14 @@ Source Quality: 2 T1 | 3 T2 | 2 T3 | 0 T4 | Total: 7
       // Check URL param
       var params = new URLSearchParams(window.location.search);
       var key = params.get('key');
-      if (key && key.toUpperCase() === 'FUTURE') {
+      if (key && key.toUpperCase() === 'FUTURETNF') {
         unlock();
       }
 
       // Handle form
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (input.value.toUpperCase() === 'FUTURE') {
+        if (input.value.toUpperCase() === 'FUTURETNF') {
           unlock();
         } else {
           errorMsg.classList.remove('hidden');

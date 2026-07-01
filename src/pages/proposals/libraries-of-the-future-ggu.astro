@@ -292,14 +292,14 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
       // Check URL param
       var params = new URLSearchParams(window.location.search);
       var key = params.get('key');
-      if (key && key.toUpperCase() === 'FUTURE') {
+      if (key && key.toUpperCase() === 'FUTUREGGU') {
         unlock();
       }
 
       // Handle form
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (input.value.toUpperCase() === 'FUTURE') {
+        if (input.value.toUpperCase() === 'FUTUREGGU') {
           unlock();
         } else {
           errorMsg.classList.remove('hidden');

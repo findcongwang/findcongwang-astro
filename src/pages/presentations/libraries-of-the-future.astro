@@ -14,10 +14,10 @@ function parseSlideIndex(search: string, maxSteps: number): number {
 
 const initialSlideIndex = parseSlideIndex(Astro.url.search, librariesOfTheFutureData.slides.length);
 
-// Passcode check: allow bypass via ?key=FUTURE
+// Passcode check: allow bypass via ?key=BIBLIOTHECA
 const params = new URLSearchParams(Astro.url.search);
 const keyParam = params.get("key");
-const isUnlocked = keyParam?.toUpperCase() === "FUTURE";
+const isUnlocked = keyParam?.toUpperCase() === "BIBLIOTHECA";
 ---
 <html lang="en" data-theme="light">
 <head>
@@ -130,14 +130,14 @@ const isUnlocked = keyParam?.toUpperCase() === "FUTURE";
       // Check URL param (client-side fallback)
       var params = new URLSearchParams(window.location.search);
       var key = params.get('key');
-      if (key && key.toUpperCase() === 'FUTURE') {
+      if (key && key.toUpperCase() === 'BIBLIOTHECA') {
         unlock();
       }
 
       // Handle form
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (input.value.toUpperCase() === 'FUTURE') {
+        if (input.value.toUpperCase() === 'BIBLIOTHECA') {
           unlock();
         } else {
           errorMsg.style.display = 'block';
