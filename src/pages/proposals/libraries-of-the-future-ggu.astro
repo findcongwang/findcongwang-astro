@@ -1,0 +1,312 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+<BaseLayout title="Libraries of the Future — GGU DBA Book Proposal" hideNav={true} hideFooter={true} noindex={true}>
+  <style>
+    .response-content {
+      margin-top: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0.5rem;
+      background: rgba(0,0,0,0.015);
+    }
+    .response-content p + p {
+      margin-top: 1rem;
+    }
+    .response-content .dash-list p {
+      margin-top: 0.375rem;
+      padding-left: 1rem;
+      text-indent: -1rem;
+    }
+    .response-content .dash-list p:first-child {
+      margin-top: 0.5rem;
+    }
+    .question-block {
+      margin-bottom: 2rem;
+    }
+  </style>
+  <!-- Lock Screen -->
+  <div id="lock-screen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="max-width:20rem;text-align:center;">
+      <h1 class="text-2xl font-serif font-medium text-primary mb-2">Libraries of the Future</h1>
+      <p class="text-sm text-primary/60 mb-6">GGU DBA Practitioner-Focused Book Proposal</p>
+      <form id="passcode-form" class="space-y-4">
+        <input
+          type="password"
+          id="passcode-input"
+          placeholder="Enter passcode"
+          class="w-full px-3 py-2 border border-primary/20 rounded-md text-primary text-center focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+          autocomplete="off"
+        />
+        <button type="submit" class="w-full px-4 py-2 bg-primary text-secondary rounded-md hover:opacity-80 transition-opacity">
+          Access Proposal
+        </button>
+      </form>
+      <p id="error-msg" class="text-xs text-red-500 mt-3 hidden">Incorrect passcode</p>
+      <p class="text-xs text-primary/40 mt-6">Contact the author for access</p>
+    </div>
+  </div>
+
+  <!-- Main Content (hidden by default) -->
+  <div id="main-content" style="display:none;">
+    <Wrapper variant="standard" class="pt-16 pb-12 lg:pt-24">
+      <header class="mb-12 pb-8">
+        <p class="text-sm font-mono text-primary/40 mb-4">GGU Worldwide DBA Program — Practitioner-Focused Book (PFB)</p>
+        <h1 class="text-2xl md:text-3xl font-serif font-medium text-primary mb-4">
+          Book Proposal: Libraries of the Future
+        </h1>
+        <p class="text-lg text-primary/60 max-w-3xl">
+          Hybrid Intelligence and Knowledge Integration in the Post-Agentic World
+        </p>
+        <p class="text-sm text-primary/40 mt-4">Francis (Cong) Wang — DBA Candidate, Emerging Technologies</p>
+      </header>
+
+      <div class="max-w-3xl space-y-10">
+
+        <!-- Section 1: WHY -->
+        <section>
+          <h2 class="text-xl font-serif font-medium text-primary mb-2">Section 1: WHY</h2>
+          <p class="text-sm text-primary/50 mb-6 italic">Why will practitioners read the book?</p>
+
+          <div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Problem</h3>
+              <p class="text-sm text-primary/50 mb-3">Why does the book matter to your practitioner audience (industry leaders, stakeholders, policymakers)? Narrate your doctoral level analysis of the industry problem(s).</p>
+              <div class="response-content text-primary/70">
+                <p>Knowledge workers across every industry face a paradox: generative AI enables them to produce more output than ever before while simultaneously eroding their capacity for independent synthesis, critical evaluation, and deep expertise. The result is a workforce that is increasingly productive on surface metrics but progressively less capable of the judgment that makes that productivity meaningful.</p>
+                <p>Empirical research now validates this concern at scale. Xu et al. (2026) document "cognitive agency surrender," showing that zero-friction AI interfaces exploit human cognitive miserliness, prematurely satisfying the need for closure and inducing severe automation bias. Alubthane (2026) synthesises 89 studies demonstrating that AI-augmented learners show short-term performance gains but long-term degradation of higher-order cognitive skills. The mechanism is straightforward: faculties that are not practised atrophy.</p>
+                <p>For industry leaders, this creates a strategic crisis. Organisations that adopt AI without architectural intentionality will find their teams increasingly dependent on tools they cannot audit, govern, or redirect. Knowledge succession becomes impossible when tacit expertise is never developed. Institutional memory collapses when nobody practises the synthesis required to maintain it. The $12B+ knowledge management software market is growing rapidly, yet no existing solution addresses the cognitive health dimension of human-AI systems.</p>
+                <p>This book matters because it provides the architectural response that practitioners currently lack: not a warning about AI dangers, but a framework for designing knowledge systems that amplify human capability rather than replacing it.</p>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Solution</h3>
+              <p class="text-sm text-primary/50 mb-3">Why do you think existing solutions, practices, approaches are insufficient or incomplete? Narrate your propositions for solving the problem(s).</p>
+              <div class="response-content text-primary/70">
+                <p>Current approaches to human-AI knowledge management fall into three insufficient categories:</p>
+                <div class="dash-list">
+                  <p>- <strong>Tool-centric approaches</strong> (Notion AI, Microsoft Copilot, personal knowledge management apps) treat AI as a productivity accelerator without addressing cognitive governance or sovereignty. They optimise for speed without monitoring what is lost.</p>
+                  <p>- <strong>Policy-centric approaches</strong> (AI ethics frameworks, responsible AI guidelines) address governance at the institutional or regulatory level but provide no architectural guidance for how individual knowledge systems should be structured.</p>
+                  <p>- <strong>Academic critiques</strong> (cognitive offloading research, AI dependency studies) diagnose the problem rigorously but offer no implementable solution beyond "use less AI" or "add friction."</p>
+                </div>
+                <p>This book proposes two integrated solutions:</p>
+                <p><strong>The Perceptiosphere</strong> is a knowledge architecture framework defining nested sovereign zones (Public, Corporate, Private, Sovereign) that preserve contextual integrity. It provides practitioners with a structural grammar for designing systems where AI amplifies without replacing human cognitive work. Unlike existing frameworks, it addresses individual, institutional, and intergenerational scales simultaneously.</p>
+                <p><strong>The Cognitive Vitality Index™</strong> is a measurement instrument for assessing the health of human-AI systems. It tracks dimensions including agency preservation, critical thinking maintenance, and skill development to provide early warning when knowledge systems shift from augmentation to substitution. This gives practitioners a diagnostic tool for ongoing governance, not merely a one-time design decision.</p>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Customer Appeal</h3>
+              <p class="text-sm text-primary/50 mb-3">Explain the Book cover design and Table of Contents.</p>
+              <div class="response-content text-primary/70">
+                <p>The book is structured as a problem-first investigation that earns its solutions through rigorous analysis before proposing frameworks:</p>
+                <div class="dash-list">
+                  <p>- <strong>Preface:</strong> "How to Navigate This Book" — introduces the annotation-rich format and non-linear reading paths</p>
+                  <p>- <strong>Introduction:</strong> "Third-Party Thinkers, Second-Hand Thoughts" — the attention-grabbing problem statement</p>
+                  <p>- <strong>Part I: The Problem</strong> — deep decomposition of the knowledge crisis using problem-first research methodology</p>
+                  <p>- <strong>Part II: The Framework</strong> — The Perceptiosphere (Ch 3) and Cognitive Vitality Index™ (Ch 4)</p>
+                  <p>- <strong>Part III: Frontiers</strong> — Compelling questions posed to the field, inviting discourse and contribution</p>
+                  <p>- <strong>Conclusion:</strong> "The Post-Agentic Human" — synthesis and call to action</p>
+                </div>
+                <p>The cover design will communicate the nested-zone concept of the Perceptiosphere visually: concentric knowledge layers radiating outward from a sovereign core. The design language is clean, architectural, and future-oriented, consistent with the CRC Press Computer Science catalogue aesthetic.</p>
+                <p>A key innovation in the book's format is its annotation-rich publishing system: margin notes, inline annotations, and layered information density that allow readers to navigate at multiple depths. This is the first book to implement this approach in print, and the format itself demonstrates the Perceptiosphere thesis in practice.</p>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Author's Credibility</h3>
+              <p class="text-sm text-primary/50 mb-3">Why are you the best person to write this book? Underscore your background, credibility, and networks.</p>
+              <div class="response-content text-primary/70">
+                <p>I am uniquely positioned to write this book because I operate simultaneously as researcher, practitioner, and builder:</p>
+                <div class="dash-list">
+                  <p>- <strong>Researcher:</strong> Dual doctoral candidate (DDes UCalgary, DBA GGU) with active research programmes in foresight-driven innovation and hybrid intelligence systems. Published 26+ original frameworks in a public lexicon with growing academic citation.</p>
+                  <p>- <strong>Practitioner:</strong> Over a decade in AI/ML engineering at energy technology companies, contributing to notable exits (Opus One Solutions: $75M acquisition by GE Vernova; Swell Energy: Series B at $650M valuation). Currently Lead AI/ML/AIOps Engineer building production AI systems.</p>
+                  <p>- <strong>Builder:</strong> The Perceptiosphere is not a theoretical proposal. I have built and operate the system described in this book as my personal and organisational knowledge infrastructure. The framework emerged from practice, not speculation.</p>
+                  <p>- <strong>Educator:</strong> Active mentor and instructor in entrepreneurship at Conrad School of Entrepreneurship, University of Waterloo. Founded Nova Roma Horizon Innovation Society (non-profit) to create innovation ecosystems that embody these principles.</p>
+                  <p>- <strong>Network:</strong> Connected to a professional network spanning AI engineering, strategic foresight, innovation policy, and knowledge management across academia, industry, and government. Committee members at UCalgary and GGU provide academic rigour; industry contacts provide practitioner validation.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Competitor Analysis</h3>
+              <p class="text-sm text-primary/50 mb-3">Do an amazon.com check for books with similar titles/themes. How are you different from them?</p>
+              <div class="response-content text-primary/70">
+                <p>Amazon search for "AI knowledge management," "human AI collaboration," and "future of knowledge" reveals the following competitive landscape:</p>
+                <div class="dash-list">
+                  <p>- <strong>Co-Intelligence</strong> (Mollick, 2024, Portfolio/Penguin): NYT Bestseller. Practical tips for working with AI. No architecture, no sovereignty, no measurement framework. Productivity-focused, not system-design focused.</p>
+                  <p>- <strong>The Coming Wave</strong> (Suleyman, 2023, Crown): Macro-level AI governance. No knowledge management focus. Political analysis, not practitioner architecture.</p>
+                  <p>- <strong>Building a Second Brain</strong> (Forte, 2022, Atria): Personal knowledge management. Pre-dates LLM era. Individual productivity focus. No AI dimension, no institutional scale.</p>
+                  <p>- <strong>Prediction Machines</strong> (Agrawal et al., 2022, HBR Press): Economics lens on AI. No knowledge architecture, no cognitive health dimension.</p>
+                  <p>- <strong>Industry 6.0</strong> (Reddy et al., 2024, CRC Press): Multi-author academic volume on industrial technology. Same publisher but industrial/technological focus, not human-cognitive architecture.</p>
+                </div>
+                <p><strong>Differentiation:</strong> No existing book combines (1) a named knowledge architecture framework, (2) a measurement instrument for cognitive health in AI systems, (3) a futures/foresight methodology, (4) practitioner accessibility with academic rigour, and (5) an annotation-rich publishing format that demonstrates its own thesis. This book fills a documented gap between academic diagnosis and practitioner implementation.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: WHAT -->
+        <section>
+          <h2 class="text-xl font-serif font-medium text-primary mb-2">Section 2: WHAT</h2>
+          <p class="text-sm text-primary/50 mb-6 italic">What practitioner-related literature will you review for the book?</p>
+
+          <div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Practitioner and Expert Literature</h3>
+              <p class="text-sm text-primary/50 mb-3">What have other practitioners or industry experts written about relating to the topic of my book?</p>
+              <div class="response-content text-primary/70">
+                <p>The practitioner literature clusters around four domains that this book synthesises:</p>
+                <div class="dash-list">
+                  <p>- <strong>Personal Knowledge Management (PKM):</strong> Tiago Forte's "Building a Second Brain" (2022) established PKM as a mainstream practice category. Sonke Ahrens' "How to Take Smart Notes" (2017) introduced zettelkasten methodology to knowledge workers. Both pre-date the LLM era and address individual capture/retrieval without considering AI co-constitution or institutional sovereignty.</p>
+                  <p>- <strong>Human-AI Collaboration:</strong> Ethan Mollick's "Co-Intelligence" (2024) and his One Useful Thing newsletter provide the most widely-read practitioner perspective on working with AI. Mollick emphasises experimentation and adoption but does not address architectural design or cognitive health monitoring.</p>
+                  <p>- <strong>Knowledge Management (Enterprise):</strong> Nonaka and Takeuchi's "The Knowledge-Creating Company" (1995) remains foundational for organisational KM. More recent work by Dave Snowden (Cynefin framework) addresses knowledge in complex adaptive systems. Neither addresses the post-agentic challenge of AI-mediated knowledge work.</p>
+                  <p>- <strong>Digital Sovereignty:</strong> Policy literature from the OECD (2020), EU AI Act discussions, and Canada's AIDA framework address data sovereignty at governance level. No practitioner guide translates these principles into knowledge system architecture for individual professionals or organisations.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Current Theories, Frameworks, and Models</h3>
+              <p class="text-sm text-primary/50 mb-3">What current theories, frameworks, standards, models, and approaches dominate current practice and how am I enhancing their contributions?</p>
+              <div class="response-content text-primary/70">
+                <p>Dominant frameworks and how this book enhances them:</p>
+                <div class="dash-list">
+                  <p>- <strong>DIKW Hierarchy</strong> (Data-Information-Knowledge-Wisdom): The traditional pyramid assumes linear progression. The Perceptiosphere replaces this with nested sovereign zones that account for AI co-constitution at every layer, rather than treating knowledge as a purely human artefact to be managed.</p>
+                  <p>- <strong>Cynefin Framework</strong> (Snowden): Excellent for categorising complexity but provides no architectural guidance for knowledge system design. The Perceptiosphere extends Cynefin's insight about context-dependency into a structural grammar for building actual systems.</p>
+                  <p>- <strong>Zettelkasten / PKM Methods</strong> (Ahrens, Forte): Individual-scale, pre-AI, capture-focused. This book extends these into institutional-scale, AI-integrated, sovereignty-aware systems that address knowledge succession across generations.</p>
+                  <p>- <strong>Human-in-the-Loop (HITL)</strong>: The dominant paradigm for AI governance treats humans as validators in automated pipelines. The Cognitive Vitality Index™ challenges this by measuring whether the "loop" actually preserves human cognitive capacity or merely creates an illusion of oversight.</p>
+                  <p>- <strong>RAG (Retrieval-Augmented Generation)</strong>: The dominant technical approach to AI knowledge systems. This book argues that RAG solves retrieval without addressing sovereignty, intentionality, or cognitive health. The Perceptiosphere provides the architectural layer that RAG implementations should sit within.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Practice Gaps and Limitations</h3>
+              <p class="text-sm text-primary/50 mb-3">What are the practice gaps and limitations that exist?</p>
+              <div class="response-content text-primary/70">
+                <p>Five critical practice gaps this book addresses:</p>
+                <div class="dash-list">
+                  <p>- <strong>No cognitive health measurement:</strong> Organisations adopt AI for knowledge work without any instrument to monitor whether human capability is being preserved or eroded. The Cognitive Vitality Index™ fills this gap.</p>
+                  <p>- <strong>No sovereignty architecture:</strong> Knowledge workers use AI tools (ChatGPT, Copilot) without understanding or controlling where their knowledge context lives, who owns it, or how it's governed. The Perceptiosphere provides the first architectural framework for sovereign knowledge zones.</p>
+                  <p>- <strong>No knowledge succession framework for the AI era:</strong> When experts leave organisations, their AI-mediated knowledge context leaves with them (or remains trapped in proprietary systems). No framework addresses intergenerational knowledge transfer in hybrid intelligence environments.</p>
+                  <p>- <strong>No integration between individual and institutional scales:</strong> PKM tools serve individuals; enterprise KM serves organisations. No framework connects the two with attention to sovereignty, consent, and mutual benefit.</p>
+                  <p>- <strong>No futures methodology applied to knowledge systems:</strong> Current KM literature describes the present state. No practitioner guide applies foresight methodology (scenario mapping, compelling questions, innovation challenges) to map possible trajectories and design for preferred futures.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: HOW -->
+        <section>
+          <h2 class="text-xl font-serif font-medium text-primary mb-2">Section 3: HOW</h2>
+          <p class="text-sm text-primary/50 mb-6 italic">How will you conduct the deep research for the book?</p>
+
+          <div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Data Gathering</h3>
+              <p class="text-sm text-primary/50 mb-3">How are you gathering primary and secondary information/data?</p>
+              <div class="response-content text-primary/70">
+                <p><strong>Primary data:</strong></p>
+                <div class="dash-list">
+                  <p>- Semi-structured interviews with 5-10 key informants who are practicing professionals and leaders across various industries within the author's professional network</p>
+                  <p>- Design Science Research (DSR) methodology: building and evaluating the Perceptiosphere as a functional artefact, then validating through practitioner feedback</p>
+                  <p>- Author's community of practice: professional network across AI engineering, foresight, and innovation ecosystems providing ongoing dialogue and validation</p>
+                </div>
+                <p><strong>Secondary data:</strong></p>
+                <div class="dash-list">
+                  <p>- Systematic literature review across cognitive science (offloading, automation bias), knowledge management, and AI ethics journals (2022-2026)</p>
+                  <p>- Industry reports on knowledge worker productivity and enterprise AI adoption</p>
+                  <p>- Policy documents: OECD deliberative democracy reports, EU AI Act, Canada's AIDA framework</p>
+                  <p>- Platform analysis: comparative study of existing knowledge management tools and their architectural assumptions</p>
+                </div>
+                <p>IRB approval will be sought prior to primary data collection. The research design mirrors the author's UCalgary DDes methodology (Canadian REB already approved for similar semi-structured professional practice interviews).</p>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Analysis Methodology</h3>
+              <p class="text-sm text-primary/50 mb-3">How will you analyze the information/data?</p>
+              <div class="response-content text-primary/70">
+                <p>The book employs Design Science Research (DSR) methodology (Hevner et al., 2004), appropriate for research that produces artefacts (frameworks, models, systems) rather than purely explanatory theory:</p>
+                <div class="dash-list">
+                  <p>- <strong>Problem identification:</strong> Systematic analysis of cognitive offloading literature to establish the crisis empirically</p>
+                  <p>- <strong>Artefact design:</strong> Development of the Perceptiosphere framework and Cognitive Vitality Index™ through iterative design cycles</p>
+                  <p>- <strong>Evaluation:</strong> Practitioner interviews assess the framework's applicability, clarity, and actionability in real-world contexts</p>
+                  <p>- <strong>Thematic analysis:</strong> Interview data coded using thematic analysis (Braun & Clarke, 2006) to identify patterns in practitioner experience with AI-mediated knowledge work</p>
+                  <p>- <strong>Cross-referencing:</strong> Claims validated across multiple source types (academic, industry, policy) with explicit confidence levels assigned</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Practitioner Frameworks</h3>
+              <p class="text-sm text-primary/50 mb-3">How will you convert the information/data into practitioner-friendly frameworks, decisions, and execution?</p>
+              <div class="response-content text-primary/70">
+                <p>The book converts research into practitioner utility through three mechanisms:</p>
+                <div class="dash-list">
+                  <p>- <strong>Named, adoptable frameworks:</strong> The Perceptiosphere and Cognitive Vitality Index™ are designed as tools practitioners can implement immediately. Each has clear dimensions, boundaries, and decision criteria. The naming convention (trademarked terms) ensures practitioners can reference and discuss the frameworks consistently.</p>
+                  <p>- <strong>Compelling questions over prescriptions:</strong> Rather than claiming universal solutions, the book poses structured innovation challenges that help practitioners diagnose their own context. This respects the complexity of real-world implementation while providing actionable starting points.</p>
+                  <p>- <strong>Open-source implementation scaffolding:</strong> A companion GitHub repository provides templates, configuration files, and setup guides for practitioners to implement the Perceptiosphere system in their own environments. This bridges the gap between conceptual framework and operational reality.</p>
+                </div>
+                <p>The annotation-rich publishing format itself demonstrates conversion to practice: readers experience the Perceptiosphere approach to knowledge navigation while reading about it.</p>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-1">Scalability</h3>
+              <p class="text-sm text-primary/50 mb-3">How can businesses and organizations design, implement, validate, and scale your proposed solutions?</p>
+              <div class="response-content text-primary/70">
+                <p>The Perceptiosphere framework is designed for scalability across three levels:</p>
+                <div class="dash-list">
+                  <p>- <strong>Individual:</strong> A knowledge worker can implement the sovereign zone model for their personal knowledge system using the open-source template (Obsidian + AI agent configuration). Time to first value: 2-4 weeks.</p>
+                  <p>- <strong>Organisational:</strong> A team or department can adopt the Cognitive Vitality Index™ as a monitoring instrument alongside their existing AI tools. Integration requires no platform migration, only a measurement overlay. The radar can be deployed as a quarterly assessment or continuous monitoring dashboard.</p>
+                  <p>- <strong>Institutional/Intergenerational:</strong> The knowledge succession components (living archives, sovereignty protocols) address how organisations preserve and transfer knowledge across leadership transitions and generational shifts. This requires governance decisions but no proprietary technology.</p>
+                </div>
+                <p>Validation follows a staged approach: pilot implementations with interview participants during the research phase, followed by community validation through the perceptiosphere.com platform and innovation challenge portal post-publication. The open-source model ensures that scaling is not constrained by licensing or vendor lock-in.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </Wrapper>
+  </div>
+
+  <script is:inline>
+    (function() {
+      var lock = document.getElementById('lock-screen');
+      var content = document.getElementById('main-content');
+      var form = document.getElementById('passcode-form');
+      var input = document.getElementById('passcode-input');
+      var errorMsg = document.getElementById('error-msg');
+
+      function unlock() {
+        lock.style.display = 'none';
+        content.style.display = 'block';
+      }
+
+      // Check URL param
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get('key');
+      if (key && key.toUpperCase() === 'FUTURE') {
+        unlock();
+      }
+
+      // Handle form
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value.toUpperCase() === 'FUTURE') {
+          unlock();
+        } else {
+          errorMsg.classList.remove('hidden');
+          input.value = '';
+          setTimeout(function() { errorMsg.classList.add('hidden'); }, 3000);
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

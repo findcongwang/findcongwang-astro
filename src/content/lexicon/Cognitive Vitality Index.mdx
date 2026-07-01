@@ -1,0 +1,120 @@
+---
+type: note
+status: published
+publish_type: lexicon
+tags: [Knowledge Architecture, Human-AI Collaboration, Cognitive Health, Measurement Framework, Future of Knowledge]
+originated_date: 2026-01-07
+publish_date: 2026-06-30
+title: Cognitive Vitality Index
+description: A composable measurement framework for assessing the proportion and quality of genuinely human-engaged cognitive work within a knowledge system, at any scale. Grounded in the principle that unpractised cognitive capabilities erode below a critical threshold.
+formats: ["print"]
+---
+
+import MarginNote from '@/components/paged/MarginNote.astro';
+import FootNote from '@/components/paged/FootNote.astro';
+import InlineNote from '@/components/paged/InlineNote.astro';
+import RoughAnnotation from '@/components/annotations/RoughAnnotation.astro';
+
+The proliferation of generative AI has created a crisis that no existing measurement instrument captures. Humans are increasingly present in knowledge systems without being cognitively engaged. They occupy nodes in information networks, receiving AI-generated outputs and forwarding them onward, but the cognitive work that once occurred at those nodes (questioning, synthesising, judging, generating) has been offloaded to machines. The humans remain in the loop, but the loop has become a conveyor belt.
+
+<RoughAnnotation type="highlight" color="green">The Cognitive Vitality Index™ (CVI) measures the proportion and quality of genuinely human-engaged cognitive work within a knowledge system, at any scale.</RoughAnnotation>
+
+It is grounded in a single principle: cognitive capabilities that are not practised erode over time. Below a critical threshold of genuine engagement, humans transition from active thinkers to passive routers of information, becoming functionally indistinguishable from automated agents. The CVI tracks this threshold across multiple dimensions, providing both a snapshot score and a trajectory over time.
+
+
+## The Use-It-or-Lose-It Thesis
+
+<MarginNote n={1} label="Barulli & Stern (2013)" color="blue" note="'Efficiency, capacity, compensation, maintenance, plasticity: emerging concepts in cognitive reserve.' Trends in Cognitive Sciences. 840 citations. Defines cognitive reserve as the brain's ability to maintain function despite pathology, built through sustained cognitive activity. The inverse is equally established: disuse accelerates decline.">The neuroscience is unambiguous.</MarginNote> Cognitive reserve, the brain's accumulated resilience built through sustained intellectual engagement, operates on a use-it-or-lose-it principle. Capabilities maintained through regular practice resist degradation; capabilities allowed to lie fallow atrophy.
+
+<MarginNote n={2} label="Leonidov (2025)" color="blue" note="'Methods for Preventing the Degradation of Manual Flying Skills in an Automated Cockpit Environment.' Collegiate Aviation Review International. Documents that pilots in highly automated cockpits experience measurable degradation of manual flying skills, contributing to Loss of Control In-flight incidents when automation fails.">Aviation provides the longest-studied analogue.</MarginNote> Pilots in highly automated cockpits lose manual flying skills because automation handles the cognitive work that once kept those skills sharp. When automation fails and manual capability is suddenly required, the degradation becomes lethal. The parallel to knowledge work is direct: professionals who offload critical thinking to AI lose the capacity for critical thinking when AI is unavailable, unreliable, or wrong.
+
+<MarginNote n={3} label="Smith & Baumann (2020)" color="blue" note="'Human-Automation Teaming: Unintended Consequences of Automation on User Performance.' FAA-funded research at IEEE DASC. Demonstrates that long-term reliance on decision-support automation leads to knowledge and skill degradation even in highly trained professionals.">The FAA has documented this pattern formally</MarginNote>: decision-support automation, intended to enhance human performance, instead degrades the very capabilities it was designed to augment. The effect is not immediate. It accumulates over months and years of practice avoidance, making it invisible until a crisis reveals the erosion.
+
+<MarginNote n={4} label="Sunday (2025)" color="blue" note="'Behavioral Impacts of AI Reliance in Diagnostics: Balancing Automation with Skill Retention.' Documents skill erosion among diagnosticians who rely heavily on AI decision support. 7 citations. The diagnostic accuracy of clinicians declines measurably after sustained AI-assisted practice.">Medicine confirms the same trajectory.</MarginNote> Diagnosticians who rely on AI decision support show measurable declines in diagnostic accuracy when working independently. The AI did not make them better doctors; it made them dependent on assistance that may not always be available, appropriate, or correct.
+
+<RoughAnnotation type="highlight" color="green">The crisis is not that AI is inadequate. The crisis is that humans stop practising the cognitive work that keeps them capable of evaluating whether AI is adequate.</RoughAnnotation>
+
+
+## What "Genuinely Engaged" Means
+
+The CVI distinguishes between two modes of human participation in cognitive work:
+
+**Transformation** (vital engagement): the human is questioning inputs, synthesising across sources, applying judgment and values, generating novel framings, identifying what is missing, and overriding recommendations when appropriate. The information that exits the human node is qualitatively different from what entered it.
+
+**Pass-through** (eroded engagement): the human accepts inputs at face value, forwards single sources without synthesis, applies rules mechanically without judgment, repackages in standard formats without critique, processes only what is presented without questioning gaps, and defaults to AI recommendations without evaluation. The information exits the human node essentially unchanged.
+
+| Vital (Transformation) | Eroded (Pass-through) |
+|------------------------|----------------------|
+| Questioning the input | Accepting at face value |
+| Synthesising across sources | Forwarding a single source |
+| Applying judgment and values | Applying rules mechanically |
+| Generating novel framings | Repackaging in standard formats |
+| Identifying what is missing | Processing only what is presented |
+| Overriding when appropriate | Defaulting to AI recommendation |
+
+<FootNote n={1} color="burgundy" note="A human operating entirely in pass-through mode is functionally equivalent to an automated agent. They occupy a node in the information network but add no cognitive value. The system loses nothing by removing them from the loop. This is the terminal state the CVI is designed to detect before it becomes irreversible.">A human in permanent pass-through mode is no longer a thinker. They are infrastructure.</FootNote>
+
+
+## Composability Across Scale
+
+The CVI is designed as a <FootNote n={2} color="burgundy" note="Composable: the same fundamental definition applies at every level of analysis. The metric does not change meaning at different scales; additional dimensions emerge at the collective level because network properties exist that have no individual equivalent.">composable metric</FootNote>. The same definition applies at every level of analysis; what changes is the additional network-flow dimensions that emerge at the collective level.
+
+**Individual level (atomic unit):** What proportion of this person's cognitive work involves genuine transformation versus pass-through? Measured through interaction patterns, override frequency, synthesis quality, and independent problem-solving capability when AI is unavailable.
+
+**Collective level (network property):** What proportion of information flowing through this system passes through genuinely engaged human cognition? At this scale, additional dimensions emerge: how information routes between nodes, whether certain humans become bottlenecks of genuine engagement while others become pure pass-through relays, and whether the system can maintain function when any single high-engagement node is removed.
+
+<MarginNote n={5} label="Kazienko et al. (2026)" color="blue" note="'Artificial Intelligence Overload: A Multilevel Taxonomy and the Path Forward.' IEEE Intelligent Systems. Proposes 'AI overload' as a persistent mismatch between AI-enhanced demands and human and institutional capacity for attention, deliberation, validation, and accountability. The multi-level taxonomy (individual, organisational, societal) is the closest structural parallel to the CVI's composable architecture.">The collective CVI is not simply an average of individual scores.</MarginNote> It is a network property that accounts for flow volume, node criticality, and redundancy of genuine engagement across the system. An organisation could have high average individual CVI but dangerously concentrated engagement (all genuine thinking occurs in three people out of a hundred), or moderate individual CVI distributed robustly across all nodes.
+
+
+## Dimensions of Cognitive Vitality
+
+The CVI decomposes into major categories visualised on a radar chart for immediate high-glance value. These categories are not independent variables; they interact in complex ways documented through the companion <FootNote n={3} color="burgundy" note="Resonance Wheel: a dendrogram-based visualisation methodology that reveals interdependencies between dimensions of multi-dimensional indices. It corrects the reductionist illusion that radar charts create by presenting dimensions as separable, independently tuneable dials. See the Resonance Wheel lexicon entry for the full concept.">Resonance Wheel</FootNote>.
+
+The full taxonomy operates as a dendrogram: six major categories, each decomposing into sub-dimensions and measurable attributes. The major categories (subject to empirical refinement through Design Science Research) include:
+
+- **Agency Retention:** Frequency and quality of human-initiated overrides, modifications, and independent decisions
+- **Critical Thinking Maintenance:** Capacity for analytical reasoning, evidence evaluation, and hypothesis generation without AI support
+- **Skill Preservation:** Competency in domain-specific tasks performed independently of AI assistance
+- **Epistemic Autonomy:** Perceived and actual ownership over knowledge generation and truth verification
+- **Cognitive Load Balance:** Ratio of generative thinking to verification and monitoring of AI outputs
+- **Synthesis Quality:** Ability to integrate information across sources into novel framings that did not exist in any single input
+
+<MarginNote n={6} label="Wu et al. (2025)" color="blue" note="'Development and validation of the AI dependence scale for Chinese undergraduates.' Frontiers in Psychology. 6 citations. The AIDep-22 is the first validated psychometric instrument specifically measuring AI dependence, with four dimensions: emotional, functional, cognitive, and social dependence. Demonstrates that these phenomena are measurable with standardised instruments.">At the individual level, these dimensions are measurable.</MarginNote> Wu et al. (2025) have already validated a 22-item psychometric scale for AI dependence with four distinct dimensions, demonstrating that these phenomena can be captured through rigorous instrumentation.
+
+At the collective level, additional dimensions emerge:
+
+- **Engagement Distribution:** How concentrated or distributed is genuine cognitive engagement across the network?
+- **Flow Transformation Ratio:** What percentage of information flows involve human transformation versus direct routing?
+- **Resilience Under Absence:** Can the system maintain cognitive output quality when high-engagement nodes are temporarily removed?
+
+
+## The Critical Threshold
+
+<MarginNote n={7} label="Šucha (2026)" color="blue" note="'The silent accumulation: AI as mental contaminant.' Frontiers in Artificial Intelligence. Proposes that seemingly innocuous AI systems create cumulative effects on cognition that current governance fails to address. Low-risk AI applications function as cognitive environmental contaminants whose collective presence reshapes human psychological functioning below the threshold of awareness.">The CVI is not merely descriptive. It operationalises a warning system.</MarginNote> The thesis, supported by evidence from aviation, medicine, and neuroscience, is that cognitive capabilities exhibit non-linear degradation. Performance maintains at an acceptable level during gradual disuse, then drops sharply below a critical threshold of practice frequency.
+
+<MarginNote n={8} label="Mladin et al. (2026)" color="blue" note="'Algorithmic Habituation: A Neurocognitive and Systems-Based Framework for Human-AI Co-Adaptation.' Brain Sciences. Introduces a four-dimensional typology of habituation: cognitive, decisional, creative, and moral. Each represents a domain of human capability that progressively adapts to AI predictability, reducing initiative and original contribution.">The mechanism of erosion is habituation.</MarginNote> Mladin et al. (2026) document how users progressively adapt to the predictive regularities of AI systems through "algorithmic habituation," a process that enhances efficiency in the short term but erodes initiative, creativity, and independent judgment over time. The four dimensions of habituation (cognitive, decisional, creative, moral) map directly onto the CVI dimensions they degrade.
+
+The CVI tracks trajectory toward or away from this threshold. A declining CVI is an early warning that cognitive capabilities are entering a degradation spiral. The intervention point is before the threshold is crossed, not after capabilities have already eroded beyond recovery.
+
+
+## Relationship to the Perceptiosphere
+
+The Perceptiosphere defines the architecture of knowledge sovereignty: nested zones of cognitive influence within which knowledge is created, curated, and transmitted. The CVI measures the health of human cognition operating within that architecture.
+
+These are complementary but independent constructs:
+
+- A well-designed Perceptiosphere with low CVI: the architecture exists, but humans have stopped genuinely engaging with it. The structure is sound; the inhabitants are hollow.
+- High CVI within a poorly designed knowledge system: engaged humans fighting bad architecture. Unsustainable but temporarily functional.
+
+<RoughAnnotation type="highlight" color="green">The ideal state is high CVI within a well-designed Perceptiosphere: humans are genuinely engaged in cognitive work, and the architecture supports and rewards that engagement rather than incentivising offloading.</RoughAnnotation>
+
+
+## Visual Companions
+
+The CVI is communicated through two paired visualisations:
+
+**Radar chart:** Plots the major dimensions on polar coordinates, providing immediate high-glance value. Excellent for comparing two snapshots over time (trajectory visualisation) and for communicating the overall "shape" of cognitive health.
+
+<MarginNote n={9} label="Resonance Wheel™" color="orange" note="The Resonance Wheel™ is a dendrogram-based companion visualisation that reveals the interdependencies between CVI dimensions. It corrects the fundamental limitation of radar charts: by plotting dimensions on independent axes, radar charts create an illusion of separability. In complex systems, dimensions resonate with each other. Improving one may degrade another; strengthening a third may amplify a fourth. The Resonance Wheel makes these dynamics visible.">**Resonance Wheel™:**</MarginNote> A dendrogram-based companion that reveals the interdependencies between dimensions. Shows which dimensions "resonate" when one is changed, making trade-offs and cascading effects visible. Corrects the reductionist illusion inherent in any radar chart.
+
+Together, they answer two questions: "What is the current state?" (radar chart) and "What happens if we try to change it?" (Resonance Wheel).

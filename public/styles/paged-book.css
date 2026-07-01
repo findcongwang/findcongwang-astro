@@ -522,3 +522,11 @@ h2#cross-links + ul {
   display: none !important;
 }
 
+/* ============================================
+   PRINT OUTPUT — strips preview chrome for clean PDF.
+   Web preview (gutters, shadows, gray bg) is unaffected.
+   These rules are ALSO injected dynamically by the Download
+   PDF button in paged-post-process.js to ensure they only
+   apply during actual printing, not during Paged.js rendering.
+   ============================================ */
+

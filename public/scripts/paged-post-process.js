@@ -144,6 +144,17 @@
         console.error('Print rough annotation error:', err);
       });
     }
+
+    // Inject print-clean styles AFTER Paged.js finishes rendering.
+    // These are injected via JS (not in the CSS file) because Paged.js
+    // interprets @media print rules during its polyfill pass and would
+    // apply them to the web preview. By injecting after rendering,
+    // they only take effect when the browser enters print mode.
+    var printCleanStyle = document.createElement('style');
+    printCleanStyle.id = 'print-clean-styles';
+    printCleanStyle.textContent = '@media print { body.paged-mode { background: white !important; } .pagedjs_pages { padding: 0 !important; gap: 0 !important; row-gap: 0 !important; column-gap: 0 !important; } .pagedjs_page { box-shadow: none !important; border: none !important; margin: 0 !important; page-break-after: always; break-after: page; overflow: visible !important; } .pagedjs_page:last-child { page-break-after: auto; break-after: auto; } }';
+    document.head.appendChild(printCleanStyle);
+
   }).catch(function(err) {
     console.error('Paged.js error:', err);
   });

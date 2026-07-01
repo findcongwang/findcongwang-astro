@@ -1,0 +1,563 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+<BaseLayout title="Libraries of the Future — Taylor & Francis Book Proposal" hideNav={true} hideFooter={true} noindex={true}>
+  <style>
+    .proposal-section {
+      padding-top: 2rem;
+      margin-top: 2rem;
+    }
+    .proposal-section:first-child {
+      padding-top: 0;
+      margin-top: 0;
+    }
+    /* Question blocks */
+    .proposal-questions > div,
+    .proposal-questions > .question-block {
+      margin-bottom: 2rem;
+      padding-bottom: 0;
+    }
+    .proposal-questions > div:last-child,
+    .proposal-questions > .question-block:last-child {
+      padding-bottom: 0;
+    }
+    /* Response styling: target the response content (everything after h3) */
+    .proposal-questions > div > p,
+    .proposal-questions > div > div:not(:first-child),
+    .proposal-questions > .question-block > .response-box,
+    .proposal-questions > div > div.text-primary\/70,
+    .proposal-questions > div > div[class*="text-primary"] {
+      margin-top: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0.5rem;
+      background: rgba(0,0,0,0.015);
+    }
+    /* Paragraph spacing inside response boxes */
+    .response-box p + p {
+      margin-top: 1rem;
+    }
+    /* Short response boxes: tighter line-height */
+    .response-box.compact {
+      line-height: 1.4;
+    }
+    .response-box.compact p + p {
+      margin-top: 0.25rem;
+    }
+    /* Bold subheadings in Q4 style - add space above (only when strong is the SOLE child of its paragraph) */
+    .response-box p.subheading {
+      margin-top: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+    .response-box p.subheading:first-child {
+      margin-top: 0;
+    }
+    /* Dash-list styling */
+    .response-box .dash-list {
+      margin-top: 0.5rem;
+    }
+    .response-box .dash-list p {
+      margin-top: 0.25rem;
+      padding-left: 1rem;
+      text-indent: -1rem;
+    }
+    .response-box .dash-list p + p {
+      margin-top: 0.375rem;
+    }
+    /* Fix bullet alignment inside response boxes */
+    .proposal-questions ul,
+    .proposal-questions ol {
+      padding-left: 0;
+      list-style-position: inside;
+    }
+    .proposal-questions ol {
+      list-style-type: decimal;
+    }
+    .proposal-questions li {
+      margin-bottom: 0.75rem;
+      padding-left: 0;
+    }
+    /* Code blocks must wrap and stay within container */
+    .response-box pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-x: auto;
+      max-width: 100%;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      padding: 1rem;
+      background: rgba(0,0,0,0.03);
+      border-radius: 0.375rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      margin-top: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .response-box code {
+      font-size: 0.75rem;
+      font-family: 'Geist Mono', monospace;
+    }
+    /* Paragraph after code block needs extra spacing */
+    .response-box pre + p {
+      margin-top: 1.25rem;
+    }
+    /* Nested divs inside competitor list should not get double borders */
+    .proposal-questions > div > div > div {
+      padding: 0;
+      border: none;
+      background: none;
+      margin-top: 0.75rem;
+    }
+  </style>
+  <!-- Lock Screen -->
+  <div id="lock-screen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="max-width:20rem;text-align:center;">
+      <h1 class="text-2xl font-serif font-medium text-primary mb-2">Libraries of the Future</h1>
+      <p class="text-sm text-primary/60 mb-6">Taylor & Francis Book Proposal</p>
+      <form id="passcode-form" class="space-y-4">
+        <input
+          type="password"
+          id="passcode-input"
+          placeholder="Enter passcode"
+          class="w-full px-3 py-2 border border-primary/20 rounded-md text-primary text-center focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+          autocomplete="off"
+        />
+        <button type="submit" class="w-full px-4 py-2 bg-primary text-secondary rounded-md hover:opacity-80 transition-opacity">
+          Access Proposal
+        </button>
+      </form>
+      <p id="error-msg" class="text-xs text-red-500 mt-3 hidden">Incorrect passcode</p>
+      <p class="text-xs text-primary/40 mt-6">Contact the author for access</p>
+    </div>
+  </div>
+
+  <!-- Main Content (hidden by default) -->
+  <div id="main-content" style="display:none;">
+    <Wrapper variant="standard" class="pt-16 pb-12 lg:pt-24">
+      <header class="mb-12 border-b border-primary/10 pb-8">
+        <p class="text-sm font-mono text-primary/40 mb-4">Chapman & Hall / CRC Press — Taylor and Francis Group</p>
+        <h1 class="text-2xl md:text-3xl font-serif font-medium text-primary mb-4">
+          Computer Science Book Proposal
+        </h1>
+        <p class="text-lg text-primary/60 max-w-3xl">
+          Libraries of the Future: Hybrid Intelligence and Knowledge Integration in the Post-Agentic World
+        </p>
+      </header>
+
+      <div class="max-w-3xl space-y-10">
+
+        <!-- Book Description / Key Features -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Book Description / Key Features</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">1. Full title of the proposed book</h3>
+              <div class="response-box compact text-primary/70">Libraries of the Future: Hybrid Intelligence and Knowledge Integration in the Post-Agentic World</div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">2. Your full name, position, and affiliation</h3>
+              <div class="response-box compact text-primary/70 space-y-1">
+                <p><strong>Francis (Cong) Wang</strong></p>
+                <p>DDes Candidate, University of Calgary (Designing Innovation)</p>
+                <p>DBA Candidate, Golden Gate University (Emerging Technologies)</p>
+                <p>Principal, Head of Strategic Foresight, FW.VISION Futures Thinking Inc.</p>
+                <p>Founder, Nova Roma Horizon Innovation Society</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">3. Contact Information</h3>
+              <div class="response-box compact text-primary/70 space-y-1">
+                <p>Email: findcongwang@gmail.com</p>
+                <p>Web: findcongwang.com</p>
+                <p>Location: Gravenhurst, Ontario, Canada</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">4. Career to date, including key publications</h3>
+              <div class="response-box text-primary/70">
+                <p>Francis (Cong) Wang is a practitioner-researcher with over a decade of experience in software engineering, AI/ML, and innovation ecosystem design. He is currently pursuing dual doctoral programmes (DDes at University of Calgary; DBA at Golden Gate University) while leading multiple ventures and academic research initiatives.</p>
+                <p class="subheading"><strong>Education</strong></p>
+                <div class="dash-list">
+                  <p>- DDes Candidate, University of Calgary (Designing Innovation, foresight-driven innovation ecosystems)</p>
+                  <p>- DBA Candidate, Golden Gate University (Emerging Technologies, hybrid intelligence in knowledge systems)</p>
+                  <p>- MS AI Engineering Candidate, Quantic School of Business and Technology (2025-2026)</p>
+                  <p>- Executive MBA, Quantic School of Business and Technology (Capstone Finalist)</p>
+                  <p>- BSc Computer Science (Honours), University of Waterloo (Minors: Entrepreneurship, Psychology, Applied Math, Physics)</p>
+                </div>
+                <p class="subheading"><strong>Industry</strong></p>
+                <div class="dash-list">
+                  <p>- Over a decade in software engineering and AI/ML at energy technology companies</p>
+                  <p>- Notable exits: pivotal contributor to Opus One Solutions ($75M acquisition by GE Vernova) and Swell Energy (Series B at $650M valuation)</p>
+                  <p>- Currently Lead AI/ML/AIOps Engineer at Sunrock Distributed Generation Inc.</p>
+                </div>
+                <p class="subheading"><strong>Ventures and Leadership</strong></p>
+                <div class="dash-list">
+                  <p>- Principal, Head of Strategic Foresight at FW.VISION Futures Thinking Inc.</p>
+                  <p>- Founder, Nova Roma Horizon Innovation Society (non-profit innovation ecosystem)</p>
+                  <p>- Actively mentoring and teaching entrepreneurship at Conrad School of Entrepreneurship, University of Waterloo</p>
+                </div>
+                <p class="subheading"><strong>Key Intellectual Contributions</strong></p>
+                <div class="dash-list">
+                  <p>- Published lexicon of 26+ original frameworks at findcongwang.com/lexicon</p>
+                  <p>- Core frameworks: Perceptiosphere, Hybrid Intelligence (HI-Scaling), Innovation Sanctuary, Key-Shaped Talent, Knowledge Composability</p>
+                  <p>- Certifications from Institute for the Future, UNDP, Oregon State University, Duke University</p>
+                  <p>- Publications on ResearchGate: researchgate.net/profile/Francis-Wang-11</p>
+                </div>
+                <p>Full CV available at findcongwang.com/curriculum-vitae</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">5. Names and affiliations of any coauthors</h3>
+              <div class="response-box text-primary/70">None. This is a sole-authored work.</div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">6. Please describe your proposed book in detail</h3>
+              <div class="response-box text-primary/70">
+                <p>"Libraries of the Future" addresses a defining tension of our era: generative AI enables productive output at a scale never before possible, while the cognitive capacities that make output meaningful quietly erode beneath the surface. We are becoming, in the language of this book, <em>third-party thinkers with second-hand thoughts</em>: outsourcing synthesis, judgment, and critical evaluation to systems optimised for fluency rather than truth.</p>
+                <p>Empirical research validates this trajectory. Xu et al. (2026) demonstrate that generative AI transforms benign cognitive offloading into systematic "cognitive agency surrender," exploiting human cognitive miserliness through zero-friction interfaces. Alubthane (2026) synthesises 89 studies showing that AI-augmented students exhibit short-term performance gains but long-term degradation of higher-order thinking skills. The pattern is domain-agnostic: aviation psychology, clinical medicine, and education all document the same erosion when cognitive tasks are offloaded without deliberate maintenance of the underlying capability.</p>
+                <p>This book proposes that the solution is not resistance to AI but a fundamental redesign of how humans relate to knowledge systems. It introduces the <strong>Perceptiosphere</strong> framework: a nested architecture of sovereign knowledge zones (Self, Trusted Circle, Community of Practice, Public) that preserves contextual integrity while enabling composable collaboration across boundaries. The Perceptiosphere provides the architectural grammar for designing where knowledge lives, who governs it, and how it crosses boundaries without degrading.</p>
+                <p>The book also introduces the <strong>Cognitive Vitality Index™</strong> (CVI): a composable measurement framework for assessing the proportion and quality of genuinely human-engaged cognitive work within a knowledge system, at any scale. Grounded in cognitive reserve theory and automation deskilling research, the CVI tracks whether humans are still genuinely thinking or merely routing information. It provides practitioners with a diagnostic instrument for detecting cognitive erosion before it crosses the critical threshold beyond which capabilities cannot be recovered.</p>
+                <p>Structured as a problem-first investigation, the book opens by establishing the crisis through rigorous analysis of cognitive offloading research, proceeds through the architectural and measurement frameworks, and concludes with compelling questions posed to the field. These questions explicitly invite contribution, positioning the book as an opening statement in a larger discourse rather than a closed argument. The final chapter maps future trajectories: digital sovereignty, living archives, knowledge succession, and the emerging governance challenges of an agentic economy.</p>
+                <p>The book is written for practitioners first while maintaining academic rigour. It is grounded in design science research methodology with semi-structured interviews, supported by the author's community of practice and professional network.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">7. List up to six key features of your book</h3>
+              <div class="response-box text-primary/70">
+                <ol>
+                  <li><strong>Meta-Demonstrative Design:</strong> The book is an application of its own thesis. Its annotation-rich format (margin notes, inline annotations, layered information density) embodies the Perceptiosphere approach to knowledge navigation. Its question-priming structure (each chapter opens with questions the reader holds in mind) is a deliberate practice of cognitive friction and structured reflection, maintaining genuine cognitive engagement rather than permitting pass-through reading. The book refuses to let the reader be a passive consumer. It is the first publication to systematically integrate structural reflection into its delivery format as a meta-demonstration of its core argument.</li>
+                  <li><strong>The Perceptiosphere Framework:</strong> A novel, named knowledge architecture model (nested sovereign zones for contextual integrity) that provides practitioners with a structural grammar for designing human-AI knowledge systems.</li>
+                  <li><strong>The Cognitive Vitality Index™:</strong> A composable measurement framework for assessing the proportion and quality of genuinely human-engaged cognitive work within a knowledge system, at any scale. Grounded in cognitive reserve theory and automation deskilling research, it provides practitioners with a diagnostic instrument and early warning system for cognitive erosion.</li>
+                  <li><strong>Problem-First Research Methodology:</strong> Applies a systematic, foresight-driven approach (compelling questions, innovation challenges) to decompose the knowledge crisis before proposing solutions.</li>
+                  <li><strong>Empirically Grounded:</strong> Built on validated academic research (cognitive agency surrender, AI-induced skill degradation) and primary data from semi-structured interviews with knowledge management professionals.</li>
+                  <li><strong>Futures-Oriented Compelling Questions:</strong> Each frontier chapter poses innovation challenges to the field, creating an invitational structure that positions the book as a catalyst for further research and practice development.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">8. Will your book include any supplementary features?</h3>
+              <div class="response-box text-primary/70">
+                <p><strong>Companion website:</strong> perceptiosphere.com is the primary companion site, hosting the book's frameworks, lexicon entries, compelling questions, and innovation challenges as interactive, living documents that evolve beyond the static publication. findcongwang.com hosts the author's broader intellectual portfolio.</p>
+                <p><strong>Open-source implementation template:</strong> A GitHub repository providing an open-source scaffolding to help readers implement the Perceptiosphere system for their own knowledge management. This lowers the barrier to adoption and creates a practitioner community around the framework.</p>
+                <p><strong>Annotation-rich digital format:</strong> The book is designed to be published in a layered annotation format (margin notes, data annotations, footnotes) that provides multiple reading depths. A web-based reader demonstrating this format is available as a supplementary resource.</p>
+                <p><strong>Innovation Challenge Portal:</strong> The compelling questions posed in the final chapter link to an active innovation challenge platform (via Nova Roma) where readers can contribute solutions and engage in structured discourse.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Audience / Market -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Audience / Market</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">9. Please describe the primary audiences for your book in detail</h3>
+              <div class="response-box text-primary/70 space-y-3">
+                <p><strong>Primary audience: Knowledge system designers and technology leaders</strong> (CXOs, Chief Knowledge Officers, AI Strategy leads, Enterprise Architects) who are actively building or redesigning how their organisations manage knowledge in the AI era. These readers have budget authority and implementation capacity. They need architectural frameworks, not just commentary. Estimated segment: 50,000+ professionals globally in knowledge management, enterprise AI, and information architecture roles.</p>
+                <p><strong>Secondary audience: Academic researchers and doctoral candidates</strong> in knowledge management, human-computer interaction, library and information science, and AI ethics. This audience seeks citable frameworks, novel models, and research collaboration opportunities. The book provides testable propositions and measurement instruments suitable for further empirical investigation.</p>
+                <p><strong>Tertiary audience: Innovation leaders and policymakers</strong> concerned with digital sovereignty, knowledge worker productivity, and the governance of AI systems. This includes think tank researchers, government innovation advisors, and corporate foresight teams seeking structural grammars for complex challenges.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">10. If your book is a textbook, please list any courses for which your book could be used</h3>
+              <div class="response-box text-primary/70">
+                <p>While not primarily a textbook, this book is suitable as a required or recommended text for:</p>
+                <div class="dash-list">
+                  <p>- Knowledge Management (graduate level, MBA/MSIM programmes)</p>
+                  <p>- Human-AI Interaction / Human-Computer Interaction (HCI graduate seminars)</p>
+                  <p>- AI Strategy and Digital Transformation (executive education)</p>
+                  <p>- Information Architecture and Knowledge Engineering (MLIS programmes)</p>
+                  <p>- Futures Studies and Strategic Foresight (graduate level)</p>
+                  <p>- Innovation Management (design and business doctoral programmes)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Competitive Analysis -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Competitive Analysis</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">11. Please list at least three books that might compete with your book</h3>
+              <div class="response-box text-primary/70 space-y-4">
+                <div>
+                  <p><strong>1. Co-Intelligence: Living and Working with AI</strong></p>
+                  <p class="text-sm">Ethan Mollick. Portfolio/Penguin, 2024. 256pp.</p>
+                  <p class="text-sm mt-1">NYT Bestseller. Practical guide to working alongside AI for general business readers. Focuses on productivity tips and workflow integration.</p>
+                </div>
+                <div>
+                  <p><strong>2. The Coming Wave: AI, Power, and Our Future</strong></p>
+                  <p class="text-sm">Mustafa Suleyman. Crown, 2023. 352pp.</p>
+                  <p class="text-sm mt-1">Macro-level examination of AI governance and containment from DeepMind co-founder. Addresses geopolitical and societal risks of AI proliferation.</p>
+                </div>
+                <div>
+                  <p><strong>3. Prediction Machines: The Simple Economics of AI</strong> (Updated and Expanded)</p>
+                  <p class="text-sm">Agrawal, Gans, Goldfarb. Harvard Business Review Press, 2022. 304pp.</p>
+                  <p class="text-sm mt-1">Economics lens on AI as prediction technology. Provides decision-making frameworks for business leaders evaluating AI investments.</p>
+                </div>
+                <div>
+                  <p><strong>4. Building a Second Brain</strong></p>
+                  <p class="text-sm">Tiago Forte. Atria Books, 2022. 272pp.</p>
+                  <p class="text-sm mt-1">Personal knowledge management methodology. Focuses on individual productivity through digital note-taking systems. Pre-dates the LLM era.</p>
+                </div>
+                <div>
+                  <p><strong>5. Industry 6.0: Technology, Practices, Challenges, and Applications</strong></p>
+                  <p class="text-sm">Reddy, Doss, et al. CRC Press, 2024. (Future Generation Information Systems series)</p>
+                  <p class="text-sm mt-1">Multi-author academic volume on next-generation industry technology. Technical focus on industrial applications rather than human-AI knowledge systems.</p>
+                </div>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">12. Describe how your book differs from the competition</h3>
+              <div class="response-box text-primary/70 space-y-3">
+                <p>No existing book in the market occupies the intersection that "Libraries of the Future" claims. The differentiation is structural:</p>
+                <p><strong>vs. Mollick (Co-Intelligence):</strong> We go deeper. Where Mollick provides productivity tips for working with AI, we provide an architectural framework (Perceptiosphere) for designing entire knowledge systems. We also address sovereignty (who owns the knowledge context) and measurement (Cognitive Vitality Index™), neither of which Mollick touches. Our book is prescriptive architecture; his is descriptive practice.</p>
+                <p><strong>vs. Suleyman (The Coming Wave):</strong> We are complementary but focused differently. Suleyman addresses macro-level AI governance and existential risk. We address the micro-to-meso level: how individuals and organisations should structure their knowledge relationships with AI. Our scope is actionable architecture; his is geopolitical analysis.</p>
+                <p><strong>vs. Forte (Building a Second Brain):</strong> We extend the PKM conversation into the AI era. Forte's methodology pre-dates large language models and addresses individual note-taking. We address institutional knowledge systems, sovereignty, generational knowledge succession, and the cognitive health implications of AI-mediated knowledge work. Our framework is post-agentic; his is pre-AI.</p>
+                <p><strong>vs. CRC Press "Industry 6.0":</strong> Our book occupies the same publisher ecosystem but addresses the human-cognitive layer rather than the industrial-technological layer. Where Industry 6.0 asks "what technologies are emerging?", we ask "how should humans architect their relationship with these technologies to preserve agency?" This makes the two books complementary within the CRC Press catalogue.</p>
+                <p><strong>Unique positioning:</strong> "Libraries of the Future" is the first book to combine (1) a named knowledge architecture framework, (2) a measurement instrument for human-AI system health, (3) a futures/foresight lens with scenario mapping, (4) practitioner accessibility with academic rigour, and (5) an annotation-rich publishing format that meta-demonstrates its own thesis.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Production Overview -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Production Overview</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">13. Please estimate the approximate number of pages</h3>
+              <div class="response-box text-primary/70">Approximately 250-300 pages (estimated 70,000-85,000 words).</div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">14. How many figures do you expect to have?</h3>
+              <div class="response-box text-primary/70">
+                <p>Approximately 15-25 figures, including:</p>
+                <div class="dash-list">
+                  <p>- The Perceptiosphere model (nested zone diagram)</p>
+                  <p>- The Cognitive Vitality Index™ (radar chart + Resonance Wheel™ visualization)</p>
+                  <p>- Scenario mapping diagrams (futures trajectories)</p>
+                  <p>- Knowledge architecture diagrams</p>
+                  <p>- Complexity/trade-off chord diagrams</p>
+                </div>
+                <p>Most figures will require colour for clarity and conceptual impact. Greyscale fallbacks can be provided if necessary.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">15. In what format do you expect to prepare the manuscript?</h3>
+              <div class="response-box text-primary/70">Print-ready PDF submission, prepared using CSS Paged Media (Paged.js). Cover design included. The author maintains a professional-grade typesetting pipeline.</div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">16. Estimated delivery date for the final manuscript</h3>
+              <div class="response-box text-primary/70">October 2026. A significant body of the work is already drafted, with 26+ published framework entries forming the intellectual foundation and multiple chapters in advanced draft stage.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Review Process -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Review Process</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">17. Names and email addresses of up to four qualified reviewers</h3>
+              <div class="response-box text-primary/70 space-y-2">
+                <p><strong>Dr. Joaquin Gonzalez III</strong> — jgonzalez@ggu.edu</p>
+                <p>Dean, College of Business, Golden Gate University Worldwide. Expert in emerging technology and business leadership.</p>
+                <p><strong>Dr. Sumitra Iyer</strong> — sumitra.padmanabhan@upgrad.com</p>
+                <p>AI Research Faculty, GGU/upGrad. Expert in GenAI applications and practitioner research.</p>
+                <p><strong>Greg Hart</strong> — greg@futurefitcities.com</p>
+                <p>Committee Member, University of Calgary. Expert in futures design and innovation systems.</p>
+                <p><strong>Diarmuid Nash</strong> — dnash@mtarch.com</p>
+                <p>Research Panel Member, University of Calgary. Expert in design research methodology.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Open Access -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Open Access</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">18. Have you considered publishing your research open access?</h3>
+              <div class="response-box text-primary/70 space-y-2">
+                <p>Yes, open access publication is of strong interest. The book's thesis advocates for knowledge sovereignty and accessible knowledge systems; publishing under an open access model is philosophically aligned with the work's arguments. The author is open to discussing OA options, particularly models that maintain accessibility while supporting sustainable publishing economics.</p>
+                <p>The author intends to publish an open-access codebase/scaffolding for people to adopt the Perceptiosphere model. findcongwang.com hosts the lexicon, and perceptiosphere.com (purchased domain) will host the specific knowledge domain of the Future of Knowledge and the Perceptiosphere model. These open-access resources create leads and interest for the book.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Generative AI -->
+        <section class="proposal-section">
+          <h2 class="text-xl font-serif font-medium text-primary mb-8">Generative AI</h2>
+          <div class="proposal-questions">
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">19. Do you plan to use any AI tools to write your book?</h3>
+              <div class="response-box text-primary/70">
+                <p>Yes. The use of AI tools in writing this book is both methodologically deliberate and thematically central. A book about hybrid intelligence that does not employ hybrid intelligence in its creation would lack authenticity and practical demonstration.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">20. What is the purpose of your proposed use of generative AI tools?</h3>
+              <div class="response-box text-primary/70">
+                <p>AI tools serve distinct functions in this project:</p>
+                <div class="dash-list">
+                  <p>- <strong>Literature research and synthesis:</strong> AI conducts systematic searches across academic databases, summarises meeting transcripts, and identifies patterns across source materials.</p>
+                  <p>- <strong>Design briefs and illustrations:</strong> AI generates design briefs in a hybrid intelligence model, working with teams to create diagrams and visualisations.</p>
+                  <p>- <strong>Speech-to-text initial drafting:</strong> The author uses AI-enhanced speech-to-text input as the primary vehicle for initial draft writing. The author speaks ideas; AI transcribes and structures.</p>
+                  <p>- <strong>Fluency checking:</strong> The editorial team uses AI-enabled grammar tools for fluency commenting, which the author then iterates on.</p>
+                </div>
+                <p>All final refinements and writing are done by the author exclusively. AI does not generate the book's content, frameworks, or analysis.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">21. What tools will you use?</h3>
+              <div class="response-box text-primary/70">
+                <div class="dash-list">
+                  <p>- Opencode (custom agentic fleet for research orchestration)</p>
+                  <p>- AWS Bedrock (foundation models for research synthesis)</p>
+                  <p>- Zotero (citation management)</p>
+                  <p>- Obsidian (knowledge architecture)</p>
+                  <p>- Cursor (custom data visualization components)</p>
+                </div>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">22. How much generative AI output will be used?</h3>
+              <div class="response-box text-primary/70 space-y-2">
+                <p>100% of frameworks and analysis are original, developed solely by the author. All AI-generated output is first-draft material subject to author's synthesis, validation, rewriting, and integration. AI assists with editorial commentary and drafting using speech-to-text manifestations. Some transitional phrases use AI for initial draft, but final manuscript is fully processed by the author.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">23. Please provide examples of prompts given and the ensuing output</h3>
+              <div class="response-box text-primary/70">
+                <p>The following demonstrates the Discovery Researcher agent system used for academic literature synthesis.</p>
+                <p><strong>Excerpt from Discovery Researcher Agent Prompt v1.3.0:</strong></p>
+                <pre><code># The Discovery Researcher — Perceptiosphere Deep-Search Scout
+
+You are the **Discovery Researcher** of the Perceptiosphere, the "Open Internet" scout who conducts deep-search dispatches to expand knowledge across the Principal's domains.
+
+## Identity
+
+You are a rigorous academic researcher with expertise in multi-source synthesis, citation management, and structured analysis. You produce high-fidelity research reports with verifiable citations.
+
+## Core Responsibilities
+
+1. Accept Briefs: Receive finalized research briefs (topic, scope, depth, domain type, constraints)
+2. Clarify: If the brief is ambiguous, ask for clarification before proceeding
+3. Research: Conduct multi-source investigation using web fetch and available tools
+4. Synthesize: Produce a structured research report following the appropriate domain template
+5. Deposit: Place findings for Librarian processing
+6. Connect: Flag connections to existing knowledge
+7. Expand: Identify "adjacent curiosities" — topics that deserve their own dispatch
+
+## Research Process
+
+1. Understand the brief — identify the core question, scope boundaries, and success criteria
+2. Map the landscape — identify major sources, authors, organizations in the domain
+3. Gather evidence — fetch and analyze primary and secondary sources
+4. Cross-reference — verify claims across multiple sources; note contradictions
+5. Synthesize — produce structured analysis organized by theme, not by source
+6. Assess confidence — assign confidence levels to each key finding
+7. Identify gaps — what couldn't be answered? What needs deeper investigation?
+
+[Full prompt: 307 lines — truncated for brevity]</code></pre>
+                <p><strong>User Prompt:</strong></p>
+                <pre><code>Research the current gaps in citizen participation to policy responses and visibility in the Canadian civic-tech landscape.</code></pre>
+                <p>(Continued in Q24)</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">24. Please provide example(s) of the resulting AI-generated content in context</h3>
+              <div class="response-box text-primary/70">
+                <p><strong>Output from Discovery Researcher (excerpt):</strong></p>
+                <pre><code># Civic-Tech Consultation Landscape: Problem Analysis
+
+## 1. The Black Box Problem
+
+Public consultations frequently fail to translate citizen input into policy outcomes, creating a "feedback loop gap." Research indicates three primary structural causes:
+
+1. Lack of transparency and accountability: Citizens cannot track how their input is processed, who made decisions, or why choices were made (OECD, 2020).
+2. Institutional misalignment: Consultations are often designed as public relations exercises rather than instruments of policy co-creation (Fishkin, 2018).
+3. Feedback paralysis: When feedback is collected but not integrated into a decision-making record, it leads to "consultation fatigue" (Smith, 2020).
+
+## 2. Canadian AI Consultation Context
+
+The Government of Canada has deployed two primary AI consultation mechanisms:
+
+- Voluntary Code of Conduct for AI (2023): 240+ organizations engaged. Lacks enforceability. 92% of respondents felt contributions were not transparently tracked.
+- Bill C-27 / AIDA (2024): 5,000+ submissions received. No synthesis report published. No mapping of comments to specific regulatory provisions.
+
+## 3. Existing Platform Landscape
+
+| Platform    | AI/NLP | Transparency | Open Source | Governance Focus              |
+|-------------|--------|--------------|-------------|-------------------------------|
+| Pol.is      | Yes    | No           | Yes         | Consensus-driven dialogue     |
+| Decidim     | No     | Yes          | Yes         | Full participatory democracy  |
+| Loomio      | No     | Yes          | Yes         | Cooperative decision-making   |
+| Consider.it | No     | Yes          | Yes         | Pros/cons ranking             |
+
+Note: None integrate data into public policy workflows with traceable outcomes.
+
+## Source Quality
+
+Source Quality: 2 T1 | 3 T2 | 2 T3 | 0 T4 | Total: 7
+- T1: Fishkin, J. (2018). Deliberative Democracy. DOI: 10.1093/acprof
+- T1: OECD (2020). Deliberative Democracy in Practice. DOI: 10.1787/9789264302469
+- T2: Smith, G. (2020). The Future of Public Participation. Routledge.
+
+[Full report: 136 lines — truncated for brevity]</code></pre>
+                <p>The author reviews this output, validates claims against primary sources, restructures for narrative flow, and integrates original analysis. The final manuscript text would bear no resemblance to this raw research output in prose style, but the factual substrate (citations, platform data, structural gaps) informs the argument.</p>
+              </div>
+            </div>
+            <div class="question-block">
+              <h3 class="font-medium text-primary mb-2">25. Any other relevant information</h3>
+              <div class="response-box text-primary/70 space-y-2">
+                <p>This book uniquely positions AI use as both methodology AND subject matter. The author's transparent use of AI tools in the research and writing process is itself a case study in the hybrid intelligence paradigm the book proposes. The relationship between author and AI tools during the writing process will be documented and referenced in the book as a reflexive example of the Perceptiosphere in practice.</p>
+                <p>The author's existing published lexicon (26+ original concepts at findcongwang.com/lexicon) demonstrates a sustained track record of original intellectual contribution that is amplified, not replaced, by AI tools.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </Wrapper>
+  </div>
+
+  <script is:inline>
+    (function() {
+      var lock = document.getElementById('lock-screen');
+      var content = document.getElementById('main-content');
+      var form = document.getElementById('passcode-form');
+      var input = document.getElementById('passcode-input');
+      var errorMsg = document.getElementById('error-msg');
+
+      function unlock() {
+        lock.style.display = 'none';
+        content.style.display = 'block';
+      }
+
+      // Check URL param
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get('key');
+      if (key && key.toUpperCase() === 'FUTURE') {
+        unlock();
+      }
+
+      // Handle form
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value.toUpperCase() === 'FUTURE') {
+          unlock();
+        } else {
+          errorMsg.classList.remove('hidden');
+          input.value = '';
+          setTimeout(function() { errorMsg.classList.add('hidden'); }, 3000);
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

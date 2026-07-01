@@ -3,7 +3,7 @@ import { PRINT_FORMAT_KEYS } from "@/data/print-formats";
 
 // Single base schema for all content collections
 const statusEnum = z.enum(["private", "seed", "wip", "ready", "published", "unlisted"]);
-const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "project", "question", "challenge"]);
+const publishTypeEnum = z.enum(["atom", "blog", "essay", "paper", "domain", "lexicon", "influence", "book", "course", "project", "question", "challenge"]);
 const contentTypeEnum = z.enum(["atom", "note", "source", "person"]);
 const printFormatEnum = z.enum(PRINT_FORMAT_KEYS);
 

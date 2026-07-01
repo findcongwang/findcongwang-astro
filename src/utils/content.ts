@@ -112,7 +112,7 @@ export function entryHref(collection: ContentCollectionId, slug: string): string
 }
 
 /** Publish type enum from content schema (specific detail on entry cards). */
-export type PublishTypeId = "atom" | "blog" | "essay" | "paper" | "domain" | "lexicon" | "influence" | "book" | "project" | "question" | "challenge";
+export type PublishTypeId = "atom" | "blog" | "essay" | "paper" | "domain" | "lexicon" | "influence" | "book" | "course" | "project" | "question" | "challenge";
 
 // ─── Single source of truth: collection = large category (Browse/filter); publish type = specific detail (entry cards). ───
 // Multiple publish types can belong to the same collection.
@@ -140,8 +140,9 @@ const PUBLISH_TYPE_CONFIG: Record<
   domain: { label: "Domain", color: "#6D6875", collection: "domains" },
   lexicon: { label: "Lexicon", color: "#8A9A5B", collection: "lexicon" },
   influence: { label: "Influence", color: "#D4A373", collection: "influences" },
-  book: { label: "Books", color: "#4A6FA5", collection: "projects" },
-  project: { label: "Projects", color: "#C28B2E", collection: "projects" },
+  book: { label: "Book", color: "#4A6FA5", collection: "projects" },
+  course: { label: "Course", color: "#6B5B95", collection: "projects" },
+  project: { label: "Project", color: "#C28B2E", collection: "projects" },
   question: { label: "Question", color: "#B8860B", collection: "questions" },
   challenge: { label: "Challenge", color: "#8B4513", collection: "challenges" },
 };

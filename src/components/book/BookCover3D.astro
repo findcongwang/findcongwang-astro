@@ -1,0 +1,131 @@
+---
+/**
+ * BookCover3D — A reusable CSS 3D book component.
+ *
+ * Creates a perspective-rotated book from a flat cover image using
+ * CSS transforms and pseudo-elements. The image drives the dimensions
+ * naturally (width: 100%; height: auto), so it works with any aspect ratio.
+ *
+ * Based on jeongmin-kim's CodePen (VwVqxRO):
+ *   - ::before pseudo-element for page edges (right side, rotateY 90deg)
+ *   - ::after pseudo-element for rear cover (translateZ negative)
+ *   - <img> gets translateZ positive to sit in front
+ *
+ * Props:
+ *   coverImage  — path to the cover image
+ *   title       — book title (used for alt text)
+ *   maxWidth    — max-width of the book container (default: "250px")
+ *   thickness   — depth of the book in px (default: "26px")
+ *   coverColor  — colour of the rear cover (default: "#1a1a2e")
+ *   class       — passthrough class
+ */
+
+interface Props {
+  coverImage: string;
+  title: string;
+  maxWidth?: string;
+  thickness?: string;
+  coverColor?: string;
+  class?: string;
+}
+
+const {
+  coverImage,
+  title,
+  maxWidth = "250px",
+  thickness = "26px",
+  coverColor = "#1a1a2e",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={["book-3d", className]}
+  style={`--book-thickness: ${thickness}; --cover-color: ${coverColor}; max-width: ${maxWidth};`}
+>
+  <div class="book-3d__inner">
+    <img
+      class="book-3d__cover"
+      src={coverImage}
+      alt={`${title} book cover`}
+      loading="lazy"
+    />
+  </div>
+</div>
+
+<style>
+  .book-3d {
+    perspective: 1000px;
+    margin: 0 auto;
+  }
+
+  .book-3d__inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(-25deg);
+    transition: transform 0.4s ease;
+  }
+
+  .book-3d__inner:hover {
+    transform: rotateY(-15deg);
+  }
+
+  /* Book Pages (right edge) */
+  .book-3d__inner::before {
+    position: absolute;
+    content: "";
+    left: 100%;
+    top: 1%;
+    width: calc(var(--book-thickness) * 2);
+    height: 98%;
+    transform: translate(-55%, 0) rotateY(90deg);
+    background: linear-gradient(
+      90deg,
+      #fff 0%,
+      hsl(0, 0%, 94%) 5%,
+      #fff 10%,
+      hsl(0, 0%, 94%) 15%,
+      #fff 20%,
+      hsl(0, 0%, 94%) 25%,
+      #fff 30%,
+      hsl(0, 0%, 94%) 35%,
+      #fff 40%,
+      hsl(0, 0%, 94%) 45%,
+      #fff 50%,
+      hsl(0, 0%, 94%) 55%,
+      #fff 60%,
+      hsl(0, 0%, 94%) 65%,
+      #fff 70%,
+      hsl(0, 0%, 94%) 75%,
+      #fff 80%,
+      hsl(0, 0%, 94%) 85%,
+      #fff 90%,
+      hsl(0, 0%, 94%) 95%,
+      #fff 100%
+    );
+  }
+
+  /* Rear Cover */
+  .book-3d__inner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1%;
+    width: 100%;
+    height: 100%;
+    transform: translateZ(calc(var(--book-thickness) * -1));
+    background-color: var(--cover-color);
+    border-radius: 0 2px 2px 0;
+    box-shadow: -10px 0 50px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Front Cover (the image) */
+  .book-3d__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0 2px 2px 0;
+    transform: translateZ(var(--book-thickness));
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+  }
+</style>

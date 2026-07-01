@@ -1,0 +1,129 @@
+---
+type: note
+status: published
+publish_type: lexicon
+tags: [Information Design, Complexity Systems, Data Visualisation, Systems Thinking, Multi-Dimensional Index]
+originated_date: 2025-07-01
+publish_date: 2026-06-30
+title: Resonance Wheel
+description: A dendrogram-based visualisation methodology for revealing interdependencies between dimensions of multi-dimensional indices. Companion to radar charts, correcting the reductionist illusion that dimensions of complex systems can be treated as independent variables.
+formats: ["print"]
+---
+
+import MarginNote from '@/components/paged/MarginNote.astro';
+import FootNote from '@/components/paged/FootNote.astro';
+import InlineNote from '@/components/paged/InlineNote.astro';
+import RoughAnnotation from '@/components/annotations/RoughAnnotation.astro';
+
+Every multi-dimensional index faces the same representational lie. The moment we decompose a complex phenomenon into measurable dimensions and plot them on a radar chart, we invite the viewer to treat those dimensions as separable, independently tuneable dials. "Improve Dimension A without affecting Dimension B" becomes the implicit suggestion of any scorecard, dashboard, or performance matrix.
+
+In complex systems, this is false. Dimensions interact. They couple. They trade off. Improving one may degrade another; strengthening a third may create unexpected amplification in a fourth.
+
+<RoughAnnotation type="highlight" color="green">The Resonance Wheel™ is a visualisation methodology for revealing these interdependencies. It makes visible what the radar chart necessarily conceals.</RoughAnnotation>
+
+
+## The Problem: Reductionist Visualisation
+
+<MarginNote n={1} label="Radar Chart Limitations" color="orange" note="Radar charts (also called spider charts or star plots) encode values on radial axes from a central point. They are visually striking and immediately communicable, but they introduce two biases: (1) the area enclosed by the shape changes disproportionately based on which axis is longer, making comparisons unreliable, and (2) the angular placement of axes implies independence between adjacent dimensions, which is rarely true in complex systems.">Radar charts are high-glance-value visualisations.</MarginNote> They provide an immediately communicable snapshot. They allow comparison between two states over time (overlay the before and after shapes). They give a visceral sense of "health" through the fullness or concavity of the resulting polygon.
+
+But they lie about one critical property: the relationship between dimensions. By placing each dimension on its own spoke radiating from a shared centre, the radar chart structurally implies that:
+
+- Each dimension varies independently
+- Changing one dimension has no effect on others
+- Improvement strategies can target dimensions in isolation
+- The system is decomposable into separable parts
+
+None of this holds in complex systems. The Cognitive Vitality Index, a Societal Resilience Index, an organisational maturity model, a strategic foresight scope: all contain dimensions that resonate with each other, creating cascading effects, trade-offs, and amplification loops that the radar chart cannot show.
+
+The Resonance Wheel exists to restore this complexity.
+
+
+## How Resonance Works
+
+"Resonance" is borrowed deliberately from physics: a system's natural tendency to oscillate with greater amplitude when driven at certain frequencies. <FootNote n={1} color="burgundy" note="The physics metaphor is precise: in a mechanical or acoustic system, energy applied at one frequency can cause amplification at another frequency that shares a harmonic relationship. In dimensional indices, changing one dimension transfers 'energy' (effort, resources, attention) to connected dimensions, sometimes amplifying them and sometimes dampening them.">The metaphor maps exactly onto dimensional interdependence.</FootNote>
+
+Applied to multi-dimensional indices, resonance takes five forms:
+
+**Strong resonance:** Changing Dimension A causes significant, measurable response in Dimension B. They are tightly coupled. Any intervention targeting A must account for B.
+
+**Weak resonance:** Changing Dimension A produces minimal response in Dimension B. They are loosely coupled. Interventions can target A with relative independence.
+
+**Amplifying resonance:** Improving A also improves B. Virtuous cycles exist. <RoughAnnotation type="underline" color="green">These are leverage points.</RoughAnnotation>
+
+**Dampening resonance:** Improving A degrades B. Trade-offs exist. These are constraint boundaries where gains in one dimension come at the expense of another.
+
+**Cascade resonance:** Changing A resonates to B, which resonates to C, which resonates to D. Multi-hop effects propagate through the system. <RoughAnnotation type="highlight" color="green">These are the interactions most invisible to reductionist analysis and most dangerous to ignore.</RoughAnnotation>
+
+
+## Two Forms
+
+The Resonance concept manifests in two complementary visualisation forms, each suited to different contexts:
+
+### Resonance Wheel (Polar/Circular)
+
+A <FootNote n={2} color="burgundy" note="Dendrogram: a branching tree diagram representing hierarchical clustering. In the Resonance Wheel, the dendrogram structure radiates outward from the centre: major categories occupy sectors of the circle, sub-dimensions branch inward as leaves, and connection chords arc between sectors to show resonance.">dendrogram structure</FootNote> rendered in radial layout. Major categories occupy sectors of the circle (matching the radar chart's polar organisation). Sub-dimensions branch inward as dendrogram leaves. Connection chords arc between sectors, encoded by weight (line thickness or colour intensity) to indicate resonance strength.
+
+**Best for:** Direct pairing with radar charts. The wheel uses the same angular positioning as the radar, allowing the viewer to see both the scores (radar) and the interactions (wheel) in a single visual field. High print-compatibility. Works in static media: book pages, reports, slide decks.
+
+### Resonance Map (Planar/Cartesian)
+
+An expanded visualisation freed from polar constraints. Uses spatial proximity, gradients, flow lines, and interaction density patterns (analogous to fluid dynamics visualisation) to show the strength, direction, and character of resonance between concepts. Dimensions are positioned by affinity rather than arbitrary angular assignment.
+
+**Best for:** Deep analytical exploration. Interactive digital contexts where the viewer can zoom, filter, and trace specific resonance pathways. Better for systems with many dimensions (20+) where polar layout becomes crowded. Enables discovery of resonance patterns that the circular constraint obscures.
+
+Both forms communicate the same underlying truth: dimensions of a complex index resonate with each other, and this resonance must inform any intervention strategy.
+
+
+## Application: The Cognitive Vitality Index
+
+<MarginNote n={2} label="CVI Resonance Example" color="blue" note="In the Cognitive Vitality Index, the six major dimensions (Agency Retention, Critical Thinking Maintenance, Skill Preservation, Epistemic Autonomy, Cognitive Load Balance, Synthesis Quality) exhibit strong resonance patterns that make isolated intervention unreliable.">The CVI provides the clearest demonstration of why the Resonance Wheel is necessary.</MarginNote> Consider three interaction patterns:
+
+**Agency Retention and Critical Thinking (amplifying resonance):** Exercising agency (overriding AI recommendations) requires and reinforces critical thinking. Atrophy of one accelerates atrophy of the other. Interventions that restore agency practice simultaneously rebuild critical thinking capacity.
+
+**Cognitive Load Balance and Synthesis Quality (dampening resonance):** If verification and monitoring of AI outputs consumes excessive cognitive load, less capacity remains for genuine synthesis. Organisations that increase AI oversight requirements may inadvertently reduce the creative synthesis they intended to protect.
+
+**Skill Preservation, Epistemic Autonomy, and Agency (cascade resonance):** Loss of domain-specific skill undermines confidence in one's own judgment, reducing perceived epistemic autonomy. Reduced autonomy decreases the likelihood of exercising agency (why override the AI if you no longer trust your own expertise?). This further reduces practice frequency, accelerating skill loss. A three-hop cascade from a single point of erosion.
+
+The Resonance Wheel for CVI makes these dynamics visible at a glance, informing intervention design. An organisation that attempts to improve "Agency Retention" without addressing "Cognitive Load Balance" may fail because their people lack the bandwidth to exercise the agency they theoretically possess.
+
+
+## Applications Beyond CVI
+
+The Resonance Wheel is a general-purpose methodology. It applies to any multi-dimensional index operating in complex-system territory:
+
+| Index | Dimensions | Resonance Example |
+|-------|-----------|-------------------|
+| **Cognitive Vitality Index** | Agency, Critical Thinking, Skill, Autonomy, Load Balance, Synthesis | Skill atrophy cascades to autonomy loss |
+| **Societal Resilience Index** | Adaptive capacity, social cohesion, institutional trust, resource diversity, knowledge distribution | Eroding institutional trust dampens adaptive capacity |
+| **APPETITE Model** (foresight scope) | Awareness, Preparedness, Projecting, Engagement, Timing, Iteration, Testing, Embedding | Weak Awareness limits Projecting range |
+| **AI Adoption Maturity** | Leadership, Talent, Data, Infrastructure, Governance, Culture | Culture constraints override Infrastructure investment |
+
+
+## Design Principles
+
+Constructing a Resonance Wheel requires four inputs:
+
+1. **Dimension taxonomy:** The dendrogram structure defining what decomposes into what. This establishes the sectors and leaves of the wheel.
+
+2. **Resonance data:** Assessment of interaction strength between dimensions. Sources range from expert judgment (qualitative) through correlation analysis (quantitative) to causal modelling (structural). Even a three-level encoding (strong, moderate, weak) provides substantial value over the implicit "all independent" assumption of an unaccompanied radar chart.
+
+3. **Encoding decisions:** How resonance strength maps to visual properties. Options include chord thickness, colour gradient, opacity, line style (solid for amplifying, dashed for dampening), and in interactive versions, animation speed or particle flow.
+
+4. **Layout logic:** In the Wheel form, sectors are arranged to minimise chord crossings while maintaining the radar chart's angular correspondence. In the Map form, dimensions are positioned by affinity clustering (strongly resonant dimensions placed closer together).
+
+<MarginNote n={3} label="Minimum Viable Resonance Wheel" color="orange" note="The methodology does not require precise quantification to be valuable. A Resonance Wheel constructed from expert judgment alone (asking: 'If we improve X, what else moves?') already provides insight that the unaccompanied radar chart completely lacks. Precision is desirable but not a prerequisite for utility.">The methodology does not require precise quantification of resonance strength.</MarginNote> Even qualitative assessment provides substantial value. The bar for utility is not "perfect measurement" but "better than the implicit assumption of independence."
+
+
+## Positioning in Visualisation Practice
+
+The Resonance Wheel occupies a specific niche in complexity visualisation:
+
+- **Chord diagrams** show flow between categories but lack hierarchical structure
+- **Correlation matrices** show pairwise relationships but are not scannable at a glance
+- **Network graphs** show connections but lack the structured decomposition of a dendrogram
+- **Sankey diagrams** show flow volume but not bidirectional resonance
+- **Heat maps** show intensity but not directionality or cascade effects
+
+<RoughAnnotation type="highlight" color="green">The Resonance Wheel combines the hierarchical clarity of a dendrogram with the relational richness of a network graph, rendered in a form that pairs naturally with the most common multi-dimensional snapshot visualisation.</RoughAnnotation>
+
+It is an argument against purely reductionist thinking, rendered as a design artefact. Its presence alongside any radar chart or scorecard signals: "We know this system is more complex than the simplified view suggests, and here is the map of that complexity."
