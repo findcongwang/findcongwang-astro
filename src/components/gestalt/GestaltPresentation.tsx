@@ -142,11 +142,12 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
   useEffect(() => {
     if (currentAnchor && currentAnchor.storyStepId) {
       const storyStepIndex = presentation.story.steps.findIndex(s => s.id === currentAnchor.storyStepId);
-      if (storyStepIndex >= 0 && storyStepIndex !== storyIndex) {
+      if (storyStepIndex >= 0) {
         dispatch({ type: "GOTO_STORY", payload: storyStepIndex });
       }
     }
-  }, [slideIndex, currentAnchor, presentation.story.steps, storyIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slideIndex]);
 
   // Initial URL sync after hydration
   useEffect(() => {
@@ -251,8 +252,8 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
     dispatch({ type: "GOTO_SLIDE", payload: index });
   }, []);
 
-  // Word cloud needs legacy-compatible data
-  const wordCloudProps = useMemo(() => {
+  // Word cloud needs legacy-compatible data (static: only depends on presentation data)
+  const wordCloudData = useMemo(() => {
     // Map story steps back to TimelineEvent shape for WordCloudGestalt
     const timelineEvents = presentation.story.steps.map((step) => ({
       id: step.id,
@@ -264,13 +265,17 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
     }));
 
     // Build GestaltTerm array from all accumulated concepts
+    // Assign weights based on position in conceptsAdded array (first = hero, rest descending)
     const termMap = new Map<string, { term: string; weight: number; appearedAt: string; thread: string; fadedAt?: string }>();
     
-    presentation.story.steps.forEach((step, idx) => {
-      step.conceptsAdded?.forEach((term) => {
+    presentation.story.steps.forEach((step) => {
+      const added = step.conceptsAdded || [];
+      added.forEach((term, termIdx) => {
+        // First term in each step gets highest weight, subsequent terms get less
+        const weight = termIdx === 0 ? 0.95 : Math.max(0.4, 0.85 - termIdx * 0.12);
         termMap.set(term, {
           term,
-          weight: 1.0,
+          weight,
           appearedAt: step.id,
           thread: step.thread || "default",
           fadedAt: undefined,
@@ -286,10 +291,11 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
 
     const terms = Array.from(termMap.values());
 
-    const currentEventId = currentStoryStep?.id || null;
+    return { terms, timelineEvents };
+  }, [presentation]);
 
-    return { terms, timelineEvents, currentEventId };
-  }, [presentation, currentStoryStep]);
+  // Current event ID for word cloud (changes with story navigation)
+  const currentEventId = currentStoryStep?.id || null;
 
   const theme = "light" as const;
 
@@ -312,9 +318,9 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
       {/* Left: Word Cloud */}
       <div className="gestalt-presentation__left">
         <WordCloudGestalt
-          terms={wordCloudProps.terms}
-          timeline={wordCloudProps.timelineEvents}
-          currentEventId={wordCloudProps.currentEventId}
+          terms={wordCloudData.terms}
+          timeline={wordCloudData.timelineEvents}
+          currentEventId={currentEventId}
           threadColors={presentation.story.threadColors || {}}
           compact
           onCacheReady={setChangeEvents}
@@ -326,7 +332,7 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
       <div className="gestalt-presentation__right" style={{ position: "relative", overflow: "hidden" }}>
         <SlideViewport
           slide={currentSlide}
-          currentEventId={currentStoryStep?.id || null}
+          currentEventId={currentEventId}
           timeline={presentation.story.steps}
         />
 
@@ -401,7 +407,7 @@ function GestaltPresentation({ data, initialSlideIndex = 0, initialStoryIndex = 
       <div className="gestalt-presentation__bottom">
         <SimpleTimeline
           events={presentation.story.steps}
-          currentEventId={currentStoryStep?.id || null}
+          currentEventId={currentEventId}
           threadColors={presentation.story.threadColors || {}}
           onEventClick={handleEventChange}
           changeEvents={changeEvents}
