@@ -1,5 +1,6 @@
 import { useState, useEffect, type ReactNode } from "react";
 import type { SlideContent, TimelineEvent } from "./types";
+import type { DualTrackSlide, StoryStep } from "./types-v2";
 import { ForesightScope } from "./ForesightScope";
 import { GestaltStrategyMapSlide } from "./GestaltStrategyMapSlide";
 import { GestaltBusinessCanvasSlide } from "./GestaltBusinessCanvasSlide";
@@ -7,15 +8,15 @@ import { ConvergenceRope } from "./ConvergenceRope";
 import { sovereignAiData } from "./data/foresight-sovereign-ai";
 
 interface SlideViewportProps {
-  slide: SlideContent | null;
+  slide: (SlideContent & { intent?: string }) | DualTrackSlide | null;
   currentEventId?: string | null;
-  timeline?: TimelineEvent[];
+  timeline?: (TimelineEvent | StoryStep)[];
 }
 
 function renderSlideWidget(
   slideId: string,
   _currentEventId: string | null,
-  _timeline: TimelineEvent[]
+  _timeline: (TimelineEvent | StoryStep)[]
 ): ReactNode | null {
   switch (slideId) {
     case "slide-demo-foresight":
@@ -74,12 +75,15 @@ export function SlideViewport({
         opacity: slide ? 1 : 0,
         width: "100%",
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       <div
         className="gestalt-slide__content"
         dangerouslySetInnerHTML={{ __html: slide.html }}
-        style={{ height: widget ? "auto" : "100%" }}
+        style={{ height: widget ? "auto" : undefined }}
       />
       {widget && <div className="gestalt-slide__widget">{widget}</div>}
     </div>

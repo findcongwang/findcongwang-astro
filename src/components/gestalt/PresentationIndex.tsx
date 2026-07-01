@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useMemo, useState, useCallback } from "react";
 import type { StorylineStep } from "./types";
+import type { DualTrackSlide } from "./types-v2";
 
 interface PresentationIndexProps {
-  storyline: StorylineStep[];
-  currentStepIndex: number;
-  onStepClick: (index: number) => void;
+  slides: DualTrackSlide[];
+  currentSlideIndex: number;
+  onSlideClick: (index: number) => void;
 }
 
-export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: PresentationIndexProps) {
+export function PresentationIndex({ slides, currentSlideIndex, onSlideClick }: PresentationIndexProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -17,34 +18,34 @@ export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: 
 
   // Current section name
   const currentSection = useMemo(() => {
-    if (currentStepIndex < 0 || currentStepIndex >= storyline.length) return "";
-    return storyline[currentStepIndex].section || "";
-  }, [storyline, currentStepIndex]);
+    if (currentSlideIndex < 0 || currentSlideIndex >= slides.length) return "";
+    return slides[currentSlideIndex].section || "";
+  }, [slides, currentSlideIndex]);
 
   // Group steps by section
   const sectionGroups = useMemo(() => {
-    const groups: { name: string; steps: StorylineStep[]; startIndex: number }[] = [];
+    const groups: { name: string; slides: DualTrackSlide[]; startIndex: number }[] = [];
     let currentSec: string | undefined;
-    let currentGroup: StorylineStep[] = [];
+    let currentGroup: DualTrackSlide[] = [];
     let startIdx = 0;
 
-    storyline.forEach((step, i) => {
-      if (step.section && step.section !== currentSec) {
+    slides.forEach((slide, i) => {
+      if (slide.section && slide.section !== currentSec) {
         if (currentGroup.length > 0) {
-          groups.push({ name: currentSec || "", steps: currentGroup, startIndex: startIdx });
+          groups.push({ name: currentSec || "", slides: currentGroup, startIndex: startIdx });
         }
-        currentSec = step.section;
-        currentGroup = [step];
+        currentSec = slide.section;
+        currentGroup = [slide];
         startIdx = i;
       } else {
-        currentGroup.push(step);
+        currentGroup.push(slide);
       }
     });
     if (currentGroup.length > 0) {
-      groups.push({ name: currentSec || "", steps: currentGroup, startIndex: startIdx });
+      groups.push({ name: currentSec || "", slides: currentGroup, startIndex: startIdx });
     }
     return groups;
-  }, [storyline]);
+  }, [slides]);
 
   // Check overflow state
   const checkOverflow = useCallback(() => {
@@ -56,31 +57,31 @@ export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: 
     setCanScrollRight(hasRight);
 
     // Count items beyond viewport
-    const steps = el.querySelectorAll("[data-step-index]");
-    let leftCount = 0;
-    let rightCount = 0;
-    const containerRect = el.getBoundingClientRect();
-    steps.forEach((step) => {
-      const rect = step.getBoundingClientRect();
-      if (rect.right < containerRect.left) leftCount++;
-      if (rect.left > containerRect.right) rightCount++;
-    });
-    setOverflowLeft(leftCount);
-    setOverflowRight(rightCount);
-  }, []);
-
-  // Auto-scroll current step into view
+      const slides = el.querySelectorAll("[data-slide-index]");
+      let leftCount = 0;
+      let rightCount = 0;
+      const containerRect = el.getBoundingClientRect();
+      slides.forEach((slide) => {
+        const rect = slide.getBoundingClientRect();
+        if (rect.right < containerRect.left) leftCount++;
+        if (rect.left > containerRect.right) rightCount++;
+      });
+      setOverflowLeft(leftCount);
+      setOverflowRight(rightCount);
+    },
+    []);
+  // Auto-scroll current slide into view
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el || currentStepIndex < 0 || currentStepIndex >= storyline.length) return;
+    if (!el || currentSlideIndex < 0 || currentSlideIndex >= slides.length) return;
 
     const scrollToCurrent = (behavior: ScrollBehavior = "smooth") => {
-      const currentStep = el.querySelector(`[data-step-index="${currentStepIndex}"]`);
-      if (!currentStep) return;
+      const currentSlide = el.querySelector(`[data-slide-index="${currentSlideIndex}"]`);
+      if (!currentSlide) return;
       const containerRect = el.getBoundingClientRect();
-      const stepRect = currentStep.getBoundingClientRect();
+      const slideRect = currentSlide.getBoundingClientRect();
       const scrollLeft =
-        stepRect.left - containerRect.left + el.scrollLeft - containerRect.width / 2 + stepRect.width / 2;
+        slideRect.left - containerRect.left + el.scrollLeft - containerRect.width / 2 + slideRect.width / 2;
       el.scrollTo({ left: scrollLeft, behavior });
     };
 
@@ -89,7 +90,7 @@ export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: 
       scrollToCurrent("auto");
       setTimeout(checkOverflow, 50);
     });
-  }, [currentStepIndex, storyline.length, checkOverflow]);
+  }, [currentSlideIndex, slides.length, checkOverflow]);
 
   // Monitor scroll and resize
   useEffect(() => {
@@ -137,33 +138,33 @@ export function PresentationIndex({ storyline, currentStepIndex, onStepClick }: 
               <span className={`gestalt-index__section-label${isSectionActive ? " gestalt-index__section-label--active" : ""}`}>
                 {group.name}
               </span>
-              {group.steps.map((step, idx) => {
-                const globalIndex = group.startIndex + idx;
-                const isCurrent = globalIndex === currentStepIndex;
-                const isPast = globalIndex < currentStepIndex;
-                const isInActiveSection = isSectionActive;
+               {group.slides.map((slide, idx) => {
+                 const globalIndex = group.startIndex + idx;
+                 const isCurrent = globalIndex === currentSlideIndex;
+                 const isPast = globalIndex < currentSlideIndex;
+                 const isInActiveSection = isSectionActive;
 
-                return (
-                  <React.Fragment key={step.id}>
-                    <div
-                      data-step-index={globalIndex}
-                      className={`gestalt-index__step${
-                        isCurrent
-                          ? " gestalt-index__step--current"
-                          : isPast
-                            ? " gestalt-index__step--past"
-                            : " gestalt-index__step--future"
-                      }${isInActiveSection && !isCurrent ? " gestalt-index__step--in-section" : ""}`}
-                      onClick={() => onStepClick(globalIndex)}
-                    >
-                      {step.title}
-                    </div>
-                    {idx < group.steps.length - 1 && (
-                      <span className="gestalt-index__dot">·</span>
-                    )}
-                  </React.Fragment>
-                );
-              })}
+                 return (
+                   <React.Fragment key={slide.id}>
+                     <div
+                       data-slide-index={globalIndex}
+                       className={`gestalt-index__step${
+                         isCurrent
+                           ? " gestalt-index__step--current"
+                           : isPast
+                             ? " gestalt-index__step--past"
+                             : " gestalt-index__step--future"
+                       }${isInActiveSection && !isCurrent ? " gestalt-index__step--in-section" : ""}`}
+                       onClick={() => onSlideClick(globalIndex)}
+                     >
+                       {slide.title}
+                     </div>
+                     {idx < group.slides.length - 1 && (
+                       <span className="gestalt-index__dot">·</span>
+                     )}
+                   </React.Fragment>
+                 );
+               })}
             </div>
           );
         })}

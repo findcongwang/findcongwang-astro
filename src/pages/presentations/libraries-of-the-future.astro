@@ -12,7 +12,7 @@ function parseSlideIndex(search: string, maxSteps: number): number {
   return Math.max(0, Math.min(n, Math.max(0, maxSteps - 1)));
 }
 
-const initialSlideIndex = parseSlideIndex(Astro.url.search, librariesOfTheFutureData.storyline.length);
+const initialSlideIndex = parseSlideIndex(Astro.url.search, librariesOfTheFutureData.slides.length);
 
 // Passcode check: allow bypass via ?key=FUTURE
 const params = new URLSearchParams(Astro.url.search);

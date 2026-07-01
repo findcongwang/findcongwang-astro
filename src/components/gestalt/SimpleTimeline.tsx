@@ -1,15 +1,21 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { TimelineEvent, ThreadId } from "./types";
+import type { StoryStep } from "./types-v2";
 
 interface SimpleTimelineProps {
-  events: TimelineEvent[];
+  events: (TimelineEvent | StoryStep)[];
   currentEventId: string | null;
-  threadColors: Record<ThreadId, string>;
+  threadColors: Record<ThreadId | string, string>;
   onEventClick: (eventId: string) => void;
   theme?: "light" | "dark";
   /** Events where the word cloud visible set changes */
   changeEvents?: Set<string>;
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 export function SimpleTimeline({
@@ -17,7 +23,7 @@ export function SimpleTimeline({
   currentEventId,
   threadColors,
   onEventClick,
-  theme = "dark",
+  theme = "light",
   changeEvents,
 }: SimpleTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +31,6 @@ export function SimpleTimeline({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
-  // Single effect: initialize structure on mount, update on data/state change
   useEffect(() => {
     const container = containerRef.current;
     const svg = d3.select(svgRef.current);
@@ -47,23 +52,48 @@ export function SimpleTimeline({
       const width = container.clientWidth;
       svg.attr("width", width).attr("height", height);
 
-      const minDate = new Date("2025-12-01");
-      const maxDate = new Date("2026-07-01");
-      const xScale = d3.scaleTime().domain([minDate, maxDate]).range([margin.left, width - margin.right]);
-      const yCenter = (height - margin.bottom) / 2 + margin.top / 2;
+      // Determine if we have dates for all events (timeline style)
+      const hasDates = events.every(e => (e as TimelineEvent).date);
+      
+      let xScale: d3.ScaleTime<number, number> | d3.ScalePoint<number>;
+      let yCenter: number;
+
+      if (hasDates) {
+        const minDate = new Date("2025-12-01");
+        const maxDate = new Date("2026-07-01");
+        xScale = d3.scaleTime().domain([minDate, maxDate]).range([margin.left, width - margin.right]);
+        yCenter = (height - margin.bottom) / 2 + margin.top / 2;
+      } else {
+        const stepCount = events.length;
+        xScale = d3.scalePoint<number>().domain(events.map((_, i) => i)).range([margin.left, width - margin.right]);
+        yCenter = (height - margin.bottom) / 2 + margin.top / 2;
+      }
 
       // --- AXIS (rebuild on resize) ---
       svg.selectAll("g.axis").remove();
-      const axisG = svg.append("g").attr("class", "axis")
-        .attr("transform", `translate(0, ${height - margin.bottom})`);
-      const xAxis = d3.axisBottom(xScale)
-        .ticks(d3.timeMonth.every(1))
-        .tickFormat(d3.timeFormat("%b") as any)
-        .tickSize(-height + margin.top + margin.bottom);
-      axisG.call(xAxis as any);
-      axisG.selectAll("line").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
-      axisG.selectAll("path").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
-      axisG.selectAll("text").attr("fill", axisText).attr("font-size", "10px");
+      
+      if (hasDates) {
+        const axisG = svg.append("g").attr("class", "axis")
+          .attr("transform", `translate(0, ${height - margin.bottom})`);
+        const xAxis = d3.axisBottom(xScale)
+          .ticks(d3.timeMonth.every(1))
+          .tickFormat(d3.timeFormat("%b") as any)
+          .tickSize(-height + margin.top + margin.bottom);
+        axisG.call(xAxis as any);
+        axisG.selectAll("line").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
+        axisG.selectAll("path").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
+        axisG.selectAll("text").attr("fill", axisText).attr("font-size", "10px");
+      } else {
+        const axisG = svg.append("g").attr("class", "axis")
+          .attr("transform", `translate(0, ${height - margin.bottom})`);
+        const axis = d3.axisBottom(xScale)
+          .tickValues(events.map((_, i) => i))
+          .tickFormat((i) => (i as number) + 1);
+        axisG.call(axis as any);
+        axisG.selectAll("line").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
+        axisG.selectAll("path").attr("stroke", axisStroke).attr("stroke-opacity", 0.5);
+        axisG.selectAll("text").attr("fill", axisText).attr("font-size", "10px");
+      }
 
       // --- BASELINE ---
       svg.selectAll("line.baseline").data([null]).join("line")
@@ -72,8 +102,8 @@ export function SimpleTimeline({
         .attr("y1", yCenter).attr("y2", yCenter)
         .attr("stroke", baselineStroke).attr("stroke-width", 1);
 
-      // --- EVENT DOTS (enter/update/exit) ---
-      const dots = svg.selectAll<SVGCircleElement, TimelineEvent>("circle.event-dot")
+      // --- EVENT DOTS ---
+      const dots = svg.selectAll<SVGCircleElement, TimelineEvent | StoryStep>("circle.event-dot")
         .data(events, (d) => d.id);
 
       dots.exit()
@@ -86,9 +116,22 @@ export function SimpleTimeline({
           changeEvents?.has(d.id) ? "event-dot event-dot--change" : "event-dot"
         )
         .attr("cy", yCenter)
-        .attr("cx", (d) => xScale(new Date(d.date)))
+        .attr("cx", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .attr("r", 0)
-        .attr("fill", (d) => threadColors[d.thread])
+        .attr("fill", (d) => {
+          if (hasDates) {
+            return threadColors[(d as TimelineEvent).thread] || "#ccc";
+          } else {
+            return threadColors[(d as StoryStep).thread || "default"] || "#ccc";
+          }
+        })
         .attr("stroke", "none")
         .style("cursor", "pointer");
 
@@ -96,7 +139,6 @@ export function SimpleTimeline({
         changeEvents?.has(d.id) ? 6 : 5
       );
 
-      // Hover + click on all dots
       const allDots = entering.merge(dots);
       allDots
         .attr("class", (d) =>
@@ -124,33 +166,65 @@ export function SimpleTimeline({
           onEventClick(d.id);
         });
 
-      // Update positions on resize
       allDots.transition().duration(300).ease(d3.easeCubicInOut)
-        .attr("cx", (d) => xScale(new Date(d.date)))
+        .attr("cx", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .attr("cy", yCenter);
 
       // --- CURRENT MARKER ---
       const currentEvent = events.find(e => e.id === currentEventId);
       const markerData = currentEvent ? [currentEvent] : [];
 
-      // Vertical line
-      const vLine = svg.selectAll<SVGLineElement, TimelineEvent>("line.current-line")
+      const vLine = svg.selectAll<SVGLineElement, TimelineEvent | StoryStep>("line.current-line")
         .data(markerData, (d) => d.id);
       vLine.exit().transition().duration(200).attr("stroke-opacity", 0).remove();
       vLine.enter()
         .append("line").attr("class", "current-line")
         .attr("y1", margin.top).attr("y2", height - margin.bottom)
         .attr("stroke", markerStroke).attr("stroke-width", 1.5).attr("stroke-opacity", 0.6)
-        .attr("x1", (d) => xScale(new Date(d.date)))
-        .attr("x2", (d) => xScale(new Date(d.date)))
+        .attr("x1", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
+        .attr("x2", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .merge(vLine)
         .transition().duration(300).ease(d3.easeCubicInOut)
-        .attr("x1", (d) => xScale(new Date(d.date)))
-        .attr("x2", (d) => xScale(new Date(d.date)))
+        .attr("x1", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
+        .attr("x2", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .attr("stroke-opacity", 0.6);
 
-      // Highlight ring
-      const ring = svg.selectAll<SVGCircleElement, TimelineEvent>("circle.current-ring")
+      const ring = svg.selectAll<SVGCircleElement, TimelineEvent | StoryStep>("circle.current-ring")
         .data(markerData, (d) => d.id);
       ring.exit().transition().duration(200).attr("r", 0).remove();
       ring.enter()
@@ -159,14 +233,27 @@ export function SimpleTimeline({
         .attr("r", 0)
         .attr("fill", "none")
         .attr("stroke", markerStroke).attr("stroke-width", 2)
-        .attr("cx", (d) => xScale(new Date(d.date)))
+        .attr("cx", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .merge(ring)
         .transition().duration(300).ease(d3.easeCubicInOut)
-        .attr("cx", (d) => xScale(new Date(d.date)))
+        .attr("cx", (d) => {
+          if (hasDates) {
+            return xScale(new Date((d as TimelineEvent).date));
+          } else {
+            const index = events.findIndex(e => e.id === d.id);
+            return xScale(index);
+          }
+        })
         .attr("cy", yCenter)
         .attr("r", 9);
 
-      // Update dot highlighting (current dot gets white stroke)
       allDots
         .attr("r", (d) => {
           if (d.id === currentEventId) return 7;
@@ -209,11 +296,6 @@ export function SimpleTimeline({
       />
     </div>
   );
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 export default SimpleTimeline;

@@ -1,3 +1,5 @@
+// Legacy types — use types-v2.ts for new presentations
+
 export type ThreadId = "meta" | "hybrid-intelligence" | "ecosystems" | "perceptiosphere";
 
 export interface TimelineEvent {

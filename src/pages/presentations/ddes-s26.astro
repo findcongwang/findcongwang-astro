@@ -4,16 +4,28 @@ import "@/components/fw-vision/fw-vision.css";
 import { GestaltPresentation } from "@/components/gestalt/GestaltPresentation";
 import { ddesS26Data } from "@/components/gestalt/data/ddes-s26";
 
-function parseSlideIndex(search: string, maxSteps: number): number {
+function parseSlideIndex(search: string): { slideIndex: number | null; storyIndex: number | null } {
   const params = new URLSearchParams(search);
-  const raw = params.get("slide") ?? params.get("step");
-  if (raw === null) return 0;
-  const n = parseInt(raw, 10);
-  if (isNaN(n)) return 0;
-  return Math.max(0, Math.min(n, Math.max(0, maxSteps - 1)));
+  const slideRaw = params.get("slide");
+  const storyRaw = params.get("story");
+  
+  let slideIndex: number | null = null;
+  let storyIndex: number | null = null;
+  
+  if (slideRaw !== null) {
+    const n = parseInt(slideRaw, 10);
+    if (!isNaN(n)) slideIndex = n;
+  }
+  
+  if (storyRaw !== null) {
+    const n = parseInt(storyRaw, 10);
+    if (!isNaN(n)) storyIndex = n;
+  }
+  
+  return { slideIndex, storyIndex };
 }
 
-const initialSlideIndex = parseSlideIndex(Astro.url.search, ddesS26Data.storyline.length);
+const { slideIndex, storyIndex } = parseSlideIndex(Astro.url.search);
 ---
 <html lang="en" data-theme="light">
 <head>
@@ -30,6 +42,6 @@ const initialSlideIndex = parseSlideIndex(Astro.url.search, ddesS26Data.storylin
   </style>
 </head>
 <body>
-  <GestaltPresentation client:load data={ddesS26Data} initialSlideIndex={initialSlideIndex} />
+  <GestaltPresentation client:load data={ddesS26Data} initialSlideIndex={slideIndex ?? 0} initialStoryIndex={storyIndex ?? 0} />
 </body>
 </html>
