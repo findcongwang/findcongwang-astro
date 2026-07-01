@@ -127,35 +127,25 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
       type: "content",
       section: "Frameworks",
       intent: "Framework 1 with visual dominance. The concentric diagram occupies majority of attention. The audience grasps nested boundaries spatially before reading text.",
-      html: `<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;align-items:center;height:100%;">
-        <div style="display:flex;align-items:center;justify-content:center;">
-          <div style="position:relative;width:100%;max-width:28rem;aspect-ratio:1;">
-            <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(245,158,11,0.1), rgba(245,158,11,0.03) 70%);border:2.5px solid rgba(245,158,11,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;">
-              <div style="width:70%;height:70%;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(16,185,129,0.1), rgba(16,185,129,0.03) 70%);border:2.5px solid rgba(16,185,129,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;">
-                <div style="width:68%;height:68%;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(14,165,233,0.12), rgba(14,165,233,0.03) 70%);border:2.5px solid rgba(14,165,233,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;">
-                  <div style="width:58%;height:58%;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(99,102,241,0.18), rgba(99,102,241,0.06) 70%);border:2.5px solid rgba(99,102,241,0.6);display:flex;align-items:center;justify-content:center;">
-                    <span style="font-weight:700;font-size:0.95rem;color:#6366f1;">Self</span>
-                  </div>
-                  <span style="position:absolute;bottom:22%;font-size:0.65rem;color:#0ea5e9;font-weight:500;letter-spacing:0.02em;">Trusted Circle</span>
-                </div>
-                <span style="position:absolute;bottom:14%;font-size:0.65rem;color:#10b981;font-weight:500;letter-spacing:0.02em;">Community of Practice</span>
-              </div>
-              <span style="position:absolute;bottom:6%;font-size:0.65rem;color:#f59e0b;font-weight:500;letter-spacing:0.02em;">Public</span>
+      html: `<h2 style="font-size:1.5rem;margin-bottom:0.5rem;">The Perceptiosphere\u2122</h2>
+        <p style="font-size:0.88rem;margin-bottom:2rem;opacity:0.7;">A nested architecture of sovereign knowledge zones.</p>
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:2.5rem;align-items:start;">
+          <div style="display:flex;align-items:center;justify-content:center;">
+            <div style="width:100%;aspect-ratio:1;max-width:22rem;background:rgba(99,102,241,0.02);border:1.5px dashed rgba(99,102,241,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(99,102,241,0.4);font-size:0.7rem;text-align:center;padding:2rem;">
+              [INTERACTIVE PERCEPTIOSPHERE]<br/>Nested concentric zones:<br/>Self \u2192 Trusted Circle \u2192<br/>Community of Practice \u2192 Public
             </div>
           </div>
-        </div>
-        <div>
-          <h2 style="font-size:1.5rem;margin-bottom:0.75rem;">The Perceptiosphere\u2122</h2>
-          <p style="font-size:0.82rem;opacity:0.5;margin-bottom:2rem;">A nested architecture of sovereign knowledge zones.</p>
-          <div style="font-size:0.85rem;line-height:1.7;">
-            <p style="margin-bottom:1rem;"><strong>Knowledge sovereignty</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Individuals and organisations retain ownership and governance over the knowledge context they produce, independent of any platform or tool.</span></p>
-            <p style="margin-bottom:1rem;"><strong>Contextual integrity</strong><br/><span style="opacity:0.6;font-size:0.78rem;">When knowledge crosses a boundary, the relationships that make it meaningful are preserved rather than stripped into decontextualised data points.</span></p>
-            <p style="margin-bottom:1rem;"><strong>Composable collaboration</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Knowledge from different sovereign sources can be combined without either party losing the structural integrity of their contribution.</span></p>
-            <p><strong>Contribution vs. extraction</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Context flows outward through deliberate, governed contribution mechanisms rather than uncontrolled scraping or platform lock-in.</span></p>
+          <div>
+            <p style="font-weight:700;margin-bottom:1rem;font-size:0.88rem;">Four Properties</p>
+            <div style="font-size:0.85rem;line-height:1.7;">
+              <p style="margin-bottom:1rem;"><strong>Knowledge sovereignty</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Individuals and organisations retain ownership and governance over the knowledge context they produce, independent of any platform or tool.</span></p>
+              <p style="margin-bottom:1rem;"><strong>Contextual integrity</strong><br/><span style="opacity:0.6;font-size:0.78rem;">When knowledge crosses a boundary, the relationships that make it meaningful are preserved rather than stripped into decontextualised data points.</span></p>
+              <p style="margin-bottom:1rem;"><strong>Composable collaboration</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Knowledge from different sovereign sources can be combined without either party losing the structural integrity of their contribution.</span></p>
+              <p><strong>Contribution vs. extraction</strong><br/><span style="opacity:0.6;font-size:0.78rem;">Context flows outward through deliberate, governed contribution mechanisms rather than uncontrolled scraping or platform lock-in.</span></p>
+            </div>
+            <p style="margin-top:1.5rem;font-size:0.72rem;opacity:0.35;font-style:italic;">Not a platform. An architectural grammar.</p>
           </div>
-          <p style="margin-top:1.5rem;font-size:0.72rem;opacity:0.35;font-style:italic;">Not a platform. An architectural grammar.</p>
-        </div>
-      </div>`,
+        </div>`,
     },
     {
       id: "slide-cvi",
