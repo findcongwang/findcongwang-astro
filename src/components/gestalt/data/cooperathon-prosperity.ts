@@ -142,7 +142,7 @@ export const cooperathonProsperityData: DualTrackPresentation = {
           <div style="width:2rem;height:2rem;border-radius:50%;background:#2d6a4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">2</div>
           <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Generate and process.</strong> Your system produces energy (NRG\u00B9) and provides AI compute (CMP\u00B2) to the network.</p></div>
           <div style="width:2rem;height:2rem;border-radius:50%;background:#b8860b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">3</div>
-          <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Earn and build.</strong> Tokens are <strong>asset-backed</strong> by physical Canadian infrastructure and <strong>burned on use</strong>. Access passes, not speculative instruments. Break-even: 18\u201324 months.</p></div>
+          <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Earn and build.</strong> Tokens are <strong>asset-backed</strong> by physical Canadian infrastructure and <strong>burned on use</strong>.</p></div>
         </div>
         <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(26,54,93,0.04);border:1px solid rgba(26,54,93,0.12);">
           <p style="font-size:0.88rem;line-height:1.6;">The initial vehicle: <strong>Distributed AI (DAI) Compute</strong>. A blockchain protocol where the accounting layer makes every contribution verifiable. A clean energy co-op with blockchain accounting.</p>
@@ -150,6 +150,7 @@ export const cooperathonProsperityData: DualTrackPresentation = {
         <div style="margin-top:1.25rem;font-size:0.68rem;opacity:0.45;line-height:1.8;">
           <p>\u00B9 <strong>NRG</strong> (Energy Credit): minted on verified renewable energy generation by smart meter oracle attestation; burned on energy consumption or exchange for compute access.</p>
           <p>\u00B2 <strong>CMP</strong> (Compute Credit): minted when a node operator stakes verified GPU/CPU capacity; burned when an enterprise buyer accesses compute processing.</p>
+          <p>Tokenomics: the economic design governing how these tokens are minted, exchanged, and burned. Modelled on PAXG (Pax Gold): an established asset-backed token where 1 token = 1 oz physical gold, whose transparency and verification model we follow.</p>
         </div>`,
     },
 
@@ -176,13 +177,13 @@ export const cooperathonProsperityData: DualTrackPresentation = {
         </div>`,
     },
 
-    // ─── SLIDE 7: TEAM + CREDIBILITY ────────────────────────────────
+    // ─── SLIDE 7: TEAM ────────────────────────────────────────────
     {
       id: "slide-team-credibility",
-      title: "Team and Credibility",
+      title: "Team",
       type: "content",
       section: "Viability",
-      intent: "Lead with Francis's credibility: foresight practice, double doctorate, ISED submission, patent, renewable energy decade, AI ops. Then team cards. Footnotes on technical terms.",
+      intent: "Lead with Francis's credibility: foresight practice, double doctorate, ISED submission, patent, renewable energy decade, AI ops. Then team cards.",
       html: `<h2 style="font-size:1.6rem;margin-bottom:1.25rem;text-align:left;">Team and Credibility</h2>
         <div style="padding:1.25rem 1.5rem;border-radius:0.75rem;border:1.5px solid rgba(184,134,11,0.2);background:rgba(184,134,11,0.03);margin-bottom:1.25rem;">
           <p style="font-size:0.88rem;line-height:1.8;"><strong>Francis Wang</strong> (Lead Researcher) \u2014 15+ years engineering and product leadership. Dual doctoral research (DDes + DBA) combining AI systems with strategic foresight for long-term sustainable innovation. <mark style="background:rgba(184,134,11,0.1);padding:0.05rem 0.2rem;border-radius:0.15rem;">Submitted ISED Call for Proposals</mark> (blockchain on government-verified suppliers). Patent holder in renewable energy markets. Decade in renewable energy software. Staff software engineer in AI operations. Foresight methodology (APPETITE model).</p>
@@ -210,8 +211,7 @@ export const cooperathonProsperityData: DualTrackPresentation = {
             <p style="font-weight:700;font-size:0.78rem;">William Yao</p>
             <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">Finance & Governance. Founder Nova Roma. CA, ex-Merrill Lynch. 40+ years financial services. Capital markets, energy economics, Build-to-Manage model.</p>
           </div>
-        </div>
-        <p style="font-size:0.65rem;opacity:0.4;margin-top:1rem;">Tokenomics: the economic design governing how NRG and CMP tokens are minted, exchanged, and burned. PAXG (Pax Gold): established asset-backed token (1 token = 1 oz physical gold) whose transparency model we follow for verification.</p>`,
+        </div>`,
     },
 
     // ─── SLIDE 8: FORESIGHTSCOPE PATHWAY ────────────────────────────
