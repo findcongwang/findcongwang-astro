@@ -254,6 +254,28 @@ export function trajectoryToNow(from: Point2D, now: Point2D): string {
   return `M ${from.x} ${from.y} Q ${cpx} ${cpy} ${now.x} ${now.y}`;
 }
 
+/** Midpoint on the same quadratic curve as trajectoryToNow / trajectoryEdge. */
+export function trajectoryEdgeMidpoint(
+  from: Point2D,
+  to: Point2D,
+  t = 0.5
+): { x: number; y: number; angleDeg: number } {
+  const cpx = (from.x + to.x) / 2;
+  const cpy = to.y;
+  const u = 1 - t;
+  const x = u * u * from.x + 2 * u * t * cpx + t * t * to.x;
+  const y = u * u * from.y + 2 * u * t * cpy + t * t * to.y;
+  const tx = 2 * u * (cpx - from.x) + 2 * t * (to.x - cpx);
+  const ty = 2 * u * (cpy - from.y) + 2 * t * (to.y - cpy);
+  const angleDeg = (Math.atan2(ty, tx) * 180) / Math.PI;
+  return { x, y, angleDeg };
+}
+
+/** Edge along the same curve family used for scenario-to-Now links. */
+export function trajectoryEdge(from: Point2D, to: Point2D): string {
+  return trajectoryToNow(from, to);
+}
+
 export function defaultBandLabels(bandCount: number): string[] {
   if (bandCount >= 5) {
     return ["Probable", "Plausible", "Preferred", "Possible", "Preposterous"];

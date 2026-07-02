@@ -1308,13 +1308,13 @@
   position: absolute;
   background: #ffffff;
   color: #18181b;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 6px;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.5;
   pointer-events: none;
   z-index: 9999;
-  max-width: 220px;
+  max-width: 320px;
   white-space: normal;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border: 1px solid #e4e4e7;
@@ -1322,8 +1322,44 @@
   transition: opacity 0.15s;
 }
 
+.gestalt-foresight-scope .foresight-tooltip strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.gestalt-foresight-scope .foresight-tooltip-trajectory {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
 .gestalt-foresight-scope .foresight-tooltip-muted {
-  color: #71717a;
+  display: block;
+  color: #52525b;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.gestalt-foresight-scope .foresight-path-segment {
+  transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease;
+}
+
+.gestalt-foresight-scope .foresight-path-label {
+  paint-order: stroke fill;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.gestalt-foresight-scope .foresight-to-now {
+  transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease;
+}
+
+.gestalt-foresight-scope .foresight-scenario-dot {
+  transition: r 0.15s ease, stroke-width 0.15s ease;
 }
 
 .gestalt-foresight-scope .foresight-legends {

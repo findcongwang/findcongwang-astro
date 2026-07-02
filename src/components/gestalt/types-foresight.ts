@@ -30,6 +30,8 @@ export interface ForesightEra {
   crossSection?: { drivers: ForesightDriver[] };
 }
 
+export type ForesightTrajectory = "transform" | "order" | "collapse";
+
 export interface ForesightScenario {
   id: string;
   label: string;
@@ -40,6 +42,7 @@ export interface ForesightScenario {
   /** Angular offset on cross-section in degrees */
   angle?: number;
   color?: string;
+  trajectory?: ForesightTrajectory;
 }
 
 export interface ForesightHorizon {
@@ -85,6 +88,12 @@ export interface ForesightScopeData {
   futures?: ForesightBranch[];
   /** Render legacy branch paths (default false) */
   showBranchPaths?: boolean;
+  /** Omit past history tube and era markers; show future cone only from Now */
+  futureOnly?: boolean;
+  /** Trajectory chain highlighted as the featured path (e.g. transform golden path) */
+  featuredTrajectory?: ForesightTrajectory;
+  /** Horizons at or before this id use at least this horizon's natural ring size */
+  ringFloorHorizonId?: string;
 }
 
 export const DRIVER_COLORS: Record<DriverCategory, string> = {

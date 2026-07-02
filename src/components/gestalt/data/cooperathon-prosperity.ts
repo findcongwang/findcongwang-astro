@@ -218,90 +218,12 @@ export const cooperathonProsperityData: DualTrackPresentation = {
     {
       id: "slide-pathway",
       title: "Pathway to Economic Sovereignty",
-      type: "content",
+      type: "demo",
       section: "Viability",
-      intent: "Inline SVG ForesightScope cone. Three horizons. Golden path (Transform). Pitfall branches from CQ constraints (Order/Collapse). Hoverable scenarios with descriptions and trajectory labels.",
-      html: `<h2 style="font-size:1.5rem;margin-bottom:0.5rem;text-align:left;">Pathway to Economic Sovereignty</h2>
-        <p style="font-size:0.78rem;opacity:0.5;margin-bottom:1rem;">Scenario trajectories from the compelling question. Golden path: active transformation. Pitfalls: unresolved constraints.</p>
-        <svg viewBox="0 0 720 340" style="width:100%;max-width:44rem;display:block;" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <style>
-              .fs-label { font-family: 'Geist', sans-serif; font-size: 7.5px; fill: #334155; }
-              .fs-label-bold { font-family: 'Geist', sans-serif; font-size: 7.5px; fill: #1a1a1a; font-weight: 700; }
-              .fs-traj-label { font-family: 'Geist', sans-serif; font-size: 6.5px; fill: #334155; opacity: 0; }
-              .fs-node:hover + .fs-traj-label, .fs-traj:hover .fs-traj-label { opacity: 1; }
-              .fs-node { cursor: pointer; }
-              .fs-node:hover circle { stroke-width: 2.5; }
-              .fs-tooltip { font-family: 'Geist', sans-serif; font-size: 6px; fill: #334155; opacity: 0; }
-              .fs-node:hover .fs-tooltip { opacity: 1; }
-            </style>
-          </defs>
-          <!-- Cone outline -->
-          <path d="M 60,170 L 240,80 L 460,40 L 680,10" fill="none" stroke="rgba(45,106,79,0.15)" stroke-width="1"/>
-          <path d="M 60,170 L 240,260 L 460,300 L 680,330" fill="none" stroke="rgba(155,44,44,0.15)" stroke-width="1"/>
-          <path d="M 60,170 L 680,170" fill="none" stroke="rgba(12,27,22,0.06)" stroke-width="0.5" stroke-dasharray="4,4"/>
-          <!-- Horizon lines -->
-          <line x1="240" y1="60" x2="240" y2="280" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="460" y1="30" x2="460" y2="310" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="680" y1="5" x2="680" y2="335" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
-          <!-- Horizon labels -->
-          <text x="240" y="290" text-anchor="middle" class="fs-label" opacity="0.5">H1: 0\u20135 yr</text>
-          <text x="460" y="322" text-anchor="middle" class="fs-label" opacity="0.5">H2: 5\u201320 yr</text>
-          <text x="680" y="348" text-anchor="middle" class="fs-label" opacity="0.5">H3: 20\u201350 yr</text>
-          <text x="60" y="185" class="fs-label" opacity="0.4">Now</text>
-          <!-- GOLDEN PATH (Transform) -->
-          <path d="M 60,170 L 240,130 L 460,90 L 680,50" fill="none" stroke="#b8860b" stroke-width="2.5" opacity="0.8"/>
-          <text x="150" y="140" class="fs-label-bold" fill="#b8860b" opacity="0.7">Transform</text>
-          <!-- Golden path nodes -->
-          <g class="fs-node">
-            <circle cx="240" cy="130" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
-            <text x="240" y="117" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Regulatory clarity + first nodes</text>
-            <text x="240" y="148" text-anchor="middle" class="fs-tooltip">CSA Sandbox granted. 50 nodes. Enterprise pilot secured.</text>
-          </g>
-          <g class="fs-node">
-            <circle cx="460" cy="90" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
-            <text x="460" y="77" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Network effect + SMR co-location</text>
-            <text x="460" y="108" text-anchor="middle" class="fs-tooltip">1000+ nodes. Govt customer. Northern settlement pilots. Chip packaging begins.</text>
-          </g>
-          <g class="fs-node">
-            <circle cx="680" cy="50" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
-            <text x="680" y="37" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Economic sovereignty achieved</text>
-            <text x="680" y="68" text-anchor="middle" class="fs-tooltip">Domestic fabrication. Vertical integration. Self-sufficient energy-compute communities.</text>
-          </g>
-          <!-- PITFALL BRANCH 1: Regulatory rejection (Collapse) -->
-          <path d="M 240,130 L 340,210 L 460,240" fill="none" stroke="#9b2c2c" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"/>
-          <g class="fs-node">
-            <circle cx="460" cy="240" r="6" fill="#9b2c2c" opacity="0.7" stroke="#9b2c2c" stroke-width="1"/>
-            <text x="460" y="255" text-anchor="middle" class="fs-label" fill="#9b2c2c">Regulatory rejection</text>
-            <text x="460" y="265" text-anchor="middle" class="fs-tooltip">Securities classification. Cannot launch. Constraint: no citizen mechanism.</text>
-          </g>
-          <text x="320" y="200" class="fs-label" fill="#9b2c2c" opacity="0.6">Collapse</text>
-          <!-- PITFALL BRANCH 2: Insufficient participation (Order/stagnation) -->
-          <path d="M 240,130 L 340,170 L 460,185" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
-          <g class="fs-node">
-            <circle cx="460" cy="185" r="6" fill="#334155" opacity="0.6" stroke="#334155" stroke-width="1"/>
-            <text x="460" y="200" text-anchor="middle" class="fs-label" fill="#334155">Insufficient adoption</text>
-            <text x="460" y="210" text-anchor="middle" class="fs-tooltip">Capital barrier unresolved. Network too small. Foreign cloud wins demand.</text>
-          </g>
-          <text x="320" y="165" class="fs-label" fill="#334155" opacity="0.5">Order</text>
-          <!-- PITFALL BRANCH 3: No vertical integration (Order/dependency) -->
-          <path d="M 460,90 L 560,150 L 680,180" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
-          <g class="fs-node">
-            <circle cx="680" cy="180" r="6" fill="#334155" opacity="0.6" stroke="#334155" stroke-width="1"/>
-            <text x="680" y="195" text-anchor="middle" class="fs-label" fill="#334155">Permanent import dependency</text>
-            <text x="680" y="205" text-anchor="middle" class="fs-tooltip">No domestic manufacturing. Constraint: no chip sovereignty. Remains U.S. plantation.</text>
-          </g>
-          <text x="570" y="145" class="fs-label" fill="#334155" opacity="0.5">Order</text>
-          <!-- PITFALL BRANCH 4: Climate unpreparedness (Collapse) -->
-          <path d="M 460,90 L 560,200 L 680,270" fill="none" stroke="#9b2c2c" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
-          <g class="fs-node">
-            <circle cx="680" cy="270" r="6" fill="#9b2c2c" opacity="0.6" stroke="#9b2c2c" stroke-width="1"/>
-            <text x="680" y="285" text-anchor="middle" class="fs-label" fill="#9b2c2c">Infrastructure crisis</text>
-            <text x="680" y="295" text-anchor="middle" class="fs-tooltip">Population influx without preparation. No northern infrastructure. Digital colony persists.</text>
-          </g>
-          <text x="570" y="215" class="fs-label" fill="#9b2c2c" opacity="0.5">Collapse</text>
-        </svg>
-        <p style="font-size:0.7rem;opacity:0.45;margin-top:0.5rem;"><strong>Golden path</strong> (Transform): active, deliberate capability-building. <strong>Order</strong>: stagnation, maintaining dependency. <strong>Collapse</strong>: catastrophic loss of the sovereignty window.</p>`,
+      layout: "content-anchored",
+      intent: "ForesightScope widget: future-only cone (Now to H3). Golden path (Transform). Pitfall branches from CQ constraints (Order/Collapse). Hoverable scenarios with trajectory labels.",
+      html: `<h2>Pathway to Economic Sovereignty</h2>
+        <p class="gestalt-slide__meta">Scenario trajectories from the compelling question. Golden path: active transformation. Pitfalls: unresolved constraints.</p>`,
     },
 
     // ─── SLIDE 9: NEXT STEPS ────────────────────────────────────────

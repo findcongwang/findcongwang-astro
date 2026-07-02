@@ -5,6 +5,7 @@ import { ForesightScope } from "./ForesightScope";
 import { GestaltStrategyMapSlide } from "./GestaltStrategyMapSlide";
 import { GestaltBusinessCanvasSlide } from "./GestaltBusinessCanvasSlide";
 import { ConvergenceRope } from "./ConvergenceRope";
+import { prosperityForesightData } from "./data/foresight-prosperity";
 import { sovereignAiData } from "./data/foresight-sovereign-ai";
 
 interface SlideViewportProps {
@@ -21,6 +22,8 @@ function renderSlideWidget(
   switch (slideId) {
     case "slide-demo-foresight":
       return <ForesightScope data={sovereignAiData} />;
+    case "slide-pathway":
+      return <ForesightScope data={prosperityForesightData} />;
     case "slide-demo-strategy-map":
       return <GestaltStrategyMapSlide />;
     case "slide-demo-temporal":

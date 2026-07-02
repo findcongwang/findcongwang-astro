@@ -13,13 +13,17 @@ import {
   horizonRadii,
   nestedRingPaths,
   pointOnEllipse,
+  trajectoryEdge,
+  trajectoryEdgeMidpoint,
   trajectoryToNow,
 } from "./foresightGeometry";
+import type { Point2D } from "./foresightGeometry";
 import type {
   ForesightDriver,
   ForesightHorizon,
   ForesightScenario,
   ForesightScopeData,
+  ForesightTrajectory,
 } from "./types-foresight";
 import {
   DRIVER_COLORS,
@@ -34,6 +38,18 @@ interface ForesightScopeProps {
 
 const STROKE = "#18181b";
 const LEGEND_HEIGHT = 102;
+
+const TRAJECTORY_LABELS: Record<ForesightTrajectory, string> = {
+  transform: "Transform",
+  order: "Order",
+  collapse: "Collapse",
+};
+
+const TRAJECTORY_COLORS: Record<ForesightTrajectory, string> = {
+  transform: "#b8860b",
+  order: "#334155",
+  collapse: "#9b2c2c",
+};
 
 const LEGEND_LAYOUT = {
   originX: 14,
@@ -66,6 +82,93 @@ const FS = {
 interface SplitLabel {
   title: string;
   subtitle: string | null;
+}
+
+interface ScenarioPlacement {
+  scenario: ForesightScenario;
+  x: number;
+  y: number;
+  horizonIndex: number;
+}
+
+interface PathSegment {
+  id: string;
+  fromId: string;
+  toId: string;
+  trajectory: ForesightTrajectory;
+  from: Point2D;
+  to: Point2D;
+}
+
+function buildFeaturedPathSegments(
+  placements: ScenarioPlacement[],
+  featuredTrajectory: ForesightTrajectory | undefined,
+  now: Point2D
+): PathSegment[] {
+  if (!featuredTrajectory) return [];
+
+  const chain = placements
+    .filter((p) => p.scenario.trajectory === featuredTrajectory)
+    .sort((a, b) => a.horizonIndex - b.horizonIndex);
+
+  return chain.map((node, i) => {
+    const prev = i > 0 ? chain[i - 1]! : null;
+    const from = prev ? { x: prev.x, y: prev.y } : now;
+    const fromId = prev ? prev.scenario.id : "now";
+    return {
+      id: `${fromId}->${node.scenario.id}`,
+      fromId,
+      toId: node.scenario.id,
+      trajectory: featuredTrajectory,
+      from,
+      to: { x: node.x, y: node.y },
+    };
+  });
+}
+
+const FEATURED_EDGE_WIDTH = 2.2;
+const FEATURED_EDGE_WIDTH_ACTIVE = 3.2;
+const PITFALL_EDGE_WIDTH = 0.7;
+const PITFALL_EDGE_WIDTH_ACTIVE = 1.4;
+
+function featuredScenarioIds(segments: PathSegment[]): Set<string> {
+  return new Set(segments.map((s) => s.toId));
+}
+
+function setPathHighlight(
+  trajG: d3.Selection<SVGGElement, unknown, null, undefined>,
+  scenarioG: d3.Selection<SVGGElement, unknown, null, undefined>,
+  scenarioId: string | null
+): void {
+  trajG
+    .selectAll<SVGPathElement, ScenarioPlacement>(".foresight-to-now")
+    .attr("stroke-width", (d) =>
+      scenarioId === d.scenario.id ? PITFALL_EDGE_WIDTH_ACTIVE : PITFALL_EDGE_WIDTH
+    )
+    .attr("stroke-opacity", (d) => {
+      if (!scenarioId) return 0.45;
+      return scenarioId === d.scenario.id ? 0.9 : 0.12;
+    });
+
+  trajG
+    .selectAll<SVGPathElement, PathSegment>(".foresight-path-segment")
+    .attr("stroke-width", (d) => {
+      if (!scenarioId) return FEATURED_EDGE_WIDTH;
+      return d.toId === scenarioId || d.fromId === scenarioId
+        ? FEATURED_EDGE_WIDTH_ACTIVE
+        : FEATURED_EDGE_WIDTH;
+    })
+    .attr("stroke-opacity", (d) => {
+      if (!scenarioId) return 0.92;
+      return d.toId === scenarioId || d.fromId === scenarioId ? 1 : 0.55;
+    });
+
+  trajG.selectAll<SVGTextElement, PathSegment>(".foresight-path-label").style("opacity", 1);
+
+  scenarioG
+    .selectAll<SVGCircleElement, ScenarioPlacement>(".foresight-scenario-dot")
+    .attr("r", (d) => (scenarioId === d.scenario.id ? FS.scenarioDot + 2.5 : FS.scenarioDot))
+    .attr("stroke-width", (d) => (scenarioId === d.scenario.id ? 1.5 : 0.5));
 }
 
 function parseParenLabel(label: string): SplitLabel {
@@ -130,21 +233,41 @@ function scenarioAngle(scenario: ForesightScenario, index: number): number {
   return (((hash + index * 37) % 120) - 60) * (Math.PI / 180);
 }
 
+function formatScenarioTooltip(scenario: ForesightScenario): string {
+  const color = scenario.color ?? SCENARIO_DEFAULT_COLOR;
+  const trajectory = scenario.trajectory
+    ? `<span class="foresight-tooltip-trajectory" style="color:${TRAJECTORY_COLORS[scenario.trajectory]}">${TRAJECTORY_LABELS[scenario.trajectory]}</span>`
+    : "";
+  return `<strong style="color:${color}">${scenario.label}</strong>${trajectory}<span class="foresight-tooltip-muted">${scenario.description}</span>`;
+}
+
 function showTooltip(
   container: HTMLElement,
   html: string,
   event: MouseEvent
 ): void {
   const rect = container.getBoundingClientRect();
-  d3.select(container)
+  const offsetX = event.clientX - rect.left + 12;
+  const offsetY = event.clientY - rect.top - 48;
+
+  const selection = d3
+    .select(container)
     .selectAll(".foresight-tooltip")
     .data([null])
     .join("div")
     .attr("class", "foresight-tooltip")
     .html(html)
-    .style("opacity", "1")
-    .style("left", `${event.clientX - rect.left + 12}px`)
-    .style("top", `${event.clientY - rect.top - 40}px`);
+    .style("opacity", "1");
+
+  const node = selection.node() as HTMLDivElement | null;
+  if (!node) return;
+
+  const tw = node.offsetWidth;
+  const th = node.offsetHeight;
+  const left = Math.max(8, Math.min(offsetX, rect.width - tw - 8));
+  const top = Math.max(8, Math.min(offsetY, rect.height - th - 8));
+
+  selection.style("left", `${left}px`).style("top", `${top}px`);
 }
 
 function hideTooltip(container: HTMLElement): void {
@@ -370,10 +493,7 @@ function drawHorizon(
   hx: number,
   cy: number,
   halfH: number,
-  chartH: number,
-  scenarios: ForesightScenario[],
-  showBandLabels: boolean,
-  container: HTMLElement
+  showBandLabels: boolean
 ): void {
   const { rx, ry } = horizonRadii(halfH);
   const bandCount = horizon.bands;
@@ -412,40 +532,6 @@ function drawHorizon(
     titleSize: FS.horizonLabel,
     subtitleSize: FS.horizonDateLabel,
   });
-
-  const atHorizon = scenarios.filter((s) => s.horizonId === horizon.id);
-
-  atHorizon.forEach((scenario, idx) => {
-    const mid = bandMidRadius(
-      Math.min(scenario.bandIndex, bandCount - 1),
-      bandCount,
-      rx,
-      ry
-    );
-    const angle = scenarioAngle(scenario, idx);
-    const pt = pointOnEllipse(hx, cy, mid.rx, mid.ry, angle);
-
-    const color = scenario.color ?? SCENARIO_DEFAULT_COLOR;
-    const sg = ringG
-      .append("g")
-      .attr("transform", `translate(${pt.x}, ${pt.y})`)
-      .style("cursor", "pointer");
-
-    sg.append("circle")
-      .attr("r", FS.scenarioDot)
-      .attr("fill", color)
-      .attr("stroke", STROKE)
-      .attr("stroke-width", 0.5);
-
-    sg.on("mouseenter", (event: MouseEvent) => {
-      showTooltip(
-        container,
-        `<strong style="color:${color}">${scenario.label}</strong><br/><span class="foresight-tooltip-muted">${scenario.description}</span>`,
-        event
-      );
-    });
-    sg.on("mouseleave", () => hideTooltip(container));
-  });
 }
 
 export function ForesightScope({ data, className }: ForesightScopeProps) {
@@ -479,9 +565,10 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
         Math.min((chartH - labelReserve) / 2 - topReserve, chartH * 0.36)
       );
       const cy = topReserve + maxHalfHeight;
-      const presentX = width * 0.36;
+      const futureOnly = data.futureOnly === true;
       const leftX = pad;
       const rightX = width - pad;
+      const presentX = futureOnly ? leftX + 48 : width * 0.36;
 
       const presentDate = new Date(data.presentDate);
       const endDate = new Date(data.timeRange.end);
@@ -502,9 +589,32 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
       const horizonX = (horizonId: string): number =>
         horizonXScale(horizonId) ?? presentX + h1Offset;
 
-      const h2X = horizonX("hz-h2");
-      const historyRingHalfH =
-        coneHalfHeightPx(h2X, presentX, rightX, maxHalfHeight) * FS.eraRingScale;
+      const h2X = horizonX(data.ringFloorHorizonId ?? "hz-h2");
+      const ringFloorHalfH = futureConeHalfHeightPx(h2X, presentX, rightX, maxHalfHeight);
+      const floorHorizonIndex = sortedHorizons.findIndex(
+        (h) => h.id === (data.ringFloorHorizonId ?? "hz-h2")
+      );
+
+      const naturalHalfH = (hx: number): number =>
+        futureConeHalfHeightPx(hx, presentX, rightX, maxHalfHeight);
+
+      const effectiveHorizonHalfH = (horizonId: string, hx: number): number => {
+        const natural = naturalHalfH(hx);
+        if (ringFloorHalfH <= 0) return natural;
+        const idx = sortedHorizons.findIndex((h) => h.id === horizonId);
+        if (idx >= 0 && idx <= floorHorizonIndex) {
+          return Math.max(natural, ringFloorHalfH);
+        }
+        return natural;
+      };
+
+      const referenceX = futureOnly
+        ? horizonX(sortedHorizons[0]?.id ?? "hz-h1")
+        : h2X;
+      const historyRingHalfH = Math.max(
+        coneHalfHeightPx(referenceX, presentX, rightX, maxHalfHeight) * FS.eraRingScale,
+        ringFloorHalfH
+      );
       const tubeHalfH = historyRingHalfH;
 
       const pastHistoryItems = [
@@ -537,18 +647,20 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
         .attr("transform", `translate(0, ${chartTop})`);
 
       const tubeG = chartG.append("g").attr("class", "foresight-history-tube");
-      tubeG
-        .append("path")
-        .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "top"))
-        .attr("fill", "none")
-        .attr("stroke", STROKE)
-        .attr("stroke-width", 0.9);
-      tubeG
-        .append("path")
-        .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "bottom"))
-        .attr("fill", "none")
-        .attr("stroke", STROKE)
-        .attr("stroke-width", 0.9);
+      if (!futureOnly) {
+        tubeG
+          .append("path")
+          .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "top"))
+          .attr("fill", "none")
+          .attr("stroke", STROKE)
+          .attr("stroke-width", 0.9);
+        tubeG
+          .append("path")
+          .attr("d", historyTubeBoundaryPath(leftX, presentX, cy, tubeHalfH, "bottom"))
+          .attr("fill", "none")
+          .attr("stroke", STROKE)
+          .attr("stroke-width", 0.9);
+      }
 
       const coneG = chartG.append("g").attr("class", "foresight-cone");
       coneG
@@ -596,29 +708,38 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
         .attr("stroke-opacity", 0.35);
 
       const eraG = chartG.append("g").attr("class", "foresight-eras");
-      (data.eras ?? []).forEach((era) => {
-        const ex = pastX(era.id);
-        drawTimelineNode(
-          eraG,
-          ex,
-          cy,
-          historyRingHalfH,
-          era.crossSection?.drivers,
-          container,
-          `foresight-era-${era.id}`,
-          era.label,
-          cy + tubeHalfH + 16
-        );
-      });
+      if (!futureOnly) {
+        (data.eras ?? []).forEach((era) => {
+          const ex = pastX(era.id);
+          drawTimelineNode(
+            eraG,
+            ex,
+            cy,
+            historyRingHalfH,
+            era.crossSection?.drivers,
+            container,
+            `foresight-era-${era.id}`,
+            era.label,
+            cy + tubeHalfH + 16
+          );
+        });
+      }
 
       const horizonG = chartG.append("g").attr("class", "foresight-horizons");
       const trajG = chartG.append("g").attr("class", "foresight-trajectories");
-      const allScenarioPoints: { scenario: ForesightScenario; x: number; y: number }[] = [];
+      const scenarioG = chartG.append("g").attr("class", "foresight-scenarios");
       const outerHorizonId = sortedHorizons[sortedHorizons.length - 1]?.id;
+      const nowPoint: Point2D = { x: presentX, y: cy };
+
+      const horizonIndexById = new Map(
+        sortedHorizons.map((h, i) => [h.id, i] as const)
+      );
+
+      const placements: ScenarioPlacement[] = [];
 
       sortedHorizons.forEach((horizon) => {
         const hx = horizonX(horizon.id);
-        const halfH = futureConeHalfHeightPx(hx, presentX, rightX, maxHalfHeight);
+        const halfH = effectiveHorizonHalfH(horizon.id, hx);
         const { rx, ry } = horizonRadii(halfH);
         const bandCount = horizon.bands;
         const atHorizon = data.scenarios.filter((s) => s.horizonId === horizon.id);
@@ -632,41 +753,130 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
           );
           const angle = scenarioAngle(scenario, idx);
           const pt = pointOnEllipse(hx, cy, mid.rx, mid.ry, angle);
-          allScenarioPoints.push({ scenario, x: pt.x, y: pt.y });
+          placements.push({
+            scenario,
+            x: pt.x,
+            y: pt.y,
+            horizonIndex: horizonIndexById.get(horizon.id) ?? 0,
+          });
         });
       });
 
-      allScenarioPoints.forEach(({ x, y }) => {
+      const pathSegments = buildFeaturedPathSegments(
+        placements,
+        data.featuredTrajectory,
+        nowPoint
+      );
+      const onFeaturedPath = featuredScenarioIds(pathSegments);
+
+      placements.forEach((placement) => {
+        if (onFeaturedPath.has(placement.scenario.id)) return;
+
+        const trajectory = placement.scenario.trajectory;
+        const strokeColor = trajectory
+          ? TRAJECTORY_COLORS[trajectory]
+          : "#a1a1aa";
+
         trajG
           .append("path")
-          .attr("d", trajectoryToNow({ x, y }, { x: presentX, y: cy }))
+          .datum(placement)
+          .attr("class", "foresight-to-now")
+          .attr("d", trajectoryToNow({ x: placement.x, y: placement.y }, nowPoint))
           .attr("fill", "none")
-          .attr("stroke", "#a1a1aa")
-          .attr("stroke-width", 0.7)
+          .attr("stroke", strokeColor)
+          .attr("stroke-width", PITFALL_EDGE_WIDTH)
           .attr("stroke-dasharray", "4 3")
-          .attr("stroke-opacity", 0.7);
+          .attr("stroke-opacity", 0.45);
       });
+
+      const pathSegmentSel = trajG
+        .selectAll<SVGPathElement, PathSegment>(".foresight-path-segment")
+        .data(pathSegments)
+        .join("path")
+        .attr("class", "foresight-path-segment")
+        .attr("d", (d) => trajectoryEdge(d.from, d.to))
+        .attr("fill", "none")
+        .attr("stroke", (d) => TRAJECTORY_COLORS[d.trajectory])
+        .attr("stroke-width", FEATURED_EDGE_WIDTH)
+        .attr("stroke-opacity", 0.92);
+
+      trajG
+        .selectAll<SVGTextElement, PathSegment>(".foresight-path-label")
+        .data(pathSegments)
+        .join("text")
+        .attr("class", "foresight-path-label")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("font-size", 9)
+        .attr("font-weight", 600)
+        .attr("fill", (d) => TRAJECTORY_COLORS[d.trajectory])
+        .style("opacity", 1)
+        .style("pointer-events", "none")
+        .attr("transform", (d) => {
+          const mid = trajectoryEdgeMidpoint(d.from, d.to, 0.5);
+          return `translate(${mid.x}, ${mid.y}) rotate(${mid.angleDeg})`;
+        })
+        .text((d) => TRAJECTORY_LABELS[d.trajectory]);
 
       sortedHorizons.forEach((horizon) => {
         const hx = horizonX(horizon.id);
-        const halfH = futureConeHalfHeightPx(hx, presentX, rightX, maxHalfHeight);
+        const halfH = effectiveHorizonHalfH(horizon.id, hx);
         drawHorizon(
           horizonG,
           horizon,
           hx,
           cy,
           halfH,
-          chartH,
-          data.scenarios,
-          horizon.id === outerHorizonId,
-          container
+          horizon.id === outerHorizonId
         );
       });
+
+      const scenarioNodes = scenarioG
+        .selectAll<SVGGElement, ScenarioPlacement>(".foresight-scenario")
+        .data(placements)
+        .join("g")
+        .attr("class", "foresight-scenario")
+        .attr("data-id", (d) => d.scenario.id)
+        .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+        .style("cursor", "pointer");
+
+      scenarioNodes
+        .append("circle")
+        .attr("class", "foresight-scenario-dot")
+        .attr("r", FS.scenarioDot)
+        .attr("fill", (d) => d.scenario.color ?? SCENARIO_DEFAULT_COLOR)
+        .attr("stroke", STROKE)
+        .attr("stroke-width", 0.5);
+
+      scenarioNodes
+        .on("mouseenter", function (event: MouseEvent, d) {
+          setPathHighlight(trajG, scenarioG, d.scenario.id);
+          showTooltip(container, formatScenarioTooltip(d.scenario), event);
+        })
+        .on("mouseleave", () => {
+          setPathHighlight(trajG, scenarioG, null);
+          hideTooltip(container);
+        });
+
+      pathSegmentSel
+        .style("cursor", "pointer")
+        .on("mouseenter", function (event: MouseEvent, d) {
+          setPathHighlight(trajG, scenarioG, d.toId);
+          const placement = placements.find((p) => p.scenario.id === d.toId);
+          if (placement) {
+            showTooltip(container, formatScenarioTooltip(placement.scenario), event);
+          }
+        })
+        .on("mouseleave", () => {
+          setPathHighlight(trajG, scenarioG, null);
+          hideTooltip(container);
+        });
 
       const mainG = chartG.append("g").attr("class", "foresight-main-thread");
       data.mainThread.forEach((ev) => {
         const d = new Date(ev.date);
         if (d.getTime() === presentDate.getTime()) return;
+        if (futureOnly && d < presentDate) return;
 
         const mx = d < presentDate ? pastX(ev.id) : futureX(d);
         const mg = mainG
@@ -704,13 +914,15 @@ export function ForesightScope({ data, className }: ForesightScopeProps) {
       );
 
       const axisG = chartG.append("g").attr("class", "foresight-axis-labels");
-      axisG
-        .append("text")
-        .attr("x", leftX)
-        .attr("y", chartH - 2)
-        .attr("font-size", FS.axis)
-        .attr("fill", "#71717a")
-        .text("Past");
+      if (!futureOnly) {
+        axisG
+          .append("text")
+          .attr("x", leftX)
+          .attr("y", chartH - 2)
+          .attr("font-size", FS.axis)
+          .attr("fill", "#71717a")
+          .text("Past");
+      }
       axisG
         .append("text")
         .attr("x", rightX)
