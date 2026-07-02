@@ -223,6 +223,20 @@ export const cooperathonProsperityData: DualTrackPresentation = {
       layout: "content-anchored",
       intent: "ForesightScope widget: future-only cone (Now to H3). Golden path (Transform). Pitfall branches from CQ constraints (Order/Collapse). Hoverable scenarios with trajectory labels.",
       html: `<h2>Pathway to Economic Sovereignty</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:0.5rem;">
+          <div style="padding:0.5rem 0.75rem;border-radius:0.4rem;border:1px solid rgba(184,134,11,0.2);background:rgba(184,134,11,0.03);">
+            <p style="font-size:0.68rem;font-weight:700;color:#b8860b;margin-bottom:0.2rem;">H1: Regulatory clarity + first nodes</p>
+            <p style="font-size:0.62rem;opacity:0.6;line-height:1.4;">CSA Sandbox granted. 50 nodes online. Enterprise pilot secured.</p>
+          </div>
+          <div style="padding:0.5rem 0.75rem;border-radius:0.4rem;border:1px solid rgba(184,134,11,0.2);background:rgba(184,134,11,0.03);">
+            <p style="font-size:0.68rem;font-weight:700;color:#b8860b;margin-bottom:0.2rem;">H2: Network effect + SMR co-location</p>
+            <p style="font-size:0.62rem;opacity:0.6;line-height:1.4;">1000+ nodes. Govt customer. Northern settlement pilots.</p>
+          </div>
+          <div style="padding:0.5rem 0.75rem;border-radius:0.4rem;border:1px solid rgba(184,134,11,0.2);background:rgba(184,134,11,0.03);">
+            <p style="font-size:0.68rem;font-weight:700;color:#b8860b;margin-bottom:0.2rem;">H3: Economic sovereignty achieved</p>
+            <p style="font-size:0.62rem;opacity:0.6;line-height:1.4;">Domestic fabrication. Vertical integration. Self-sufficient communities.</p>
+          </div>
+        </div>
         <p class="gestalt-slide__meta">Scenario trajectories from the compelling question. Golden path: active transformation. Pitfalls: unresolved constraints.</p>`,
     },
 
