@@ -145,7 +145,7 @@ export const cooperathonProsperityData: DualTrackPresentation = {
           <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Earn and build.</strong> Tokens are <strong>asset-backed</strong> by physical Canadian infrastructure and <strong>burned on use</strong>. Access passes, not speculative instruments. Break-even: 18\u201324 months.</p></div>
         </div>
         <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(26,54,93,0.04);border:1px solid rgba(26,54,93,0.12);">
-          <p style="font-size:0.88rem;line-height:1.6;">The initial vehicle: <strong>Decentralized AI (DAI) Compute</strong>. A blockchain protocol where the accounting layer makes every contribution verifiable. A clean energy co-op with blockchain accounting.</p>
+          <p style="font-size:0.88rem;line-height:1.6;">The initial vehicle: <strong>Distributed AI (DAI) Compute</strong>. A blockchain protocol where the accounting layer makes every contribution verifiable. A clean energy co-op with blockchain accounting.</p>
         </div>
         <div style="margin-top:1.25rem;font-size:0.68rem;opacity:0.45;line-height:1.8;">
           <p>\u00B9 <strong>NRG</strong> (Energy Credit): minted on verified renewable energy generation by smart meter oracle attestation; burned on energy consumption or exchange for compute access.</p>
