@@ -1,301 +1,412 @@
 import type { DualTrackPresentation } from "../types-v2";
 
 /**
- * Cooperathon 2026 — Prosperity Track
- * DAI Compute: Sovereign Distributed Energy & AI for Canada
+ * Cooperathon 2026 — Prosperity Track (v2 Final)
+ * Sovereign Distributed Energy and AI for Canada
  *
  * Narrative: Hero's journey toward economically sovereign Canada.
- * Guide the audience through civilisational stakes, then land on mechanism.
+ * Colour palette: #0c1b16 (dark) | #1a365d (deep blue) | #2d6a4f (forest) | #b8860b (gold) | #9b2c2c (constraint red)
+ * No emojis. Left-aligned. Footnotes on acronyms. Serious nation-building register.
  */
 
 export const cooperathonProsperityData: DualTrackPresentation = {
-  title: "Sovereign Distributed Energy & AI for Canada",
+  title: "Sovereign Distributed Energy and AI for Canada",
   subtitle: "Cooperathon 2026 — Prosperity Track",
   author: "Francis Wang",
   date: "2026-07",
   duration: 5,
 
   slides: [
+    // ─── SLIDE 1: TITLE ─────────────────────────────────────────────
     {
       id: "slide-title",
       title: "Title",
       type: "title",
       section: "Opening",
       layout: "title-anchored",
-      intent: "Establish identity. Nation-building tone. The word 'sovereign' is the first strategic signal.",
+      intent: "Establish the 50-year journey. Nation-building tone. No brand name yet. The subtitle echoes the ForesightScope: finding the pathway.",
       html: `<div class="gestalt-slide__anchored">
         <div class="gestalt-slide__anchor gestalt-slide__anchor--center">
-          <h1 style="font-size:3rem;line-height:1.1;">DAI Compute</h1>
-          <p class="gestalt-slide__subtitle" style="margin-top:1rem;font-size:1.05rem;opacity:0.6;max-width:30rem;">Sovereign Distributed Energy & AI for Canada</p>
-          <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.4;">daicompute.ca</p>
+          <h1 style="font-size:2.8rem;line-height:1.15;text-align:left;max-width:36rem;">Sovereign Distributed Energy and AI for Canada</h1>
+          <p class="gestalt-slide__subtitle" style="margin-top:1.25rem;font-size:1rem;opacity:0.55;max-width:34rem;text-align:left;">Finding the pathway to economic sovereignty with Canadian-owned energy and AI infrastructure</p>
         </div>
         <div class="gestalt-slide__anchor gestalt-slide__anchor--bottom-left">
           <div style="font-size:0.85rem;">Francis Wang</div>
           <div style="font-size:0.75rem;opacity:0.5;">Cooperathon 2026 — Prosperity Track</div>
         </div>
         <div class="gestalt-slide__anchor gestalt-slide__anchor--bottom-right">
-          <div style="font-size:0.85rem;font-weight:600;">July 2, 2026</div>
+          <div style="font-size:0.75rem;opacity:0.5;">July 2, 2026</div>
         </div>
       </div>`,
     },
+
+    // ─── SLIDE 2: HOOK ──────────────────────────────────────────────
     {
       id: "slide-hook",
       title: "The Civilisational Moment",
       type: "content",
       section: "Problem",
-      intent: "Civilisational scale. Not 'another blockchain project.' This is nation-building. The 3.7 billion number should create awe.",
-      html: `<h2 style="font-size:1.5rem;margin-bottom:1.5rem;">3.7 Billion People Will Be Displaced by Heat.</h2>
-        <p style="font-size:0.95rem;line-height:1.7;max-width:36rem;margin-bottom:1.5rem;">By 2080, up to one-third of humanity will be living outside the human climate niche. The southern hemisphere has less landmass than the north. When billions need to move northward, which nations are prepared?</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;">
-          <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.15);text-align:center;">
-            <p style="font-size:1.6rem;font-weight:700;color:#f59e0b;">38M</p>
-            <p style="font-size:0.75rem;opacity:0.7;">population, 2nd largest territory</p>
+      intent: "Civilisational scale. Dark, serious. No emojis. The 3.7 billion number creates gravity. Closing sentence reframes expectations entirely.",
+      html: `<h2 style="font-size:1.8rem;margin-bottom:1.5rem;text-align:left;">3.7 Billion People Outside the Human Climate Niche by 2080</h2>
+        <p style="font-size:0.95rem;line-height:1.8;max-width:38rem;margin-bottom:2rem;">The southern hemisphere has less landmass than the north. When billions need to move northward, which nations are prepared? Canada is the second largest country on Earth. 38 million people. The cheapest clean energy in the G7. The coldest data centre climate on the planet.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-bottom:2rem;">
+          <div style="padding:1.25rem;border-radius:0.5rem;border:1px solid rgba(26,54,93,0.2);background:rgba(26,54,93,0.03);">
+            <p style="font-size:1.8rem;font-weight:700;color:#1a365d;">38M</p>
+            <p style="font-size:0.78rem;opacity:0.6;margin-top:0.25rem;">people across 2nd largest territory</p>
           </div>
-          <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(14,165,233,0.04);border:1px solid rgba(14,165,233,0.15);text-align:center;">
-            <p style="font-size:1.6rem;font-weight:700;color:#0ea5e9;">$0.07</p>
-            <p style="font-size:0.75rem;opacity:0.7;">kWh — cheapest clean energy in G7</p>
+          <div style="padding:1.25rem;border-radius:0.5rem;border:1px solid rgba(45,106,79,0.2);background:rgba(45,106,79,0.03);">
+            <p style="font-size:1.8rem;font-weight:700;color:#2d6a4f;">$0.07</p>
+            <p style="font-size:0.78rem;opacity:0.6;margin-top:0.25rem;">per kWh — cheapest clean energy, G7</p>
           </div>
-          <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.15);text-align:center;">
-            <p style="font-size:1.6rem;font-weight:700;color:#ef4444;">Zero</p>
-            <p style="font-size:0.75rem;opacity:0.7;">systems in global top 50</p>
+          <div style="padding:1.25rem;border-radius:0.5rem;border:1px solid rgba(155,44,44,0.2);background:rgba(155,44,44,0.03);">
+            <p style="font-size:1.8rem;font-weight:700;color:#9b2c2c;">Zero</p>
+            <p style="font-size:0.78rem;opacity:0.6;margin-top:0.25rem;">systems in global supercomputing top 50</p>
           </div>
         </div>
-        <p style="font-size:0.85rem;opacity:0.6;font-style:italic;">This is not a technology pitch. This is a pitch about building a sovereign nation that is ready for what is coming.</p>
-        <p style="font-size:0.6rem;opacity:0.35;margin-top:1rem;font-family:var(--gestalt-font-mono);">Lenton et al. (2023) Nature Sustainability; World Bank Groundswell (2021)</p>`,
+        <p style="font-size:1.05rem;line-height:1.7;font-weight:500;max-width:38rem;">We are not talking about a startup, or many startups. This is about building an <mark style="background:rgba(184,134,11,0.15);padding:0.1rem 0.4rem;border-radius:0.2rem;">economically sovereign nation</mark> and being ready for what is coming.</p>
+        <p style="font-size:0.68rem;opacity:0.4;margin-top:1.5rem;">Lenton et al. (2023) "Quantifying the human cost of global warming," Nature Sustainability vol. 6; World Bank Groundswell Report (2021)</p>`,
     },
+
+    // ─── SLIDE 3: FORCES ────────────────────────────────────────────
     {
-      id: "slide-stakes",
-      title: "Two Converging Forces",
+      id: "slide-forces",
+      title: "Forces Converging on Canada",
       type: "content",
       section: "Problem",
-      intent: "Connect climate migration to compute sovereignty as ONE infrastructure problem. Budget 2024 quote provides government validation.",
-      html: `<h2 style="font-size:1.4rem;margin-bottom:1.5rem;">Two Forces Converging on Canada</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;">
+      intent: "Two-column. Left: climate + population density enables business models. Right: compute sovereignty + vertical supply chains. Not an intellectual plantation.",
+      html: `<h2 style="font-size:1.8rem;margin-bottom:1.5rem;text-align:left;">Forces Converging on Canada</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;">
           <div>
-            <p style="font-weight:700;font-size:0.85rem;margin-bottom:1rem;color:#f59e0b;">Climate Physics</p>
-            <p style="font-size:0.85rem;line-height:1.7;opacity:0.85;">The human climate niche peaks at 13°C mean annual temperature. That is southern Canada. As the globe warms, our latitude becomes MORE habitable. Equatorial regions become less.</p>
-            <p style="font-size:0.7rem;opacity:0.4;margin-top:0.75rem;font-family:var(--gestalt-font-mono);">Lenton et al. 2023, Nature Sustainability</p>
+            <p style="font-weight:700;font-size:0.9rem;margin-bottom:1rem;color:#b8860b;">Climate Physics + Population Density</p>
+            <p style="font-size:0.88rem;line-height:1.8;margin-bottom:1rem;">The human climate niche peaks at <strong>13\u00B0C mean annual temperature</strong>. That is southern Canada. As the globe warms, our latitude becomes more habitable while equatorial regions become less.</p>
+            <p style="font-size:0.88rem;line-height:1.8;margin-bottom:1rem;">With increased population density comes a <mark style="background:rgba(184,134,11,0.12);padding:0.1rem 0.3rem;border-radius:0.2rem;">plethora of business models relying on density</mark> that become viable for Canada's economy: transit, services, manufacturing, local supply chains. If we prepare properly.</p>
+            <p style="font-size:0.68rem;opacity:0.4;margin-top:0.75rem;">Lenton et al. 2023, Nature Sustainability</p>
           </div>
           <div>
-            <p style="font-weight:700;font-size:0.85rem;margin-bottom:1rem;color:#ef4444;">Compute Sovereignty</p>
-            <blockquote style="border-left:2px solid rgba(239,68,68,0.3);padding-left:1rem;margin:0;">
+            <p style="font-weight:700;font-size:0.9rem;margin-bottom:1rem;color:#1a365d;">Compute Sovereignty + Vertical Integration</p>
+            <blockquote style="border-left:2px solid rgba(26,54,93,0.3);padding-left:1rem;margin:0 0 1rem 0;">
               <p style="font-size:0.82rem;line-height:1.6;font-style:italic;opacity:0.85;">"Most compute capacity is located in other countries. This exposes Canadian firms to dependencies and security risks."</p>
-              <p style="font-size:0.65rem;opacity:0.4;margin-top:0.5rem;">— Budget 2024</p>
+              <p style="font-size:0.65rem;opacity:0.4;margin-top:0.4rem;">\u2014 Budget 2024</p>
             </blockquote>
-            <p style="font-size:0.82rem;line-height:1.7;opacity:0.85;margin-top:0.75rem;">140,000 AI professionals. G7 #1 in publications. Cannot crack global top 50 in supercomputing.</p>
+            <p style="font-size:0.88rem;line-height:1.8;margin-bottom:1rem;">140,000 AI professionals. G7 leader in publications. Cannot crack global top 50 in supercomputing.</p>
+            <p style="font-size:0.88rem;line-height:1.8;">Canada must build <mark style="background:rgba(26,54,93,0.1);padding:0.1rem 0.3rem;border-radius:0.2rem;">vertically integrated supply chains and our own manufacturing capability</mark>, instead of remaining an intellectual plantation and factory for the United States.</p>
           </div>
-        </div>
-        <p style="font-size:0.88rem;opacity:0.7;margin-top:1.5rem;text-align:center;font-weight:500;">These are not separate problems. They are one: Canada has not built infrastructure for the future that is arriving.</p>`,
-    },
-    {
-      id: "slide-vision",
-      title: "Sovereign, Resilient Canada",
-      type: "content",
-      section: "Vision",
-      intent: "Design fiction that feels achievable. SMR data grounds the vision. Then pivot to the gap: what's MISSING is the economic mechanism.",
-      html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">The 50-Year Vision</h2>
-        <p style="font-size:0.9rem;line-height:1.7;max-width:36rem;margin-bottom:1.5rem;">Small modular reactors powering self-sufficient communities co-located with AI compute infrastructure. Northern settlements that are energy-sovereign, not grid-dependent. A distributed network of compute nodes owned by Canadians, powered by Canadian energy, processing Canadian AI workloads.</p>
-        <div style="padding:1rem 1.25rem;background:rgba(14,165,233,0.03);border:1px solid rgba(14,165,233,0.12);border-radius:0.5rem;margin-bottom:1.25rem;">
-          <p style="font-size:0.82rem;line-height:1.6;"><strong>NRCan SMR Roadmap:</strong> $5.3B Canadian market for small modular reactors. Three applications: on-grid power, heavy industry, and off-grid remote communities currently burning diesel. Deployment within the decade.</p>
-        </div>
-        <p style="font-size:0.88rem;opacity:0.8;">The components exist. What is missing is the <strong>economic mechanism</strong> that connects Canadian energy to Canadian compute and allows citizens to participate in building it.</p>`,
-    },
-    {
-      id: "slide-mechanism",
-      title: "DAI Compute: The Mechanism",
-      type: "content",
-      section: "Solution",
-      intent: "HOW it works. Lead with citizen participation and economics. Blockchain introduced as accounting layer. Asset-backed + burn-on-use.",
-      html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">DAI Compute: Distributed AI Infrastructure</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
-          <div style="text-align:center;padding:1rem;">
-            <div style="font-size:1.3rem;margin-bottom:0.4rem;">☀️</div>
-            <p style="font-weight:700;font-size:0.8rem;margin-bottom:0.4rem;">1. Install</p>
-            <p style="font-size:0.75rem;opacity:0.7;line-height:1.4;">Solar + compute node. $0 down via financing.</p>
-          </div>
-          <div style="text-align:center;padding:1rem;">
-            <div style="font-size:1.3rem;margin-bottom:0.4rem;">⚡</div>
-            <p style="font-weight:700;font-size:0.8rem;margin-bottom:0.4rem;">2. Generate & Process</p>
-            <p style="font-size:0.75rem;opacity:0.7;line-height:1.4;">Energy + AI compute to the network.</p>
-          </div>
-          <div style="text-align:center;padding:1rem;">
-            <div style="font-size:1.3rem;margin-bottom:0.4rem;">🏗️</div>
-            <p style="font-weight:700;font-size:0.8rem;margin-bottom:0.4rem;">3. Earn & Build</p>
-            <p style="font-size:0.75rem;opacity:0.7;line-height:1.4;">Tokens backed by real Canadian assets. Every dollar builds infrastructure.</p>
-          </div>
-        </div>
-        <div style="padding:1rem 1.25rem;background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.12);border-radius:0.5rem;">
-          <p style="font-size:0.82rem;line-height:1.6;"><strong>Asset-backed. Burned on use.</strong> Dual token (NRG + CMP). Both backed by physical Canadian infrastructure. Both consumed on access. Not speculative instruments.</p>
-          <p style="font-size:0.78rem;line-height:1.6;opacity:0.7;margin-top:0.5rem;">Financing model: extend the $50B solar lease industry to include compute hardware. Break-even: 18-24 months.</p>
-        </div>
-        <p style="font-size:0.78rem;opacity:0.5;margin-top:1rem;font-style:italic;">Blockchain = accounting layer for verifiable, decentralised infrastructure. Clean energy co-op with blockchain accounting.</p>`,
-    },
-    {
-      id: "slide-gap",
-      title: "The Gap",
-      type: "content",
-      section: "Solution",
-      intent: "Complement, not compete. Quick visual proof. Expendable section if running long.",
-      html: `<h2 style="font-size:1.3rem;margin-bottom:1rem;">Complements Government Investment</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
-          <div style="padding:1.25rem;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.12);">
-            <p style="font-weight:700;font-size:0.8rem;color:#0ea5e9;margin-bottom:0.75rem;">SCIP ($705M)</p>
-            <p style="font-size:0.78rem;line-height:1.6;opacity:0.8;">One centralised supercomputer. 24,000 academic researchers. Public-funded.</p>
-          </div>
-          <div style="padding:1.25rem;border-radius:0.75rem;border:1px solid rgba(16,185,129,0.12);">
-            <p style="font-weight:700;font-size:0.8rem;color:#10b981;margin-bottom:0.75rem;">DAI Compute</p>
-            <p style="font-size:0.78rem;line-height:1.6;opacity:0.8;">Distributed citizen network. 140,000+ industry professionals + startups + citizens. Private capital mobilised.</p>
-          </div>
-        </div>
-        <p style="font-size:0.82rem;opacity:0.7;margin-top:1.5rem;text-align:center;">Both are needed. Public supercomputer for research. Distributed network for everyone else.</p>
-        <p style="font-size:0.78rem;opacity:0.5;margin-top:0.5rem;text-align:center;">No existing approach combines: sovereignty + asset-backing + citizen participation + energy integration + $0-down financing.</p>`,
-    },
-    {
-      id: "slide-traction",
-      title: "Traction & Credibility",
-      type: "content",
-      section: "Viability",
-      intent: "Signal research depth. 'Peer-reviewed climate science, NRCan roadmaps, semiconductor supply chain analysis.' Honest about stage.",
-      html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">Research-Backed, Not Speculative</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
-          <div>
-            <p style="font-weight:700;font-size:0.8rem;margin-bottom:0.75rem;color:#10b981;">Built</p>
-            <ul style="list-style:none;padding:0;font-size:0.8rem;line-height:2;">
-              <li>✓ ForesightScope platform deployed</li>
-              <li>✓ 50-year scenario: Nature Sustainability, NRCan, Balsillie</li>
-              <li>✓ Tokenomics designed (USD.ai / PAXG patterns)</li>
-              <li>✓ ISED strategy alignment confirmed</li>
-              <li>✓ Patent: renewable energy markets</li>
-            </ul>
-          </div>
-          <div>
-            <p style="font-weight:700;font-size:0.8rem;margin-bottom:0.75rem;opacity:0.5;">Next Steps</p>
-            <ul style="list-style:none;padding:0;font-size:0.8rem;line-height:2;opacity:0.7;">
-              <li>○ Smart contract audit</li>
-              <li>○ CSA Sandbox application</li>
-              <li>○ First financing partnership</li>
-              <li>○ 10 pilot nodes online</li>
-              <li>○ Enterprise pilot contract</li>
-            </ul>
-          </div>
-        </div>
-        <p style="font-size:0.75rem;opacity:0.5;margin-top:1rem;font-style:italic;">Pre-launch. Clear path. The 50-year strategy draws on peer-reviewed science, government roadmaps, and semiconductor supply chain analysis.</p>`,
-    },
-    {
-      id: "slide-horizon",
-      title: "From Nodes to Sovereignty",
-      type: "content",
-      section: "Viability",
-      intent: "Vertical integration grounded in Taiwan precedent. SDGs structural.",
-      html: `<h2 style="font-size:1.3rem;margin-bottom:1.25rem;">The Path to Sovereignty</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
-          <div style="padding:1rem;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.12);">
-            <p style="font-weight:700;font-size:0.75rem;color:#0ea5e9;margin-bottom:0.5rem;">Now (0-5 yr)</p>
-            <p style="font-size:0.72rem;line-height:1.5;opacity:0.8;">Distributed nodes. Financing. Enterprise pilots. Demand creation.</p>
-          </div>
-          <div style="padding:1rem;border-radius:0.75rem;border:1px solid rgba(16,185,129,0.12);">
-            <p style="font-weight:700;font-size:0.75rem;color:#10b981;margin-bottom:0.5rem;">Build (5-20 yr)</p>
-            <p style="font-size:0.72rem;line-height:1.5;opacity:0.8;">Network effect. Government customer. SMR co-location. Chip packaging.</p>
-          </div>
-          <div style="padding:1rem;border-radius:0.75rem;border:1px solid rgba(245,158,11,0.12);">
-            <p style="font-weight:700;font-size:0.75rem;color:#f59e0b;margin-bottom:0.5rem;">Sovereign (20-50 yr)</p>
-            <p style="font-size:0.72rem;line-height:1.5;opacity:0.8;">Vertical integration. Domestic fabrication. Full supply chain sovereignty.</p>
-          </div>
-        </div>
-        <p style="font-size:0.8rem;opacity:0.7;margin-bottom:1rem;">Taiwan took 40 years from zero to global semiconductor leader. The path is proven. It starts with demand creation.</p>
-        <div style="display:flex;gap:1rem;">
-          <span style="font-size:0.7rem;padding:0.3rem 0.6rem;border-radius:1rem;background:rgba(14,165,233,0.08);color:#0ea5e9;">SDG 9: Infrastructure</span>
-          <span style="font-size:0.7rem;padding:0.3rem 0.6rem;border-radius:1rem;background:rgba(16,185,129,0.08);color:#10b981;">SDG 7: Clean Energy</span>
-          <span style="font-size:0.7rem;padding:0.3rem 0.6rem;border-radius:1rem;background:rgba(245,158,11,0.08);color:#f59e0b;">SDG 12: Production</span>
         </div>`,
     },
+
+    // ─── SLIDE 4: COMPELLING QUESTION (VISION) ──────────────────────
     {
-      id: "slide-team-ask",
-      title: "Team & Ask",
+      id: "slide-vision-cq",
+      title: "The Compelling Question",
       type: "content",
-      section: "Close",
-      intent: "Credibility. Specific use of funds. Close with 'sovereignty' not 'compute.' The journey ends with the nation.",
-      html: `<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:2.5rem;">
-        <div>
-          <h2 style="font-size:1.3rem;margin-bottom:1rem;">Team</h2>
-          <div style="font-size:0.78rem;line-height:2;">
-            <p><strong>Francis Wang</strong> — Lead & Technical. AI systems, foresight (APPETITE model), blockchain architecture. Patent: renewable energy. DBA + DDes. Prior: early engineer, $680M startup.</p>
-            <p><strong>Maria Smirnova</strong> — Futures Research & Scenarios</p>
-            <p><strong>Alex Li</strong> — Design & Aesthetics</p>
-            <p><strong>James Cheng</strong> — Content & Ecosystem</p>
-            <p><strong>William Yao</strong> — Finance & Governance (Build-to-Manage)</p>
+      section: "Vision",
+      intent: "Formatted as Compelling Question per lexicon. Bold Ambition in gold. Constraints in red with 'while resolving'. Supporting signals highlighted. This is the design fiction that creates wow.",
+      html: `<p style="font-size:0.78rem;opacity:0.5;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Compelling Question</p>
+        <p style="font-size:1.15rem;line-height:1.7;margin-bottom:1.5rem;max-width:40rem;"><span style="color:#b8860b;font-weight:600;">How might Canada become an economically sovereign nation by 2076, with infrastructure prepared for population influx, independent energy-compute grids, and domestic AI capability at parity with leading nations</span></p>
+        <p style="font-size:1rem;line-height:1.7;margin-bottom:1.5rem;max-width:40rem;"><span style="color:#9b2c2c;font-weight:500;">...while resolving:</span></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;border:1px solid rgba(155,44,44,0.15);background:rgba(155,44,44,0.03);font-size:0.82rem;color:#9b2c2c;">100:1 investment gap with the U.S. ($2.7B vs. $280B)</div>
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;border:1px solid rgba(155,44,44,0.15);background:rgba(155,44,44,0.03);font-size:0.82rem;color:#9b2c2c;">38M sparse population across world's 2nd largest territory</div>
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;border:1px solid rgba(155,44,44,0.15);background:rgba(155,44,44,0.03);font-size:0.82rem;color:#9b2c2c;">No domestic chip manufacturing or semiconductor sovereignty</div>
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;border:1px solid rgba(155,44,44,0.15);background:rgba(155,44,44,0.03);font-size:0.82rem;color:#9b2c2c;">No existing mechanism for citizen participation in infrastructure</div>
+        </div>
+        <p style="font-size:0.82rem;opacity:0.6;margin-bottom:0.75rem;">Signals that this is theoretically achievable:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;background:rgba(45,106,79,0.06);border:1px solid rgba(45,106,79,0.15);">
+            <p style="font-size:0.82rem;font-weight:600;color:#2d6a4f;">SMR: $5.3B market</p>
+            <p style="font-size:0.72rem;opacity:0.6;">NRCan Roadmap. Off-grid northern communities. Deployment this decade.</p>
+          </div>
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;background:rgba(45,106,79,0.06);border:1px solid rgba(45,106,79,0.15);">
+            <p style="font-size:0.82rem;font-weight:600;color:#2d6a4f;">Taiwan: 40 years</p>
+            <p style="font-size:0.72rem;opacity:0.6;">Zero to global semiconductor leader. The path is proven.</p>
+          </div>
+          <div style="padding:0.75rem 1rem;border-radius:0.4rem;background:rgba(45,106,79,0.06);border:1px solid rgba(45,106,79,0.15);">
+            <p style="font-size:0.82rem;font-weight:600;color:#2d6a4f;">Cold climate: 40\u201360%</p>
+            <p style="font-size:0.72rem;opacity:0.6;">Cooling cost reduction. Natural advantage for compute infrastructure.</p>
+          </div>
+        </div>`,
+    },
+
+    // ─── SLIDE 5: MECHANISM ─────────────────────────────────────────
+    {
+      id: "slide-mechanism",
+      title: "The Economic Mechanism",
+      type: "content",
+      section: "Solution",
+      intent: "The critical sentence is the headline. Then explain mechanism. Introduce 'Decentralized AI (DAI) Compute' at the end. Footnotes on NRG/CMP. No emojis.",
+      html: `<h2 style="font-size:1.5rem;margin-bottom:0.75rem;text-align:left;max-width:38rem;">The Economic Mechanism</h2>
+        <p style="font-size:1.05rem;line-height:1.8;margin-bottom:2rem;max-width:38rem;">The missing piece: an economic mechanism that <mark style="background:rgba(184,134,11,0.12);padding:0.1rem 0.3rem;border-radius:0.2rem;">connects Canadian energy to Canadian compute</mark> and allows citizens to participate in building <strong>Canadian assets, Canadian infrastructure, and Canadian capabilities</strong>.</p>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:1rem;margin-bottom:1.5rem;">
+          <div style="width:2rem;height:2rem;border-radius:50%;background:#1a365d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">1</div>
+          <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Install</strong> solar panels + compute node. $0 down via financing partnerships (extending the $50B solar lease model).</p></div>
+          <div style="width:2rem;height:2rem;border-radius:50%;background:#2d6a4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">2</div>
+          <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Generate and process.</strong> Your system produces energy (NRG\u00B9) and provides AI compute (CMP\u00B2) to the network.</p></div>
+          <div style="width:2rem;height:2rem;border-radius:50%;background:#b8860b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">3</div>
+          <div><p style="font-size:0.88rem;line-height:1.6;"><strong>Earn and build.</strong> Tokens are <strong>asset-backed</strong> by physical Canadian infrastructure and <strong>burned on use</strong>. Access passes, not speculative instruments. Break-even: 18\u201324 months.</p></div>
+        </div>
+        <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(26,54,93,0.04);border:1px solid rgba(26,54,93,0.12);">
+          <p style="font-size:0.88rem;line-height:1.6;">The initial vehicle: <strong>Decentralized AI (DAI) Compute</strong>. A blockchain protocol where the accounting layer makes every contribution verifiable. A clean energy co-op with blockchain accounting.</p>
+        </div>
+        <div style="margin-top:1.25rem;font-size:0.68rem;opacity:0.45;line-height:1.8;">
+          <p>\u00B9 <strong>NRG</strong> (Energy Credit): minted on verified renewable energy generation by smart meter oracle attestation; burned on energy consumption or exchange for compute access.</p>
+          <p>\u00B2 <strong>CMP</strong> (Compute Credit): minted when a node operator stakes verified GPU/CPU capacity; burned when an enterprise buyer accesses compute processing.</p>
+        </div>`,
+    },
+
+    // ─── SLIDE 6: GAP (INVERTED HIERARCHY) ──────────────────────────
+    {
+      id: "slide-gap",
+      title: "The Unique Combination",
+      type: "content",
+      section: "Solution",
+      intent: "INVERTED hierarchy. The combination message is LARGEST and most prominent. SCIP complement is supporting context below. This is the centrepiece.",
+      html: `<div style="padding:2rem 2.5rem;border-radius:0.75rem;background:rgba(12,27,22,0.03);border:1px solid rgba(12,27,22,0.08);margin-bottom:2rem;">
+          <p style="font-size:1.3rem;line-height:1.6;font-weight:600;max-width:38rem;">Sovereignty under Canadian law<br/>+ Asset-backing against physical infrastructure<br/>+ Citizen participation through financing<br/>+ Energy generation integration<br/>+ Distributed resilience</p>
+          <p style="font-size:0.95rem;opacity:0.6;margin-top:1.25rem;">No existing approach combines all five. This is the gap.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+          <div>
+            <p style="font-weight:600;font-size:0.82rem;color:#1a365d;margin-bottom:0.5rem;">Government response (SCIP, $705M)</p>
+            <p style="font-size:0.8rem;line-height:1.6;opacity:0.7;">One centralised supercomputer for 24,000 academic researchers. Necessary. But does not address 140,000+ industry professionals, startups, or citizens.</p>
+          </div>
+          <div>
+            <p style="font-weight:600;font-size:0.82rem;color:#2d6a4f;margin-bottom:0.5rem;">This project</p>
+            <p style="font-size:0.8rem;line-height:1.6;opacity:0.7;">Distributed citizen network. Private capital mobilised alongside public investment. Complementary to SCIP, not competitive.</p>
+          </div>
+        </div>`,
+    },
+
+    // ─── SLIDE 7: TEAM + CREDIBILITY ────────────────────────────────
+    {
+      id: "slide-team-credibility",
+      title: "Team and Credibility",
+      type: "content",
+      section: "Viability",
+      intent: "Lead with Francis's credibility: foresight practice, double doctorate, ISED submission, patent, renewable energy decade, AI ops. Then team cards. Footnotes on technical terms.",
+      html: `<h2 style="font-size:1.6rem;margin-bottom:1.25rem;text-align:left;">Team and Credibility</h2>
+        <div style="padding:1.25rem 1.5rem;border-radius:0.75rem;border:1.5px solid rgba(184,134,11,0.2);background:rgba(184,134,11,0.03);margin-bottom:1.25rem;">
+          <p style="font-size:0.88rem;line-height:1.8;"><strong>Francis Wang</strong> (Lead Researcher) \u2014 15+ years engineering and product leadership. Dual doctoral research (DDes + DBA) combining AI systems with strategic foresight for long-term sustainable innovation. <mark style="background:rgba(184,134,11,0.1);padding:0.05rem 0.2rem;border-radius:0.15rem;">Submitted ISED Call for Proposals</mark> (blockchain on government-verified suppliers). Patent holder in renewable energy markets. Decade in renewable energy software. Staff software engineer in AI operations. Foresight methodology (APPETITE model).</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+          <div style="padding:0.75rem;border-radius:0.5rem;border:1px solid rgba(12,27,22,0.08);">
+            <p style="font-weight:700;font-size:0.78rem;">Maria Smirnova</p>
+            <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">Systems & Operations. Architecture, UWaterloo. President Iterra R&D. COO Infortech. Scaling technology ventures.</p>
+          </div>
+          <div style="padding:0.75rem;border-radius:0.5rem;border:1px solid rgba(12,27,22,0.08);">
+            <p style="font-weight:700;font-size:0.78rem;">Arwin Tio</p>
+            <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">AI Infrastructure. Sr. SWE at Cruise (GM), autonomous vehicles. Previously Staff at NextRoll. HPC, distributed systems, GPU fleet.</p>
+          </div>
+          <div style="padding:0.75rem;border-radius:0.5rem;border:1px solid rgba(12,27,22,0.08);">
+            <p style="font-weight:700;font-size:0.78rem;">Alex Li</p>
+            <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">Design & UX. Director Product Design, RBC (AI products). Previously Capital One, IBM. Complex systems for non-specialists.</p>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;justify-content:center;padding:1.5rem;border-radius:0.75rem;background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.15);">
-          <p style="font-weight:700;font-size:0.9rem;margin-bottom:1rem;">The Ask: $10,000</p>
-          <ul style="list-style:none;padding:0;font-size:0.8rem;line-height:2;">
-            <li>→ Smart contract security audit</li>
-            <li>→ First hardware procurement batch</li>
-          </ul>
-          <p style="font-size:0.72rem;opacity:0.6;margin-top:0.75rem;">Most capital-efficient first step: prove security, deploy real hardware in Canadian homes.</p>
-          <p style="font-weight:700;font-size:1.1rem;margin-top:1.5rem;color:#10b981;">Back Canadian sovereignty.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+          <div style="padding:0.75rem;border-radius:0.5rem;border:1px solid rgba(12,27,22,0.08);">
+            <p style="font-weight:700;font-size:0.78rem;">James Cheng</p>
+            <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">Platform Engineering. Decade of digital transformation: aviation, finance, healthcare, public sector. Staff SWE Pivotal/VMware. Systems Design, UWaterloo.</p>
+          </div>
+          <div style="padding:0.75rem;border-radius:0.5rem;border:1px solid rgba(12,27,22,0.08);">
+            <p style="font-weight:700;font-size:0.78rem;">William Yao</p>
+            <p style="font-size:0.7rem;opacity:0.65;line-height:1.5;margin-top:0.25rem;">Finance & Governance. Founder Nova Roma. CA, ex-Merrill Lynch. 40+ years financial services. Capital markets, energy economics, Build-to-Manage model.</p>
+          </div>
+        </div>
+        <p style="font-size:0.65rem;opacity:0.4;margin-top:1rem;">Tokenomics: the economic design governing how NRG and CMP tokens are minted, exchanged, and burned. PAXG (Pax Gold): established asset-backed token (1 token = 1 oz physical gold) whose transparency model we follow for verification.</p>`,
+    },
+
+    // ─── SLIDE 8: FORESIGHTSCOPE PATHWAY ────────────────────────────
+    {
+      id: "slide-pathway",
+      title: "Pathway to Economic Sovereignty",
+      type: "content",
+      section: "Viability",
+      intent: "Inline SVG ForesightScope cone. Three horizons. Golden path (Transform). Pitfall branches from CQ constraints (Order/Collapse). Hoverable scenarios with descriptions and trajectory labels.",
+      html: `<h2 style="font-size:1.5rem;margin-bottom:0.5rem;text-align:left;">Pathway to Economic Sovereignty</h2>
+        <p style="font-size:0.78rem;opacity:0.5;margin-bottom:1rem;">Scenario trajectories from the compelling question. Golden path: active transformation. Pitfalls: unresolved constraints.</p>
+        <svg viewBox="0 0 720 340" style="width:100%;max-width:44rem;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .fs-label { font-family: 'Geist', sans-serif; font-size: 7.5px; fill: #334155; }
+              .fs-label-bold { font-family: 'Geist', sans-serif; font-size: 7.5px; fill: #1a1a1a; font-weight: 700; }
+              .fs-traj-label { font-family: 'Geist', sans-serif; font-size: 6.5px; fill: #334155; opacity: 0; }
+              .fs-node:hover + .fs-traj-label, .fs-traj:hover .fs-traj-label { opacity: 1; }
+              .fs-node { cursor: pointer; }
+              .fs-node:hover circle { stroke-width: 2.5; }
+              .fs-tooltip { font-family: 'Geist', sans-serif; font-size: 6px; fill: #334155; opacity: 0; }
+              .fs-node:hover .fs-tooltip { opacity: 1; }
+            </style>
+          </defs>
+          <!-- Cone outline -->
+          <path d="M 60,170 L 240,80 L 460,40 L 680,10" fill="none" stroke="rgba(45,106,79,0.15)" stroke-width="1"/>
+          <path d="M 60,170 L 240,260 L 460,300 L 680,330" fill="none" stroke="rgba(155,44,44,0.15)" stroke-width="1"/>
+          <path d="M 60,170 L 680,170" fill="none" stroke="rgba(12,27,22,0.06)" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Horizon lines -->
+          <line x1="240" y1="60" x2="240" y2="280" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="460" y1="30" x2="460" y2="310" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="680" y1="5" x2="680" y2="335" stroke="rgba(12,27,22,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- Horizon labels -->
+          <text x="240" y="290" text-anchor="middle" class="fs-label" opacity="0.5">H1: 0\u20135 yr</text>
+          <text x="460" y="322" text-anchor="middle" class="fs-label" opacity="0.5">H2: 5\u201320 yr</text>
+          <text x="680" y="348" text-anchor="middle" class="fs-label" opacity="0.5">H3: 20\u201350 yr</text>
+          <text x="60" y="185" class="fs-label" opacity="0.4">Now</text>
+          <!-- GOLDEN PATH (Transform) -->
+          <path d="M 60,170 L 240,130 L 460,90 L 680,50" fill="none" stroke="#b8860b" stroke-width="2.5" opacity="0.8"/>
+          <text x="150" y="140" class="fs-label-bold" fill="#b8860b" opacity="0.7">Transform</text>
+          <!-- Golden path nodes -->
+          <g class="fs-node">
+            <circle cx="240" cy="130" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
+            <text x="240" y="117" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Regulatory clarity + first nodes</text>
+            <text x="240" y="148" text-anchor="middle" class="fs-tooltip">CSA Sandbox granted. 50 nodes. Enterprise pilot secured.</text>
+          </g>
+          <g class="fs-node">
+            <circle cx="460" cy="90" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
+            <text x="460" y="77" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Network effect + SMR co-location</text>
+            <text x="460" y="108" text-anchor="middle" class="fs-tooltip">1000+ nodes. Govt customer. Northern settlement pilots. Chip packaging begins.</text>
+          </g>
+          <g class="fs-node">
+            <circle cx="680" cy="50" r="8" fill="#b8860b" opacity="0.9" stroke="#b8860b" stroke-width="1.5"/>
+            <text x="680" y="37" text-anchor="middle" class="fs-label-bold" fill="#b8860b">Economic sovereignty achieved</text>
+            <text x="680" y="68" text-anchor="middle" class="fs-tooltip">Domestic fabrication. Vertical integration. Self-sufficient energy-compute communities.</text>
+          </g>
+          <!-- PITFALL BRANCH 1: Regulatory rejection (Collapse) -->
+          <path d="M 240,130 L 340,210 L 460,240" fill="none" stroke="#9b2c2c" stroke-width="1.5" opacity="0.5" stroke-dasharray="4,3"/>
+          <g class="fs-node">
+            <circle cx="460" cy="240" r="6" fill="#9b2c2c" opacity="0.7" stroke="#9b2c2c" stroke-width="1"/>
+            <text x="460" y="255" text-anchor="middle" class="fs-label" fill="#9b2c2c">Regulatory rejection</text>
+            <text x="460" y="265" text-anchor="middle" class="fs-tooltip">Securities classification. Cannot launch. Constraint: no citizen mechanism.</text>
+          </g>
+          <text x="320" y="200" class="fs-label" fill="#9b2c2c" opacity="0.6">Collapse</text>
+          <!-- PITFALL BRANCH 2: Insufficient participation (Order/stagnation) -->
+          <path d="M 240,130 L 340,170 L 460,185" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
+          <g class="fs-node">
+            <circle cx="460" cy="185" r="6" fill="#334155" opacity="0.6" stroke="#334155" stroke-width="1"/>
+            <text x="460" y="200" text-anchor="middle" class="fs-label" fill="#334155">Insufficient adoption</text>
+            <text x="460" y="210" text-anchor="middle" class="fs-tooltip">Capital barrier unresolved. Network too small. Foreign cloud wins demand.</text>
+          </g>
+          <text x="320" y="165" class="fs-label" fill="#334155" opacity="0.5">Order</text>
+          <!-- PITFALL BRANCH 3: No vertical integration (Order/dependency) -->
+          <path d="M 460,90 L 560,150 L 680,180" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
+          <g class="fs-node">
+            <circle cx="680" cy="180" r="6" fill="#334155" opacity="0.6" stroke="#334155" stroke-width="1"/>
+            <text x="680" y="195" text-anchor="middle" class="fs-label" fill="#334155">Permanent import dependency</text>
+            <text x="680" y="205" text-anchor="middle" class="fs-tooltip">No domestic manufacturing. Constraint: no chip sovereignty. Remains U.S. plantation.</text>
+          </g>
+          <text x="570" y="145" class="fs-label" fill="#334155" opacity="0.5">Order</text>
+          <!-- PITFALL BRANCH 4: Climate unpreparedness (Collapse) -->
+          <path d="M 460,90 L 560,200 L 680,270" fill="none" stroke="#9b2c2c" stroke-width="1.5" opacity="0.4" stroke-dasharray="4,3"/>
+          <g class="fs-node">
+            <circle cx="680" cy="270" r="6" fill="#9b2c2c" opacity="0.6" stroke="#9b2c2c" stroke-width="1"/>
+            <text x="680" y="285" text-anchor="middle" class="fs-label" fill="#9b2c2c">Infrastructure crisis</text>
+            <text x="680" y="295" text-anchor="middle" class="fs-tooltip">Population influx without preparation. No northern infrastructure. Digital colony persists.</text>
+          </g>
+          <text x="570" y="215" class="fs-label" fill="#9b2c2c" opacity="0.5">Collapse</text>
+        </svg>
+        <p style="font-size:0.7rem;opacity:0.45;margin-top:0.5rem;"><strong>Golden path</strong> (Transform): active, deliberate capability-building. <strong>Order</strong>: stagnation, maintaining dependency. <strong>Collapse</strong>: catastrophic loss of the sovereignty window.</p>`,
+    },
+
+    // ─── SLIDE 9: NEXT STEPS ────────────────────────────────────────
+    {
+      id: "slide-next-steps",
+      title: "Next Steps",
+      type: "content",
+      section: "Close",
+      intent: "Near-term concrete actions. CSA application. Solar installer engagement. Hardware in Canadian homes.",
+      html: `<h2 style="font-size:1.6rem;margin-bottom:1.5rem;text-align:left;">Immediate Next Steps</h2>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem 1.5rem;align-items:start;">
+          <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#1a365d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;">1</div>
+          <div>
+            <p style="font-size:0.95rem;font-weight:600;">Smart contract security audit</p>
+            <p style="font-size:0.82rem;opacity:0.65;margin-top:0.25rem;">Professional third-party review of the protocol before any token issuance.</p>
+          </div>
+          <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#2d6a4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;">2</div>
+          <div>
+            <p style="font-size:0.95rem;font-weight:600;">CSA Regulatory Sandbox application</p>
+            <p style="font-size:0.82rem;opacity:0.65;margin-top:0.25rem;">Engage principal regulator for time-limited operating relief. Critical path for all downstream activity.</p>
+          </div>
+          <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#b8860b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;">3</div>
+          <div>
+            <p style="font-size:0.95rem;font-weight:600;">Engage solar installers and financing partners</p>
+            <p style="font-size:0.82rem;opacity:0.65;margin-top:0.25rem;">Establish the procurement and financing pipeline to roll out the initial set of hardware on the ground in Canadian homes.</p>
+          </div>
+        </div>
+        <div style="margin-top:2rem;padding:1rem 1.5rem;border-radius:0.5rem;background:rgba(45,106,79,0.04);border:1px solid rgba(45,106,79,0.12);">
+          <p style="font-size:0.88rem;line-height:1.7;">Target: <strong>first 10 pilot nodes operational within 12 months</strong>. Real hardware. Real energy generation. Real compute processing. Proof that the mechanism works before scaling.</p>
+        </div>`,
+    },
+
+    // ─── SLIDE 10: THE ASK (STANDALONE, CONCLUSIVE) ─────────────────
+    {
+      id: "slide-ask",
+      title: "The Ask",
+      type: "title",
+      section: "Close",
+      layout: "title-anchored",
+      intent: "Standalone. Dark background feel. High contrast. $10K. Smart contract audit + financing partnerships. 'Back Canadian economic sovereignty.' Final image judges leave with.",
+      html: `<div class="gestalt-slide__anchored">
+        <div class="gestalt-slide__anchor gestalt-slide__anchor--center" style="text-align:left;max-width:34rem;">
+          <p style="font-size:3rem;font-weight:700;margin-bottom:1.5rem;">$10,000</p>
+          <div style="font-size:1rem;line-height:2.2;margin-bottom:2rem;">
+            <p>\u2192 Smart contract security audit</p>
+            <p>\u2192 First financing partnerships to bring energy and AI assets into Canadian hands</p>
+          </div>
+          <div style="width:4rem;height:1px;background:rgba(12,27,22,0.15);margin-bottom:2rem;"></div>
+          <p style="font-size:1.4rem;font-weight:600;color:#b8860b;">Back Canadian economic sovereignty.</p>
+        </div>
+        <div class="gestalt-slide__anchor gestalt-slide__anchor--bottom-left">
+          <div style="font-size:0.82rem;">Francis Wang</div>
+          <div style="font-size:0.72rem;opacity:0.5;">findcongwang@gmail.com</div>
+        </div>
+        <div class="gestalt-slide__anchor gestalt-slide__anchor--bottom-right">
+          <div style="font-size:0.7rem;opacity:0.4;">Sovereign Distributed Energy and AI for Canada</div>
+          <div style="font-size:0.7rem;opacity:0.4;">Cooperathon 2026 \u2014 Prosperity Track</div>
         </div>
       </div>`,
     },
-    // ─── APPENDIX ────────────────────────────────────────────────
-    {
-      id: "slide-scenario",
-      title: "50-Year Scenario",
-      type: "appendix",
-      section: "Appendix",
-      intent: "Backup for 'Why Canada? What's the long-term vision?' Civilisational framing with research citations.",
-      html: `<h2 style="font-size:1.3rem;margin-bottom:1.25rem;">The 50-Year Scenario (Research-Backed)</h2>
-        <div style="font-size:0.78rem;line-height:2;margin-bottom:1rem;">
-          <p><strong>1. Climate physics:</strong> 2.1-3.7B people outside human climate niche by 2100 (Lenton et al. 2023, Nature Sustainability)</p>
-          <p><strong>2. Migration pressure:</strong> 216M internal climate migrants by 2050 (World Bank Groundswell 2021). Northward movement inevitable.</p>
-          <p><strong>3. Canada's position:</strong> 2nd largest territory, 38M people, human climate niche optimal (~13°C MAT = southern Canada)</p>
-          <p><strong>4. Energy advantage:</strong> Quebec $0.07/kWh; cold climate 40-60% cooling reduction; SMRs for northern communities ($5.3B market)</p>
-          <p><strong>5. Infrastructure gap:</strong> Northern regions lack energy, connectivity, compute. Remote communities on diesel.</p>
-          <p><strong>6. Co-location model:</strong> SMR + compute = self-sufficient settlements. Economically viable through compute revenue.</p>
-          <p><strong>7. Vertical integration:</strong> Demand base → chip packaging (10-20yr) → fabrication (20-50yr). Taiwan precedent: 40 years zero to leader.</p>
-        </div>
-        <p style="font-size:0.75rem;opacity:0.5;">This is not speculation. Each step is grounded in peer-reviewed science, government roadmaps, or historical precedent.</p>`,
-    },
+
+    // ─── APPENDIX ───────────────────────────────────────────────────
     {
       id: "slide-tokenomics",
-      title: "Tokenomics",
+      title: "Tokenomics Detail",
       type: "appendix",
       section: "Appendix",
-      intent: "Backup for 'How do the tokens work?' question.",
-      html: `<h2 style="font-size:1.3rem;margin-bottom:1.25rem;">Dual-Token Mechanics</h2>
-        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1.5rem;">
-          <div style="padding:1.25rem;border-radius:0.75rem;border:1px solid rgba(245,158,11,0.2);text-align:center;">
-            <p style="font-weight:700;color:#f59e0b;font-size:1rem;">NRG</p>
-            <p style="font-size:0.72rem;opacity:0.7;margin-top:0.4rem;">Energy Credit</p>
-            <p style="font-size:0.68rem;opacity:0.5;margin-top:0.4rem;">Minted: verified renewable generation</p>
-            <p style="font-size:0.68rem;opacity:0.5;">Burned: energy use or exchange</p>
+      intent: "Backup for 'How do the tokens work?' question. Footnotes define all terms.",
+      html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">Dual-Token Mechanics</h2>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:center;margin-bottom:1.5rem;">
+          <div style="padding:1.5rem;border-radius:0.75rem;border:1.5px solid rgba(184,134,11,0.2);text-align:center;">
+            <p style="font-weight:700;color:#b8860b;font-size:1.1rem;">NRG</p>
+            <p style="font-size:0.78rem;opacity:0.6;margin-top:0.5rem;">Energy Credit</p>
+            <p style="font-size:0.72rem;opacity:0.5;margin-top:0.5rem;line-height:1.5;">Minted: verified renewable generation (smart meter oracle attestation)</p>
+            <p style="font-size:0.72rem;opacity:0.5;line-height:1.5;">Burned: energy consumption or exchange for CMP</p>
           </div>
-          <div style="font-size:1.5rem;opacity:0.3;">⇄</div>
-          <div style="padding:1.25rem;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.2);text-align:center;">
-            <p style="font-weight:700;color:#0ea5e9;font-size:1rem;">CMP</p>
-            <p style="font-size:0.72rem;opacity:0.7;margin-top:0.4rem;">Compute Credit</p>
-            <p style="font-size:0.68rem;opacity:0.5;margin-top:0.4rem;">Minted: verified compute provision</p>
-            <p style="font-size:0.68rem;opacity:0.5;">Burned: compute access</p>
+          <div style="font-size:1.2rem;opacity:0.25;">\u21C4</div>
+          <div style="padding:1.5rem;border-radius:0.75rem;border:1.5px solid rgba(26,54,93,0.2);text-align:center;">
+            <p style="font-weight:700;color:#1a365d;font-size:1.1rem;">CMP</p>
+            <p style="font-size:0.78rem;opacity:0.6;margin-top:0.5rem;">Compute Credit</p>
+            <p style="font-size:0.72rem;opacity:0.5;margin-top:0.5rem;line-height:1.5;">Minted: verified compute provision (proof-of-compute attestation)</p>
+            <p style="font-size:0.72rem;opacity:0.5;line-height:1.5;">Burned: enterprise buyer accesses compute processing</p>
           </div>
         </div>
-        <p style="font-size:0.78rem;opacity:0.6;text-align:center;">AMM exchange (market-driven) • Both burned on use • No speculation incentive • Burn-Mint Equilibrium</p>`,
+        <div style="padding:1rem;border-radius:0.5rem;background:rgba(12,27,22,0.03);border:1px solid rgba(12,27,22,0.08);text-align:center;">
+          <p style="font-size:0.82rem;opacity:0.7;">AMM exchange (market-driven rate) \u2022 Both burned on use \u2022 No speculation incentive \u2022 Burn-Mint Equilibrium</p>
+        </div>
+        <p style="font-size:0.68rem;opacity:0.4;margin-top:1rem;">AMM: Automated Market Maker \u2014 an on-chain exchange pool that algorithmically sets the NRG/CMP exchange rate based on supply and demand, without requiring a centralised order book.</p>`,
     },
     {
       id: "slide-regulatory",
       title: "Regulatory Pathway",
       type: "appendix",
       section: "Appendix",
-      intent: "Backup for 'Is this legal?' question.",
-      html: `<h2 style="font-size:1.3rem;margin-bottom:1.25rem;">CSA Sandbox Pathway</h2>
-        <div style="display:flex;flex-direction:column;gap:0.6rem;">
-          <div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:1.75rem;height:1.75rem;border-radius:50%;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">1</div><p style="font-size:0.8rem;">Securities counsel (crypto-specialist, Canadian)</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:1.75rem;height:1.75rem;border-radius:50%;background:#0ea5e9;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">2</div><p style="font-size:0.8rem;">CSA pre-filing conference</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:1.75rem;height:1.75rem;border-radius:50%;background:#f59e0b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">3</div><p style="font-size:0.8rem;">Regulatory Sandbox application (time-limited relief)</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:1.75rem;height:1.75rem;border-radius:50%;background:#8b5cf6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">4</div><p style="font-size:0.8rem;">Operate under Sandbox; quarterly reporting</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:1.75rem;height:1.75rem;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">5</div><p style="font-size:0.8rem;">Graduate to full registration (Year 2-3)</p></div>
+      intent: "Backup for 'Is this legal?' question. CSA Sandbox pathway.",
+      html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">CSA Regulatory Sandbox Pathway</h2>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+          <div style="display:flex;align-items:center;gap:1rem;"><div style="width:2rem;height:2rem;border-radius:50%;background:#2d6a4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">1</div><p style="font-size:0.85rem;">Engage securities counsel (Canadian crypto-specialist)</p></div>
+          <div style="display:flex;align-items:center;gap:1rem;"><div style="width:2rem;height:2rem;border-radius:50%;background:#1a365d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">2</div><p style="font-size:0.85rem;">CSA pre-filing conference with principal regulator</p></div>
+          <div style="display:flex;align-items:center;gap:1rem;"><div style="width:2rem;height:2rem;border-radius:50%;background:#b8860b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">3</div><p style="font-size:0.85rem;">Regulatory Sandbox application (time-limited operating relief)</p></div>
+          <div style="display:flex;align-items:center;gap:1rem;"><div style="width:2rem;height:2rem;border-radius:50%;background:#334155;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">4</div><p style="font-size:0.85rem;">Operate under Sandbox terms; demonstrate compliance; quarterly reporting</p></div>
+          <div style="display:flex;align-items:center;gap:1rem;"><div style="width:2rem;height:2rem;border-radius:50%;background:#0c1b16;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">5</div><p style="font-size:0.85rem;">Graduate to full registration or exemption (Year 2\u20133)</p></div>
         </div>
-        <div style="margin-top:1.25rem;padding:0.75rem 1rem;background:rgba(16,185,129,0.03);border:1px solid rgba(16,185,129,0.1);border-radius:0.5rem;">
-          <p style="font-size:0.75rem;opacity:0.7;"><strong>Design:</strong> Utility-first (burned on use). No profit promises. Immediate utility at launch. Decentralised governance.</p>
+        <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(45,106,79,0.04);border:1px solid rgba(45,106,79,0.1);">
+          <p style="font-size:0.8rem;opacity:0.75;line-height:1.6;"><strong>Utility-first design:</strong> tokens burned on use (consumptive). No profit promises. Immediate utility at launch. Decentralised governance. These are the CSA's criteria for non-security classification under the Pacific Coast Coin Exchange test.</p>
         </div>`,
     },
   ],
@@ -304,33 +415,35 @@ export const cooperathonProsperityData: DualTrackPresentation = {
     type: "steps",
     visualisation: "wordcloud",
     steps: [
-      { id: "step-1", label: "Opening", thread: "vision", conceptsAdded: ["sovereign Canada", "nation-building", "50-year journey"] },
-      { id: "step-2", label: "Climate", thread: "crisis", conceptsAdded: ["3.7 billion displaced", "human climate niche", "northward migration"], conceptsFaded: ["50-year journey"] },
-      { id: "step-3", label: "Convergence", thread: "crisis", conceptsAdded: ["compute sovereignty", "Budget 2024", "digital colony", "140,000 professionals"] },
-      { id: "step-4", label: "Vision", thread: "infrastructure", conceptsAdded: ["SMR co-location", "northern settlements", "energy sovereignty", "$5.3B market"], conceptsFaded: ["digital colony"] },
-      { id: "step-5", label: "Mechanism", thread: "mechanism", conceptsAdded: ["DAI Compute", "asset-backed", "burn on use", "$0 down"], conceptsFaded: ["3.7 billion displaced", "northward migration"] },
-      { id: "step-6", label: "Complement", thread: "mechanism", conceptsAdded: ["complement SCIP", "citizen participation", "distributed nodes"] },
-      { id: "step-7", label: "Credibility", thread: "mechanism", conceptsAdded: ["ForesightScope", "peer-reviewed", "ISED aligned"] },
-      { id: "step-8", label: "Horizon", thread: "vision", conceptsAdded: ["vertical integration", "Taiwan precedent", "chip sovereignty"], conceptsFaded: ["compute sovereignty", "Budget 2024"] },
-      { id: "step-9", label: "Close", thread: "vision", conceptsAdded: ["sovereign capacity", "Canadian backbone", "back sovereignty"] },
+      { id: "step-1", label: "Opening", thread: "vision", conceptsAdded: ["economic sovereignty", "nation-building", "50-year pathway"] },
+      { id: "step-2", label: "Climate", thread: "crisis", conceptsAdded: ["3.7 billion displaced", "human climate niche", "northward pressure"] },
+      { id: "step-3", label: "Convergence", thread: "crisis", conceptsAdded: ["compute sovereignty", "vertical integration", "intellectual plantation", "population density"] },
+      { id: "step-4", label: "Question", thread: "vision", conceptsAdded: ["compelling question", "bold ambition", "constraints"], conceptsFaded: ["intellectual plantation"] },
+      { id: "step-5", label: "Mechanism", thread: "mechanism", conceptsAdded: ["DAI Compute", "asset-backed", "burn on use", "citizen participation"], conceptsFaded: ["3.7 billion displaced"] },
+      { id: "step-6", label: "Combination", thread: "mechanism", conceptsAdded: ["sovereignty + backing + participation + energy + financing"] },
+      { id: "step-7", label: "Credibility", thread: "mechanism", conceptsAdded: ["foresight practice", "ISED submission", "peer-reviewed"], conceptsFaded: ["northward pressure"] },
+      { id: "step-8", label: "Pathway", thread: "vision", conceptsAdded: ["transform trajectory", "golden path", "pitfall avoidance"], conceptsFaded: ["compute sovereignty"] },
+      { id: "step-9", label: "Action", thread: "mechanism", conceptsAdded: ["smart contract audit", "solar installers", "first 10 nodes"] },
+      { id: "step-10", label: "Sovereignty", thread: "vision", conceptsAdded: ["back Canadian sovereignty", "Canadian assets", "Canadian capabilities"] },
     ],
     threadColors: {
-      crisis: "#e06666",
-      infrastructure: "#0ea5e9",
-      mechanism: "#10b981",
-      vision: "#f59e0b",
+      crisis: "#9b2c2c",
+      infrastructure: "#1a365d",
+      mechanism: "#2d6a4f",
+      vision: "#b8860b",
     },
   },
 
   anchors: [
     { slideId: "slide-title", storyStepId: "step-1" },
     { slideId: "slide-hook", storyStepId: "step-2" },
-    { slideId: "slide-stakes", storyStepId: "step-3" },
-    { slideId: "slide-vision", storyStepId: "step-4" },
+    { slideId: "slide-forces", storyStepId: "step-3" },
+    { slideId: "slide-vision-cq", storyStepId: "step-4" },
     { slideId: "slide-mechanism", storyStepId: "step-5" },
     { slideId: "slide-gap", storyStepId: "step-6" },
-    { slideId: "slide-traction", storyStepId: "step-7" },
-    { slideId: "slide-horizon", storyStepId: "step-8" },
-    { slideId: "slide-team-ask", storyStepId: "step-9" },
+    { slideId: "slide-team-credibility", storyStepId: "step-7" },
+    { slideId: "slide-pathway", storyStepId: "step-8" },
+    { slideId: "slide-next-steps", storyStepId: "step-9" },
+    { slideId: "slide-ask", storyStepId: "step-10" },
   ],
 };
