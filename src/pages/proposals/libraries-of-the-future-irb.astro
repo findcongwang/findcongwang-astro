@@ -1,0 +1,527 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+<BaseLayout title="Libraries of the Future — IRB Application Package" hideNav={true} hideFooter={true} noindex={true}>
+  <style>
+    .response-content {
+      margin-top: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0.5rem;
+      background: rgba(0,0,0,0.015);
+    }
+    .response-content p + p {
+      margin-top: 1rem;
+    }
+    .checklist-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .checklist-table th, .checklist-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+    .checklist-table th {
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+    .status-ready { color: #10b981; font-weight: 600; }
+    .status-complete { color: #0ea5e9; font-weight: 600; }
+    .status-pending { color: #f59e0b; font-weight: 600; }
+    .status-not-required { opacity: 0.5; }
+    .appendix-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .appendix-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .timeline-table th, .timeline-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      text-align: left;
+    }
+    .timeline-table th {
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+    .interview-theme {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .interview-question {
+      margin-top: 0.75rem;
+      padding-left: 1rem;
+    }
+    .risk-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 1rem;
+    }
+    .risk-table th, .risk-table td {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      text-align: left;
+    }
+    .risk-table th {
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      opacity: 0.6;
+    }
+  </style>
+  <!-- Lock Screen -->
+  <div id="lock-screen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="max-width:20rem;text-align:center;">
+      <h1 class="text-2xl font-serif font-medium text-primary mb-2">Libraries of the Future</h1>
+      <p class="text-sm text-primary/60 mb-6">IRB Application Package</p>
+      <form id="passcode-form" class="space-y-4">
+        <input
+          type="password"
+          id="passcode-input"
+          placeholder="Enter passcode"
+          class="w-full px-3 py-2 border border-primary/20 rounded-md text-primary text-center focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+          autocomplete="off"
+        />
+        <button type="submit" class="w-full px-4 py-2 bg-primary text-secondary rounded-md hover:opacity-80 transition-opacity">
+          Access Package
+        </button>
+      </form>
+      <p id="error-msg" class="text-xs text-red-500 mt-3 hidden">Incorrect passcode</p>
+      <p class="text-xs text-primary/40 mt-6">Contact the author for access</p>
+    </div>
+  </div>
+
+  <!-- Main Content (hidden by default) -->
+  <div id="main-content" style="display:none;">
+    <Wrapper variant="standard" class="pt-16 pb-12 lg:pt-24">
+      <header class="mb-12 pb-8">
+        <p class="text-sm font-mono text-primary/40 mb-4">GGU Worldwide DBA Program — IRB Application Package</p>
+        <h1 class="text-2xl md:text-3xl font-serif font-medium text-primary mb-4">
+          IRB Application Package
+        </h1>
+        <p class="text-lg text-primary/60 max-w-3xl">
+          Libraries of the Future: Hybrid Intelligence and Knowledge Integration in the Post-Agentic World
+        </p>
+        <div class="mt-4 text-sm text-primary/50 space-y-1">
+          <p><strong>Student Investigator:</strong> Francis (Cong) Wang, DBA Candidate</p>
+          <p><strong>Principal Investigator (Dissertation Chair):</strong> Suresh Arumugam, Ph.D</p>
+          <p><strong>Programme:</strong> Golden Gate University Worldwide, Emerging Technologies</p>
+        </div>
+      </header>
+
+      <div class="max-w-3xl space-y-10">
+
+        <!-- IRB Requirements Checklist -->
+        <section>
+          <h2 class="text-xl font-serif font-medium text-primary mb-4">IRB Requirements Checklist</h2>
+          <p class="text-sm text-primary/60 mb-4">All required documents are in draft, ready for submission immediately after proposal defense approval.</p>
+
+          <table class="checklist-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Document</th>
+                <th>Status</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Approved Research Proposal with Ethical Adherence Protocol</td>
+                <td><span class="status-pending">PENDING</span></td>
+                <td>Requires defense approval; <a href="#appendix-a" class="underline">Appendix A</a> contains ethical adherence language</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Project Details (Cover Page + Application Form)</td>
+                <td><span class="status-ready">DRAFT READY</span></td>
+                <td><a href="#project-details" class="underline">Project Details</a> section below</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Institutional Consent Letter</td>
+                <td><span class="status-not-required">NOT REQUIRED</span></td>
+                <td>Participants are individuals from researcher's network, not organisational representatives</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Informed Consent for each data collection instrument</td>
+                <td><span class="status-ready">DRAFT READY</span></td>
+                <td><a href="#appendix-c" class="underline">Appendix C: Informed Consent</a></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Data Collection Instrument and Questions with Debriefing</td>
+                <td><span class="status-ready">DRAFT READY</span></td>
+                <td><a href="#appendix-b" class="underline">Appendix B: Interview Guide</a></td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>IRB Training Certificates (5 modules)</td>
+                <td><span class="status-complete">COMPLETED</span></td>
+                <td>All 5 modules completed; certificates available on request</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Critical Path -->
+        <section>
+          <h2 class="text-xl font-serif font-medium text-primary mb-4">Critical Path for Accelerated Timeline</h2>
+
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Target</th>
+                <th>Dependency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Proposal defense scheduled</td>
+                <td>ASAP</td>
+                <td>Committee availability</td>
+              </tr>
+              <tr>
+                <td>IRB training certificates</td>
+                <td><span class="status-complete">COMPLETED</span></td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td>Proposal defense completed</td>
+                <td>TBD</td>
+                <td>Scheduled date</td>
+              </tr>
+              <tr>
+                <td>IRB application submitted</td>
+                <td>Within 1 week of defense</td>
+                <td>Defense approval</td>
+              </tr>
+              <tr>
+                <td>IRB approval received</td>
+                <td>1-2 weeks after submission</td>
+                <td>IRB committee review</td>
+              </tr>
+              <tr>
+                <td>Begin interviews</td>
+                <td>2-3 weeks after submission</td>
+                <td>IRB approval</td>
+              </tr>
+              <tr>
+                <td>Interviews complete</td>
+                <td>Within 4-6 weeks of start</td>
+                <td>Participant scheduling</td>
+              </tr>
+              <tr>
+                <td>Thematic analysis + writing</td>
+                <td>August 2026</td>
+                <td>Concurrent with book writing</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Project Details -->
+        <section id="project-details">
+          <h2 class="text-xl font-serif font-medium text-primary mb-4">Project Details</h2>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Application Cover Page</h3>
+          <table class="checklist-table">
+            <tbody>
+              <tr><td><strong>Principal Investigator</strong></td><td>Suresh Arumugam, Ph.D, Dissertation Chair, GGU</td></tr>
+              <tr><td><strong>Student Investigator</strong></td><td>Francis (Cong) Wang, DBA Program</td></tr>
+              <tr><td><strong>Title of Project</strong></td><td>Libraries of the Future: Hybrid Intelligence and Knowledge Integration in the Post-Agentic World</td></tr>
+              <tr><td><strong>Category</strong></td><td>New</td></tr>
+              <tr><td><strong>Site of Study</strong></td><td>Off-campus (remote video interviews, participant locations vary)</td></tr>
+              <tr><td><strong>Duration</strong></td><td>From: 2-3 weeks after submission | To: up to 1 year from submission</td></tr>
+              <tr><td><strong>Estimated Participants</strong></td><td>6-10</td></tr>
+              <tr><td><strong>Special Populations</strong></td><td>None (all adults, English-speaking professionals)</td></tr>
+              <tr><td><strong>Funding</strong></td><td>No</td></tr>
+              <tr><td><strong>Cost to Participants</strong></td><td>No</td></tr>
+              <tr><td><strong>Compensation</strong></td><td>No</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">1. Hypotheses and Expected Outcomes</h3>
+          <div class="response-content text-primary/70">
+            <p>This research employs Design Science Research (DSR) methodology to validate two knowledge system frameworks through practitioner experience. The central thesis is that generative AI adoption produces measurable cognitive erosion in knowledge workers, and that architectural (Perceptiosphere) and measurement (Cognitive Vitality Index) responses can be validated through professional practice interviews.</p>
+            <p>Expected outcomes: thematic validation of cognitive erosion patterns in professional contexts, practitioner feedback on framework applicability and clarity, identification of domain-specific manifestations of the erosion thesis.</p>
+            <p>Theoretical grounding: cognitive reserve theory (Barulli &amp; Stern, 2013), cognitive agency surrender (Xu et al., 2026), automation skill degradation (Smith &amp; Baumann, 2020; Leonidov, 2025), AI dependence (Wu et al., 2025).</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">2. Participants</h3>
+          <div class="response-content text-primary/70">
+            <p>6-10 practicing professionals across industries (technology, education, healthcare, management, knowledge work) recruited from the researcher's professional network. Adults aged 25-65. Recruited via direct invitation (email/LinkedIn). No coordinator; researcher conducts all interviews directly.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">3. Procedure</h3>
+          <div class="response-content text-primary/70">
+            <p>Semi-structured video interviews conducted remotely via Zoom or Google Meet. Each interview approximately 45-60 minutes. Audio recorded with consent for transcription purposes. Recordings destroyed after transcription (within 30 days). Transcripts retained in password-protected storage for up to 3 years.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">4. Questions</h3>
+          <div class="response-content text-primary/70">
+            <p>See <a href="#appendix-b" class="underline">Appendix B: Interview Guide</a> with debriefing statement.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">5. Anticipated Risks and Benefits</h3>
+          <div class="response-content text-primary/70">
+            <p><strong>Risks:</strong> Minimal. The line of questioning may cause participants to reflect on changes in their professional capabilities, which could produce mild discomfort. No physical risks. No personally identifiable information collected beyond name (for consent) and industry/title (for context).</p>
+            <p><strong>Benefits:</strong> Participants gain heightened awareness of how AI tools may currently influence their intellectual practice and cognitive engagement. The reflective interview process surfaces patterns that may otherwise remain invisible. Participants may opt in to receive updates on framework developments. The broader study contributes to frameworks for preserving human agency in human-AI knowledge systems.</p>
+          </div>
+        </section>
+
+        <!-- Appendix A: Ethical Adherence Protocol -->
+        <section id="appendix-a" class="appendix-section">
+          <h2 class="text-xl font-serif font-medium text-primary">Appendix A: Ethical Adherence Protocol</h2>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Standard Ethical Adherence Language (GGU Required)</h3>
+          <div class="response-content text-primary/70">
+            <p>The researcher will conduct and explain an analysis of the sample size used in comparison to the total population. The researcher will make clear to the subject(s) that participation is voluntary and that the subject(s) may choose to leave the study at any time. The researcher will inform the subject(s) of the purpose of the study, the nature of the questions, and the time the subject will spend participating in the study. The researcher will conduct the study in a quiet place that is conducive to comfort and concentration. The researcher will house all raw data in a password-protected file. The dissertation committee and the researcher will be the only people who will read the raw data. The researcher will inform the subject(s) of any physical demands of the study. The researcher will inform the subject(s) of any emotional or psychological triggers that the study may contain.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Sample Size Justification</h3>
+          <div class="response-content text-primary/70">
+            <p>This study will interview 6-10 key informants who are practicing professionals across various industries within the researcher's professional network. The sample size is appropriate for Design Science Research (DSR) framework validation: the purpose is not statistical generalisation but thematic saturation, where additional interviews no longer produce novel insights regarding the frameworks under investigation. Prior DSR studies with similar artefact validation goals have successfully employed 5-12 participants (Peffers et al., 2007; Hevner et al., 2004).</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Recruitment and Voluntariness</h3>
+          <div class="response-content text-primary/70">
+            <p>Participants are recruited via direct invitation from the researcher's professional network (email and LinkedIn). No power differential exists between researcher and participants (they are professional peers, not students or employees of the researcher). Participation is entirely voluntary. No compensation is offered. No penalty exists for declining or withdrawing.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Informed Consent Process</h3>
+          <div class="response-content text-primary/70">
+            <p>Before each interview, the researcher will:</p>
+            <p>1. Provide the Informed Consent Agreement in advance (at least 48 hours before the interview)</p>
+            <p>2. Review the consent form verbally at the start of the interview</p>
+            <p>3. Obtain verbal confirmation of consent (recorded)</p>
+            <p>4. Remind the participant of their right to skip questions or withdraw at any time</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Data Handling and Security</h3>
+          <div class="response-content text-primary/70">
+            <p><strong>Audio recordings:</strong> Captured via Zoom/Google Meet recording function. Stored on researcher's password-protected local drive. Transcribed within 14 days. Recordings destroyed within 30 days of transcription.</p>
+            <p><strong>Transcripts:</strong> Stored in a password-protected file on the researcher's encrypted local drive. Accessible only to the researcher and dissertation committee.</p>
+            <p><strong>Retention:</strong> Data retained for up to 3 years for potential use in the broader research programme (The Future of Knowledge series). Destroyed after 3 years.</p>
+            <p><strong>No cloud storage</strong> of raw data beyond the video conferencing platform's temporary processing.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Anonymity in Publication</h3>
+          <div class="response-content text-primary/70">
+            <p>Participants will not be identified by name in any publication. Quotes attributed by industry and professional title only (e.g., "a senior technology leader in the energy sector"). Demographic data reported in aggregate. Participants may review and approve any direct quotes attributed to them before publication (member checking).</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Risk Assessment</h3>
+          <table class="risk-table">
+            <thead>
+              <tr><th>Risk</th><th>Likelihood</th><th>Severity</th><th>Mitigation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Emotional discomfort reflecting on capability changes</td><td>Low</td><td>Mild</td><td>Skip question option; right to withdraw</td></tr>
+              <tr><td>Professional sensitivity (admitting AI dependence)</td><td>Low</td><td>Mild</td><td>Anonymity; no employer notification</td></tr>
+              <tr><td>Data breach</td><td>Very low</td><td>Moderate</td><td>Password protection; encrypted storage; 30-day recording deletion</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">International Research Considerations</h3>
+          <div class="response-content text-primary/70">
+            <p>The researcher is located in Canada. Participants may be located in Canada, the United States, or internationally. The Canadian Tri-Council Policy Statement (TCPS2) governs Canadian research ethics and is compatible with US IRB standards. The study involves no vulnerable populations, no deception, no physical intervention, and no culturally sensitive topics requiring additional local ethics review.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">AI Use Disclosure (Ethical Transparency)</h3>
+          <div class="response-content text-primary/70">
+            <p><strong>AI tools ARE used for:</strong> Transcription of recorded interviews (automated speech-to-text), literature search and discovery (custom research MCP tools with DOI verification), fluency refinement of researcher-written analysis.</p>
+            <p><strong>AI tools are NOT used for:</strong> Generating interview questions, interpreting participant responses, drawing analytical conclusions, making editorial decisions about which data to include or exclude.</p>
+            <p>This disclosure is consistent with the book's thesis on transparent human-AI collaboration and is itself a demonstration of the ethical adherence to intellectual honesty that the research advocates.</p>
+          </div>
+        </section>
+
+        <!-- Appendix B: Interview Guide -->
+        <section id="appendix-b" class="appendix-section">
+          <h2 class="text-xl font-serif font-medium text-primary">Appendix B: Semi-Structured Interview Guide</h2>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Debriefing Statement (Read to Participant Before Interview)</h3>
+          <div class="response-content text-primary/70">
+            <p>The purpose of this interview is to study how the adoption of generative AI tools affects cognitive engagement, skill maintenance, and knowledge practices among professionals. This interview should take approximately 45-60 minutes. There are approximately 12-15 questions across three themes. Your participation is voluntary. If any question makes you uncomfortable, please skip it. You may stop the interview at any time. Your information will be kept confidential and anonymous, stored in a password-protected file. Only the research team will see your individual answers. There is a risk of mild discomfort reflecting on changes in your professional capabilities. Through this interview, you will gain heightened awareness of how AI tools may influence your intellectual practice. The research team may use your information for a future study but not beyond 3 years, at which point all data will be destroyed.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Pre-Interview Setup Questions (Sent 48 Hours in Advance)</h3>
+          <div class="response-content text-primary/70">
+            <p>1. What is your current professional role and industry?</p>
+            <p>2. How long have you been working in knowledge-intensive professional roles?</p>
+            <p>3. Which generative AI tools (if any) do you use regularly in your professional work?</p>
+            <p>4. Approximately how long have you been using these tools in your work?</p>
+          </div>
+
+          <h3 class="interview-theme">Theme 1: Experience with AI in Professional Work (10-15 min)</h3>
+          <p class="text-sm text-primary/50 italic">Purpose: Establish baseline. Understand how AI is integrated into their professional practice.</p>
+          <div class="response-content text-primary/70">
+            <p class="interview-question"><strong>1.</strong> In your professional work, where does AI show up in your typical workflow, and where does it not?</p>
+            <p class="interview-question"><strong>2.</strong> When you first started using AI tools in your work, what changed? What became easier? What, if anything, became harder or felt different?</p>
+            <p class="interview-question"><strong>3.</strong> Are there tasks you used to do manually that you now rely on AI for? How did that transition happen?</p>
+          </div>
+
+          <h3 class="interview-theme">Theme 2: Perceived Cognitive Changes (20-25 min)</h3>
+          <p class="text-sm text-primary/50 italic">Purpose: Explore the central thesis. Let their experience confirm, contradict, or nuance the cognitive erosion hypothesis.</p>
+          <div class="response-content text-primary/70">
+            <p class="interview-question"><strong>4.</strong> Have you noticed any changes in how you think about your work since adopting AI tools? (Probe: speed of thinking, depth of analysis, confidence in your own judgment without AI assistance)</p>
+            <p class="interview-question"><strong>5.</strong> If your primary AI tool disappeared tomorrow, which of your professional capabilities would you be most concerned about?</p>
+            <p class="interview-question"><strong>6.</strong> Do you ever catch yourself accepting an AI output without fully evaluating it? What does that feel like? How often does it happen compared to when you first started?</p>
+            <p class="interview-question"><strong>7.</strong> How do you distinguish between "I know this" and "I can look this up quickly"? Has that boundary shifted for you?</p>
+            <p class="interview-question"><strong>8.</strong> Have you observed this pattern in colleagues or teams you work with? What does it look like from the outside?</p>
+          </div>
+
+          <h3 class="interview-theme">Theme 3: Knowledge Systems and Architecture (15-20 min)</h3>
+          <p class="text-sm text-primary/50 italic">Purpose: Explore how they think about knowledge ownership, organisation, and collaboration. Validate Perceptiosphere concepts without leading.</p>
+          <div class="response-content text-primary/70">
+            <p class="interview-question"><strong>9.</strong> How do you organise your professional knowledge? (Probe: tools, systems, practices. What's private vs. shared?)</p>
+            <p class="interview-question"><strong>10.</strong> Who has access to the knowledge context that makes your work valuable? Do you feel you control it? Has AI changed that sense of ownership?</p>
+            <p class="interview-question"><strong>11.</strong> When you collaborate with others on knowledge-intensive work, how does context travel between you? What gets lost?</p>
+            <p class="interview-question"><strong>12.</strong> If you could design a system that preserved your professional judgment and context as you gain experience, what would matter most to you?</p>
+          </div>
+
+          <h3 class="interview-theme">Closing (5 min)</h3>
+          <div class="response-content text-primary/70">
+            <p class="interview-question"><strong>13.</strong> Is there anything about your experience with AI and your professional thinking that I haven't asked about but you think is important?</p>
+            <p class="interview-question"><strong>14.</strong> Demographic questions: industry, approximate seniority level, years of professional experience.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Researcher Notes</h3>
+          <div class="response-content text-primary/70 text-sm">
+            <p>Let the participant lead where possible. The questions are prompts, not a rigid script. If the participant's experience contradicts the thesis, explore that with equal curiosity. Theme 2 is the core; if time is limited, prioritise questions 4-8. Theme 3 validates the Perceptiosphere without naming it. Do not introduce framework terminology until after the participant has described their experience in their own words.</p>
+          </div>
+        </section>
+
+        <!-- Appendix C: Informed Consent -->
+        <section id="appendix-c" class="appendix-section">
+          <h2 class="text-xl font-serif font-medium text-primary">Appendix C: Informed Consent Agreement</h2>
+          <p class="text-sm text-primary/50 mb-4">Semi-Structured Interview</p>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Key Information</h3>
+          <div class="response-content text-primary/70">
+            <p>You are invited to participate in a 45-60 minute interview about your professional experience with AI tools and knowledge work. The interview contains approximately 12-15 questions across three themes. Audio will be recorded and transcribed; recordings destroyed within 30 days. No information collected will connect your identity with published responses. There is potential for the interview to prompt reflection on changes in your professional capabilities.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Purpose of the Research Study</h3>
+          <div class="response-content text-primary/70">
+            <p>The purpose of this study is to investigate how the adoption of generative AI tools affects cognitive engagement, skill maintenance, and knowledge practices among professionals in knowledge-intensive roles. The research validates two frameworks: the Perceptiosphere (a knowledge architecture model) and the Cognitive Vitality Index (a measurement framework for human-engaged cognitive work).</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">What You Will Do in the Study</h3>
+          <div class="response-content text-primary/70">
+            <p>You will introduce yourself briefly and then respond to interview questions across three themes: (1) your experience with AI tools in professional work, (2) perceived changes in your cognitive engagement and skills, and (3) how you organise and govern your professional knowledge. The interview is semi-structured; you may elaborate on topics most relevant to your experience. You will be recorded. Recordings will be transcribed and destroyed within 30 days. Transcripts will be retained in password-protected storage for up to 3 years. You can skip any question and stop the interview at any time.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Time Required</h3>
+          <div class="response-content text-primary/70">
+            <p>Approximately 45-60 minutes.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Risks</h3>
+          <div class="response-content text-primary/70">
+            <p>There are few anticipated risks. The line of questioning may cause you to reflect on changes in your professional capabilities or cognitive practices, which could produce mild discomfort. No physical risks exist. No personally identifiable information beyond your industry and professional title will appear in published results.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Benefits</h3>
+          <div class="response-content text-primary/70">
+            <p>Through this interview, you will gain heightened awareness of how AI tools may currently be influencing your intellectual practice and cognitive engagement. The reflective questions surface patterns that may otherwise remain invisible. You may choose to be contacted for updates on framework developments. The information gathered will expand understanding of how AI adoption affects human cognitive engagement in professional knowledge work.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Confidentiality and Anonymity</h3>
+          <div class="response-content text-primary/70">
+            <p>Your responses will be kept in confidence. Quotes will be attributed by industry and professional title only (e.g., "a senior technology leader in the energy sector"). The majority of responses will be aggregated for thematic analysis. Your name will not appear in published results.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Voluntary Participation and Right to Withdraw</h3>
+          <div class="response-content text-primary/70">
+            <p>Your participation is completely voluntary. You have the right to withdraw at any time without penalty. To withdraw during the interview, indicate that you would like to stop. To withdraw after the interview, email the researcher at findcongwang@gmail.com within 14 days.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Payment</h3>
+          <div class="response-content text-primary/70">
+            <p>You will receive no payment for participating.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Using Data Beyond This Study</h3>
+          <div class="response-content text-primary/70">
+            <p>The researcher may choose to use the data as part of a future study within the same research programme (The Future of Knowledge series). Data will be retained securely for three years and then destroyed.</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Contact Information</h3>
+          <div class="response-content text-primary/70">
+            <p><strong>Student Investigator:</strong> Francis (Cong) Wang, DBA Candidate, Golden Gate University. Email: findcongwang@gmail.com</p>
+            <p><strong>Principal Investigator:</strong> Suresh Arumugam, Ph.D, Dissertation Chair, Golden Gate University Worldwide.</p>
+            <p><strong>IRB Contact:</strong> Therese F. Martin, DBA, Institutional Review Board, 536 Mission Street, Golden Gate University, San Francisco, CA 94105. Telephone: (415) 442-7800. Email: worldwide@ggu.edu</p>
+          </div>
+
+          <h3 class="font-medium text-primary mt-6 mb-2">Agreement</h3>
+          <div class="response-content text-primary/70">
+            <p>I agree to participate in the research study described above.</p>
+            <p style="margin-top:1.5rem;">Print Name: ________________________________________ Date: _____________</p>
+            <p style="margin-top:1rem;">Signature: ________________________________________</p>
+            <p style="margin-top:1rem;font-style:italic;opacity:0.6;">You will receive a copy of this form for your records.</p>
+          </div>
+        </section>
+
+      </div>
+    </Wrapper>
+  </div>
+
+  <script is:inline>
+    (function() {
+      var lock = document.getElementById('lock-screen');
+      var content = document.getElementById('main-content');
+      var form = document.getElementById('passcode-form');
+      var input = document.getElementById('passcode-input');
+      var errorMsg = document.getElementById('error-msg');
+
+      function unlock() {
+        lock.style.display = 'none';
+        content.style.display = 'block';
+      }
+
+      // Check URL param
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get('key');
+      if (key && key.toUpperCase() === 'FUTUREGGU') {
+        unlock();
+      }
+
+      // Handle form
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value.toUpperCase() === 'FUTUREGGU') {
+          unlock();
+        } else {
+          errorMsg.classList.remove('hidden');
+          input.value = '';
+          setTimeout(function() { errorMsg.classList.add('hidden'); }, 3000);
+        }
+      });
+    })();
+  </script>
+</BaseLayout>
