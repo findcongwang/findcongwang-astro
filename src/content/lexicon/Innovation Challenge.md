@@ -7,6 +7,9 @@ originated_date: 2026-02-05
 publish_date: 2026-05-20
 title: Innovation Challenge
 description: A structured, solution-agnostic problem specification that mobilises diverse solvers toward measurable outcomes, built on problem-first research methodology.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 ## Introduction
 The innovation landscape is saturated with formats that claim to produce breakthroughs: hackathons, accelerators, pitch competitions, requests for proposals. Most of these formats share a structural defect. They either prescribe solutions (the RFP tells you what to build), rush past problem understanding (the hackathon gives you forty-eight hours), or evaluate polish over substance (the pitch competition rewards storytelling over rigour). The result is a high volume of activity that rarely produces durable innovation.

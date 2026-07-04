@@ -8,6 +8,9 @@ publish_date: 2026-02-03
 updated_date: 2026-05-23
 title: Knowledge Curation and Stewardship
 description: The deliberate practice of cultivating knowledge as living material through decomposition, connection-making, graded validation, and intergenerational stewardship, distinguishing the irreplaceable human role from AI collection in knowledge work.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 AI has made information collection trivially easy. Any agent can monitor thousands of sources, extract relevant passages, and deposit them into a repository. The bottleneck has shifted permanently from access to judgment. The scarce resource is no longer information; it is the capacity to determine what matters, what connects, and what to do about it.
 

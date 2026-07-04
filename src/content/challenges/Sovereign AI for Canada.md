@@ -9,6 +9,9 @@ title: "Sovereign Distributed Energy and AI for Canada"
 description: "Building domestic AI infrastructure that leverages Canada's geographic and energy advantages to retain talent, reduce dependency on foreign compute, and prepare for a climate-shifted future."
 domain_theme: "Digital Sovereignty & Infrastructure"
 parent_questions: ["ai-collaboration", "digital-sovereignty"]
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 
 Canada stands at a pivotal moment in its technological development. The world-class AI research institutions—Mila, Vector Institute, Amii—produce researchers who rank among the world's best. Yet an paradox persists: Canada generates exceptional AI talent while lacking the infrastructure to retain it. In 2024, 53 per cent of Canadian AI professionals relocated to U.S. firms. Canada, with its $8.5 billion annual AI research budget, holds just 0.6 per cent of global AI supercomputing power against the United States' $72 billion investment. AI startup funding fell by 30 per cent between 2023 and 2024, not from lack of ideas, but from the gravitational pull of American infrastructure.

@@ -7,6 +7,9 @@ originated_date: 2025-12-25
 publish_date: 2025-12-25
 title: Compelling Question (Foresight)
 description: A strategic tool to fracture conventional thinking and reveal latent opportunities within complex problems.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 ## Introduction
 Strategic planning often suffers from a fatal flaw: incrementalism. When faced with big challenges, we tend to rely on past successes to predict future solutions. We brainstorm "outside the box," but rarely step far enough away from it to see the real opportunities. To break this cycle of conventional thinking, Adam Morgan and Mark Barden introduced a mode if inquiry in their book "A Beautiful Constraint".  

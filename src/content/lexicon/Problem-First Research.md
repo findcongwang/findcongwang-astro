@@ -6,7 +6,10 @@ tags: [Innovation Methodology, Temporal Analysis, Failure Archaeology, Futures S
 originated_date: 2026-01-15
 publish_date: 2026-05-20
 title: Problem-First Research
-description: A convergent methodology requiring deep problem understanding—history, context, failure analysis, and temporal projection—before any solution ideation occurs.
+description: A convergent methodology requiring deep problem understanding (history, context, failure analysis, and temporal projection) before any solution ideation occurs.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 ## Introduction
 

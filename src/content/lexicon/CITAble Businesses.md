@@ -8,6 +8,9 @@ publish_date: 2026-06-25
 updated_date: 2026-06-27
 title: CITAble Businesses
 description: A seven-band operational framework (CITAble™) that structures how organisations execute strategy across Context, Indicators, Tactics, Efforts (CITE bands) plus Brand, Landscape, and Efforts as internal enablement (BLE), producing organisational legibility that makes the business externally citable.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 
 ## The Problem

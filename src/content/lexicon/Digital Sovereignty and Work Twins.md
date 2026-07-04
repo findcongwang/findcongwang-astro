@@ -7,6 +7,9 @@ originated_date: 2025-07-01
 publish_date: 2026-05-23
 title: Digital Sovereignty and Work Twins
 description: The principle that individuals own their AI agent's output and trained context, establishing sovereignty over work twins that operate on their behalf in hybrid intelligence systems
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 
 ## Introduction

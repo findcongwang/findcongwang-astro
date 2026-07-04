@@ -5,6 +5,8 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import ShareButtons from "@/components/fundations/elements/ShareButtons.astro";
 import ContentEntry from "@/components/content/ContentEntry.astro";
 import MermaidRenderer from "@/components/fundations/scripts/MermaidRenderer.astro";
+import PagedViewer from "@/components/paged/PagedViewer.astro";
+import AnnotationPanel from "@/components/annotations/AnnotationPanel.astro";
 import RoughAnnotation from "@/components/annotations/RoughAnnotation.astro";
 import {
   getListableEntries,
@@ -13,6 +15,7 @@ import {
   COLLECTION_TO_PUBLISH_TYPE,
   type ContentCollectionId,
 } from "@/utils/content";
+import { DEFAULT_PRINT_FORMAT, isPrintFormatKey, isPrintSpreadStart } from "@/data/print-formats";
 
 interface Props {
   frontmatter: Record<string, unknown>;
@@ -59,6 +62,30 @@ const displayDate = originatedDate ?? publishDate ??
 const secondaryDate = updatedDate ?? (publishDate && originatedDate && publishDate.getTime() !== originatedDate.getTime() ? publishDate : null);
 
 const tags = "tags" in frontmatter ? ((frontmatter.tags as string[]) ?? []) : [];
+
+// Print format resolution
+const printFormat =
+  typeof frontmatter.print_format === "string" && isPrintFormatKey(frontmatter.print_format)
+    ? frontmatter.print_format
+    : DEFAULT_PRINT_FORMAT;
+const printMode =
+  frontmatter.print_mode === "digital" || frontmatter.print_mode === "physical"
+    ? frontmatter.print_mode
+    : "physical";
+const printAnnotations =
+  typeof frontmatter.print_annotations === "boolean" ? String(frontmatter.print_annotations) : "";
+const printSpreadStart =
+  typeof frontmatter.print_spread_start === "string" && isPrintSpreadStart(frontmatter.print_spread_start)
+    ? frontmatter.print_spread_start
+    : "odd";
+const printLink =
+  printFormat === DEFAULT_PRINT_FORMAT
+    ? "?format=print"
+    : `?format=print&size=${encodeURIComponent(printFormat)}`;
+const printLinkWithMode =
+  printMode === "digital" ? `${printLink}&mode=digital` : printLink;
+const printLinkFull =
+  printSpreadStart !== "odd" ? `${printLinkWithMode}&spread=${printSpreadStart}` : printLinkWithMode;
 
 // Meta
 const site = import.meta.env.SITE ?? "https://findcongwang.com";
@@ -197,37 +224,51 @@ const related = relatedWithCollection.slice(0, 3);
               </>
             )}
           </div>
+          {frontmatter.formats && (frontmatter.formats as string[]).length > 0 && (
+            <div class="flex items-center gap-3 mt-2 text-xs text-primary/40">
+              <span>Alternative formats:</span>
+              {(frontmatter.formats as string[]).includes("print") && (
+                <a href={printLinkFull} class="hover:text-primary underline underline-offset-2" target="_blank">Print</a>
+              )}
+            </div>
+          )}
           <div class="border-b border-dotted border-primary/10">
             <br>
           </div>
-
-          {/* ─── Hero Question Block ─── */}
+          <div
+            id="print-config"
+            class="hidden"
+            data-print-format={printFormat}
+            data-print-mode={printMode}
+            data-print-spread-start={printSpreadStart}
+            {...(printAnnotations ? { "data-print-annotations": printAnnotations } : {})}
+          ></div>
+          <div id="paged-content" class="article-body">
           {boldAmbition && (
-            <div class="my-8 flex flex-col gap-5 max-w-xl">
+            <div class="question-hero my-8 flex flex-col gap-5 max-w-xl">
               {/* How might we */}
-              <p class="text-xs uppercase tracking-widest text-primary/40 font-sans mb-0">
+              <p class="question-hero__label text-xs uppercase tracking-widest text-primary/40 font-sans mb-0">
                 How might we
               </p>
               
               {/* Bold ambition + ", without" appended */}
-              <p class="text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance">
-                <span style="color: #0c899e;">{boldAmbition}</span><span class="text-[15px] text-primary/60 font-sans">, without</span>
+              <p class="question-hero__ambition text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance">
+                <span style="color: #0c899e;">{boldAmbition}</span>{"\u00A0"}<span class="question-hero__separator text-[15px] text-primary/60 font-sans">, without</span>
               </p>
-              <span class="text-[10px] text-primary/30 italic font-sans -mt-4">
+              <span class="question-hero__caption text-[10px] text-primary/30 italic font-sans -mt-4">
                 (bold ambition)
               </span>
 
-              {/* Constraints — each line ends with ", and" except last which ends with "?" */}
-              <p class="text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance">
-
+              {/* Constraints — each on its own line, ", and" trails the constraint */}
+              <div class="question-hero__constraints flex flex-col gap-1">
                 {constraints.map((constraint: string, index: number) => (
-                  <>
-                    <span style="color: #d54021;">{cap(constraint)}</span>{index === constraints.length - 1 ? <span style="color: #d54021;">?</span> : <span class="text-[15px] text-primary/60 font-sans">, and</span>}
-                  </>
+                  <p class="question-hero__constraint text-base sm:text-lg md:text-xl lg:text-xl font-serif text-balance mb-0">
+                    <span style="color: #d54021;">{cap(constraint)}</span>{index === constraints.length - 1 ? <span style="color: #d54021;">?</span> : <>{"\u00A0"}<span class="question-hero__separator text-[15px] text-primary/60 font-sans">, and</span></>}
+                  </p>
                 ))}
-              </p>
+              </div>
 
-              <span class="text-[10px] text-primary/30 italic font-sans -mt-3">
+              <span class="question-hero__caption text-[10px] text-primary/30 italic font-sans -mt-3">
                 (significant constraints)
               </span>
             </div>
@@ -237,6 +278,14 @@ const related = relatedWithCollection.slice(0, 3);
           <div class="prose-ul:text-zinc-500 prose prose-xs prose-headings:font-sans font-serif max-w-none pt-0 leading-relaxed prose-a:text-zinc-500 hover:prose-a:text-zinc-700 prose-p:text-zinc-500 prose-code:text-black prose-strong:text-black prose-ol:text-zinc-500 prose-headings:text-black prose-headings:text-base text-sm mt-4 w-full [&_.rough-annotation]:text-inherit [&_.rough-annotation]:font-inherit">
             <slot />
           </div>
+          </div>
+          <PagedViewer
+            title={title}
+            subtitle={description}
+            author={author}
+            date={displayDate?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}
+            type="Question"
+          />
         </div>
         <div class="mt-8 pt-6 border-t border-dotted border-primary/10">
           <div class="relative flex flex-wrap gap-2">
@@ -266,4 +315,5 @@ const related = relatedWithCollection.slice(0, 3);
     </section>
   )}
 <MermaidRenderer />
+<AnnotationPanel />
 </BaseLayout>

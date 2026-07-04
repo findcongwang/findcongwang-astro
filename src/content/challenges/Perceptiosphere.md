@@ -9,9 +9,10 @@ title: "Perceptiosphere: A Sovereign Knowledge Architecture"
 description: "An open-source, AI-augmented knowledge architecture that preserves institutional wisdom, enables composable collaboration, and maintains contextual integrity across generations."
 domain_theme: "Knowledge Architecture"
 parent_questions: ["ai-collaboration", "living-archive"]
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
-
-# Perceptiosphere: A Sovereign Knowledge Architecture
 
 An open-source, AI-augmented knowledge architecture that preserves institutional wisdom, enables composable collaboration, and maintains contextual integrity across generations.
 

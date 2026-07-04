@@ -7,6 +7,9 @@ originated_date: 2026-06-19
 publish_date: 2026-06-19
 title: Organisational Design as Code
 description: The deliberate codification of organisational policies, coordination patterns, development trajectories, and governance into versioned, agent-readable artifacts, required because AI agents cannot infer the tacit rules that human organisations rely on.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 
 Organisations run on rules. Some are written: compliance policies, employee handbooks, standard operating procedures. Most are not. The unwritten rules include how decisions actually get made, who should be consulted before acting, what constitutes acceptable quality, how people develop professionally, and how teams coordinate across boundaries. In human-dominant organisations, these unwritten rules propagate through proximity, observation, mentorship, and cultural immersion. A new employee learns "how things work here" through months of exposure, not by reading a document.

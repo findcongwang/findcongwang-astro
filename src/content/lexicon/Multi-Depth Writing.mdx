@@ -1,0 +1,100 @@
+---
+type: note
+status: published
+publish_type: lexicon
+tags: [Writing Systems, Annotation, Knowledge Architecture, Print Design, Multi-Depth, Information Density]
+originated_date: 2026-05-23
+publish_date: 2026-07-04
+title: Multi-Depth Writing
+description: A publishing methodology that structures content at multiple simultaneous reading depths through margin notes, footnotes, inline annotations, and visual marks, enabling readers to navigate at their chosen level of engagement without sacrificing density at any level.
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
+---
+
+import MarginNote from '@/components/paged/MarginNote.astro';
+import FootNote from '@/components/paged/FootNote.astro';
+import InlineNote from '@/components/paged/InlineNote.astro';
+import PageBreak from '@/components/paged/PageBreak.astro';
+import RoughAnnotation from '@/components/annotations/RoughAnnotation.astro';
+
+<MarginNote n={1} label="Meta-demonstration" note="This entry practises what it describes. Every annotation you encounter here is both an explanation of the system and an instance of the system operating. The margin notes carry parallel commentary; the footnotes carry definitions; the inline notes carry alternative readings.">Every text makes a contract with the reader about depth.</MarginNote> Most publications offer a single depth: the reader gets what the author decided to include, at the density the author chose. Anything deeper requires leaving the text entirely (following citations, consulting external references, pursuing further reading). Anything shallower requires skipping sections and hoping the headings signal what matters.
+
+<RoughAnnotation type="highlight" color="green">Multi-Depth Writing rejects this single-layer contract. It structures content at multiple simultaneous reading depths within the same document, enabling the reader to choose their engagement level without the author sacrificing density at any level.</RoughAnnotation>
+
+The system produces text that functions differently for different readers on the same page. A first-pass reader gets the body text: clear, complete, self-sufficient prose. A second-pass reader discovers the margin annotations: parallel commentary, source context, alternative framings, connections to adjacent concepts. A third-pass reader encounters the footnotes: precise definitions, methodological caveats, bibliographic depth. All three layers coexist spatially without interrupting each other.
+
+## The Architecture
+
+<MarginNote n={2} label="Channels, not layers" note="The term 'layers' implies hierarchy (surface to deep). 'Channels' better captures the reality: each annotation type carries a different KIND of information, not merely a deeper version of the same information. The body argues; the margins contextualise; the footnotes define.">Multi-Depth Writing operates through four structural channels, each carrying distinct information types:</MarginNote>
+
+**Body text** carries the primary argument. It must be self-sufficient: a reader who ignores all annotations should still receive a complete, coherent argument. The body never depends on annotations for comprehension; it benefits from them for richness.
+
+<FootNote n={1} note="The distinction between 'self-sufficient' and 'complete' is important. The body is self-sufficient (it makes sense alone) but not complete (the annotations add information that exists nowhere else in the text). This is what separates Multi-Depth Writing from decorative footnotes.">**Margin notes**</FootNote> carry parallel commentary: source attributions with explanatory context, cross-references to related concepts, authorial asides, alternative framings, and tangential insights that enrich without interrupting. They occupy the right gutter in print and appear as hover tooltips on the web.
+
+**Footnotes** carry definitions, acronym expansions, technical clarifications, and bibliographic references. They appear at page bottom in print and as hover tooltips (distinct from margin notes) on the web.
+
+<MarginNote n={3} label="Furigana parallel" note="The InlineNote component derives directly from Japanese furigana (振り仮名): small text rendered above characters to provide pronunciation or alternative reading. In English, this creates a two-channel effect where the written word carries one meaning and the annotation above it carries a second, simultaneous meaning.">**Inline notes**</MarginNote> carry alternative readings rendered directly above the annotated text using HTML ruby elements. They are always visible (no interaction required) and create a dual-channel reading experience within the line itself.
+
+**Visual annotations** (RoughAnnotation) draw attention without carrying text content. They signal "this passage matters" through hand-drawn visual marks: highlights for key definitions, underlines for emphasis, brackets for extended passages, circles for isolated terms.
+
+## The Rules
+
+<MarginNote n={4} label="Density targets" note="These targets produce approximately 4-6 margin notes per printed page in the 8.5x9 inch format, which testing has shown to be the maximum density before the margins compete with the body for attention. Fewer than 3 per page feels sparse; more than 7 feels cluttered.">The system operates under explicit constraints that prevent annotation from becoming noise:</MarginNote>
+
+| Rule | Constraint | Rationale |
+|------|-----------|-----------|
+| Body self-sufficiency | Annotations never carry essential argument | Reader can ignore all annotations and still comprehend |
+| Channel separation | Definitions in footnotes, commentary in margins | Predictability enables faster navigation |
+| Density ceiling | 4-6 margin notes per printed page | Beyond this, margins compete with body for attention |
+| Footnote restraint | Maximum 3-4 per page | Page bottoms have limited vertical space |
+| InlineNote brevity | Maximum 5-6 words | Ruby text becomes illegible beyond this length |
+| First-use principle | Define terms on first occurrence only | Subsequent uses assume the reader has encountered the definition |
+| Colour semantics | Each colour encodes a meaning type | Blue for sources, green for author commentary, burgundy for definitions |
+
+## The Print Format
+
+<MarginNote n={5} label="8.5 x 9 inches" note="This format was chosen after testing multiple dimensions. The 8.5-inch width provides sufficient body column (approximately 4.5 inches) plus a generous right margin (approximately 2.5 inches) for annotation placement. The 9-inch height accommodates approximately 35 lines of body text per page at readable size.">The physical manifestation of Multi-Depth Writing requires a format designed for it.</MarginNote> Standard book dimensions (6x9, A5) lack the margin width for substantive annotations. The system uses an 8.5 x 9 inch square-ish format with asymmetric margins: narrow left (binding), generous right (annotations).
+
+The same source content renders in two modes from a single URL:
+
+- **Web view** (default): body text with dotted-underline markers, hover tooltips for annotations, scrollable single-page layout
+- **Print view** (`?format=print`): paginated via <FootNote n={2} note="Paged.js is a W3C CSS Paged Media polyfill that paginates HTML content into discrete pages with running headers, page numbers, and margin boxes. It enables browser-based print rendering without requiring PDF generation tools.">Paged.js</FootNote>, margin notes physically placed in the right gutter, footnotes at page bottom with separator lines, running headers, page numbers
+
+This dual-rendering approach means the author writes once. The structural annotations (MDX components) carry semantic intent; the rendering layer decides placement based on medium.
+
+## Historical Precedent
+
+The approach is not novel in principle. Three traditions inform it:
+
+<MarginNote n={6} label="Talmud (c. 500 CE)" note="The Babylonian Talmud's page layout places the Mishnah at centre, Gemara below it, Rashi's commentary in the inner margin (11th century), and Tosafot in the outer margin (12th-13th century). Position on the page encodes temporal layer and authority level. A reader navigates spatially, not linearly.">**Talmudic page architecture:**</MarginNote> centre text surrounded by concentric layers of commentary from different centuries. The layout IS the argument. Position encodes temporal authority. Multiple voices coexist without hierarchy collapse.
+
+**David Foster Wallace's endnotes:** not scholarly citations but narrative digressions. The main text carries what you are saying; the endnotes carry what you are thinking while saying it. The gap between them creates a reading experience that linear prose cannot.
+
+<MarginNote n={7} label="Furigana (振り仮名)" note="Japanese writing is natively a two-dimensional information system. The horizontal axis carries semantic content; the vertical annotation axis carries phonetic or alternative semantic content. The system tolerates and celebrates disagreement between these channels, using the gap between written and spoken meaning as a literary device.">**Japanese furigana:**</MarginNote> small phonetic text above kanji that creates a dual-channel reading experience. When the annotation deliberately disagrees with the base text (gikun/ateji), the gap between channels IS the meaning.
+
+What distinguishes Multi-Depth Writing from these precedents is systematisation for digital-first authoring with print rendering. The annotations are not added after the fact; they are part of the authored source. The rendering adapts to medium; the semantic structure remains constant.
+
+## Why It Matters for Knowledge Work
+
+<MarginNote n={8} label="Structured Reflection" note="The requirement to annotate your own work is itself a form of Structured Reflection: the author must articulate WHY a source matters in THIS context, not merely that it exists. This annotation labour builds deeper understanding of the material and produces more useful citations for readers.">The act of annotating is itself cognitive work.</MarginNote> When an author writes a margin note explaining why a source matters in a specific context (not merely citing it), they perform synthesis. When a reader encounters that contextualised citation, they receive both the reference and the reasoning for its relevance. The annotation carries judgment, not just metadata.
+
+This connects directly to the Perceptiosphere thesis: knowledge that exists at a single depth is fragile. Knowledge structured at multiple depths is navigable, composable, and resilient. Different readers extract different value from the same document without either party compromising.
+
+For publishers: the format demonstrates that annotation-rich publishing is technically achievable, aesthetically coherent, and intellectually substantive. It is not a gimmick but an architectural choice that serves the reader's sovereignty over their own engagement depth.
+
+## References
+
+- Grafton, A. (1997). *The footnote: A curious history.* Harvard University Press.
+- Jackson, H. J. (2001). *Marginalia: Readers writing in books.* Yale University Press.
+- Kalir, R., & Garcia, A. (2021). *Annotation.* MIT Press.
+- McCloud, S. (1993). *Understanding comics: The invisible art.* HarperPerennial.
+- Pellegrino, F., Coupé, C., & Marsico, E. (2011). A cross-language perspective on speech information rate. *Language*, 87(3), 539-558.
+- Wallace, D. F., & Garner, B. A. (2013). *Quack this way.* RosePen Books.
+
+## Cross-links
+
+- [Knowledge Composability](/lexicon/knowledge-composability): the structural principle enabling knowledge at multiple granularities
+- [Structured Reflection](/lexicon/structured-reflection): annotation as cognitive work, not decoration
+- [Perceptiosphere](/lexicon/perceptiosphere): the sovereign architecture that Multi-Depth Writing serves
+- [Cognitive Vitality Index](/lexicon/cognitive-vitality-index): measuring whether readers are genuinely engaging or passively consuming

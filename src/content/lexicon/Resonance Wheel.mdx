@@ -6,8 +6,10 @@ tags: [Information Design, Complexity Systems, Data Visualisation, Systems Think
 originated_date: 2025-07-01
 publish_date: 2026-06-30
 title: Resonance Wheel
-description: A dendrogram-based visualisation methodology for revealing interdependencies between dimensions of multi-dimensional indices. Companion to radar charts, correcting the reductionist illusion that dimensions of complex systems can be treated as independent variables.
+description: A chord-diagram-based visualisation methodology for revealing interdependencies between dimensions of multi-dimensional indices. Companion to radar charts, correcting the reductionist illusion that dimensions of complex systems can be treated as independent variables.
 formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
 ---
 
 import MarginNote from '@/components/paged/MarginNote.astro';
@@ -61,7 +63,7 @@ The Resonance concept manifests in two complementary visualisation forms, each s
 
 ### Resonance Wheel (Polar/Circular)
 
-A <FootNote n={2} color="burgundy" note="Dendrogram: a branching tree diagram representing hierarchical clustering. In the Resonance Wheel, the dendrogram structure radiates outward from the centre: major categories occupy sectors of the circle, sub-dimensions branch inward as leaves, and connection chords arc between sectors to show resonance.">dendrogram structure</FootNote> rendered in radial layout. Major categories occupy sectors of the circle (matching the radar chart's polar organisation). Sub-dimensions branch inward as dendrogram leaves. Connection chords arc between sectors, encoded by weight (line thickness or colour intensity) to indicate resonance strength.
+A <FootNote n={2} color="burgundy" note="Chord diagram: a circular visualisation where sectors represent categories and arcs (chords) connect sectors to show relationships between them. In the Resonance Wheel, major categories occupy sectors of the circle, sub-dimensions branch inward as hierarchical leaves within each sector, and connection chords arc between sectors to show resonance strength.">chord diagram structure</FootNote> rendered in radial layout. Major categories occupy sectors of the circle (matching the radar chart's polar organisation). Sub-dimensions branch inward as hierarchical leaves within each sector. Connection chords arc between sectors, encoded by weight (line thickness or colour intensity) to indicate resonance strength.
 
 **Best for:** Direct pairing with radar charts. The wheel uses the same angular positioning as the radar, allowing the viewer to see both the scores (radar) and the interactions (wheel) in a single visual field. High print-compatibility. Works in static media: book pages, reports, slide decks.
 
@@ -103,7 +105,7 @@ The Resonance Wheel is a general-purpose methodology. It applies to any multi-di
 
 Constructing a Resonance Wheel requires four inputs:
 
-1. **Dimension taxonomy:** The dendrogram structure defining what decomposes into what. This establishes the sectors and leaves of the wheel.
+1. **Dimension taxonomy:** The hierarchical structure defining what decomposes into what. This establishes the sectors and leaves of the wheel.
 
 2. **Resonance data:** Assessment of interaction strength between dimensions. Sources range from expert judgment (qualitative) through correlation analysis (quantitative) to causal modelling (structural). Even a three-level encoding (strong, moderate, weak) provides substantial value over the implicit "all independent" assumption of an unaccompanied radar chart.
 
@@ -118,12 +120,12 @@ Constructing a Resonance Wheel requires four inputs:
 
 The Resonance Wheel occupies a specific niche in complexity visualisation:
 
-- **Chord diagrams** show flow between categories but lack hierarchical structure
+- **Standard chord diagrams** show flow between categories but lack hierarchical decomposition within sectors
 - **Correlation matrices** show pairwise relationships but are not scannable at a glance
-- **Network graphs** show connections but lack the structured decomposition of a dendrogram
+- **Network graphs** show connections but lack the structured sector organisation
 - **Sankey diagrams** show flow volume but not bidirectional resonance
 - **Heat maps** show intensity but not directionality or cascade effects
 
-<RoughAnnotation type="highlight" color="green">The Resonance Wheel combines the hierarchical clarity of a dendrogram with the relational richness of a network graph, rendered in a form that pairs naturally with the most common multi-dimensional snapshot visualisation.</RoughAnnotation>
+<RoughAnnotation type="highlight" color="green">The Resonance Wheel combines the relational clarity of a chord diagram with hierarchical decomposition within each sector, rendered in a form that pairs naturally with the most common multi-dimensional snapshot visualisation.</RoughAnnotation>
 
 It is an argument against purely reductionist thinking, rendered as a design artefact. Its presence alongside any radar chart or scorecard signals: "We know this system is more complex than the simplified view suggests, and here is the map of that complexity."

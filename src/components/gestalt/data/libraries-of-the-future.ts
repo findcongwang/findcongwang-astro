@@ -378,6 +378,33 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
         </div>`,
     },
     {
+      id: "slide-samples",
+      title: "Writing Samples",
+      type: "content",
+      section: "Closing",
+      intent: "Demonstrate that the annotation-rich format is working reality. Publisher clicks through and sees the system on actual content. Diversity of format (lexicon, questions, challenges) shows the methodology scales.",
+      html: `<h2 style="font-size:1.5rem;margin-bottom:0.5rem;">Writing Samples</h2>
+        <p style="font-size:0.82rem;opacity:0.5;margin-bottom:1.5rem;">Annotation-rich content in the 8.5\u00d79\u2033 print format. Each entry is available in web and print views.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;font-size:0.78rem;">
+          <div>
+            <p style="font-weight:700;font-size:0.72rem;letter-spacing:0.05em;color:#0ea5e9;margin-bottom:0.75rem;">LEXICON (Framework Definitions)</p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/cognitive-vitality-index" target="_blank" style="color:inherit;text-decoration:underline;">Cognitive Vitality Index</a> <a href="https://findcongwang.com/lexicon/cognitive-vitality-index?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 4 \u2014 measurement framework, 9 margin notes</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/perceptiosphere" target="_blank" style="color:inherit;text-decoration:underline;">Perceptiosphere</a> <a href="https://findcongwang.com/lexicon/perceptiosphere?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 3 \u2014 sovereign knowledge architecture</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/knowledge-composability" target="_blank" style="color:inherit;text-decoration:underline;">Knowledge Composability</a> <a href="https://findcongwang.com/lexicon/knowledge-composability?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 2 \u2014 structural interoperability</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/multi-depth-writing" target="_blank" style="color:inherit;text-decoration:underline;">Multi-Depth Writing</a> <a href="https://findcongwang.com/lexicon/multi-depth-writing?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Preface \u2014 meta-demonstrative methodology</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/hybrid-intelligence" target="_blank" style="color:inherit;text-decoration:underline;">Hybrid Intelligence</a> <a href="https://findcongwang.com/lexicon/hybrid-intelligence?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 3\u20134 \u2014 HI-Scaling teams</span></p>
+          </div>
+          <div>
+            <p style="font-weight:700;font-size:0.72rem;letter-spacing:0.05em;color:#10b981;margin-bottom:0.75rem;">RESEARCH QUESTIONS (Ch 5 Methodology)</p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/research/questions/living-archive" target="_blank" style="color:inherit;text-decoration:underline;">How Might We Build a Living Archive?</a> <a href="https://findcongwang.com/research/questions/living-archive?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 5.2 \u2014 knowledge succession</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/research/questions/ai-education" target="_blank" style="color:inherit;text-decoration:underline;">How Might We Deploy Socratic AI Partners?</a> <a href="https://findcongwang.com/research/questions/ai-education?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 5.3 \u2014 cognitive agency in education</span></p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/research/questions/digital-sovereignty" target="_blank" style="color:inherit;text-decoration:underline;">How Might We Build a Digital Sovereignty Economy?</a> <a href="https://findcongwang.com/research/questions/digital-sovereignty?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 5.1 \u2014 context licensing and static decay</span></p>
+            <p style="font-weight:700;font-size:0.72rem;letter-spacing:0.05em;color:#f59e0b;margin-top:1rem;margin-bottom:0.75rem;">METHODOLOGY</p>
+            <p style="line-height:1.8;"><a href="https://findcongwang.com/lexicon/compelling-question" target="_blank" style="color:inherit;text-decoration:underline;">Compelling Question (Foresight)</a> <a href="https://findcongwang.com/lexicon/compelling-question?format=print" target="_blank" style="opacity:0.4;font-size:0.7rem;">[print]</a><br/><span style="opacity:0.5;">Ch 5 \u2014 constraint-based futures methodology</span></p>
+          </div>
+        </div>`,
+    },
+    {
       id: "slide-cta",
       title: "Let's Talk",
       type: "title",
@@ -724,6 +751,13 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
         conceptsAdded: ["Future of Work", "Future of Business", "Future of Innovation", "Digital Sovereignty"],
       },
       {
+        id: "story-samples",
+        label: "Samples",
+        thread: "meta",
+        conceptsAdded: ["Writing Samples", "Multi-Depth Writing"],
+        conceptsFaded: ["Future of Work", "Future of Business"],
+      },
+      {
         id: "story-close",
         label: "Close",
         thread: "meta",
@@ -752,6 +786,7 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
     { slideId: "slide-author", storyStepId: "story-author" },
     { slideId: "slide-production", storyStepId: "story-delivery" },
     { slideId: "slide-future-books", storyStepId: "story-series" },
+    { slideId: "slide-samples", storyStepId: "story-samples" },
     { slideId: "slide-cta", storyStepId: "story-close" },
   ],
 };
