@@ -358,11 +358,11 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
           <div>
             <p style="font-weight:700;font-size:0.72rem;letter-spacing:0.05em;color:#0ea5e9;margin-bottom:0.75rem;">THE FUTURE OF WORK</p>
             <p style="line-height:1.7;margin-bottom:0.5rem;"><strong>Digital Sovereignty</strong><br/><span style="opacity:0.55;">Governance responses to knowledge ownership</span></p>
-            <p style="line-height:1.7;"><strong>HI-Scaling Organisations</strong><br/><span style="opacity:0.55;">Operational playbook for hybrid intelligence</span></p>
+            <p style="line-height:1.7;"><strong>HI-Scaling\u2122 Organisations</strong><br/><span style="opacity:0.55;">Operational playbook for hybrid intelligence</span></p>
           </div>
           <div>
             <p style="font-weight:700;font-size:0.72rem;letter-spacing:0.05em;color:#10b981;margin-bottom:0.75rem;">THE FUTURE OF BUSINESS</p>
-            <p style="line-height:1.7;margin-bottom:0.5rem;"><strong>CITAble</strong><br/><span style="opacity:0.55;">Making organisations legible and composable</span></p>
+            <p style="line-height:1.7;margin-bottom:0.5rem;"><strong>CITAble\u2122</strong><br/><span style="opacity:0.55;">Making organisations legible and composable</span></p>
             <p style="line-height:1.7;"><strong>Founder-Led</strong><br/><span style="opacity:0.55;">Field guide for AI-augmented small ventures</span></p>
           </div>
           <div>
