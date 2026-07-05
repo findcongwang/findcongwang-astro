@@ -14,7 +14,7 @@ description: A talent model for the AI era where a wide base of AI-enabled compe
 
 AI has raised the competence floor for everyone. When broad knowledge is accessible in minutes, the differentiator shifts to carving signal from noise across domains to develop genuine capability.
 
-**Key-Shaped Talent** visualises talent as a key: a wide base (AI-enabled competence available to all) with multiple teeth of varying depth (domains of genuine expertise). Each tooth represents capability, the application of knowledge in novel situations, not merely competence.
+**Key-Shaped Talent™** visualises talent as a key: a wide base (AI-enabled competence available to all) with multiple teeth of varying depth (domains of genuine expertise). Each tooth represents capability, the application of knowledge in novel situations, not merely competence.
 
 The model moves beyond the W-shape to accommodate the multiplicity of domains required for differentiation in complex systems.
 

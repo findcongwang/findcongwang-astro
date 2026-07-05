@@ -221,7 +221,7 @@ export const librariesOfTheFutureData: DualTrackPresentation = {
         <p style="font-size:0.88rem;opacity:0.6;margin-bottom:2rem;">If a book about cognitive engagement allows passive consumption, it refutes its own thesis.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem;">
           <div style="padding:1.25rem 1.5rem;border-radius:0.75rem;border:1.5px solid rgba(99,102,241,0.15);background:rgba(99,102,241,0.02);">
-            <p style="font-weight:700;font-size:0.82rem;margin-bottom:0.5rem;color:#6366f1;">Annotation-Rich Format</p>
+            <p style="font-weight:700;font-size:0.82rem;margin-bottom:0.5rem;color:#6366f1;">Paliminar\u2122 Publishing System</p>
             <p style="font-size:0.78rem;opacity:0.65;line-height:1.6;">Margin notes, footnotes, highlights. Multiple reading depths. Spatial navigation.</p>
           </div>
           <div style="padding:1.25rem 1.5rem;border-radius:0.75rem;border:1.5px solid rgba(16,185,129,0.15);background:rgba(16,185,129,0.02);">

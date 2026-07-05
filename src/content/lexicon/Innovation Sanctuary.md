@@ -12,11 +12,37 @@ description: A high-skill private gig space where Key-Shaped contributors develo
 
 ## Introduction
 
-A subgroup of innovators identifies as people who forgo stability for the flexibility to remain opportunistic. Traditional employment locks approximately two-thirds of waking life into maintenance mode. Commuting, office politics, scheduled meetings, and performance reviews consume time that could otherwise be devoted to pursuing innovation when opportunities arise. These individuals resort to gig work, contract work, or service jobs (including working at Starbucks) to preserve temporal flexibility while meeting basic financial needs.
+A widely accepted lifestyle prioritises stability: predictable income, structured schedules, defined responsibilities. This is a perfectly reasonable choice that provides security and clarity. But it imposes constraints on how time is allocated. Within this structure, most waking hours commit to sustaining existing obligations (biological needs, financial survival work, non-purpose-aligned duties) with limited room for creating new things or investing in self-development.
 
-The Innovation Sanctuary provides a structural alternative. It is a high-skill private gig space that combines the flexibility of independent work with the support structures of community membership, AI-enabled onboarding, and IP-aware engagement protocols. Contributors join not to escape work but to engage more deeply with their chosen domains. They gain access to shared resources, peer networks, **standardised** processes, and collective reputation capital. The Sanctuary does not replace the need for income; it reconfigures how income-generating work aligns with long-term opportunity recognition and development.
+A subgroup of professionals makes a different choice. They forgo stability for the flexibility to remain opportunistic. These individuals resort to gig work, contract work, or service jobs (including working at coffee shops) to preserve temporal flexibility while meeting basic financial needs. They accept income uncertainty because they value control over their time more than they value predictability.
+
+The Innovation Sanctuary™ provides a structural alternative for this population. It is a high-skill private gig space that combines the flexibility of independent work with the support structures of community membership, AI-enabled onboarding, and IP-aware engagement protocols. Contributors join not to escape work but to engage more deeply with their chosen domains. They gain access to shared resources, peer networks, standardised processes, and collective reputation capital. The Sanctuary does not replace the need for income; it reconfigures how income-generating work aligns with long-term opportunity recognition and development.
 
 This is distinct from the "startup founder" path. The Innovation Sanctuary explicitly rejects the factory model of sequential progression: founder, scale, exit, investor, ecosystem thinker. It treats these as independent roles with different skill sets, each representing a valid highest expression of that domain. One can develop toward any role directly without treating earlier roles as prerequisites. This rejection of sequential progression connects directly to self-determined learning principles, where individuals choose their development path based on aptitude, interest, and opportunity rather than prescribed stages.
+
+## The IMG Allocation Problem
+
+The deeper structural argument for the Innovation Sanctuary™ lies in how people allocate time across three irreducible investment categories:
+
+| Bucket | Definition | Examples |
+|--------|-----------|----------|
+| **Innovation** | Active, purpose-aligned work that produces something novel. The creation of artifacts, products, ventures, or contributions that did not previously exist. Novelty is the criterion. | Writing a book, building a product, founding a company, creating a framework, producing original research |
+| **Maintenance** | All sustenance activity: biological needs, financial survival work, and non-purpose-aligned obligations. Required to keep you functional. Good maintenance enables Innovation and Growth to exist but does not produce them directly. | Sleeping, eating, commuting, working a day job for money, paying bills, chores, errands, administrative obligations |
+| **Growth** | Self-development investment. Building neural connections, acquiring understanding, developing capability. Compounds over time, making future Innovation possible. | Studying a domain, reading deeply, practising a skill, attending workshops, structured reflection, mentorship (as mentee) |
+
+A lifestyle that prioritises stability pre-determines IMG allocation. Most time goes to Maintenance (biological needs plus financial survival work that may not be purpose-aligned). Growth receives whatever remains after Maintenance is served. Innovation receives almost nothing unless deliberately protected.
+
+People who choose flexibility over stability are choosing control over their IMG allocation. They accept income uncertainty in exchange for the ability to invest substantially in Innovation and Growth. The Innovation Sanctuary exists for this population: professionals who need a structure that protects their right to self-determine their allocation while providing the community, infrastructure, and legitimacy that pure independence lacks.
+
+You cannot improve allocation you do not track. The IMAGINE™ framework provides the governance model for managing this allocation at the tactical level: how to distribute attention across modes (Build, Engage, Activate, Muse) in service of whichever IMG bucket is prioritised at any given time.
+
+## High-Skill Contract Work: Crossing Back Over the Chasm
+
+A significant category of work available through the Innovation Sanctuary is what might be called "crossing back over the chasm" engagements. When a disruptive technology or innovation has matured past the early adopter phase and enters mainstream awareness, late majority organisations face a problem: they need to adopt the innovation but lack the internal expertise that early adopters developed through years of experimentation.
+
+These organisations hire Sanctuary contributors as high-skill consultants to bridge this gap. The contributor brings deep domain expertise developed through Innovation-heavy IMG allocation; the organisation provides the Maintenance context (the existing infrastructure, compliance requirements, and team dynamics) that the innovation must integrate with.
+
+This creates a virtuous cycle: Sanctuary contributors develop cutting-edge expertise through self-determined IMG allocation, then deploy that expertise commercially when the market catches up. The commercial engagements generate income that sustains further Innovation and Growth investment. The Sanctuary's community provides the peer network that surfaces these opportunities and validates contributor readiness.
 
 ## The Uber Analogy and Why It Fails for Innovation
 

@@ -12,17 +12,37 @@ description: Integrated Matrix of Attentional Governance for Innovation and Next
 
 ## Introduction
 
-Traditional employment enrolls approximately two-thirds of waking life in a single mode: managed, reactive engagement. This allocation pattern optimises for organisational maintenance but structurally prevents the flexible attention shifts that innovation requires. The corporate calendar arranges hours into meeting blocks, status update windows, and response windows, each designed to serve the institution rather than the individual's productive capacity.
+A widely accepted lifestyle prioritises stability: structured schedules, predictable income, defined responsibilities. The rigidity provides security and is a perfectly reasonable choice. But it pre-determines how time is allocated. Most waking hours commit to sustaining existing obligations (biological needs, financial survival, non-purpose-aligned work) with whatever remains distributed across self-development and creative output. For many, this distribution is acceptable.
 
-Innovators face a governance problem: how to distribute finite attentional capital across creation, connection, execution, and recovery without exhausting any single capacity. When all waking hours exist within reactive modes, there remains no bandwidth for the deep construction, strategic reflection, or physical renewal that innovation demands. The structural trap lies in mistaking activity for progress: equating busyness with productivity while the actual work of innovation never begins.
+A specific population makes a different choice. They prioritise flexibility: full control over how they invest their time across the categories that matter to them. They accept uncertainty and income variability in exchange for self-determined allocation. These individuals face a governance problem: how to distribute finite attentional capital across creation, connection, execution, and recovery without exhausting any single capacity.
 
-The IMAGINE Framework resolves this. Integrated Matrix of Attentional Governance for Innovation & Next-gen Entrepreneurship provides a governance model for how time and cognitive energy deploy across distinct modes of work, each with focused (convergent) and diffused (divergent) states. The framework gives innovators vocabulary, structure, and permission to operate across multiple modes rather than being confined to one.
+The IMAGINE™ Framework resolves this. Integrated Matrix of Attentional Governance for Innovation & Next-gen Entrepreneurship provides a governance model for how time and cognitive energy deploy across distinct modes of work, each with focused (convergent) and diffused (divergent) states. The framework gives innovators vocabulary, structure, and permission to operate across multiple modes rather than being confined to one.
+
+You cannot improve allocation you do not track. IMAGINE provides the vocabulary for tracking; the Innovation Sanctuary™ provides the structure within which improvement occurs.
+
+## The IMG Foundation
+
+The IMAGINE framework originates from a foundational observation: all time investment falls into three categories.
+
+| Bucket | Definition | Examples |
+|--------|-----------|----------|
+| **Innovation** | Active, purpose-aligned work that produces something novel. The creation of artifacts, products, ventures, or contributions that did not previously exist. Novelty is the distinguishing criterion. | Writing a book, building a product, founding a company, shipping a feature, creating a framework, producing original research |
+| **Maintenance** | All sustenance activity: biological needs, financial survival work, and non-purpose-aligned obligations. Required to keep you functional but does not produce novelty or build capability. Good maintenance enables Innovation and Growth to exist. | Sleeping, eating, commuting, working a day job for money, paying bills, chores, administrative obligations, errands |
+| **Growth** | Self-development investment. Building neural connections, acquiring understanding, developing capability. The investment in becoming more capable of future Innovation. Compounds over time. | Studying a domain, reading deeply, practising a skill, attending workshops, structured reflection, mentorship (as mentee) |
+
+These three buckets form the **IMG buckets**: the irreducible categories of time investment. The letters I-M-G provided the initial kernel from which the full IMAGINE acronym was constructed.
+
+**Boundaries blur at the edges.** Physical training spans Maintenance and Growth: it sustains the body (Maintenance) while building the cognitive and physical foundation that enables future Innovation (Growth). Purpose-aligned operational work spans Innovation and Maintenance: sustaining an existing system is Maintenance; producing something novel within that system is Innovation. The criterion for Innovation is always novelty: if the output did not exist before, it is Innovation regardless of where it occurred.
+
+**The core insight:** A lifestyle that prioritises stability pre-determines IMG allocation. Most time commits to Maintenance (biological needs plus financial survival work that is not purpose-aligned). Growth receives whatever scraps remain. Innovation receives almost nothing unless deliberately protected. This is the structural constraint that flexibility-seekers reject. They choose uncertainty in exchange for control over their own IMG distribution.
+
+The Innovation Sanctuary™ exists for this population: people who need a structure that protects their right to self-determine their IMG allocation while providing the community and infrastructure that pure independence lacks. IMAGINE expands the IMG buckets into an actionable governance model. Where IMG identifies WHAT to allocate toward, IMAGINE provides HOW: four modes (Build, Engage, Activate, Muse), each with focused and diffused states, creating eight distinct patterns of attention deployment.
 
 The framework operates at two levels:
 
 | Level | Description |
 |-------|-------------|
-| **Modes** | Build, Engage, Activate, Muse - four distinct jurisdictions of attention |
+| **Modes** | Build, Engage, Activate, Muse: four distinct jurisdictions of attention |
 | **States** | Each mode has focused (convergent) and diffused (divergent) states for eight total patterns |
 
 ## The BEAM Modes
@@ -103,19 +123,19 @@ IMAGINE improves on Graham's model in three ways:
 
 ## Connection to Innovation Sanctuary
 
-The Innovation Sanctuary represents the environmental structure that permits IMAGINE-style allocation. Traditional employment constrains individuals to Engage-f, where two-thirds of waking hours commit to meetings, coordination, and reactive work. The Sanctuary provides the countervailing structure.
+The Innovation Sanctuary™ is the environmental structure designed for people who chose flexibility over stability. It provides the community, infrastructure, and legitimacy that enable self-determined IMG allocation without the isolation of pure independence.
 
-The Sanctuary delivers four key capabilities that make IMAGINE-style allocation possible:
+The Sanctuary delivers four capabilities that make IMAGINE-style governance possible:
 
-- **Temporal flexibility**: Innovators shift between modes as opportunities and energy levels dictate rather than as organisational demands dictate. This flexibility extends to the entire BEAM spectrum, not just Build-f or Engage-f. When energy declines, practitioners shift from Build-f to Build-d or Activate-d. When creative fatigue sets in, they move from Engage-f to Muse-d.
+- **Temporal flexibility**: Practitioners shift between modes as opportunities and energy levels dictate rather than as external demands dictate. This flexibility extends to the entire BEAM spectrum. When energy declines, practitioners shift from Build-f to Build-d or Activate-d. When creative fatigue sets in, they move from Engage-f to Muse-d.
 
-- **Community context**: Engage-d includes networking and ecosystem scouting within trusted groups rather than random networking or forced conferences. This transforms weak-tie acquisition from transactional to relational, raising the quality of connections while lowering the energy cost of acquisition.
+- **Community context**: Engage-d includes networking and ecosystem scouting within trusted groups rather than random or forced conferences. This transforms weak-tie acquisition from transactional to relational, raising quality while lowering energy cost.
 
-- **Protected space**: Build-f and Muse-d operate without interruption because the environmental container recognises their value. Instead of fighting for focused blocks, innovators operate within a framework where focused and diffused states have designated time and space.
+- **Protected space**: Build-f and Muse-d operate without interruption because the environmental container recognises their value. Practitioners do not fight for focused blocks; the structure assumes them as default.
 
-- **Peer accountability**: Practitioners maintain allocation discipline not through self-imposed discipline alone, but through community reinforcement. Peers recognise when someone drifts into single-mode traps and intervene to restore balance.
+- **Peer accountability**: Practitioners maintain allocation discipline through community reinforcement, not self-imposed willpower alone. Peers recognise when someone drifts into single-mode traps and intervene to restore balance.
 
-IMAGINE provides the governance model. The Innovation Sanctuary provides the implementation structure. The combination enables sustained high-performance innovation without burnout.
+IMAGINE provides the measurement vocabulary. The Innovation Sanctuary provides the structure. The combination enables sustained high-performance innovation without burnout: you track where your time goes (IMAGINE), within an environment that permits you to redirect it (Sanctuary).
 
 ## References
 

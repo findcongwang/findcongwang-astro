@@ -11,7 +11,9 @@ description: The recurring character types in innovation ecosystems, grounded in
 ---
 ## Introduction
 
-**Innovation ecosystems have recurring character types.** The same roles appear across different ecosystems, cultures, and time periods. From ancient Athens to modern Silicon Valley, from Renaissance Florence to contemporary biotech clusters, certain patterns of contribution repeat. Recognizing these archetypes enables better ecosystem design, self-assessment, and talent development.
+**Innovation ecosystems have recurring character types.** The same roles appear across different ecosystems, cultures, and time periods. From ancient Athens to modern Silicon Valley, from Renaissance Florence to contemporary biotech clusters, certain patterns of contribution repeat. Recognising these archetypes enables better ecosystem design, self-assessment, and talent development.
+
+We term these patterns the **Founder Arcana™**: the archetypal profiles of innovators, their development trajectories, and the roles they naturally inhabit within ecosystems. The term draws on the Tarot tradition of arcana (mysteries, hidden knowledge) to signal that these patterns, while recurring, require study and reflection to recognise in oneself and others.
 
 This lexicon establishes the foundational attributes that characterize successful innovators and the historical archetype that informs Nova Roma Horizon Innovation Society's founding philosophy. The specific taxonomy of ecosystem roles, their assessment rubrics, and development pathways constitute active research. This entry defines the ground truth from which that research proceeds. It captures the enduring principles while acknowledging that role implementations evolve with technology, context, and time.
 
