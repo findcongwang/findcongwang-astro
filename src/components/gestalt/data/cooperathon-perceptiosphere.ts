@@ -530,14 +530,14 @@ export const cooperathonPerceptiosphereData: DualTrackPresentation = {
       intent: "Schema description at comfortable reading width. Backup for 'How is knowledge structured?' Q&A.",
       html: `<h2 style="font-size:1.4rem;margin-bottom:1.25rem;">The ACCESS Schema</h2>
         <div style="max-width:28rem;">
-          <p style="font-size:0.92rem;line-height:1.8;margin-bottom:1rem;">A seven-field metadata schema governing how knowledge atoms are structured, connected, and made composable across sovereign boundaries.</p>
+          <p style="font-size:0.92rem;line-height:1.8;margin-bottom:1rem;">A six-category taxonomic framework for classifying knowledge atoms within the Perceptiosphere. Every piece of decomposed information is filed into one of six categories.</p>
           <div style="display:flex;flex-direction:column;gap:0.5rem;">
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>A</strong>ttribution \u2014 Source provenance and authorship</div>
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>C</strong>ontext \u2014 Where knowledge lives and applies</div>
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>C</strong>onnection \u2014 Typed relationships to other atoms</div>
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>E</strong>vidence \u2014 Confidence scoring and verification</div>
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>S</strong>overeignty \u2014 Ownership and permission boundaries</div>
-            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>S</strong>tate \u2014 Lifecycle and temporal evolution</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>A</strong>tlas \u2014 Discovery and navigation layer; maps what exists</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>C</strong>alendar \u2014 Time-bound data; meetings, milestones, events</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>C</strong>ards \u2014 Atomic units of thought; concepts, patterns, frameworks</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>E</strong>cosystem \u2014 Relational mapping; people, organisations, roles</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>S</strong>ources \u2014 Citation records; provenance with credibility tiers</div>
+            <div style="padding:0.4rem 0.85rem;border-radius:0.3rem;background:rgba(30,58,95,0.04);border:1px solid rgba(30,58,95,0.1);font-size:0.92rem;"><strong>S</strong>paces \u2014 Domain-driven skill containers; agent skills and working context</div>
           </div>
         </div>`,
     },
