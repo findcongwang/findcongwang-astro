@@ -1,0 +1,151 @@
+---
+import "@/components/gestalt/gestalt.css";
+import { GestaltPresentation } from "@/components/gestalt/GestaltPresentation";
+import { cooperathonPerceptiosphereData } from "@/components/gestalt/data/cooperathon-perceptiosphere";
+
+function parseSlideIndex(search: string, maxSteps: number): number {
+  const params = new URLSearchParams(search);
+  const raw = params.get("slide") ?? params.get("step");
+  if (raw === null) return 0;
+  const n = parseInt(raw, 10);
+  if (isNaN(n)) return 0;
+  return Math.max(0, Math.min(n, Math.max(0, maxSteps - 1)));
+}
+
+const initialSlideIndex = parseSlideIndex(Astro.url.search, cooperathonPerceptiosphereData.slides.length);
+
+// Passcode check: allow bypass via ?key=PERCEPTIOSPHERE
+const params = new URLSearchParams(Astro.url.search);
+const keyParam = params.get("key");
+const isUnlocked = keyParam?.toUpperCase() === "PERCEPTIOSPHERE";
+---
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>{cooperathonPerceptiosphereData.title} — Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; width: 100vw; height: 100vh; }
+    body { background: var(--gestalt-bg, #f8f8fa); font-family: 'Geist', sans-serif; }
+
+    /* Lock screen styles */
+    #lock-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    #lock-screen .lock-inner {
+      max-width: 20rem;
+      text-align: center;
+    }
+    #lock-screen h1 {
+      font-size: 1.5rem;
+      font-family: 'Newsreader', serif;
+      font-weight: 500;
+      margin: 0 0 0.5rem;
+    }
+    #lock-screen .subtitle {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-bottom: 2rem;
+    }
+    #lock-screen input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 0.375rem;
+      text-align: center;
+      font-size: 0.875rem;
+      outline: none;
+    }
+    #lock-screen input:focus {
+      border-color: #111;
+      box-shadow: 0 0 0 1px #111;
+    }
+    #lock-screen button {
+      width: 100%;
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    #lock-screen button:hover { opacity: 0.8; }
+    #error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.75rem; display: none; }
+    #lock-screen .contact { font-size: 0.7rem; opacity: 0.4; margin-top: 2rem; }
+
+    /* Presentation container */
+    #presentation-content { overflow: hidden; }
+  </style>
+</head>
+<body>
+  <!-- Lock Screen (hidden if URL key matches) -->
+  <div id="lock-screen" style={isUnlocked ? "display:none;" : ""}>
+    <div class="lock-inner">
+      <h1>The Perceptiosphere: Living Archive</h1>
+      <p class="subtitle">Cooperathon 2026 — University Research Track</p>
+      <form id="passcode-form">
+        <input type="password" id="passcode-input" placeholder="Enter passcode" autocomplete="off" />
+        <button type="submit">Access Presentation</button>
+      </form>
+      <p id="error-msg">Incorrect passcode</p>
+      <p class="contact">Contact the presenter for access</p>
+    </div>
+  </div>
+
+  <!-- Presentation (hidden by default unless key param unlocks) -->
+  <div id="presentation-content" style={isUnlocked ? "" : "display:none;"}>
+    <GestaltPresentation client:load data={cooperathonPerceptiosphereData} initialSlideIndex={initialSlideIndex} />
+  </div>
+
+  <script>
+    (function() {
+      var lock = document.getElementById('lock-screen');
+      var content = document.getElementById('presentation-content');
+      var form = document.getElementById('passcode-form');
+      var input = document.getElementById('passcode-input');
+      var errorMsg = document.getElementById('error-msg');
+
+      if (!lock || !content || !form || !input || !errorMsg) return;
+
+      // Already unlocked via server-side check
+      if (lock.style.display === 'none') return;
+
+      function unlock() {
+        lock.style.display = 'none';
+        content.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Check URL param (client-side fallback)
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get('key');
+      if (key && key.toUpperCase() === 'PERCEPTIOSPHERE') {
+        unlock();
+      }
+
+      // Handle form
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value.toUpperCase() === 'PERCEPTIOSPHERE') {
+          unlock();
+        } else {
+          errorMsg.style.display = 'block';
+          input.value = '';
+          setTimeout(function() { errorMsg.style.display = 'none'; }, 3000);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
