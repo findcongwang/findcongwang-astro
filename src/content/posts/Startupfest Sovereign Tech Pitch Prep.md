@@ -11,19 +11,19 @@ description: "1-minute pitch script, Q&A preparation, and competitor analysis fo
 
 ## The 1-Minute Pitch Script (Final)
 
-> When a Canadian company uses Claude, AWS Bedrock, or Google Cloud, that workload runs on foreign infrastructure subject to the US CLOUD Act. Even the data centres physically located in Quebec and Ontario are owned by American companies.
->
-> Our federal government's own AI strategy acknowledges that Canadian firms compete on infrastructure they do not own, govern, or influence.
->
-> Every sensitive AI workload, civilian or defence, routes through foreign cloud. That is a sovereignty crisis.
->
-> We're building a decentralised AI compute platform backed entirely by Canadian-owned energy and hardware assets. We use blockchain to let Canadian citizens invest directly in physical compute nodes powered by renewable energy.
->
-> Because it's distributed across the country, there is no single point of failure. You cannot take this network down without taking down hundreds of nodes across the country simultaneously. That's a defence characteristic you cannot get from a data centre.
->
-> We've validated the tokenomics, and assembled a team across AI, energy, and capital markets.
->
-> We're raising to deploy our first Canadian node cluster.
+When a Canadian company uses Claude, AWS Bedrock, or Google Cloud, that workload runs on foreign infrastructure subject to the US CLOUD Act. Even the data centres physically located in Quebec and Ontario are owned by American companies.
+
+Our federal government's own AI strategy acknowledges that Canadian firms compete on infrastructure they do not own, govern, or influence.
+
+Every sensitive AI workload, civilian or defence, routes through foreign cloud. That is a sovereignty crisis.
+
+We're building a decentralised AI compute platform backed entirely by Canadian-owned energy and hardware assets. We use blockchain to let Canadian citizens invest directly in physical compute nodes powered by renewable energy.
+
+Because it's distributed across the country, there is no single point of failure. You cannot take this network down without taking down hundreds of nodes across the country simultaneously. That's a defence characteristic you cannot get from a data centre.
+
+We've validated the tokenomics, and assembled a team across AI, energy, and capital markets.
+
+We're raising to deploy our first Canadian node cluster.
 
 ---
 
@@ -60,73 +60,73 @@ description: "1-minute pitch script, Q&A preparation, and competitor analysis fo
 ### Tier 1: Almost Certain Questions
 
 **"What stage are you?"**
-> Pre-seed. Tokenomics designed, energy model validated, participated in Cooperathon 2026 Prosperity Track. Incorporating now. Ready to sign a SAFE.
+Pre-seed. Tokenomics designed, energy model validated, participated in Cooperathon 2026 Prosperity Track. Incorporating now. Ready to sign a SAFE.
 
 **"What's dual-use here?"**
-> Commercial AI workloads for Canadian startups and enterprises on one tier. Defence and intelligence compute for DND, CSE, and CSIS on another. Same physical infrastructure, different access classifications. Canadian defence cannot run classified AI on AWS; it's under the CLOUD Act. We solve that.
+Commercial AI workloads for Canadian startups and enterprises on one tier. Defence and intelligence compute for DND, CSE, and CSIS on another. Same physical infrastructure, different access classifications. Canadian defence cannot run classified AI on AWS; it's under the CLOUD Act. We solve that.
 
 **"Revenue model?"**
-> Protocol transaction fees on the compute marketplace. Hardware procurement margins through bulk purchasing. Enterprise compute contracts with government and regulated industries paying fiat.
+Protocol transaction fees on the compute marketplace. Hardware procurement margins through bulk purchasing. Enterprise compute contracts with government and regulated industries paying fiat.
 
 **"What does $100K do?"**
-> First node cluster hardware procurement ($40-50K). Smart contract security audit ($30-40K). CSA Sandbox regulatory application and legal ($20K).
+First node cluster hardware procurement ($40-50K). Smart contract security audit ($30-40K). CSA Sandbox regulatory application and legal ($20K).
 
 **"Team?"**
-> Lead: dual doctoral candidate (AI + innovation design), patent holder in renewable energy markets, 15 years engineering, early engineer at a startup that reached $680M valuation. Finance: 40 years capital markets, ex-Merrill Lynch, Chartered Accountant. Technical: HPC and GPU optimisation from Cruise/GM autonomous vehicles. Plus foresight research and design leads.
+Lead: dual doctoral candidate (AI + innovation design), patent holder in renewable energy markets, 15 years engineering, early engineer at a startup that reached $680M valuation. Finance: 40 years capital markets, ex-Merrill Lynch, Chartered Accountant. Technical: HPC and GPU optimisation from Cruise/GM autonomous vehicles. Plus foresight research and design leads.
 
 ---
 
 ### Tier 2: Blockchain-Specific Questions
 
 **"What consensus mechanism are you using?"**
-> Proof-of-Authority on an EVM Layer 2. Known validators with identity staked rather than economic stake. Deterministic finality in under 5 seconds. We have direct experience: we filed an ISED application for blockchain technology backing Canadian government-validated suppliers using this same PoA architecture. Three-tier validation: system operator, independent auditor, government oversight body.
+Proof-of-Authority on an EVM Layer 2. Known validators with identity staked rather than economic stake. Deterministic finality in under 5 seconds. We have direct experience: we filed an ISED application for blockchain technology backing Canadian government-validated suppliers using this same PoA architecture. Three-tier validation: system operator, independent auditor, government oversight body.
 
 **"Why blockchain and not just a normal company?"**
-> Decentralisation is the feature, not a gimmick. No single entity should control Canadian national infrastructure. Blockchain makes ownership verifiable, investment transparent, and the system trustless. If judges want: "Think of it as a sovereign infrastructure co-op with cryptographic accounting."
+Decentralisation is the feature, not a gimmick. No single entity should control Canadian national infrastructure. Blockchain makes ownership verifiable, investment transparent, and the system trustless. If judges want: "Think of it as a sovereign infrastructure co-op with cryptographic accounting."
 
 **"How do tokens work?"**
-> Dual-token system. NRG (Energy Credit): minted on verified renewable energy generation via smart meter oracles, burned on energy consumption. CMP (Compute Credit): minted when users stake GPU/CPU capacity with proof-of-compute attestation, burned on compute access. Exchange between the two via automated market maker. Both are utility tokens: burned on use.
+Dual-token system. NRG (Energy Credit): minted on verified renewable energy generation via smart meter oracles, burned on energy consumption. CMP (Compute Credit): minted when users stake GPU/CPU capacity with proof-of-compute attestation, burned on compute access. Exchange between the two via automated market maker. Both are utility tokens: burned on use.
 
 **"Is this just another crypto project?"**
-> Every token is backed by physical Canadian infrastructure. Energy generation assets and compute hardware. Tokens are burned when you use compute; they're not held for speculation. The value comes from the infrastructure, not from trading. Closer to an infrastructure bond than a cryptocurrency.
+Every token is backed by physical Canadian infrastructure. Energy generation assets and compute hardware. Tokens are burned when you use compute; they're not held for speculation. The value comes from the infrastructure, not from trading. Closer to an infrastructure bond than a cryptocurrency.
 
 **"Regulatory pathway?"**
-> CSA (Canadian Securities Administrators) Sandbox application. Utility-first token design avoids the Howey test: tokens are consumed on use, not held for profit expectation. All assets under Canadian law, all operations subject to provincial energy regulations. We're designing for compliance from day one.
+CSA (Canadian Securities Administrators) Sandbox application. Utility-first token design avoids the Howey test: tokens are consumed on use, not held for profit expectation. All assets under Canadian law, all operations subject to provincial energy regulations. We're designing for compliance from day one.
 
 ---
 
 ### Tier 3: Defence/Dual-Use Deep Dive
 
 **"What specific defence applications?"**
-> Classified AI model training and inference that cannot run on US-controlled cloud (CLOUD Act exposure). Signals intelligence processing (CSE). Military logistics optimisation (DND). Cyber defence AI. Any workload where data sovereignty is non-negotiable.
+Classified AI model training and inference that cannot run on US-controlled cloud (CLOUD Act exposure). Signals intelligence processing (CSE). Military logistics optimisation (DND). Cyber defence AI. Any workload where data sovereignty is non-negotiable.
 
 **"Do you have defence contracts or relationships?"**
-> Not yet. We are building the infrastructure first. The defence market is a demand-side opportunity once the network is operational. Canada's defence procurement already has data sovereignty requirements that current providers struggle to meet. We're positioning for that market by solving the infrastructure problem.
+Not yet. We are building the infrastructure first. The defence market is a demand-side opportunity once the network is operational. Canada's defence procurement already has data sovereignty requirements that current providers struggle to meet. We're positioning for that market by solving the infrastructure problem.
 
 **"How is this different from AWS GovCloud?"**
-> AWS GovCloud is centralised (single operator, single legal entity), American-owned (subject to US law regardless of data location), and a closed system (one company controls all access). We are decentralised (community-operated), Canadian-owned (all assets under Canadian law), and open (any qualifying Canadian can participate as a node operator).
+AWS GovCloud is centralised (single operator, single legal entity), American-owned (subject to US law regardless of data location), and a closed system (one company controls all access). We are decentralised (community-operated), Canadian-owned (all assets under Canadian law), and open (any qualifying Canadian can participate as a node operator).
 
 **"How do you handle classified/military workloads on civilian-operated infrastructure?"**
-> The protocol supports tiered access classifications on the same physical network. Commercial workloads run on any verified Canadian node. Sensitive government workloads (Protected B/C) use hardware security enclaves (Intel SGX, AMD SEV): the node operator provides power and hardware but physically cannot access the data being processed inside the enclave. Defence-classified work (Secret, Top Secret) runs on government-operated nodes within the same network topology; those nodes meet DND physical and personnel security requirements. Same infrastructure economics, different security boundaries. This is how the internet itself works: military and civilian traffic share physical fibre; security comes from encryption and access controls, not separate wires.
+The protocol supports tiered access classifications on the same physical network. Commercial workloads run on any verified Canadian node. Sensitive government workloads (Protected B/C) use hardware security enclaves (Intel SGX, AMD SEV): the node operator provides power and hardware but physically cannot access the data being processed inside the enclave. Defence-classified work (Secret, Top Secret) runs on government-operated nodes within the same network topology; those nodes meet DND physical and personnel security requirements. Same infrastructure economics, different security boundaries. This is how the internet itself works: military and civilian traffic share physical fibre; security comes from encryption and access controls, not separate wires.
 
 **"What about resilience? Isn't decentralised infrastructure less reliable?"**
-> The opposite. Centralised infrastructure is a single target. One physical attack, one grid failure, one natural disaster takes a data centre offline. Our distributed network has no single point of failure. Hundreds of nodes across six provinces. Workloads automatically redistribute if nodes go offline. An adversary cannot target "the data centre" because there is no single data centre. In a conflict scenario, you'd have to take down the entire geographic territory to disable the network. That's a defence characteristic that no centralised system, no matter how well-guarded, can provide.
+The opposite. Centralised infrastructure is a single target. One physical attack, one grid failure, one natural disaster takes a data centre offline. Our distributed network has no single point of failure. Hundreds of nodes across six provinces. Workloads automatically redistribute if nodes go offline. An adversary cannot target "the data centre" because there is no single data centre. In a conflict scenario, you'd have to take down the entire geographic territory to disable the network. That's a defence characteristic that no centralised system, no matter how well-guarded, can provide.
 
 ---
 
 ### Tier 4: Business Viability
 
 **"Competitors?"**
-> Akash Network is decentralised compute but not asset-backed, not sovereign, not Canadian. USD.ai proved that GPU-collateralised finance works ($389M TVL) but provides lending, not compute access. Nobody combines decentralised + asset-backed + sovereign + renewable energy.
+Akash Network is decentralised compute but not asset-backed, not sovereign, not Canadian. USD.ai proved that GPU-collateralised finance works ($389M TVL) but provides lending, not compute access. Nobody combines decentralised + asset-backed + sovereign + renewable energy.
 
 **"What's your moat?"**
-> Three structural moats. First: Canadian sovereignty is unfakeable; no foreign entity can replicate "Canadian-owned infrastructure under Canadian law." Second: regulatory first-mover (CSA Sandbox relationship, ISED experience). Third: community network effect; once node operators are financed and operational, switching costs are high.
+Three structural moats. First: Canadian sovereignty is unfakeable; no foreign entity can replicate "Canadian-owned infrastructure under Canadian law." Second: regulatory first-mover (CSA Sandbox relationship, ISED experience). Third: community network effect; once node operators are financed and operational, switching costs are high.
 
 **"Market size?"**
-> Canadian cloud computing market is $12B+ annually, growing 20%+ per year. Government and defence compute procurement adds further. Even 1% capture of the sovereign-required workloads (regulated industries, defence, healthcare) represents a significant revenue base.
+Canadian cloud computing market is $12B+ annually, growing 20%+ per year. Government and defence compute procurement adds further. Even 1% capture of the sovereign-required workloads (regulated industries, defence, healthcare) represents a significant revenue base.
 
 **"Incorporated?"**
-> Incorporating this month. We participated in Cooperathon 2026 with this project and are formalising the entity now. The Osler package from this prize would help finalise corporate structure.
+Incorporating this month. We participated in Cooperathon 2026 with this project and are formalising the entity now. The Osler package from this prize would help finalise corporate structure.
 
 ---
 
