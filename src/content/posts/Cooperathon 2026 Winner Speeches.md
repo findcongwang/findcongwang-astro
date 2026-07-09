@@ -11,8 +11,6 @@ description: "2-minute winner speeches for Cooperathon 2026 tracks: University R
 
 ## 1. University Research Track: Perceptiosphere (R.O.M.A.)
 
-Thank you.
-
 Last October, my mentor and father figure collapsed in front of our common students. He died very suddenly and unexpectedly. Wayne was a super-connector. He wove together an entire innovation community.
 
 That created a negative space. A vacuum where an entire intellectual legacy used to be. The connective tissue disappeared overnight.
@@ -33,8 +31,6 @@ Thank you.
 
 ## 2. Planet Track: Climate Action Knowledge Map (Trusted Circle)
 
-Thank you.
-
 Millions of practitioners worldwide are adapting to climate change right now. Permaculturists, regenerative farmers, natural builders, indigenous land stewards. Each community holds extraordinary knowledge validated by decades and sometimes generations of practice.
 
 We have both slow-gathered traditional knowledge accumulated over millennia and fast-paced scientific discovery producing new findings every week. But they are not mapped together. They are not connected. The missing bridge between how these traditions relate to each other is what blocks us from benefiting from this knowledge across disciplines and domains of practice. Something validated in one region could save another community ten years of trial and error. But it stays isolated.
@@ -50,8 +46,6 @@ Thank you.
 ---
 
 ## 3. Prosperity Track: Sovereign Distributed Energy and AI for Canada (DAI Compute)
-
-Thank you.
 
 When a Canadian company uses Claude, AWS Bedrock, or Google Cloud, that workload runs on foreign infrastructure subject to the US CLOUD Act. Even the data centres physically in Quebec and Ontario are owned by American companies. Our federal government's own AI strategy acknowledges that Canadian firms compete on infrastructure they do not own, govern, or influence.
 
