@@ -37,7 +37,7 @@ Innovation sovereignty requires all three sectors of the [Tripartite Ecosystem M
 ## Cross-links
 
 - [Build-to-Manage](/lexicon/build-to-manage)
-- [Innovation Ecosystem Archetypes and Roles](/lexicon/innovation-ecosystem-archetypes-and-roles)
+- [Founder Arcana](/lexicon/founder-arcana)
 - [Innovation Sanctuary](/lexicon/innovation-sanctuary)
 - [Tripartite Ecosystem Model](/lexicon/tripartite-ecosystem-model)
 

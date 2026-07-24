@@ -1,0 +1,140 @@
+---
+type: note
+status: published
+publish_type: lexicon
+tags: [Societal Resilience, Foresight Futures, Measurement Framework, Innovation, Sustainable Development]
+originated_date: 2025-12-01
+publish_date: 2026-07-24
+title: Societal Resilience Index
+description: "A measurement framework assessing a business's impact on long-term societal resilience: whether it strengthens society's capacity to anticipate, absorb, adapt to, and be transformed by disruption, or breeds hidden long-term weakness."
+formats: ["print"]
+print_format: "square-8.5x9"
+print_annotations: true
+---
+
+import MarginNote from '@/components/paged/MarginNote.astro';
+import FootNote from '@/components/paged/FootNote.astro';
+import InlineNote from '@/components/paged/InlineNote.astro';
+import RoughAnnotation from '@/components/annotations/RoughAnnotation.astro';
+
+Existing business impact assessments measure the wrong quality. Environmental, Social, and Governance (ESG) ratings capture compliance with sustainability standards. B Corp certification assesses present-tense social and environmental performance. Social Return on Investment (SROI) frameworks monetise immediate outcomes. These instruments all share one blind spot: they measure point-in-time impact, not the long-term trajectory of societal health they collectively shape.
+
+<RoughAnnotation type="highlight" color="green">The Societal Resilience Index™ (SRI) measures whether a business strengthens society's long-term resilience or breeds hidden long-term weakness.</RoughAnnotation>
+
+It asks a different kind of question: not "What is this business's social impact today?" but "What kind of future does this business create by its continued operation?" A business can be ESG compliant today while systematically degrading the societal systems that will determine whether that compliance matters in twenty years.
+
+## The Measurement Gap
+
+<MarginNote n={1} label="Cutter et al. (2008)" color="blue" note="'A place-based model for understanding community resilience to natural disasters.' Global Environmental Change. Introduces BRIC/DROP model measuring resilience across social, economic, institutional, infrastructural, and environmental domains.">Resilience measurement frameworks exist at the community scale.</MarginNote> <MarginNote n={2} label="Norris et al. (2008)" color="blue" note="'Community resilience as a metaphor, theory, set of capacities, and strategy for disaster readiness.' American Journal of Community Psychology. Defines community resilience through economic development, social capital, information/communication, and community competence.">Societies have been measured for their absorptive and adaptive capacities.</MarginNote> The gap exists at the precise point where **business impact meets societal trajectory**. Existing business frameworks assess what a business contributes to society; they do not assess whether that contribution strengthens or erodes the underlying capacity for resilience across multiple scales and time horizons.
+
+## Resilience as Ecological Mirror
+
+The distinctive design move of the SRI is its source domain mapping. Ecological resilience is the theoretical parent; each ecological property maps to a societal analogue <FootNote n={1} color="burgundy" note="This mapping originated in the Principal's DDes Winter Symposium work (December 2025). Ecological resilience properties were systematically mirrored to societal analogues, providing the structural foundation for the SRI dimensions.">through a deliberate mirror</FootNote>. This mirror grounds societal resilience in established ecological principles while avoiding the thin conceptual stretching that plagues many interdisciplinary borrowings.
+
+| Ecological property | Societal analogue |
+|--------------------|-------------------|
+| **Rapid Recovery** | Disrupted-functions remediation; disaster response capacity |
+| **Complex Structure** | Decentralized, multilayered, non-homogeneous systems networked across scales |
+| **Self-Renewal** | Education, innovation, knowledge bases, intellectual culture as society's seed-bank |
+| **Keystone Process** | Cultural practices; social norms holding systems together |
+| **Buffering Capacity** | Social safety net; healthcare; access to education |
+| **Functional Diversity** | Economic and cultural diversity providing system redundancy |
+
+Each ecological property finds its societal counterpart not as a loose metaphor but as a precise analogue grounded in resilience literature.
+
+<MarginNote n={3} label="Gunderson & Holling (2002)" color="blue" note="Panarchy: Understanding Transformations in Systems of Humans and Nature. Introduces the adaptive cycle and cross-scale interactions in social-ecological systems.">Complex Structure draws from panarchy theory</MarginNote>, which describes how societies operate across multiple scales simultaneously. <MarginNote n={4} label="Folke (2006)" color="blue" note="'Resilience: The emergence of a perspective for social-ecological systems analyses.' Global Environmental Change. Defines social-ecological resilience and its key properties.">Social-ecological resilience frameworks provide the bridging concept.</MarginNote> The mapping is operational; it translates ecological resilience properties into measurable business impact dimensions.
+
+## Three Categories, Six Dimensions
+
+The six societal resilience properties group into three categories, each capturing a different kind of societal capacity a business affects.
+
+| Category | What it scores | Contains |
+|---|---|---|
+| **Absorptive Impact** | Does the business strengthen or weaken society's ability to withstand and recover from shocks? | Rapid Recovery, Buffering Capacity |
+| **Structural Impact** | Does the business make society's structure more resilient (diverse, decentralized, multilayered) or more brittle (concentrated, homogeneous)? | Complex Structure, Functional Diversity |
+| **Regenerative Impact** | Does the business strengthen society's capacity to renew, learn, and transform for the future? | Self-Renewal, Keystone Process |
+
+From each category flows two scored dimensions measuring the **business's impact** on that resilience property. The SRI does not measure the property itself; it measures how the business affects it.
+
+| Dimension | Category | What it measures |
+|---|---|---|
+| **Recovery Contribution** | Absorptive Impact | Whether the business aids or impairs society's ability to remediate disrupted functions and respond to shocks |
+| **Buffering Contribution** | Absorptive Impact | Whether the business strengthens or erodes social safety nets, health, and education access |
+| **Structural Contribution** | Structural Impact | Whether the business increases decentralization and multilayered robustness across scales |
+| **Diversity Contribution** | Structural Impact | Whether the business increases or decreases economic and cultural diversity |
+| **Self-Renewal Contribution** | Regenerative Impact | Whether the business strengthens or erodes society's seed-bank: education, knowledge bases, intellectual culture |
+| **Keystone Contribution** | Regenerative Impact | Whether the business reinforces or degrades keystone cultural practices and social norms |
+
+Each dimension scores from 0 to 100, where **50 represents neutral impact** (the business neither strengthens nor weakens that resilience property). Scores below 50 indicate net-negative impact; scores above 50 indicate net-positive impact. Analytically, the scale runs -50 to +50 centred at 0, offset to 0-100 for radar visualisation so the polygon renders readably.
+
+<RoughAnnotation type="highlight" color="amber">This scoring acknowledges a critical reality: a business can genuinely harm societal resilience, producing negative impact rather than neutral or positive effect.</RoughAnnotation> Many impact metrics assume positive contribution or neutral omission; the SRI tracks degradation as explicitly as enhancement.
+
+## Mechanism and Emergent Property
+
+The SRI frames business impact through two complementary lenses: the **mechanism** (how a business affects resilience) and the **emergent property** (what results).
+
+### Hormesis as Mechanism
+
+**Hormesis** describes biological systems that strengthen following exposure to low-dose stressors. At organismal scale, hormesis is well-documented: mild stress triggers protective adaptations. <MarginNote n={5} label="Mattson (2008)" color="blue" note="'Hormesis and disease resistance: Activation of cellular signaling pathways.' Ageing Research Reviews. Documents neuroprotective effects of mild stress through hormetic mechanisms.">In cellular systems, hormesis is empirically established.</MarginNote>
+
+For businesses, the hormetic mechanism asks: is this business's disruptive effect on society a **strengthening dose** or a **harmful overdose**? Innovation inherently disrupts; the question is whether that disruption builds capacity (strengthening dose) or merely displaces (harmful overdose). This is **constructive disruption**: Schumpeterian creative destruction reframed so that the disruption strengthens the social fabric rather than only clearing the old away. Constructive disruption is the strengthening dose; pure displacement is the overdose.
+
+<FootNote n={2} color="burgundy" note="Societal-scale hormesis remains predominantly metaphorical rather than empirically established. The SRI uses hormesis as a conceptual frame for distinguishing productive from destructive stress, while acknowledging the empirical gap at societal scale.">Honest qualification</FootNote>: societal-scale hormesis is more compelling framing than established science. The SRI incorporates this intellectual honesty; the framework cites the concept while flagging its metaphorical rather than empirically validated status at societal scale.
+
+### Antifragility as Emergent Property
+
+<MarginNote n={6} label="Taleb (2012)" color="blue" note="Antifragile: Things That Gain From Disorder. Introduces antifragility as systems that improve when exposed to volatility, stress, and disorder.">Nassim Taleb's antifragility</MarginNote> describes systems that **gain from disorder** rather than merely withstand it (resilience) or break under it (fragility). Taleb's distinction provides the emergent property frame for high-SRI businesses: a business that positively contributes across SRI dimensions helps create a society that benefits from, rather than merely survives, disruption.
+
+The SRI does not claim antifragility as its own coined output term. It references Taleb's concept as the logical endpoint of hormetic strengthening: the society a high-SRI business contributes toward exhibits antifragility characteristics. The distinction matters for intellectual provenance and precision.
+
+## The Scale of Impact
+
+The SRI's scoring structure acknowledges three critical realities of business impact measurement:
+
+1. **Harm matters:** A business can degrade societal resilience, producing active harm rather than mere absence of benefit
+2. **Offset preserves radar visualisation:** The analytical -50/+50 scale maps to 0-100 for readable radar charts
+3. **Geometric aggregation prevents compensation:** A business cannot compensate for degrading one resilience property by enhancing another without penalty
+
+The geometric roll-up means a business scoring 80 on Diversity Contribution but 30 on Self-Renewal Contribution receives a low Structural Impact category score. Resilience properties do not trade off; degrading one weakens the whole system.
+
+<RoughAnnotation type="highlight" color="green">The core insight is that hidden long-term weakness accumulates through small, undetected degradations across multiple resilience properties.</RoughAnnotation> A business with strong ESG compliance but negative impact across structural dimensions may appear responsible today while systematically making society more brittle for tomorrow.
+
+## Place in the CITAble System
+
+The Societal Resilience Index™ is one of three sub-frameworks feeding the CITAble Business Index™, alongside the Cognitive Vitality Index™ and the Agentic Gradient™. Each framework measures a distinct business capability:
+
+| Framework | Measures |
+|---|---|
+| **Cognitive Vitality Index** | The proportion and quality of genuinely human-engaged cognitive work within a knowledge system |
+| **Agentic Gradient** | A business's trajectory along the human-AI collaboration spectrum toward sovereign hybrid intelligence |
+| **Societal Resilience Index** | A business's impact on long-term societal resilience |
+
+A business that scores high on the Agentic Gradient (rapid AI adoption) but low on the Cognitive Vitality Index (eroded human cognition) and low on SRI (degraded societal resilience) represents a dangerous profile: AI-native capability directed toward a fragile future.
+
+### The Cascade Effect
+
+The frameworks interconnect through cascading dependencies. A business that erodes critical thinking (low CVI) necessarily degrades society's Self-Renewal Contribution (its cognitive seed-bank). A business that centralises economic power through algorithmic dominance may score well on Recovery Contribution (efficient crisis response) but poorly on Structural Contribution (increased concentration, reduced decentralisation).
+
+This cascade reveals false resilience claims. An AI-driven business deploying advanced disaster-response algorithms may claim societal resilience while simultaneously:
+
+1. Hollowing out human cognitive capacity (negative impact on CVI)
+2. Concentrating decision-making power (negative impact on Structural Contribution)
+3. Creating algorithmic monocultures (negative impact on Diversity Contribution)
+
+The <FootNote n={3} color="burgundy" note="Resonance Wheel: a chord-diagram-based visualisation methodology that reveals interdependencies between dimensions of multi-dimensional indices. It corrects the reductionist illusion that radar charts create by presenting dimensions as independently tuneable dials. See the Resonance Wheel lexicon entry for the full concept.">Resonance Wheel™</FootNote> visualisation makes these interdependencies visible, showing how changes in one dimension resonate across others.
+
+## Visual Companions
+
+The SRI communicates through two paired visualisations:
+
+**Radar chart:** Plots the six dimensions on polar coordinates, providing immediate high-glance value of a business's resilience impact profile. The shape reveals whether impact concentrates in certain categories or distributes evenly. Historical trend visualisation shows trajectory over time.
+
+**Resonance Wheel:** A chord-diagram-based companion that reveals interdependencies between dimensions. Shows which dimensions amplify or dampen each other. The Keystone Contribution dimension includes a hormetic curve visualisation: moderate disruptive dose strengthens; overdose degrades. This non-linear relationship cannot be captured on a linear radar axis.
+
+Together, they answer: "What is the current resilience impact profile?" (radar) and "What happens if we try to change it?" (Resonance Wheel).
+
+## A Measurement Framework for Future-Making
+
+The Societal Resilience Index™ operates at a different level of ambition than existing impact frameworks. It does not ask whether a business is ethical today; it asks whether that business creates a society capable of thriving through the disruptions of tomorrow. It measures future-making, not present-tense responsibility.
+
+By grounding in ecological resilience principles, mapping through precise analogues, and scoring with an honest harm-detection scale, the SRI provides a measurement framework for businesses that claim to build better futures. Its most valuable signal may not be which businesses score highest, but which businesses score in the degrading band while claiming the opposite. That gap between claimed contribution and measured harm is where true fragility accumulates.

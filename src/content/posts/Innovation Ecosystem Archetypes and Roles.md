@@ -1,21 +1,24 @@
 ---
 type: note
 status: published
-publish_type: lexicon
+publish_type: blog
 tags: [Innovation Ecosystems, Talent Archetypes, Courage, Self-Determined Learning, Nova Roma]
 originated_date: 2026-02-28
 publish_date: 2026-02-28
-updated_date: 2026-05-23
+updated_date: 2026-07-21
 title: Innovation Ecosystem Archetypes and Roles
 description: The recurring character types in innovation ecosystems, grounded in Larry Smith's essential attributes of innovators and the founding philosophy of ancient Rome, with specific role taxonomies as active research.
 ---
+
+> This piece captures the origin of a longer inquiry. The essential attributes, the Roma founding philosophy, and the provisional role set below were the ground truth from which a fuller model developed. That model now lives as a lexicon entry: the [Founder Arcana](/lexicon/founder-arcana), a composable typology of entrepreneur-innovator types. Read this for the philosophical origin; read the lexicon entry for the matured framework.
+
 ## Introduction
 
 **Innovation ecosystems have recurring character types.** The same roles appear across different ecosystems, cultures, and time periods. From ancient Athens to modern Silicon Valley, from Renaissance Florence to contemporary biotech clusters, certain patterns of contribution repeat. Recognising these archetypes enables better ecosystem design, self-assessment, and talent development.
 
-We term these patterns the **Founder Arcana™**: the archetypal profiles of innovators, their development trajectories, and the roles they naturally inhabit within ecosystems. The term draws on the Tarot tradition of arcana (mysteries, hidden knowledge) to signal that these patterns, while recurring, require study and reflection to recognise in oneself and others.
+We term these patterns the **Founder Arcana**: the archetypal profiles of innovators, their development trajectories, and the roles they naturally inhabit within ecosystems. The term draws on the Tarot tradition of arcana (mysteries, hidden knowledge) to signal that these patterns, while recurring, require study and reflection to recognise in oneself and others.
 
-This lexicon establishes the foundational attributes that characterize successful innovators and the historical archetype that informs Nova Roma Horizon Innovation Society's founding philosophy. The specific taxonomy of ecosystem roles, their assessment rubrics, and development pathways constitute active research. This entry defines the ground truth from which that research proceeds. It captures the enduring principles while acknowledging that role implementations evolve with technology, context, and time.
+This piece establishes the foundational attributes that characterize successful innovators and the historical archetype that informs Nova Roma Horizon Innovation Society's founding philosophy. The specific taxonomy of ecosystem roles, their assessment rubrics, and development pathways were active research when this was written. This entry defines the ground truth from which that research proceeded. It captures the enduring principles while acknowledging that role implementations evolve with technology, context, and time.
 
 **The framework operates at two levels:**
 
@@ -63,11 +66,11 @@ This historical archetype informs Nova Roma's modern philosophy: **build an inno
 
 The comparison to Rome is not metaphorical. It is structural. Rome's success came from its ability to turn outsider status into advantage rather than disadvantage. It created pathways for upward mobility that did not require abandoning one's origins. Modern innovation ecosystems often fail at this; they admit outsiders only if they first match the established culture. Nova Roma inverts this: it designs for outsiders from the outset, recognising that the most valuable contributions often come from those who see problems differently.
 
-## Emerging Role Patterns (Research in Progress)
+## Emerging Role Patterns (Original Provisional Set)
 
-Ecosystem mapping work identifies recurring roles that appear across innovation contexts. These roles represent functional positions that emerge as ecosystems scale beyond the founder stage. Each role represents a distinct skill set and a valid highest expression of professional contribution.
+Ecosystem mapping work identified recurring roles that appear across innovation contexts. These roles represent functional positions that emerge as ecosystems scale beyond the founder stage. Each role represents a distinct skill set and a valid highest expression of professional contribution. This provisional set has since been formalised and expanded into the ten entrepreneur-innovator types of the [Founder Arcana](/lexicon/founder-arcana); the five roles below are preserved here as the original mapping.
 
-The provisional role set includes (but is not limited to):
+The provisional role set included (but was not limited to):
 
 - **Seed to VC Operators**: People who scale ventures from seed stage through to venture-backed growth. Seed to VC Operators have domain expertise combined with process orientation. They identify bottlenecks, optimise workflows, and maintain quality as ventures scale. They are often the first to recognise when founder-led operation becomes a constraint. Their value emerges in the transition from startup to sustainable organisation.
 
@@ -85,7 +88,7 @@ Each role represents a valid highest expression. A Seed to VC Operator who maste
 
 - These roles are not sequential stages in a career ladder. Consistent with self-determined learning principles, individuals choose their development path based on aptitude, interest, and opportunity. Someone may develop deeply in one role without ever moving to another. Someone may operate in multiple roles simultaneously, shifting emphasis as context demands. The ecosystem design enables this flexibility rather than enforcing uniform progression.
 
-- The specific dimensions, assessment rubrics, and development pathways for these roles remain under active research. Current work maps real innovation ecosystems to find patterns in what roles exist, what skills they demand, and what enables people to reach the highest expression of each role. This lexicon will be extended as that research matures.
+- The specific dimensions, assessment rubrics, and development pathways for these roles were under active research when this was written. That research matured into the [Founder Arcana](/lexicon/founder-arcana): five independent dimensions and ten named entrepreneur-innovator types.
 
 - A physical oracle deck tool is in development as an educational and facilitation instrument for ecosystem self-assessment based on these archetypes. The deck enables communities to identify gaps in their role coverage, assess the maturity of existing contributions, and plan development interventions.
 
@@ -119,6 +122,7 @@ Graham, Paul. "Maker's Schedule, Manager's Schedule." *paulgraham.com*, July 200
 
 ## Cross-links
 
+- [Founder Arcana](/lexicon/founder-arcana)
 - [Innovation Sanctuary](/lexicon/innovation-sanctuary)
 - [Key-Shaped Talent](/lexicon/key-shaped-talent)
 - [Strategy Map](/lexicon/strategy-map)

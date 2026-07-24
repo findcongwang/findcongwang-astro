@@ -115,7 +115,7 @@ Three extensions distinguish the Tripartite Ecosystem Model:
 ## Cross-links
 
 - [Build-to-Manage](/lexicon/build-to-manage)
-- [Innovation Ecosystem Archetypes and Roles](/lexicon/innovation-ecosystem-archetypes-and-roles)
+- [Founder Arcana](/lexicon/founder-arcana)
 - [Innovation Sanctuary](/lexicon/innovation-sanctuary)
 - [Innovation Sovereignty](/lexicon/innovation-sovereignty)
 - [Key-Shaped Talent](/lexicon/key-shaped-talent)
