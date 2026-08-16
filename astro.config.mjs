@@ -30,5 +30,8 @@ export default defineConfig({
     drafts: true
   },
   site: 'https://findcongwang.com',
+  redirects: {
+    '/lexicon/strategy-citemap': '/lexicon/citable-radar',
+  },
   integrations: [ sitemap(), mdx(), react()]
 });
